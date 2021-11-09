@@ -1,0 +1,55 @@
+{
+  "name": "@newkind/service",
+  "version": "0.1.0",
+  "description": "peer to peer connect",
+  "source": "./frontend/src/index.mjs",
+  "module": "./dist/index.mjs",
+  "main": "./dist/index.mjs",
+  "author": "Zababurin Sergey",
+  "license": "GPL-3.0-only",
+  "targets": {
+    "main": false,
+    "module": {
+      "includeNodeModules": true,
+      "optimize": true
+    },
+    "docs": {
+      "source": "./frontend/src/index.html"
+    }
+  },
+  "staticFiles": {
+    "staticPath": "frontend/src/static"
+  },
+  "config": {
+    "html": "./frontend/src/index.html",
+    "mjs": "./frontend/src/index.mjs",
+    "port": 4513
+  },
+  "scripts": {
+    "dev": "rimraf ./docs/* && parcel $npm_package_config_html --port $npm_package_config_port --cache-dir ./.parcel-cache  --no-source-maps --dist-dir ./docs ",
+    "build:html": "rimraf ./docs/* && parcel build --target docs --no-source-maps --dist-dir ./docs ",
+    "build": "rimraf ./dist/* && parcel build $npm_package_config_mjs --no-source-maps --dist-dir ./dist ",
+    "kill": "kill $(lsof -t -i:$npm_package_config_port)",
+    "clean:parcel": "find . -name \".parcel-cache\" -exec rm -rf '{}' +; ",
+    "clean": "rimraf ./docs/* && rimraf ./dist/*"
+  },
+  "devDependencies": {
+    "@parcel/packager-raw-url": "^2.0.1",
+    "@parcel/transformer-webmanifest": "^2.0.1",
+    "@types/libsodium-wrappers": "^0.7.9",
+    "parcel": "2.0.1",
+    "parcel-reporter-static-files-copy": "^1.3.0"
+  },
+  "dependencies": {
+    "comlink": "^4.3.1",
+    "libsodium-wrappers": "^0.7.9",
+    "redux": "^4.1.2",
+    "web-streams-polyfill": "^3.2.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  }
+}
