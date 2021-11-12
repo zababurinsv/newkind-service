@@ -140,12 +140,12 @@
       this[globalName] = mainExports;
     }
   }
-})({"i4iHc":[function(require,module,exports) {
+})({"8O44o":[function(require,module,exports) {
 var HMR_HOST = null;
 var HMR_PORT = null;
 var HMR_SECURE = false;
-var HMR_ENV_HASH = "1293bae57ac04db4";
-module.bundle.HMR_BUNDLE_ID = "2061c81d324f9acd";
+var HMR_ENV_HASH = "738e0b6b17abbbec";
+module.bundle.HMR_BUNDLE_ID = "6ee386e53f0b6c89";
 "use strict";
 function _createForOfIteratorHelper(o, allowArrayLike) {
     var it;
@@ -458,11 +458,11 @@ function hmrAcceptRun(bundle, id) {
     acceptedAssets[id] = true;
 }
 
-},{}],"3bMve":[function(require,module,exports) {
-var _apiMjs = require("./api.mjs");
+},{}],"l1fZx":[function(require,module,exports) {
+var _indexMjs = require("./modules/fs/index.mjs");
 var _comlink = require("comlink");
 (async ()=>{
-    let workerfs = await _apiMjs.WORKERFS();
+    let workerfs = await _indexMjs.WORKERFS();
     let list = async (dir)=>await workerfs.list.dir(dir)
     ;
     let files1 = async ()=>await workerfs.list.files()
@@ -494,21 +494,23 @@ var _comlink = require("comlink");
     _comlink.expose(obj);
 })();
 
-},{"./api.mjs":"cQ9s6","comlink":"cL1pH"}],"cQ9s6":[function(require,module,exports) {
+},{"./modules/fs/index.mjs":"hEeVb","comlink":"2m3Aa"}],"hEeVb":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "WORKERFS", ()=>WORKERFS
 );
 parcelHelpers.export(exports, "IDBFS", ()=>IDBFS
 );
-var _indexMjs = require("./modules/api/index.mjs");
-var _indexMjsDefault = parcelHelpers.interopDefault(_indexMjs);
-var _mainMjs = require("./modules/fs/main.mjs");
+var _mainMjs = require("./main.mjs");
 var _mainMjsDefault = parcelHelpers.interopDefault(_mainMjs);
-var _wasmBinaryMjs = require("./modules/fs/wasmBinary.mjs");
+var _wasmBinaryMjs = require("./wasmBinary.mjs");
 var _wasmBinaryMjsDefault = parcelHelpers.interopDefault(_wasmBinaryMjs);
-var _isEmptyMjs = require("./modules/isEmpty/isEmpty.mjs");
+var _indexMjs = require("./api/index.mjs");
+var _indexMjsDefault = parcelHelpers.interopDefault(_indexMjs);
+var _isEmptyMjs = require("../isEmpty/isEmpty.mjs");
 var _isEmptyMjsDefault = parcelHelpers.interopDefault(_isEmptyMjs);
+var _packageJson = require("../../../../package.json");
+var _packageJsonDefault = parcelHelpers.interopDefault(_packageJson);
 const CONFIG_DEFAULTS = {
     // Folder to use for mounting the shared filesystem
     dirShared: "/shared",
@@ -610,688 +612,13 @@ let IDBFS = (object = {
         }
     });
 };
+exports.default = _packageJsonDefault.default;
 
-},{"./modules/api/index.mjs":"dUT49","./modules/fs/main.mjs":"gVt68","./modules/fs/wasmBinary.mjs":"bfFtc","./modules/isEmpty/isEmpty.mjs":"7PMky","@parcel/transformer-js/src/esmodule-helpers.js":"8FsVl"}],"dUT49":[function(require,module,exports) {
+},{"./main.mjs":"3QOiD","./wasmBinary.mjs":"7mFKP","./api/index.mjs":"3cVmc","../isEmpty/isEmpty.mjs":"eTYKB","../../../../package.json":"bdatz","@parcel/transformer-js/src/esmodule-helpers.js":"1megf"}],"3QOiD":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-var _idbfsMjs = require("./IDBFS.mjs");
-var _workerfsMjs = require("./WORKERFS.mjs");
-exports.default = {
-    IDBFS: _idbfsMjs.IDBFS,
-    WORKERFS: _workerfsMjs.WORKERFS
-};
-
-},{"./IDBFS.mjs":"iXIJY","./WORKERFS.mjs":"dJkIe","@parcel/transformer-js/src/esmodule-helpers.js":"8FsVl"}],"iXIJY":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "IDBFS", ()=>IDBFS
-);
-let IDBFS = (object)=>{
-    return new Promise(async (resolve1, reject)=>{
-        let idbfs = {
-            fs: {
-                load: ()=>{
-                    return new Promise(async (resolve, reject)=>{
-                        object.fs.idbfs.syncfs(true, (e)=>{
-                            if (e) {
-                                console.error('error', e);
-                                resolve(false);
-                            } else {
-                                console.log('fs is loaded');
-                                resolve(true);
-                            }
-                        });
-                    });
-                },
-                save: ()=>{
-                    return new Promise(async (resolve, reject)=>{
-                        object.fs.idbfs.syncfs(false, (err)=>{
-                            if (err) resolve({
-                                status: "false",
-                                success: false,
-                                message: err
-                            });
-                            else {
-                                console.log('file save');
-                                resolve({
-                                    status: "true",
-                                    success: true,
-                                    message: 'file save'
-                                });
-                            }
-                        });
-                    });
-                }
-            },
-            is: {
-                file: async (file)=>{
-                    try {
-                        let isFile = object.fs.idbfs.analyzePath(file).exists ? await object.fs.idbfs.isFile(object.fs.idbfs.analyzePath(file).object.mode) : false;
-                        console.log(`${file} file ${isFile}`);
-                        resolve1(isFile);
-                    } catch (e) {
-                        console.error('error', e);
-                        resolve1({
-                            status: true,
-                            message: e
-                        });
-                    }
-                },
-                dir: (dir = '/')=>{
-                    return new Promise(async (resolve, reject)=>{
-                        try {
-                            let isDir = object.fs.idbfs.analyzePath(dir).exists ? await object.fs.idbfs.isDir(object.fs.idbfs.analyzePath(dir).object.mode) : false;
-                            console.log(`${dir} dir ${isDir}`);
-                            resolve(isDir);
-                        } catch (e) {
-                            console.error('error', e);
-                            resolve({
-                                status: true,
-                                message: e
-                            });
-                        }
-                    });
-                }
-            },
-            file: {
-                read: (file, encoding = "utf8")=>{
-                    return new Promise(async (resolve, reject)=>{
-                        try {
-                            let readFile = await object.fs.idbfs.readFile(`${object.dirShared}${object.dirData}/${file}`, {
-                                encoding: encoding
-                            });
-                            console.log(readFile);
-                            resolve(readFile);
-                        } catch (e) {
-                            console.error('error', e);
-                            resolve({
-                                status: true,
-                                message: e
-                            });
-                        }
-                    });
-                },
-                write: (file, contents)=>{
-                    return new Promise(async (resolve, reject)=>{
-                        try {
-                            let writeFile = typeof contents !== "string" ? await object.fs.idbfs.writeFile(`${object.dirShared}${object.dirData}/${file}`, JSON.stringify(contents)) : await object.fs.idbfs.writeFile(`${object.dirShared}${object.dirData}/${file}`, contents);
-                            console.log('file is writ');
-                            resolve(writeFile);
-                        } catch (e) {
-                            console.error('error', e);
-                            resolve({
-                                status: true,
-                                message: e
-                            });
-                        }
-                    });
-                },
-                createData: (folder, file, contents, readable = true, writable = true)=>{
-                    return new Promise(async (resolve, reject)=>{
-                        try {
-                            let createDataFile = await object.fs.idbfs.createDataFile(folder, file, contents, readable, writable);
-                            resolve(createDataFile);
-                        } catch (e) {
-                            resolve({
-                                status: true,
-                                message: e
-                            });
-                        }
-                    });
-                },
-                rename: (oldName, newName)=>{
-                    return new Promise(async (resolve, reject)=>{
-                        try {
-                            let path = `${object.dirShared}${object.dirData}`;
-                            let rename = idbfs.is.file(oldName) ? (await object.fs.idbfs.rename(`${path}/${oldName}`, `${path}/${newName}`), true) : false;
-                            resolve(rename);
-                        } catch (e) {
-                            console.error('error', e);
-                            resolve({
-                                status: true,
-                                message: e
-                            });
-                        }
-                    });
-                },
-                remove: (file)=>{
-                    return new Promise(async (resolve, reject)=>{
-                        try {
-                            let unlink = await object.fs.idbfs.unlink(file);
-                            console.log('remove');
-                            resolve(unlink);
-                        } catch (e) {
-                            resolve({
-                                status: true,
-                                message: e
-                            });
-                        }
-                    });
-                }
-            },
-            symlink: async (oldPath, newPath)=>{
-                try {
-                    let symlink = await object.fs.idbfs.symlink(oldPath, newPath);
-                    resolve1(symlink);
-                } catch (e) {
-                    resolve1({
-                        status: true,
-                        message: e
-                    });
-                }
-            },
-            mount: async (type = {
-            }, dir = '/newKind', params = {
-            })=>{
-                try {
-                    let mount = await object.fs.idbfs.mount(type, params, dir);
-                    resolve1(mount);
-                } catch (e) {
-                    resolve1({
-                        status: true,
-                        message: e
-                    });
-                }
-            },
-            unmount: async (mountPoint = '/newKind')=>{
-                try {
-                    let unmount = await object.fs.idbfs.unmount(mountPoint);
-                    resolve1(unmount);
-                } catch (e) {
-                    resolve1({
-                        status: true,
-                        message: e
-                    });
-                }
-            },
-            mkdir: (path)=>{
-                return new Promise(async (resolve, reject)=>{
-                    try {
-                        let mkdir = await object.fs.idbfs.mkdir(path);
-                        resolve(mkdir);
-                    } catch (e) {
-                        resolve({
-                            status: true,
-                            message: e
-                        });
-                    }
-                });
-            },
-            readdir: (path)=>{
-                return new Promise(async (resolve, reject)=>{
-                    try {
-                        let readdir = await object.fs.idbfs.readdir(path);
-                        resolve(readdir);
-                    } catch (e) {
-                        console.error('dir error:', e);
-                        resolve({
-                            status: true,
-                            message: e
-                        });
-                    }
-                });
-            },
-            rmdir: (path)=>{
-                return new Promise(async (resolve, reject)=>{
-                    try {
-                        let rmdir = await object.fs.idbfs.rmdir(path);
-                        resolve(rmdir);
-                    } catch (e) {
-                        resolve({
-                            status: true,
-                            message: e
-                        });
-                    }
-                });
-            },
-            cwd: (path)=>{
-                return new Promise(async (resolve, reject)=>{
-                    try {
-                        let cwd = await object.fs.idbfs.cwd();
-                        resolve(cwd);
-                    } catch (e) {
-                        resolve({
-                            status: true,
-                            message: e
-                        });
-                    }
-                });
-            }
-        };
-        resolve1(idbfs);
-    });
-};
-exports.default = {
-};
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"8FsVl"}],"8FsVl":[function(require,module,exports) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, '__esModule', {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === 'default' || key === '__esModule' || dest.hasOwnProperty(key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
-        });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
-
-},{}],"dJkIe":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "WORKERFS", ()=>WORKERFS
-);
-var _fetchMjs = require("../stream/fetch.mjs");
-var _fetchMjsDefault = parcelHelpers.interopDefault(_fetchMjs);
-let WORKERFS = (object = {
-})=>{
-    return new Promise(async (resolve1, reject)=>{
-        let workerfs = {
-            files: [],
-            is: {
-                chrdev: async (chrdev)=>{
-                    try {
-                        let isChrdev = object.fs.worker.analyzePath(isChrdev).exists ? await object.fs.worker.isChrdev(object.fs.worker.analyzePath(block).object.mode) : false;
-                        console.log('socket', isChrdev, chrdev);
-                        resolve1(isChrdev);
-                    } catch (e) {
-                        console.error('error', e);
-                        resolve1({
-                            status: true,
-                            message: e
-                        });
-                    }
-                },
-                socket: async (socket)=>{
-                    try {
-                        let isSocket = object.fs.worker.analyzePath(isSocket).exists ? await object.fs.worker.isSocket(object.fs.worker.analyzePath(block).object.mode) : false;
-                        console.log('socket', isSocket, socket);
-                        resolve1(isSocket);
-                    } catch (e) {
-                        console.error('error', e);
-                        resolve1({
-                            status: true,
-                            message: e
-                        });
-                    }
-                },
-                blkdev: async (block)=>{
-                    try {
-                        let isBlkdev = object.fs.worker.analyzePath(block).exists ? await object.fs.worker.isBlkdev(object.fs.worker.analyzePath(block).object.mode) : false;
-                        resolve1(isBlkdev);
-                    } catch (e) {
-                        console.error('error', e);
-                        resolve1({
-                            status: true,
-                            message: e
-                        });
-                    }
-                },
-                file: async (file)=>{
-                    try {
-                        let isFile = object.fs.worker.analyzePath(file).exists ? await object.fs.worker.isFile(object.fs.worker.analyzePath(file).object.mode) : false;
-                        console.log(`${file} file ${isFile}`);
-                        resolve1(isFile);
-                    } catch (e) {
-                        console.error('error', e);
-                        resolve1({
-                            status: true,
-                            message: e
-                        });
-                    }
-                },
-                dir: (dir = '/')=>{
-                    return new Promise(async (resolve, reject)=>{
-                        try {
-                            let isDir = object.fs.worker.analyzePath(dir).exists ? await object.fs.worker.isDir(object.fs.worker.analyzePath(dir).object.mode) : false;
-                            console.log(`${dir} dir ${isDir}`);
-                            resolve(isDir);
-                        } catch (e) {
-                            console.error('error', e);
-                            resolve({
-                                status: true,
-                                message: e
-                            });
-                        }
-                    });
-                },
-                link: async (dir = '/')=>{
-                    try {
-                        let isLink = object.fs.worker.analyzePath(dir).exists ? await object.fs.worker.isLink(object.fs.worker.analyzePath(dir).object.mode) : false;
-                        resolve1(isLink);
-                    } catch (e) {
-                        console.error('error', e);
-                        resolve1({
-                            status: true,
-                            message: e
-                        });
-                    }
-                }
-            },
-            list: {
-                dir: (dirMounted)=>{
-                    return new Promise(async (resolve, reject)=>{
-                        try {
-                            let list = {
-                            };
-                            let path = dirMounted === 'default' || dirMounted === '' ? object.dirMounted : dirMounted;
-                            if (await workerfs.is.dir(path)) list = (await workerfs.readdir(path)).filter((item)=>item !== '.' && item !== '..'
-                            );
-                            resolve(list);
-                        } catch (e) {
-                            console.error('error', e);
-                            resolve({
-                                status: true,
-                                message: e
-                            });
-                        }
-                    });
-                },
-                files: ()=>{
-                    return new Promise(async (resolve, reject)=>{
-                        try {
-                            let list = {
-                            };
-                            if (await workerfs.is.dir(object.dirMounted)) list = (await workerfs.readdir(object.dirMounted)).filter((item)=>item !== '.' && item !== '..'
-                            );
-                            resolve(list);
-                        } catch (e) {
-                            console.error('error', e);
-                            resolve({
-                                status: true,
-                                message: e
-                            });
-                        }
-                    });
-                }
-            },
-            readFile: (file, type = 'binary' | 'utf8')=>{
-                return new Promise(async (resolve, reject)=>{
-                    try {
-                        let contents = object.fs.worker.readFile(file, {
-                            encoding: type
-                        });
-                        resolve(contents);
-                    } catch (e) {
-                        resolve({
-                            status: true,
-                            message: e
-                        });
-                    }
-                });
-            },
-            symlink: (oldpath, newpath)=>{
-                return new Promise(async (resolve, reject)=>{
-                    try {
-                        let symlink = await object.fs.worker.symlink(oldpath, newpath);
-                        resolve(symlink);
-                    } catch (e) {
-                        console.error('error', e);
-                        resolve({
-                            status: true,
-                            message: e
-                        });
-                    }
-                });
-            },
-            unlink: (path)=>{
-                return new Promise(async (resolve, reject)=>{
-                    try {
-                        let unlink = await object.fs.worker.unlink(path);
-                        resolve(unlink);
-                    } catch (e) {
-                        resolve({
-                            status: true,
-                            message: e
-                        });
-                    }
-                });
-            },
-            read: async (file, call, highWaterMark = 200, isRelation = true)=>{
-                return new Promise(async (resolve, reject)=>{
-                    try {
-                        let path = `${object.dirMounted}/${file}`;
-                        let isFile = workerfs.is.file(path);
-                        if (isFile) {
-                            let reader = await _fetchMjsDefault.default(object, 'isWorkerFs', path, highWaterMark, isRelation);
-                            new ReadableStream({
-                                start (controller) {
-                                    async function push() {
-                                        await reader.read().then(({ done , value , progress  })=>{
-                                            if (done) {
-                                                call(done, value, progress);
-                                                controller.close();
-                                                resolve(true);
-                                                return;
-                                            }
-                                            controller.enqueue(done, value);
-                                            call(done, value, progress);
-                                            push();
-                                        });
-                                    }
-                                    push();
-                                }
-                            });
-                        } else resolve(false);
-                    } catch (e) {
-                        console.error('dir error:', e);
-                        resolve({
-                            status: true,
-                            message: e
-                        });
-                    }
-                });
-            },
-            stat: (path)=>{
-                return new Promise(async (resolve, reject)=>{
-                    try {
-                        let stat = await object.fs.worker.stat(path);
-                        console.log('stat:', stat);
-                        resolve(stat);
-                    } catch (e) {
-                        console.error('dir error:', e);
-                        resolve({
-                            status: true,
-                            message: e
-                        });
-                    }
-                });
-            },
-            readdir: (path = "/")=>{
-                return new Promise(async (resolve, reject)=>{
-                    try {
-                        const readdir = await workerfs.is.dir(path) ? await object.fs.worker.readdir(path) : false;
-                        resolve(readdir);
-                    } catch (e) {
-                        console.error('dir error:', e);
-                        resolve({
-                            status: true,
-                            message: e
-                        });
-                    }
-                });
-            },
-            unMount: async (dirMounted = '/newKind')=>{
-                try {
-                    let unMount = await object.fs.worker.unmount(dirMounted);
-                    console.log('unMount', unMount);
-                    resolve1(unMount);
-                } catch (e) {
-                    resolve1({
-                        status: true,
-                        message: e
-                    });
-                }
-            },
-            mount: (files, dirMounted = '/mnt', dirShared = '/shared', dirData = '/data')=>{
-                // const dirData = aioli.config.dirData;
-                // const dirShared = aioli.config.dirShared;
-                // const dirMounted = aioli.config.dirMounted;
-                // Input validation. Note that FileList is not an array so we can't use Array.isArray() but it does have a
-                // length attribute. So do strings, which is why we explicitly check for those.
-                let toMount = [], mountedPaths = [];
-                if (!files?.length || typeof files === "string") files = [
-                    files
-                ];
-                // aioli._log(`Mounting ${files.length} files`);
-                // Sort files by type: File vs. Blob vs. URL
-                for (let file of files){
-                    // Handle File/Blob objects
-                    // Blob formats: { name: "filename.txt", data: new Blob(['blob data']) }
-                    if (file instanceof File || file?.data instanceof Blob && file.name) {
-                        toMount.push(file);
-                        mountedPaths.push(file.name);
-                    // Handle URLs: mount "https://website.com/some/path.js" to "/urls/website.com-some-path.js")
-                    } else if (typeof file == "string" && file.startsWith("http")) {
-                        // Mount a URL "lazily" to the file system, i.e. don't download any of it, but will automatically do
-                        // HTTP Range requests when a tool requests a subset of bytes from that file.
-                        const fileName = file.split("//").pop().replace(/\//g, "-");
-                        //      aioli.fs.createLazyFile(dirData, fileName, file, true, true);
-                        mountedPaths.push(fileName);
-                    // Otherwise, incorrect data provided
-                    } else throw "Cannot mount file(s) specified. Must be a File, Blob, or a URL string.";
-                }
-                // Unmount and remount Files and Blobs since WORKERFS is read-only (i.e. can only mount a folder once)
-                try {
-                    workerfs.unmount(dirMounted);
-                } catch (e) {
-                }
-                console.log('workerfs.files', workerfs.files);
-                //Mount File & Blob objects
-                workerfs.files = workerfs.files.concat(toMount);
-                // aioli.files = aioli.files.concat(toMount);
-                object.fs.worker.mount(object.fs.worker.filesystems.WORKERFS, {
-                    files: workerfs.files.filter((f)=>f instanceof File
-                    ),
-                    blobs: workerfs.files.filter((f)=>f?.data instanceof Blob
-                    )
-                }, dirMounted);
-                // Create symlinks for convenience. The folder "dirMounted" is a WORKERFS, which is read-only. By adding
-                // symlinks to a separate writeable folder "dirData", we can support commands like "samtools index abc.bam",
-                // which create a "abc.bam.bai" file in the same path where the .bam file is created.
-                // toMount.map(file => {
-                //     const oldpath = `${dirShared}${dirMounted}/${file.name}`;
-                //     const newpath = `${dirShared}${dirData}/${file.name}`;
-                //     try {
-                //         workerfs.unlink(newpath);
-                //     } catch(e) {}
-                //     workerfs._log(`Creating symlink: ${newpath} --> ${oldpath}`)
-                //
-                //Create symlink within first module's filesystem (note: tools[0] is always the "base" biowasm module)
-                //     workerfs.symlink(oldpath, newpath);
-                // })
-                // console.log({
-                //     "dir":'----------------------',
-                //     mountedPaths: mountedPaths,
-                //     toMount: toMount,
-                //     dirMounted: dirMounted
-                // })
-                return mountedPaths.map((path)=>`${dirShared}${dirData}`
-                );
-            // return mountedPaths.map(path => `${dirShared}${dirData}/${path}`);
-            },
-            mkdir: (path)=>{
-                return new Promise(async (resolve, reject)=>{
-                    try {
-                        let mkdir = await object.fs.worker.mkdir(path);
-                        resolve(mkdir);
-                    } catch (e) {
-                        resolve({
-                            status: true,
-                            message: e
-                        });
-                    }
-                });
-            },
-            unmount: async (mountPoint = '/newKind')=>{
-                try {
-                    let unmount = await object.fs.worker.unmount(mountPoint);
-                    resolve1(unmount);
-                } catch (e) {
-                    resolve1({
-                        status: true,
-                        message: e
-                    });
-                }
-            },
-            // Log if debug enabled
-            _log (message) {
-                // if(!aioli.config.debug)
-                //     return;
-                // Support custom %c arguments
-                let args = [
-                    ...arguments
-                ];
-                args.shift();
-                console.log(`%c[WebWorker]%c ${message}`, "font-weight:bold", "", ...args);
-            }
-        };
-        resolve1(workerfs);
-    });
-};
-exports.default = {
-};
-
-},{"../stream/fetch.mjs":"fuJQW","@parcel/transformer-js/src/esmodule-helpers.js":"8FsVl"}],"fuJQW":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-let reader = {
-    isWorkerFs: (node, obj, path, highWaterMark, isRelation)=>{
-        return new Promise(async (resolve1, reject)=>{
-            obj.stream = node.fs.worker.open(path, 'r');
-            obj.highWaterMark = highWaterMark ? isRelation ? obj.stream.node.size / highWaterMark <= 1 ? obj.stream.node.size : obj.stream.node.size / highWaterMark : highWaterMark : Math.trunc(obj.stream.node.size / 5 <= 1 ? obj.stream.node.size : obj.stream.node.size / 5);
-            obj.read = ()=>{
-                return new Promise((resolve, reject)=>{
-                    let done = false;
-                    let length = obj.stream.node.size - obj.stream.position - obj.highWaterMark <= 0 ? (done = true, obj.stream.node.size - obj.stream.position) : obj.highWaterMark;
-                    let buffer = new Uint8Array(length);
-                    node.fs.worker.read(obj.stream, buffer, 0, length);
-                    let progress = 100 * obj.stream.position / obj.stream.node.size;
-                    resolve({
-                        done: done,
-                        value: buffer,
-                        progress: progress
-                    });
-                });
-            };
-            resolve1(obj);
-        });
-    }
-};
-exports.default = (node, type = 'isWorkerFs', path = "/", highWaterMark, isRelation = false)=>{
-    return new Promise(async (resolve, reject)=>{
-        let obj = {
-        };
-        if (type === 'isWorkerFs') obj = await reader.isWorkerFs(node, obj, path, highWaterMark, isRelation);
-        else if (type === 'isIdbFs') console.log('in Progress');
-        else console.warn('неизвестный тип ридера', type);
-        resolve(obj);
-    });
-};
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"8FsVl"}],"gVt68":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var __dirname = "frontend/src/modules/fs/src/modules/fs";
-var __filename = "frontend/src/modules/fs/src/modules/fs/main.mjs";
+var __dirname = "frontend/src/modules/fs";
+var __filename = "frontend/src/modules/fs/main.mjs";
 var process = require("process");
 var Buffer = require("buffer").Buffer;
 var Module1 = function() {
@@ -7125,7 +6452,7 @@ var Module1 = function() {
 }();
 exports.default = Module1;
 
-},{"process":"djbKH","buffer":"4pU4x","path":"awf5a","fs":"ewjlR","crypto":"6cxwS","@parcel/transformer-js/src/esmodule-helpers.js":"8FsVl"}],"djbKH":[function(require,module,exports) {
+},{"process":"kbSAY","buffer":"aB81x","path":"1s6yW","fs":"4fgJa","crypto":"6tknr","@parcel/transformer-js/src/esmodule-helpers.js":"1megf"}],"kbSAY":[function(require,module,exports) {
 // shim for using process in browser
 var process = module.exports = {
 };
@@ -7274,7 +6601,7 @@ process.umask = function() {
     return 0;
 };
 
-},{}],"4pU4x":[function(require,module,exports) {
+},{}],"aB81x":[function(require,module,exports) {
 /*!
  * The buffer module from node.js, for the browser.
  *
@@ -8503,7 +7830,7 @@ var hexSliceLookupTable = function() {
     return table;
 }();
 
-},{"base64-js":"h8vFx","ieee754":"7hwiT"}],"h8vFx":[function(require,module,exports) {
+},{"base64-js":"7iRM9","ieee754":"4DgwM"}],"7iRM9":[function(require,module,exports) {
 'use strict';
 exports.byteLength = byteLength;
 exports.toByteArray = toByteArray;
@@ -8603,7 +7930,7 @@ function fromByteArray(uint8) {
     return parts.join('');
 }
 
-},{}],"7hwiT":[function(require,module,exports) {
+},{}],"4DgwM":[function(require,module,exports) {
 /*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */ exports.read = function(buffer, offset, isLE, mLen, nBytes) {
     var e, m;
     var eLen = nBytes * 8 - mLen - 1;
@@ -8673,7 +8000,7 @@ exports.write = function(buffer, value, offset, isLE, mLen, nBytes) {
     buffer[offset + i - d] |= s * 128;
 };
 
-},{}],"awf5a":[function(require,module,exports) {
+},{}],"1s6yW":[function(require,module,exports) {
 var process = require("process");
 // 'path' module extracted from Node.js v8.11.1 (only the posix part)
 // transplited with Babel
@@ -9098,10 +8425,10 @@ var posix = {
 posix.posix = posix;
 module.exports = posix;
 
-},{"process":"djbKH"}],"ewjlR":[function(require,module,exports) {
+},{"process":"kbSAY"}],"4fgJa":[function(require,module,exports) {
 "use strict";
 
-},{}],"6cxwS":[function(require,module,exports) {
+},{}],"6tknr":[function(require,module,exports) {
 'use strict';
 exports.randomBytes = exports.rng = exports.pseudoRandomBytes = exports.prng = require('randombytes');
 exports.createHash = exports.Hash = require('create-hash');
@@ -9191,7 +8518,7 @@ exports.constants = {
     'POINT_CONVERSION_HYBRID': 6
 };
 
-},{"randombytes":"jwv6z","create-hash":"2HTm9","create-hmac":"4sRYd","browserify-sign/algos":"lpLal","pbkdf2":"4CKda","browserify-cipher":"5NvOM","diffie-hellman":"ixK64","browserify-sign":"5dQse","create-ecdh":"cFK0T","public-encrypt":"3bQFj","randomfill":"2dbcf"}],"jwv6z":[function(require,module,exports) {
+},{"randombytes":"hcmr4","create-hash":"4GVZE","create-hmac":"9j9L3","browserify-sign/algos":"jK9wk","pbkdf2":"9OMAW","browserify-cipher":"8PqIH","diffie-hellman":"g2b1n","browserify-sign":"2A6KC","create-ecdh":"dFm1s","public-encrypt":"hrPM1","randomfill":"h7Nvi"}],"hcmr4":[function(require,module,exports) {
 var global = arguments[3];
 var process = require("process");
 'use strict';
@@ -9225,7 +8552,7 @@ function randomBytes(size, cb) {
     return bytes;
 }
 
-},{"process":"djbKH","safe-buffer":"lQQY8"}],"lQQY8":[function(require,module,exports) {
+},{"process":"kbSAY","safe-buffer":"g3FK1"}],"g3FK1":[function(require,module,exports) {
 /*! safe-buffer. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */ /* eslint-disable node/no-deprecated-api */ var buffer = require('buffer');
 var Buffer = buffer.Buffer;
 // alternative to using Object.keys for old browsers
@@ -9266,7 +8593,7 @@ SafeBuffer.allocUnsafeSlow = function(size) {
     return buffer.SlowBuffer(size);
 };
 
-},{"buffer":"4pU4x"}],"2HTm9":[function(require,module,exports) {
+},{"buffer":"aB81x"}],"4GVZE":[function(require,module,exports) {
 'use strict';
 var inherits = require('inherits');
 var MD5 = require('md5.js');
@@ -9291,7 +8618,7 @@ module.exports = function createHash(alg) {
     return new Hash(sha(alg));
 };
 
-},{"inherits":"3o9km","md5.js":"a1iX9","ripemd160":"9jMwe","sha.js":"coQNS","cipher-base":"d6bFJ"}],"3o9km":[function(require,module,exports) {
+},{"inherits":"jPU4o","md5.js":"eE2I9","ripemd160":"4uEhL","sha.js":"d8WwB","cipher-base":"dhRVa"}],"jPU4o":[function(require,module,exports) {
 if (typeof Object.create === 'function') // implementation from standard node.js 'util' module
 module.exports = function inherits(ctor, superCtor) {
     if (superCtor) {
@@ -9318,7 +8645,7 @@ module.exports = function inherits(ctor, superCtor) {
     }
 };
 
-},{}],"a1iX9":[function(require,module,exports) {
+},{}],"eE2I9":[function(require,module,exports) {
 'use strict';
 var inherits = require('inherits');
 var HashBase = require('hash-base');
@@ -9446,7 +8773,7 @@ function fnI(a, b, c, d, m, k, s) {
 }
 module.exports = MD5;
 
-},{"inherits":"3o9km","hash-base":"9qJos","safe-buffer":"lQQY8"}],"9qJos":[function(require,module,exports) {
+},{"inherits":"jPU4o","hash-base":"dSvjD","safe-buffer":"g3FK1"}],"dSvjD":[function(require,module,exports) {
 'use strict';
 var Buffer = require('safe-buffer').Buffer;
 var Transform = require('readable-stream').Transform;
@@ -9526,7 +8853,7 @@ HashBase.prototype._digest = function() {
 };
 module.exports = HashBase;
 
-},{"safe-buffer":"lQQY8","readable-stream":"bkUTH","inherits":"3o9km"}],"bkUTH":[function(require,module,exports) {
+},{"safe-buffer":"g3FK1","readable-stream":"czlaD","inherits":"jPU4o"}],"czlaD":[function(require,module,exports) {
 exports = module.exports = require('./lib/_stream_readable.js');
 exports.Stream = exports;
 exports.Readable = exports;
@@ -9537,7 +8864,7 @@ exports.PassThrough = require('./lib/_stream_passthrough.js');
 exports.finished = require('./lib/internal/streams/end-of-stream.js');
 exports.pipeline = require('./lib/internal/streams/pipeline.js');
 
-},{"./lib/_stream_readable.js":"i00EV","./lib/_stream_writable.js":"aVA6P","./lib/_stream_duplex.js":"1wZYp","./lib/_stream_transform.js":"hDU4o","./lib/_stream_passthrough.js":"I9ZLr","./lib/internal/streams/end-of-stream.js":"iTz8C","./lib/internal/streams/pipeline.js":"cCnTj"}],"i00EV":[function(require,module,exports) {
+},{"./lib/_stream_readable.js":"cwQHH","./lib/_stream_writable.js":"6IF4I","./lib/_stream_duplex.js":"85wA9","./lib/_stream_transform.js":"1z7yU","./lib/_stream_passthrough.js":"e5PnG","./lib/internal/streams/end-of-stream.js":"fJK0O","./lib/internal/streams/pipeline.js":"faIAF"}],"cwQHH":[function(require,module,exports) {
 var global = arguments[3];
 var process = require("process");
 // Copyright Joyent, Inc. and other Node contributors.
@@ -10399,7 +9726,7 @@ function indexOf(xs, x) {
     return -1;
 }
 
-},{"process":"djbKH","events":"2e7OU","./internal/streams/stream":"98hsA","buffer":"4pU4x","util":"ewjlR","./internal/streams/buffer_list":"fOH6H","./internal/streams/destroy":"6cAps","./internal/streams/state":"c80gd","../errors":"ilRk3","inherits":"3o9km","./_stream_duplex":"1wZYp","string_decoder/":"39tUd","./internal/streams/async_iterator":"e0aMW","./internal/streams/from":"i1Zfz"}],"2e7OU":[function(require,module,exports) {
+},{"process":"kbSAY","events":"bbC4h","./internal/streams/stream":"6sWTg","buffer":"aB81x","util":"4fgJa","./internal/streams/buffer_list":"jQ3F6","./internal/streams/destroy":"c3EcZ","./internal/streams/state":"8USgc","../errors":"5woA4","inherits":"jPU4o","./_stream_duplex":"85wA9","string_decoder/":"bFfOK","./internal/streams/async_iterator":"a8YwJ","./internal/streams/from":"h8M0c"}],"bbC4h":[function(require,module,exports) {
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -10754,10 +10081,10 @@ function eventTargetAgnosticAddListener(emitter, name, listener, flags) {
     else throw new TypeError('The "emitter" argument must be of type EventEmitter. Received type ' + typeof emitter);
 }
 
-},{}],"98hsA":[function(require,module,exports) {
+},{}],"6sWTg":[function(require,module,exports) {
 module.exports = require('events').EventEmitter;
 
-},{"events":"2e7OU"}],"fOH6H":[function(require,module,exports) {
+},{"events":"bbC4h"}],"jQ3F6":[function(require,module,exports) {
 'use strict';
 function ownKeys(object, enumerableOnly) {
     var keys = Object.keys(object);
@@ -10990,7 +10317,7 @@ module.exports = /*#__PURE__*/ (function() {
     return BufferList;
 })();
 
-},{"buffer":"4pU4x","util":"ewjlR"}],"6cAps":[function(require,module,exports) {
+},{"buffer":"aB81x","util":"4fgJa"}],"c3EcZ":[function(require,module,exports) {
 var process = require("process");
 'use strict'; // undocumented cb() API, needed for core, not for public API
 function destroy(err1, cb) {
@@ -11072,7 +10399,7 @@ module.exports = {
     errorOrDestroy: errorOrDestroy
 };
 
-},{"process":"djbKH"}],"c80gd":[function(require,module,exports) {
+},{"process":"kbSAY"}],"8USgc":[function(require,module,exports) {
 'use strict';
 var ERR_INVALID_OPT_VALUE = require('../../../errors').codes.ERR_INVALID_OPT_VALUE;
 function highWaterMarkFrom(options, isDuplex, duplexKey) {
@@ -11093,7 +10420,7 @@ module.exports = {
     getHighWaterMark: getHighWaterMark
 };
 
-},{"../../../errors":"ilRk3"}],"ilRk3":[function(require,module,exports) {
+},{"../../../errors":"5woA4"}],"5woA4":[function(require,module,exports) {
 'use strict';
 function _inheritsLoose(subClass, superClass) {
     subClass.prototype = Object.create(superClass.prototype);
@@ -11180,7 +10507,7 @@ createErrorType('ERR_UNKNOWN_ENCODING', function(arg) {
 createErrorType('ERR_STREAM_UNSHIFT_AFTER_END_EVENT', 'stream.unshift() after end event');
 module.exports.codes = codes;
 
-},{}],"1wZYp":[function(require,module,exports) {
+},{}],"85wA9":[function(require,module,exports) {
 var process = require("process");
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -11292,7 +10619,7 @@ Object.defineProperty(Duplex.prototype, 'destroyed', {
     }
 });
 
-},{"process":"djbKH","./_stream_readable":"i00EV","./_stream_writable":"aVA6P","inherits":"3o9km"}],"aVA6P":[function(require,module,exports) {
+},{"process":"kbSAY","./_stream_readable":"cwQHH","./_stream_writable":"6IF4I","inherits":"jPU4o"}],"6IF4I":[function(require,module,exports) {
 var process = require("process");
 var global = arguments[3];
 // Copyright Joyent, Inc. and other Node contributors.
@@ -11822,7 +11149,7 @@ Writable.prototype._destroy = function(err, cb) {
     cb(err);
 };
 
-},{"process":"djbKH","util-deprecate":"1M5s4","./internal/streams/stream":"98hsA","buffer":"4pU4x","./internal/streams/destroy":"6cAps","./internal/streams/state":"c80gd","../errors":"ilRk3","inherits":"3o9km","./_stream_duplex":"1wZYp"}],"1M5s4":[function(require,module,exports) {
+},{"process":"kbSAY","util-deprecate":"8ZzzS","./internal/streams/stream":"6sWTg","buffer":"aB81x","./internal/streams/destroy":"c3EcZ","./internal/streams/state":"8USgc","../errors":"5woA4","inherits":"jPU4o","./_stream_duplex":"85wA9"}],"8ZzzS":[function(require,module,exports) {
 var global = arguments[3];
 /**
  * Module exports.
@@ -11875,7 +11202,7 @@ var global = arguments[3];
     return String(val).toLowerCase() === 'true';
 }
 
-},{}],"39tUd":[function(require,module,exports) {
+},{}],"bFfOK":[function(require,module,exports) {
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -12157,7 +11484,7 @@ function simpleEnd(buf) {
     return buf && buf.length ? this.write(buf) : '';
 }
 
-},{"safe-buffer":"lQQY8"}],"e0aMW":[function(require,module,exports) {
+},{"safe-buffer":"g3FK1"}],"a8YwJ":[function(require,module,exports) {
 var process = require("process");
 'use strict';
 var _Object$setPrototypeO;
@@ -12333,7 +11660,7 @@ var createReadableStreamAsyncIterator = function createReadableStreamAsyncIterat
 };
 module.exports = createReadableStreamAsyncIterator;
 
-},{"process":"djbKH","./end-of-stream":"iTz8C"}],"iTz8C":[function(require,module,exports) {
+},{"process":"kbSAY","./end-of-stream":"fJK0O"}],"fJK0O":[function(require,module,exports) {
 // Ported from https://github.com/mafintosh/end-of-stream with
 // permission from the author, Mathias Buus (@mafintosh).
 'use strict';
@@ -12420,12 +11747,12 @@ function eos(stream, opts, callback) {
 }
 module.exports = eos;
 
-},{"../../../errors":"ilRk3"}],"i1Zfz":[function(require,module,exports) {
+},{"../../../errors":"5woA4"}],"h8M0c":[function(require,module,exports) {
 module.exports = function() {
     throw new Error('Readable.from is not available in the browser');
 };
 
-},{}],"hDU4o":[function(require,module,exports) {
+},{}],"1z7yU":[function(require,module,exports) {
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -12585,7 +11912,7 @@ function done(stream, er, data) {
     return stream.push(null);
 }
 
-},{"../errors":"ilRk3","./_stream_duplex":"1wZYp","inherits":"3o9km"}],"I9ZLr":[function(require,module,exports) {
+},{"../errors":"5woA4","./_stream_duplex":"85wA9","inherits":"jPU4o"}],"e5PnG":[function(require,module,exports) {
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -12621,7 +11948,7 @@ PassThrough.prototype._transform = function(chunk, encoding, cb) {
     cb(null, chunk);
 };
 
-},{"./_stream_transform":"hDU4o","inherits":"3o9km"}],"cCnTj":[function(require,module,exports) {
+},{"./_stream_transform":"1z7yU","inherits":"jPU4o"}],"faIAF":[function(require,module,exports) {
 // Ported from https://github.com/mafintosh/pump with
 // permission from the author, Mathias Buus (@mafintosh).
 'use strict';
@@ -12699,7 +12026,7 @@ function pipeline() {
 }
 module.exports = pipeline;
 
-},{"../../../errors":"ilRk3","./end-of-stream":"iTz8C"}],"9jMwe":[function(require,module,exports) {
+},{"../../../errors":"5woA4","./end-of-stream":"fJK0O"}],"4uEhL":[function(require,module,exports) {
 'use strict';
 var Buffer = require('buffer').Buffer;
 var inherits = require('inherits');
@@ -13150,7 +12477,7 @@ function fn5(a, b, c, d, e, m, k, s) {
 }
 module.exports = RIPEMD160;
 
-},{"buffer":"4pU4x","inherits":"3o9km","hash-base":"9qJos"}],"coQNS":[function(require,module,exports) {
+},{"buffer":"aB81x","inherits":"jPU4o","hash-base":"dSvjD"}],"d8WwB":[function(require,module,exports) {
 var exports = module.exports = function SHA(algorithm) {
     algorithm = algorithm.toLowerCase();
     var Algorithm = exports[algorithm];
@@ -13164,7 +12491,7 @@ exports.sha256 = require('./sha256');
 exports.sha384 = require('./sha384');
 exports.sha512 = require('./sha512');
 
-},{"./sha":"alZzZ","./sha1":"dgzX3","./sha224":"bY05w","./sha256":"4ZP5z","./sha384":"brYqp","./sha512":"hihAw"}],"alZzZ":[function(require,module,exports) {
+},{"./sha":"aC964","./sha1":"g8HI4","./sha224":"bLyMf","./sha256":"gwvPz","./sha384":"g1edP","./sha512":"h5TvA"}],"aC964":[function(require,module,exports) {
 /*
  * A JavaScript implementation of the Secure Hash Algorithm, SHA-0, as defined
  * in FIPS PUB 180-1
@@ -13241,7 +12568,7 @@ Sha.prototype._hash = function() {
 };
 module.exports = Sha;
 
-},{"inherits":"3o9km","./hash":"eIsyg","safe-buffer":"lQQY8"}],"eIsyg":[function(require,module,exports) {
+},{"inherits":"jPU4o","./hash":"7XBVj","safe-buffer":"g3FK1"}],"7XBVj":[function(require,module,exports) {
 var Buffer = require('safe-buffer').Buffer;
 // prototype class for hash functions
 function Hash(blockSize, finalSize) {
@@ -13298,7 +12625,7 @@ Hash.prototype._update = function() {
 };
 module.exports = Hash;
 
-},{"safe-buffer":"lQQY8"}],"dgzX3":[function(require,module,exports) {
+},{"safe-buffer":"g3FK1"}],"g8HI4":[function(require,module,exports) {
 /*
  * A JavaScript implementation of the Secure Hash Algorithm, SHA-1, as defined
  * in FIPS PUB 180-1
@@ -13379,7 +12706,7 @@ Sha1.prototype._hash = function() {
 };
 module.exports = Sha1;
 
-},{"inherits":"3o9km","./hash":"eIsyg","safe-buffer":"lQQY8"}],"bY05w":[function(require,module,exports) {
+},{"inherits":"jPU4o","./hash":"7XBVj","safe-buffer":"g3FK1"}],"bLyMf":[function(require,module,exports) {
 /**
  * A JavaScript implementation of the Secure Hash Algorithm, SHA-256, as defined
  * in FIPS 180-2
@@ -13422,7 +12749,7 @@ Sha224.prototype._hash = function() {
 };
 module.exports = Sha224;
 
-},{"inherits":"3o9km","./sha256":"4ZP5z","./hash":"eIsyg","safe-buffer":"lQQY8"}],"4ZP5z":[function(require,module,exports) {
+},{"inherits":"jPU4o","./sha256":"gwvPz","./hash":"7XBVj","safe-buffer":"g3FK1"}],"gwvPz":[function(require,module,exports) {
 /**
  * A JavaScript implementation of the Secure Hash Algorithm, SHA-256, as defined
  * in FIPS 180-2
@@ -13582,7 +12909,7 @@ Sha256.prototype._hash = function() {
 };
 module.exports = Sha256;
 
-},{"inherits":"3o9km","./hash":"eIsyg","safe-buffer":"lQQY8"}],"brYqp":[function(require,module,exports) {
+},{"inherits":"jPU4o","./hash":"7XBVj","safe-buffer":"g3FK1"}],"g1edP":[function(require,module,exports) {
 var inherits = require('inherits');
 var SHA512 = require('./sha512');
 var Hash = require('./hash');
@@ -13629,7 +12956,7 @@ Sha384.prototype._hash = function() {
 };
 module.exports = Sha384;
 
-},{"inherits":"3o9km","./sha512":"hihAw","./hash":"eIsyg","safe-buffer":"lQQY8"}],"hihAw":[function(require,module,exports) {
+},{"inherits":"jPU4o","./sha512":"h5TvA","./hash":"7XBVj","safe-buffer":"g3FK1"}],"h5TvA":[function(require,module,exports) {
 var inherits = require('inherits');
 var Hash = require('./hash');
 var Buffer = require('safe-buffer').Buffer;
@@ -13970,7 +13297,7 @@ Sha512.prototype._hash = function() {
 };
 module.exports = Sha512;
 
-},{"inherits":"3o9km","./hash":"eIsyg","safe-buffer":"lQQY8"}],"d6bFJ":[function(require,module,exports) {
+},{"inherits":"jPU4o","./hash":"7XBVj","safe-buffer":"g3FK1"}],"dhRVa":[function(require,module,exports) {
 var Buffer = require('safe-buffer').Buffer;
 var Transform = require('stream').Transform;
 var StringDecoder = require('string_decoder').StringDecoder;
@@ -14043,7 +13370,7 @@ CipherBase.prototype._toString = function(value, enc, fin) {
 };
 module.exports = CipherBase;
 
-},{"safe-buffer":"lQQY8","stream":"fylwg","string_decoder":"39tUd","inherits":"3o9km"}],"fylwg":[function(require,module,exports) {
+},{"safe-buffer":"g3FK1","stream":"51I3E","string_decoder":"bFfOK","inherits":"jPU4o"}],"51I3E":[function(require,module,exports) {
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -14138,7 +13465,7 @@ Stream.prototype.pipe = function(dest, options) {
     return dest;
 };
 
-},{"events":"2e7OU","inherits":"3o9km","readable-stream/lib/_stream_readable.js":"i00EV","readable-stream/lib/_stream_writable.js":"aVA6P","readable-stream/lib/_stream_duplex.js":"1wZYp","readable-stream/lib/_stream_transform.js":"hDU4o","readable-stream/lib/_stream_passthrough.js":"I9ZLr","readable-stream/lib/internal/streams/end-of-stream.js":"iTz8C","readable-stream/lib/internal/streams/pipeline.js":"cCnTj"}],"4sRYd":[function(require,module,exports) {
+},{"events":"bbC4h","inherits":"jPU4o","readable-stream/lib/_stream_readable.js":"cwQHH","readable-stream/lib/_stream_writable.js":"6IF4I","readable-stream/lib/_stream_duplex.js":"85wA9","readable-stream/lib/_stream_transform.js":"1z7yU","readable-stream/lib/_stream_passthrough.js":"e5PnG","readable-stream/lib/internal/streams/end-of-stream.js":"fJK0O","readable-stream/lib/internal/streams/pipeline.js":"faIAF"}],"9j9L3":[function(require,module,exports) {
 'use strict';
 var inherits = require('inherits');
 var Legacy = require('./legacy');
@@ -14186,7 +13513,7 @@ module.exports = function createHmac(alg, key) {
     return new Hmac(alg, key);
 };
 
-},{"inherits":"3o9km","./legacy":"bnoWy","cipher-base":"d6bFJ","safe-buffer":"lQQY8","create-hash/md5":"lAlM3","ripemd160":"9jMwe","sha.js":"coQNS"}],"bnoWy":[function(require,module,exports) {
+},{"inherits":"jPU4o","./legacy":"aa8aW","cipher-base":"dhRVa","safe-buffer":"g3FK1","create-hash/md5":"hU2Op","ripemd160":"4uEhL","sha.js":"d8WwB"}],"aa8aW":[function(require,module,exports) {
 'use strict';
 var inherits = require('inherits');
 var Buffer = require('safe-buffer').Buffer;
@@ -14226,23 +13553,23 @@ Hmac.prototype._final = function() {
 };
 module.exports = Hmac;
 
-},{"inherits":"3o9km","safe-buffer":"lQQY8","cipher-base":"d6bFJ"}],"lAlM3":[function(require,module,exports) {
+},{"inherits":"jPU4o","safe-buffer":"g3FK1","cipher-base":"dhRVa"}],"hU2Op":[function(require,module,exports) {
 var MD5 = require('md5.js');
 module.exports = function(buffer) {
     return new MD5().update(buffer).digest();
 };
 
-},{"md5.js":"a1iX9"}],"lpLal":[function(require,module,exports) {
+},{"md5.js":"eE2I9"}],"jK9wk":[function(require,module,exports) {
 module.exports = require('./browser/algorithms.json');
 
-},{"./browser/algorithms.json":"bR5Zr"}],"bR5Zr":[function(require,module,exports) {
+},{"./browser/algorithms.json":"eOQe7"}],"eOQe7":[function(require,module,exports) {
 module.exports = JSON.parse("{\"sha224WithRSAEncryption\":{\"sign\":\"rsa\",\"hash\":\"sha224\",\"id\":\"302d300d06096086480165030402040500041c\"},\"RSA-SHA224\":{\"sign\":\"ecdsa/rsa\",\"hash\":\"sha224\",\"id\":\"302d300d06096086480165030402040500041c\"},\"sha256WithRSAEncryption\":{\"sign\":\"rsa\",\"hash\":\"sha256\",\"id\":\"3031300d060960864801650304020105000420\"},\"RSA-SHA256\":{\"sign\":\"ecdsa/rsa\",\"hash\":\"sha256\",\"id\":\"3031300d060960864801650304020105000420\"},\"sha384WithRSAEncryption\":{\"sign\":\"rsa\",\"hash\":\"sha384\",\"id\":\"3041300d060960864801650304020205000430\"},\"RSA-SHA384\":{\"sign\":\"ecdsa/rsa\",\"hash\":\"sha384\",\"id\":\"3041300d060960864801650304020205000430\"},\"sha512WithRSAEncryption\":{\"sign\":\"rsa\",\"hash\":\"sha512\",\"id\":\"3051300d060960864801650304020305000440\"},\"RSA-SHA512\":{\"sign\":\"ecdsa/rsa\",\"hash\":\"sha512\",\"id\":\"3051300d060960864801650304020305000440\"},\"RSA-SHA1\":{\"sign\":\"rsa\",\"hash\":\"sha1\",\"id\":\"3021300906052b0e03021a05000414\"},\"ecdsa-with-SHA1\":{\"sign\":\"ecdsa\",\"hash\":\"sha1\",\"id\":\"\"},\"sha256\":{\"sign\":\"ecdsa\",\"hash\":\"sha256\",\"id\":\"\"},\"sha224\":{\"sign\":\"ecdsa\",\"hash\":\"sha224\",\"id\":\"\"},\"sha384\":{\"sign\":\"ecdsa\",\"hash\":\"sha384\",\"id\":\"\"},\"sha512\":{\"sign\":\"ecdsa\",\"hash\":\"sha512\",\"id\":\"\"},\"DSA-SHA\":{\"sign\":\"dsa\",\"hash\":\"sha1\",\"id\":\"\"},\"DSA-SHA1\":{\"sign\":\"dsa\",\"hash\":\"sha1\",\"id\":\"\"},\"DSA\":{\"sign\":\"dsa\",\"hash\":\"sha1\",\"id\":\"\"},\"DSA-WITH-SHA224\":{\"sign\":\"dsa\",\"hash\":\"sha224\",\"id\":\"\"},\"DSA-SHA224\":{\"sign\":\"dsa\",\"hash\":\"sha224\",\"id\":\"\"},\"DSA-WITH-SHA256\":{\"sign\":\"dsa\",\"hash\":\"sha256\",\"id\":\"\"},\"DSA-SHA256\":{\"sign\":\"dsa\",\"hash\":\"sha256\",\"id\":\"\"},\"DSA-WITH-SHA384\":{\"sign\":\"dsa\",\"hash\":\"sha384\",\"id\":\"\"},\"DSA-SHA384\":{\"sign\":\"dsa\",\"hash\":\"sha384\",\"id\":\"\"},\"DSA-WITH-SHA512\":{\"sign\":\"dsa\",\"hash\":\"sha512\",\"id\":\"\"},\"DSA-SHA512\":{\"sign\":\"dsa\",\"hash\":\"sha512\",\"id\":\"\"},\"DSA-RIPEMD160\":{\"sign\":\"dsa\",\"hash\":\"rmd160\",\"id\":\"\"},\"ripemd160WithRSA\":{\"sign\":\"rsa\",\"hash\":\"rmd160\",\"id\":\"3021300906052b2403020105000414\"},\"RSA-RIPEMD160\":{\"sign\":\"rsa\",\"hash\":\"rmd160\",\"id\":\"3021300906052b2403020105000414\"},\"md5WithRSAEncryption\":{\"sign\":\"rsa\",\"hash\":\"md5\",\"id\":\"3020300c06082a864886f70d020505000410\"},\"RSA-MD5\":{\"sign\":\"rsa\",\"hash\":\"md5\",\"id\":\"3020300c06082a864886f70d020505000410\"}}");
 
-},{}],"4CKda":[function(require,module,exports) {
+},{}],"9OMAW":[function(require,module,exports) {
 exports.pbkdf2 = require('./lib/async');
 exports.pbkdf2Sync = require('./lib/sync');
 
-},{"./lib/async":"Mts2T","./lib/sync":"a0qLv"}],"Mts2T":[function(require,module,exports) {
+},{"./lib/async":"2u78O","./lib/sync":"ejQGa"}],"2u78O":[function(require,module,exports) {
 var global = arguments[3];
 var Buffer = require('safe-buffer').Buffer;
 var checkParameters = require('./precondition');
@@ -14343,7 +13670,7 @@ module.exports = function(password, salt, iterations, keylen, digest, callback) 
     }), callback);
 };
 
-},{"safe-buffer":"lQQY8","./precondition":"gQOp5","./default-encoding":"63T7J","./sync":"a0qLv","./to-buffer":"cR2Lg"}],"gQOp5":[function(require,module,exports) {
+},{"safe-buffer":"g3FK1","./precondition":"4rM4k","./default-encoding":"j3tbt","./sync":"ejQGa","./to-buffer":"dsMAz"}],"4rM4k":[function(require,module,exports) {
 var MAX_ALLOC = Math.pow(2, 30) - 1 // default in iojs
 ;
 module.exports = function(iterations, keylen) {
@@ -14353,9 +13680,9 @@ module.exports = function(iterations, keylen) {
     if (keylen < 0 || keylen > MAX_ALLOC || keylen !== keylen) throw new TypeError('Bad key length');
 };
 
-},{}],"63T7J":[function(require,module,exports) {
-var global = arguments[3];
+},{}],"j3tbt":[function(require,module,exports) {
 var process = require("process");
+var global = arguments[3];
 var defaultEncoding;
 /* istanbul ignore next */ if (global.process && global.process.browser) defaultEncoding = 'utf-8';
 else if (global.process && global.process.version) {
@@ -14364,7 +13691,7 @@ else if (global.process && global.process.version) {
 } else defaultEncoding = 'utf-8';
 module.exports = defaultEncoding;
 
-},{"process":"djbKH"}],"a0qLv":[function(require,module,exports) {
+},{"process":"kbSAY"}],"ejQGa":[function(require,module,exports) {
 var md5 = require('create-hash/md5');
 var RIPEMD160 = require('ripemd160');
 var sha = require('sha.js');
@@ -14451,7 +13778,7 @@ function pbkdf2(password, salt, iterations, keylen, digest) {
 }
 module.exports = pbkdf2;
 
-},{"create-hash/md5":"lAlM3","ripemd160":"9jMwe","sha.js":"coQNS","safe-buffer":"lQQY8","./precondition":"gQOp5","./default-encoding":"63T7J","./to-buffer":"cR2Lg"}],"cR2Lg":[function(require,module,exports) {
+},{"create-hash/md5":"hU2Op","ripemd160":"4uEhL","sha.js":"d8WwB","safe-buffer":"g3FK1","./precondition":"4rM4k","./default-encoding":"j3tbt","./to-buffer":"dsMAz"}],"dsMAz":[function(require,module,exports) {
 var Buffer = require('safe-buffer').Buffer;
 module.exports = function(thing, encoding, name) {
     if (Buffer.isBuffer(thing)) return thing;
@@ -14460,7 +13787,7 @@ module.exports = function(thing, encoding, name) {
     else throw new TypeError(name + ' must be a string, a Buffer, a typed array or a DataView');
 };
 
-},{"safe-buffer":"lQQY8"}],"5NvOM":[function(require,module,exports) {
+},{"safe-buffer":"g3FK1"}],"8PqIH":[function(require,module,exports) {
 var DES = require('browserify-des');
 var aes = require('browserify-aes/browser');
 var aesModes = require('browserify-aes/modes');
@@ -14522,7 +13849,7 @@ exports.createDecipher = exports.Decipher = createDecipher;
 exports.createDecipheriv = exports.Decipheriv = createDecipheriv;
 exports.listCiphers = exports.getCiphers = getCiphers;
 
-},{"browserify-des":"d9jIu","browserify-aes/browser":"6gsfD","browserify-aes/modes":"5nsCT","browserify-des/modes":"kKdkO","evp_bytestokey":"60UIC"}],"d9jIu":[function(require,module,exports) {
+},{"browserify-des":"f3MY4","browserify-aes/browser":"FfV7w","browserify-aes/modes":"aYxRT","browserify-des/modes":"8WyeC","evp_bytestokey":"fb7DO"}],"f3MY4":[function(require,module,exports) {
 var CipherBase = require('cipher-base');
 var des = require('des.js');
 var inherits = require('inherits');
@@ -14567,7 +13894,7 @@ DES.prototype._final = function() {
     return Buffer.from(this._des.final());
 };
 
-},{"cipher-base":"d6bFJ","des.js":"4ROlF","inherits":"3o9km","safe-buffer":"lQQY8"}],"4ROlF":[function(require,module,exports) {
+},{"cipher-base":"dhRVa","des.js":"7jJNJ","inherits":"jPU4o","safe-buffer":"g3FK1"}],"7jJNJ":[function(require,module,exports) {
 'use strict';
 exports.utils = require('./des/utils');
 exports.Cipher = require('./des/cipher');
@@ -14575,7 +13902,7 @@ exports.DES = require('./des/des');
 exports.CBC = require('./des/cbc');
 exports.EDE = require('./des/ede');
 
-},{"./des/utils":"ipVpT","./des/cipher":"pKSg5","./des/des":"brXer","./des/cbc":"hf31b","./des/ede":"2noRw"}],"ipVpT":[function(require,module,exports) {
+},{"./des/utils":"5mvqh","./des/cipher":"2oN0e","./des/des":"dQvH2","./des/cbc":"6HqEp","./des/ede":"fbmtb"}],"5mvqh":[function(require,module,exports) {
 'use strict';
 exports.readUInt32BE = function readUInt32BE(bytes, off) {
     var res = bytes[0 + off] << 24 | bytes[1 + off] << 16 | bytes[2 + off] << 8 | bytes[3 + off];
@@ -15339,7 +14666,7 @@ exports.padSplit = function padSplit(num, size, group) {
     return out.join(' ');
 };
 
-},{}],"pKSg5":[function(require,module,exports) {
+},{}],"2oN0e":[function(require,module,exports) {
 'use strict';
 var assert = require('minimalistic-assert');
 function Cipher(options) {
@@ -15435,7 +14762,7 @@ Cipher.prototype._finalDecrypt = function _finalDecrypt() {
     return this._unpad(out);
 };
 
-},{"minimalistic-assert":"g8xZT"}],"g8xZT":[function(require,module,exports) {
+},{"minimalistic-assert":"jja1w"}],"jja1w":[function(require,module,exports) {
 module.exports = assert;
 function assert(val, msg) {
     if (!val) throw new Error(msg || 'Assertion failed');
@@ -15444,7 +14771,7 @@ assert.equal = function assertEqual(l, r, msg) {
     if (l != r) throw new Error(msg || 'Assertion failed: ' + l + ' != ' + r);
 };
 
-},{}],"brXer":[function(require,module,exports) {
+},{}],"dQvH2":[function(require,module,exports) {
 'use strict';
 var assert = require('minimalistic-assert');
 var inherits = require('inherits');
@@ -15564,7 +14891,7 @@ DES.prototype._decrypt = function _decrypt(state, lStart, rStart, out, off) {
     utils.rip(l, r, out, off);
 };
 
-},{"minimalistic-assert":"g8xZT","inherits":"3o9km","./utils":"ipVpT","./cipher":"pKSg5"}],"hf31b":[function(require,module,exports) {
+},{"minimalistic-assert":"jja1w","inherits":"jPU4o","./utils":"5mvqh","./cipher":"2oN0e"}],"6HqEp":[function(require,module,exports) {
 'use strict';
 var assert = require('minimalistic-assert');
 var inherits = require('inherits');
@@ -15611,7 +14938,7 @@ proto._update = function _update(inp, inOff, out, outOff) {
     }
 };
 
-},{"minimalistic-assert":"g8xZT","inherits":"3o9km"}],"2noRw":[function(require,module,exports) {
+},{"minimalistic-assert":"jja1w","inherits":"jPU4o"}],"fbmtb":[function(require,module,exports) {
 'use strict';
 var assert = require('minimalistic-assert');
 var inherits = require('inherits');
@@ -15670,7 +14997,7 @@ EDE.prototype._update = function _update(inp, inOff, out, outOff) {
 EDE.prototype._pad = DES.prototype._pad;
 EDE.prototype._unpad = DES.prototype._unpad;
 
-},{"minimalistic-assert":"g8xZT","inherits":"3o9km","./cipher":"pKSg5","./des":"brXer"}],"6gsfD":[function(require,module,exports) {
+},{"minimalistic-assert":"jja1w","inherits":"jPU4o","./cipher":"2oN0e","./des":"dQvH2"}],"FfV7w":[function(require,module,exports) {
 var ciphers = require('./encrypter');
 var deciphers = require('./decrypter');
 var modes = require('./modes/list.json');
@@ -15683,7 +15010,7 @@ exports.createDecipher = exports.Decipher = deciphers.createDecipher;
 exports.createDecipheriv = exports.Decipheriv = deciphers.createDecipheriv;
 exports.listCiphers = exports.getCiphers = getCiphers;
 
-},{"./encrypter":"dZn5f","./decrypter":"gB6Bv","./modes/list.json":"kC4qF"}],"dZn5f":[function(require,module,exports) {
+},{"./encrypter":"44bGW","./decrypter":"ty6Ns","./modes/list.json":"2mORA"}],"44bGW":[function(require,module,exports) {
 var MODES = require('./modes');
 var AuthCipher = require('./authCipher');
 var Buffer = require('safe-buffer').Buffer;
@@ -15776,7 +15103,7 @@ function createCipher(suite, password) {
 exports.createCipheriv = createCipheriv;
 exports.createCipher = createCipher;
 
-},{"./modes":"5nsCT","./authCipher":"bzsex","safe-buffer":"lQQY8","./streamCipher":"dL1XS","cipher-base":"d6bFJ","./aes":"imw4A","evp_bytestokey":"60UIC","inherits":"3o9km"}],"5nsCT":[function(require,module,exports) {
+},{"./modes":"aYxRT","./authCipher":"iLNZE","safe-buffer":"g3FK1","./streamCipher":"ed0fE","cipher-base":"dhRVa","./aes":"49zsi","evp_bytestokey":"fb7DO","inherits":"jPU4o"}],"aYxRT":[function(require,module,exports) {
 var modeModules = {
     ECB: require('./ecb'),
     CBC: require('./cbc'),
@@ -15791,7 +15118,7 @@ var modes = require('./list.json');
 for(var key in modes)modes[key].module = modeModules[modes[key].mode];
 module.exports = modes;
 
-},{"./ecb":"61UPZ","./cbc":"54ePJ","./cfb":"4PKWv","./cfb8":"kp03z","./cfb1":"7enuc","./ofb":"1CP4K","./ctr":"2TbLy","./list.json":"kC4qF"}],"61UPZ":[function(require,module,exports) {
+},{"./ecb":"7P55O","./cbc":"2CvJ0","./cfb":"kHv0L","./cfb8":"h11ZT","./cfb1":"gLbw8","./ofb":"jRQaP","./ctr":"lfkMi","./list.json":"2mORA"}],"7P55O":[function(require,module,exports) {
 exports.encrypt = function(self, block) {
     return self._cipher.encryptBlock(block);
 };
@@ -15799,7 +15126,7 @@ exports.decrypt = function(self, block) {
     return self._cipher.decryptBlock(block);
 };
 
-},{}],"54ePJ":[function(require,module,exports) {
+},{}],"2CvJ0":[function(require,module,exports) {
 var xor = require('buffer-xor');
 exports.encrypt = function(self, block) {
     var data = xor(block, self._prev);
@@ -15813,7 +15140,7 @@ exports.decrypt = function(self, block) {
     return xor(out, pad);
 };
 
-},{"buffer-xor":"ebw7U"}],"ebw7U":[function(require,module,exports) {
+},{"buffer-xor":"7ptIs"}],"7ptIs":[function(require,module,exports) {
 var Buffer = require("buffer").Buffer;
 module.exports = function xor(a, b) {
     var length = Math.min(a.length, b.length);
@@ -15822,7 +15149,7 @@ module.exports = function xor(a, b) {
     return buffer;
 };
 
-},{"buffer":"4pU4x"}],"4PKWv":[function(require,module,exports) {
+},{"buffer":"aB81x"}],"kHv0L":[function(require,module,exports) {
 var Buffer = require('safe-buffer').Buffer;
 var xor = require('buffer-xor');
 function encryptStart(self, data, decrypt) {
@@ -15861,7 +15188,7 @@ exports.encrypt = function(self, data, decrypt) {
     return out;
 };
 
-},{"safe-buffer":"lQQY8","buffer-xor":"ebw7U"}],"kp03z":[function(require,module,exports) {
+},{"safe-buffer":"g3FK1","buffer-xor":"7ptIs"}],"h11ZT":[function(require,module,exports) {
 var Buffer = require('safe-buffer').Buffer;
 function encryptByte(self, byteParam, decrypt) {
     var pad = self._cipher.encryptBlock(self._prev);
@@ -15882,7 +15209,7 @@ exports.encrypt = function(self, chunk, decrypt) {
     return out;
 };
 
-},{"safe-buffer":"lQQY8"}],"7enuc":[function(require,module,exports) {
+},{"safe-buffer":"g3FK1"}],"gLbw8":[function(require,module,exports) {
 var Buffer = require('safe-buffer').Buffer;
 function encryptByte(self, byteParam, decrypt) {
     var pad;
@@ -15920,7 +15247,7 @@ exports.encrypt = function(self, chunk, decrypt) {
     return out;
 };
 
-},{"safe-buffer":"lQQY8"}],"1CP4K":[function(require,module,exports) {
+},{"safe-buffer":"g3FK1"}],"jRQaP":[function(require,module,exports) {
 var Buffer = require("buffer").Buffer;
 var xor = require('buffer-xor');
 function getBlock(self) {
@@ -15937,7 +15264,7 @@ exports.encrypt = function(self, chunk) {
     return xor(chunk, pad);
 };
 
-},{"buffer":"4pU4x","buffer-xor":"ebw7U"}],"2TbLy":[function(require,module,exports) {
+},{"buffer":"aB81x","buffer-xor":"7ptIs"}],"lfkMi":[function(require,module,exports) {
 var xor = require('buffer-xor');
 var Buffer = require('safe-buffer').Buffer;
 var incr32 = require('../incr32');
@@ -15967,7 +15294,7 @@ exports.encrypt = function(self, chunk) {
     return xor(chunk, pad);
 };
 
-},{"buffer-xor":"ebw7U","safe-buffer":"lQQY8","../incr32":"lRaJp"}],"lRaJp":[function(require,module,exports) {
+},{"buffer-xor":"7ptIs","safe-buffer":"g3FK1","../incr32":"kdgaX"}],"kdgaX":[function(require,module,exports) {
 function incr32(iv) {
     var len = iv.length;
     var item;
@@ -15983,10 +15310,10 @@ function incr32(iv) {
 }
 module.exports = incr32;
 
-},{}],"kC4qF":[function(require,module,exports) {
+},{}],"2mORA":[function(require,module,exports) {
 module.exports = JSON.parse("{\"aes-128-ecb\":{\"cipher\":\"AES\",\"key\":128,\"iv\":0,\"mode\":\"ECB\",\"type\":\"block\"},\"aes-192-ecb\":{\"cipher\":\"AES\",\"key\":192,\"iv\":0,\"mode\":\"ECB\",\"type\":\"block\"},\"aes-256-ecb\":{\"cipher\":\"AES\",\"key\":256,\"iv\":0,\"mode\":\"ECB\",\"type\":\"block\"},\"aes-128-cbc\":{\"cipher\":\"AES\",\"key\":128,\"iv\":16,\"mode\":\"CBC\",\"type\":\"block\"},\"aes-192-cbc\":{\"cipher\":\"AES\",\"key\":192,\"iv\":16,\"mode\":\"CBC\",\"type\":\"block\"},\"aes-256-cbc\":{\"cipher\":\"AES\",\"key\":256,\"iv\":16,\"mode\":\"CBC\",\"type\":\"block\"},\"aes128\":{\"cipher\":\"AES\",\"key\":128,\"iv\":16,\"mode\":\"CBC\",\"type\":\"block\"},\"aes192\":{\"cipher\":\"AES\",\"key\":192,\"iv\":16,\"mode\":\"CBC\",\"type\":\"block\"},\"aes256\":{\"cipher\":\"AES\",\"key\":256,\"iv\":16,\"mode\":\"CBC\",\"type\":\"block\"},\"aes-128-cfb\":{\"cipher\":\"AES\",\"key\":128,\"iv\":16,\"mode\":\"CFB\",\"type\":\"stream\"},\"aes-192-cfb\":{\"cipher\":\"AES\",\"key\":192,\"iv\":16,\"mode\":\"CFB\",\"type\":\"stream\"},\"aes-256-cfb\":{\"cipher\":\"AES\",\"key\":256,\"iv\":16,\"mode\":\"CFB\",\"type\":\"stream\"},\"aes-128-cfb8\":{\"cipher\":\"AES\",\"key\":128,\"iv\":16,\"mode\":\"CFB8\",\"type\":\"stream\"},\"aes-192-cfb8\":{\"cipher\":\"AES\",\"key\":192,\"iv\":16,\"mode\":\"CFB8\",\"type\":\"stream\"},\"aes-256-cfb8\":{\"cipher\":\"AES\",\"key\":256,\"iv\":16,\"mode\":\"CFB8\",\"type\":\"stream\"},\"aes-128-cfb1\":{\"cipher\":\"AES\",\"key\":128,\"iv\":16,\"mode\":\"CFB1\",\"type\":\"stream\"},\"aes-192-cfb1\":{\"cipher\":\"AES\",\"key\":192,\"iv\":16,\"mode\":\"CFB1\",\"type\":\"stream\"},\"aes-256-cfb1\":{\"cipher\":\"AES\",\"key\":256,\"iv\":16,\"mode\":\"CFB1\",\"type\":\"stream\"},\"aes-128-ofb\":{\"cipher\":\"AES\",\"key\":128,\"iv\":16,\"mode\":\"OFB\",\"type\":\"stream\"},\"aes-192-ofb\":{\"cipher\":\"AES\",\"key\":192,\"iv\":16,\"mode\":\"OFB\",\"type\":\"stream\"},\"aes-256-ofb\":{\"cipher\":\"AES\",\"key\":256,\"iv\":16,\"mode\":\"OFB\",\"type\":\"stream\"},\"aes-128-ctr\":{\"cipher\":\"AES\",\"key\":128,\"iv\":16,\"mode\":\"CTR\",\"type\":\"stream\"},\"aes-192-ctr\":{\"cipher\":\"AES\",\"key\":192,\"iv\":16,\"mode\":\"CTR\",\"type\":\"stream\"},\"aes-256-ctr\":{\"cipher\":\"AES\",\"key\":256,\"iv\":16,\"mode\":\"CTR\",\"type\":\"stream\"},\"aes-128-gcm\":{\"cipher\":\"AES\",\"key\":128,\"iv\":12,\"mode\":\"GCM\",\"type\":\"auth\"},\"aes-192-gcm\":{\"cipher\":\"AES\",\"key\":192,\"iv\":12,\"mode\":\"GCM\",\"type\":\"auth\"},\"aes-256-gcm\":{\"cipher\":\"AES\",\"key\":256,\"iv\":12,\"mode\":\"GCM\",\"type\":\"auth\"}}");
 
-},{}],"bzsex":[function(require,module,exports) {
+},{}],"iLNZE":[function(require,module,exports) {
 var aes = require('./aes');
 var Buffer = require('safe-buffer').Buffer;
 var Transform = require('cipher-base');
@@ -16095,7 +15422,7 @@ StreamCipher.prototype.setAAD = function setAAD(buf) {
 };
 module.exports = StreamCipher;
 
-},{"./aes":"imw4A","safe-buffer":"lQQY8","cipher-base":"d6bFJ","inherits":"3o9km","./ghash":"jS98r","buffer-xor":"ebw7U","./incr32":"lRaJp"}],"imw4A":[function(require,module,exports) {
+},{"./aes":"49zsi","safe-buffer":"g3FK1","cipher-base":"dhRVa","inherits":"jPU4o","./ghash":"6VLT1","buffer-xor":"7ptIs","./incr32":"kdgaX"}],"49zsi":[function(require,module,exports) {
 // based on the aes implimentation in triple sec
 // https://github.com/keybase/triplesec
 // which is in turn based on the one from crypto-js
@@ -16287,7 +15614,7 @@ AES.prototype.scrub = function() {
 };
 module.exports.AES = AES;
 
-},{"safe-buffer":"lQQY8"}],"jS98r":[function(require,module,exports) {
+},{"safe-buffer":"g3FK1"}],"6VLT1":[function(require,module,exports) {
 var Buffer = require('safe-buffer').Buffer;
 var ZEROES = Buffer.alloc(16, 0);
 function toArray(buf) {
@@ -16374,7 +15701,7 @@ GHASH.prototype.final = function(abl, bl) {
 };
 module.exports = GHASH;
 
-},{"safe-buffer":"lQQY8"}],"dL1XS":[function(require,module,exports) {
+},{"safe-buffer":"g3FK1"}],"ed0fE":[function(require,module,exports) {
 var aes = require('./aes');
 var Buffer = require('safe-buffer').Buffer;
 var Transform = require('cipher-base');
@@ -16397,7 +15724,7 @@ StreamCipher.prototype._final = function() {
 };
 module.exports = StreamCipher;
 
-},{"./aes":"imw4A","safe-buffer":"lQQY8","cipher-base":"d6bFJ","inherits":"3o9km"}],"60UIC":[function(require,module,exports) {
+},{"./aes":"49zsi","safe-buffer":"g3FK1","cipher-base":"dhRVa","inherits":"jPU4o"}],"fb7DO":[function(require,module,exports) {
 var Buffer = require('safe-buffer').Buffer;
 var MD5 = require('md5.js');
 /* eslint-disable camelcase */ function EVP_BytesToKey(password, salt, keyBits, ivLen) {
@@ -16438,7 +15765,7 @@ var MD5 = require('md5.js');
 }
 module.exports = EVP_BytesToKey;
 
-},{"safe-buffer":"lQQY8","md5.js":"a1iX9"}],"gB6Bv":[function(require,module,exports) {
+},{"safe-buffer":"g3FK1","md5.js":"eE2I9"}],"ty6Ns":[function(require,module,exports) {
 var AuthCipher = require('./authCipher');
 var Buffer = require('safe-buffer').Buffer;
 var MODES = require('./modes');
@@ -16534,7 +15861,7 @@ function createDecipher(suite, password) {
 exports.createDecipher = createDecipher;
 exports.createDecipheriv = createDecipheriv;
 
-},{"./authCipher":"bzsex","safe-buffer":"lQQY8","./modes":"5nsCT","./streamCipher":"dL1XS","cipher-base":"d6bFJ","./aes":"imw4A","evp_bytestokey":"60UIC","inherits":"3o9km"}],"kKdkO":[function(require,module,exports) {
+},{"./authCipher":"iLNZE","safe-buffer":"g3FK1","./modes":"aYxRT","./streamCipher":"ed0fE","cipher-base":"dhRVa","./aes":"49zsi","evp_bytestokey":"fb7DO","inherits":"jPU4o"}],"8WyeC":[function(require,module,exports) {
 exports['des-ecb'] = {
     key: 8,
     iv: 0
@@ -16560,7 +15887,7 @@ exports['des-ede'] = {
     iv: 0
 };
 
-},{}],"ixK64":[function(require,module,exports) {
+},{}],"g2b1n":[function(require,module,exports) {
 var Buffer = require("buffer").Buffer;
 var generatePrime = require('./lib/generatePrime');
 var primes = require('./lib/primes.json');
@@ -16590,7 +15917,7 @@ function createDiffieHellman(prime, enc, generator, genc) {
 exports.DiffieHellmanGroup = exports.createDiffieHellmanGroup = exports.getDiffieHellman = getDiffieHellman;
 exports.createDiffieHellman = exports.DiffieHellman = createDiffieHellman;
 
-},{"buffer":"4pU4x","./lib/generatePrime":"f6Op4","./lib/primes.json":"lf1oo","./lib/dh":"6JHxm"}],"f6Op4":[function(require,module,exports) {
+},{"buffer":"aB81x","./lib/generatePrime":"9L9QD","./lib/primes.json":"ei2m4","./lib/dh":"eXFLx"}],"9L9QD":[function(require,module,exports) {
 var randomBytes = require('randombytes');
 module.exports = findPrime;
 findPrime.simpleSieve = simpleSieve;
@@ -16663,7 +15990,7 @@ function findPrime(bits, gen) {
     }
 }
 
-},{"randombytes":"jwv6z","bn.js":"5gCSH","miller-rabin":"6fnxk"}],"5gCSH":[function(require,module,exports) {
+},{"randombytes":"hcmr4","bn.js":"lAX10","miller-rabin":"fKxG7"}],"lAX10":[function(require,module,exports) {
 (function(module, exports) {
     // Utils
     function assert(val, msg) {
@@ -19362,7 +18689,7 @@ function findPrime(bits, gen) {
     };
 })(typeof module === 'undefined' || module, this);
 
-},{"buffer":"ewjlR"}],"6fnxk":[function(require,module,exports) {
+},{"buffer":"4fgJa"}],"fKxG7":[function(require,module,exports) {
 var bn = require('bn.js');
 var brorand = require('brorand');
 function MillerRabin(rand) {
@@ -19440,7 +18767,7 @@ MillerRabin.prototype.getDivisor = function getDivisor(n, k) {
     return false;
 };
 
-},{"bn.js":"5gCSH","brorand":"eewt8"}],"eewt8":[function(require,module,exports) {
+},{"bn.js":"lAX10","brorand":"fWbBT"}],"fWbBT":[function(require,module,exports) {
 var r;
 module.exports = function rand(len) {
     if (!r) r = new Rand(null);
@@ -19487,10 +18814,10 @@ try {
 } catch (e) {
 }
 
-},{"crypto":"ewjlR"}],"lf1oo":[function(require,module,exports) {
+},{"crypto":"4fgJa"}],"ei2m4":[function(require,module,exports) {
 module.exports = JSON.parse("{\"modp1\":{\"gen\":\"02\",\"prime\":\"ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a63a3620ffffffffffffffff\"},\"modp2\":{\"gen\":\"02\",\"prime\":\"ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a637ed6b0bff5cb6f406b7edee386bfb5a899fa5ae9f24117c4b1fe649286651ece65381ffffffffffffffff\"},\"modp5\":{\"gen\":\"02\",\"prime\":\"ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a637ed6b0bff5cb6f406b7edee386bfb5a899fa5ae9f24117c4b1fe649286651ece45b3dc2007cb8a163bf0598da48361c55d39a69163fa8fd24cf5f83655d23dca3ad961c62f356208552bb9ed529077096966d670c354e4abc9804f1746c08ca237327ffffffffffffffff\"},\"modp14\":{\"gen\":\"02\",\"prime\":\"ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a637ed6b0bff5cb6f406b7edee386bfb5a899fa5ae9f24117c4b1fe649286651ece45b3dc2007cb8a163bf0598da48361c55d39a69163fa8fd24cf5f83655d23dca3ad961c62f356208552bb9ed529077096966d670c354e4abc9804f1746c08ca18217c32905e462e36ce3be39e772c180e86039b2783a2ec07a28fb5c55df06f4c52c9de2bcbf6955817183995497cea956ae515d2261898fa051015728e5a8aacaa68ffffffffffffffff\"},\"modp15\":{\"gen\":\"02\",\"prime\":\"ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a637ed6b0bff5cb6f406b7edee386bfb5a899fa5ae9f24117c4b1fe649286651ece45b3dc2007cb8a163bf0598da48361c55d39a69163fa8fd24cf5f83655d23dca3ad961c62f356208552bb9ed529077096966d670c354e4abc9804f1746c08ca18217c32905e462e36ce3be39e772c180e86039b2783a2ec07a28fb5c55df06f4c52c9de2bcbf6955817183995497cea956ae515d2261898fa051015728e5a8aaac42dad33170d04507a33a85521abdf1cba64ecfb850458dbef0a8aea71575d060c7db3970f85a6e1e4c7abf5ae8cdb0933d71e8c94e04a25619dcee3d2261ad2ee6bf12ffa06d98a0864d87602733ec86a64521f2b18177b200cbbe117577a615d6c770988c0bad946e208e24fa074e5ab3143db5bfce0fd108e4b82d120a93ad2caffffffffffffffff\"},\"modp16\":{\"gen\":\"02\",\"prime\":\"ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a637ed6b0bff5cb6f406b7edee386bfb5a899fa5ae9f24117c4b1fe649286651ece45b3dc2007cb8a163bf0598da48361c55d39a69163fa8fd24cf5f83655d23dca3ad961c62f356208552bb9ed529077096966d670c354e4abc9804f1746c08ca18217c32905e462e36ce3be39e772c180e86039b2783a2ec07a28fb5c55df06f4c52c9de2bcbf6955817183995497cea956ae515d2261898fa051015728e5a8aaac42dad33170d04507a33a85521abdf1cba64ecfb850458dbef0a8aea71575d060c7db3970f85a6e1e4c7abf5ae8cdb0933d71e8c94e04a25619dcee3d2261ad2ee6bf12ffa06d98a0864d87602733ec86a64521f2b18177b200cbbe117577a615d6c770988c0bad946e208e24fa074e5ab3143db5bfce0fd108e4b82d120a92108011a723c12a787e6d788719a10bdba5b2699c327186af4e23c1a946834b6150bda2583e9ca2ad44ce8dbbbc2db04de8ef92e8efc141fbecaa6287c59474e6bc05d99b2964fa090c3a2233ba186515be7ed1f612970cee2d7afb81bdd762170481cd0069127d5b05aa993b4ea988d8fddc186ffb7dc90a6c08f4df435c934063199ffffffffffffffff\"},\"modp17\":{\"gen\":\"02\",\"prime\":\"ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a637ed6b0bff5cb6f406b7edee386bfb5a899fa5ae9f24117c4b1fe649286651ece45b3dc2007cb8a163bf0598da48361c55d39a69163fa8fd24cf5f83655d23dca3ad961c62f356208552bb9ed529077096966d670c354e4abc9804f1746c08ca18217c32905e462e36ce3be39e772c180e86039b2783a2ec07a28fb5c55df06f4c52c9de2bcbf6955817183995497cea956ae515d2261898fa051015728e5a8aaac42dad33170d04507a33a85521abdf1cba64ecfb850458dbef0a8aea71575d060c7db3970f85a6e1e4c7abf5ae8cdb0933d71e8c94e04a25619dcee3d2261ad2ee6bf12ffa06d98a0864d87602733ec86a64521f2b18177b200cbbe117577a615d6c770988c0bad946e208e24fa074e5ab3143db5bfce0fd108e4b82d120a92108011a723c12a787e6d788719a10bdba5b2699c327186af4e23c1a946834b6150bda2583e9ca2ad44ce8dbbbc2db04de8ef92e8efc141fbecaa6287c59474e6bc05d99b2964fa090c3a2233ba186515be7ed1f612970cee2d7afb81bdd762170481cd0069127d5b05aa993b4ea988d8fddc186ffb7dc90a6c08f4df435c93402849236c3fab4d27c7026c1d4dcb2602646dec9751e763dba37bdf8ff9406ad9e530ee5db382f413001aeb06a53ed9027d831179727b0865a8918da3edbebcf9b14ed44ce6cbaced4bb1bdb7f1447e6cc254b332051512bd7af426fb8f401378cd2bf5983ca01c64b92ecf032ea15d1721d03f482d7ce6e74fef6d55e702f46980c82b5a84031900b1c9e59e7c97fbec7e8f323a97a7e36cc88be0f1d45b7ff585ac54bd407b22b4154aacc8f6d7ebf48e1d814cc5ed20f8037e0a79715eef29be32806a1d58bb7c5da76f550aa3d8a1fbff0eb19ccb1a313d55cda56c9ec2ef29632387fe8d76e3c0468043e8f663f4860ee12bf2d5b0b7474d6e694f91e6dcc4024ffffffffffffffff\"},\"modp18\":{\"gen\":\"02\",\"prime\":\"ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a637ed6b0bff5cb6f406b7edee386bfb5a899fa5ae9f24117c4b1fe649286651ece45b3dc2007cb8a163bf0598da48361c55d39a69163fa8fd24cf5f83655d23dca3ad961c62f356208552bb9ed529077096966d670c354e4abc9804f1746c08ca18217c32905e462e36ce3be39e772c180e86039b2783a2ec07a28fb5c55df06f4c52c9de2bcbf6955817183995497cea956ae515d2261898fa051015728e5a8aaac42dad33170d04507a33a85521abdf1cba64ecfb850458dbef0a8aea71575d060c7db3970f85a6e1e4c7abf5ae8cdb0933d71e8c94e04a25619dcee3d2261ad2ee6bf12ffa06d98a0864d87602733ec86a64521f2b18177b200cbbe117577a615d6c770988c0bad946e208e24fa074e5ab3143db5bfce0fd108e4b82d120a92108011a723c12a787e6d788719a10bdba5b2699c327186af4e23c1a946834b6150bda2583e9ca2ad44ce8dbbbc2db04de8ef92e8efc141fbecaa6287c59474e6bc05d99b2964fa090c3a2233ba186515be7ed1f612970cee2d7afb81bdd762170481cd0069127d5b05aa993b4ea988d8fddc186ffb7dc90a6c08f4df435c93402849236c3fab4d27c7026c1d4dcb2602646dec9751e763dba37bdf8ff9406ad9e530ee5db382f413001aeb06a53ed9027d831179727b0865a8918da3edbebcf9b14ed44ce6cbaced4bb1bdb7f1447e6cc254b332051512bd7af426fb8f401378cd2bf5983ca01c64b92ecf032ea15d1721d03f482d7ce6e74fef6d55e702f46980c82b5a84031900b1c9e59e7c97fbec7e8f323a97a7e36cc88be0f1d45b7ff585ac54bd407b22b4154aacc8f6d7ebf48e1d814cc5ed20f8037e0a79715eef29be32806a1d58bb7c5da76f550aa3d8a1fbff0eb19ccb1a313d55cda56c9ec2ef29632387fe8d76e3c0468043e8f663f4860ee12bf2d5b0b7474d6e694f91e6dbe115974a3926f12fee5e438777cb6a932df8cd8bec4d073b931ba3bc832b68d9dd300741fa7bf8afc47ed2576f6936ba424663aab639c5ae4f5683423b4742bf1c978238f16cbe39d652de3fdb8befc848ad922222e04a4037c0713eb57a81a23f0c73473fc646cea306b4bcbc8862f8385ddfa9d4b7fa2c087e879683303ed5bdd3a062b3cf5b3a278a66d2a13f83f44f82ddf310ee074ab6a364597e899a0255dc164f31cc50846851df9ab48195ded7ea1b1d510bd7ee74d73faf36bc31ecfa268359046f4eb879f924009438b481c6cd7889a002ed5ee382bc9190da6fc026e479558e4475677e9aa9e3050e2765694dfc81f56e880b96e7160c980dd98edd3dfffffffffffffffff\"}}");
 
-},{}],"6JHxm":[function(require,module,exports) {
+},{}],"eXFLx":[function(require,module,exports) {
 var Buffer = require("buffer").Buffer;
 var BN = require('bn.js');
 var MillerRabin = require('miller-rabin');
@@ -19622,7 +18949,7 @@ function formatReturnValue(bn, enc) {
     else return buf.toString(enc);
 }
 
-},{"buffer":"4pU4x","bn.js":"5gCSH","miller-rabin":"6fnxk","./generatePrime":"f6Op4","randombytes":"jwv6z"}],"5dQse":[function(require,module,exports) {
+},{"buffer":"aB81x","bn.js":"lAX10","miller-rabin":"fKxG7","./generatePrime":"9L9QD","randombytes":"hcmr4"}],"2A6KC":[function(require,module,exports) {
 var Buffer = require('safe-buffer').Buffer;
 var createHash = require('create-hash');
 var stream = require('readable-stream');
@@ -19696,7 +19023,7 @@ module.exports = {
     createVerify: createVerify
 };
 
-},{"safe-buffer":"lQQY8","create-hash":"2HTm9","readable-stream":"bkUTH","inherits":"3o9km","./sign":"eG4LI","./verify":"50ofT","./algorithms.json":"bR5Zr"}],"eG4LI":[function(require,module,exports) {
+},{"safe-buffer":"g3FK1","create-hash":"4GVZE","readable-stream":"czlaD","inherits":"jPU4o","./sign":"4vrgH","./verify":"bcLdb","./algorithms.json":"eOQe7"}],"4vrgH":[function(require,module,exports) {
 // much of this based on https://github.com/indutny/self-signed/blob/gh-pages/lib/rsa.js
 var Buffer = require('safe-buffer').Buffer;
 var createHmac = require('create-hmac');
@@ -19858,7 +19185,7 @@ module.exports = sign;
 module.exports.getKey = getKey;
 module.exports.makeKey = makeKey;
 
-},{"safe-buffer":"lQQY8","create-hmac":"4sRYd","browserify-rsa":"iUFeG","elliptic":"TsStb","bn.js":"5UOeD","parse-asn1":"jztz2","./curves.json":"9nVzr"}],"iUFeG":[function(require,module,exports) {
+},{"safe-buffer":"g3FK1","create-hmac":"9j9L3","browserify-rsa":"91nZh","elliptic":"bphNB","bn.js":"3QBvS","parse-asn1":"eltbf","./curves.json":"18CJP"}],"91nZh":[function(require,module,exports) {
 var Buffer = require("buffer").Buffer;
 var BN = require('bn.js');
 var randomBytes = require('randombytes');
@@ -19894,7 +19221,7 @@ function crt(msg, priv) {
 crt.getr = getr;
 module.exports = crt;
 
-},{"buffer":"4pU4x","bn.js":"ht919","randombytes":"jwv6z"}],"ht919":[function(require,module,exports) {
+},{"buffer":"aB81x","bn.js":"6xqd3","randombytes":"hcmr4"}],"6xqd3":[function(require,module,exports) {
 (function(module, exports) {
     // Utils
     function assert(val, msg) {
@@ -22658,7 +21985,7 @@ module.exports = crt;
     };
 })(typeof module === 'undefined' || module, this);
 
-},{"buffer":"ewjlR"}],"TsStb":[function(require,module,exports) {
+},{"buffer":"4fgJa"}],"bphNB":[function(require,module,exports) {
 'use strict';
 var elliptic = exports;
 elliptic.version = require('../package.json').version;
@@ -22670,10 +21997,10 @@ elliptic.curves = require('./elliptic/curves');
 elliptic.ec = require('./elliptic/ec');
 elliptic.eddsa = require('./elliptic/eddsa');
 
-},{"../package.json":"dHiej","./elliptic/utils":"inTBj","brorand":"eewt8","./elliptic/curve":"iLTZo","./elliptic/curves":"1F2Eu","./elliptic/ec":"3fSLD","./elliptic/eddsa":"8halk"}],"dHiej":[function(require,module,exports) {
+},{"../package.json":"k2uqg","./elliptic/utils":"4c7jf","brorand":"fWbBT","./elliptic/curve":"1XDL8","./elliptic/curves":"b5gqC","./elliptic/ec":"eSRui","./elliptic/eddsa":"aPs8g"}],"k2uqg":[function(require,module,exports) {
 module.exports = JSON.parse("{\"name\":\"elliptic\",\"version\":\"6.5.4\",\"description\":\"EC cryptography\",\"main\":\"lib/elliptic.js\",\"files\":[\"lib\"],\"scripts\":{\"lint\":\"eslint lib test\",\"lint:fix\":\"npm run lint -- --fix\",\"unit\":\"istanbul test _mocha --reporter=spec test/index.js\",\"test\":\"npm run lint && npm run unit\",\"version\":\"grunt dist && git add dist/\"},\"repository\":{\"type\":\"git\",\"url\":\"git@github.com:indutny/elliptic\"},\"keywords\":[\"EC\",\"Elliptic\",\"curve\",\"Cryptography\"],\"author\":\"Fedor Indutny <fedor@indutny.com>\",\"license\":\"MIT\",\"bugs\":{\"url\":\"https://github.com/indutny/elliptic/issues\"},\"homepage\":\"https://github.com/indutny/elliptic\",\"devDependencies\":{\"brfs\":\"^2.0.2\",\"coveralls\":\"^3.1.0\",\"eslint\":\"^7.6.0\",\"grunt\":\"^1.2.1\",\"grunt-browserify\":\"^5.3.0\",\"grunt-cli\":\"^1.3.2\",\"grunt-contrib-connect\":\"^3.0.0\",\"grunt-contrib-copy\":\"^1.0.0\",\"grunt-contrib-uglify\":\"^5.0.0\",\"grunt-mocha-istanbul\":\"^5.0.2\",\"grunt-saucelabs\":\"^9.0.1\",\"istanbul\":\"^0.4.5\",\"mocha\":\"^8.0.1\"},\"dependencies\":{\"bn.js\":\"^4.11.9\",\"brorand\":\"^1.1.0\",\"hash.js\":\"^1.0.0\",\"hmac-drbg\":\"^1.0.1\",\"inherits\":\"^2.0.4\",\"minimalistic-assert\":\"^1.0.1\",\"minimalistic-crypto-utils\":\"^1.0.1\"}}");
 
-},{}],"inTBj":[function(require,module,exports) {
+},{}],"4c7jf":[function(require,module,exports) {
 'use strict';
 var utils = exports;
 var BN = require('bn.js');
@@ -22762,7 +22089,7 @@ function intFromLE(bytes) {
 }
 utils.intFromLE = intFromLE;
 
-},{"bn.js":"5gCSH","minimalistic-assert":"g8xZT","minimalistic-crypto-utils":"6YrDA"}],"6YrDA":[function(require,module,exports) {
+},{"bn.js":"lAX10","minimalistic-assert":"jja1w","minimalistic-crypto-utils":"jbuQh"}],"jbuQh":[function(require,module,exports) {
 'use strict';
 var utils = exports;
 function toArray(msg, enc) {
@@ -22803,7 +22130,7 @@ utils.encode = function encode(arr, enc) {
     else return arr;
 };
 
-},{}],"iLTZo":[function(require,module,exports) {
+},{}],"1XDL8":[function(require,module,exports) {
 'use strict';
 var curve = exports;
 curve.base = require('./base');
@@ -22811,7 +22138,7 @@ curve.short = require('./short');
 curve.mont = require('./mont');
 curve.edwards = require('./edwards');
 
-},{"./base":"fAjXP","./short":"fNL3n","./mont":"ekIGD","./edwards":"kSIum"}],"fAjXP":[function(require,module,exports) {
+},{"./base":"lks55","./short":"bYrX7","./mont":"cwQBH","./edwards":"dyW5J"}],"lks55":[function(require,module,exports) {
 'use strict';
 var BN = require('bn.js');
 var utils = require('../utils');
@@ -23099,7 +22426,7 @@ BasePoint.prototype.dblp = function dblp(k) {
     return r;
 };
 
-},{"bn.js":"5gCSH","../utils":"inTBj"}],"fNL3n":[function(require,module,exports) {
+},{"bn.js":"lAX10","../utils":"4c7jf"}],"bYrX7":[function(require,module,exports) {
 'use strict';
 var utils = require('../utils');
 var BN = require('bn.js');
@@ -23868,7 +23195,7 @@ JPoint.prototype.isInfinity = function isInfinity() {
     return this.z.cmpn(0) === 0;
 };
 
-},{"../utils":"inTBj","bn.js":"5gCSH","inherits":"3o9km","./base":"fAjXP"}],"ekIGD":[function(require,module,exports) {
+},{"../utils":"4c7jf","bn.js":"lAX10","inherits":"jPU4o","./base":"lks55"}],"cwQBH":[function(require,module,exports) {
 'use strict';
 var BN = require('bn.js');
 var inherits = require('inherits');
@@ -24012,7 +23339,7 @@ Point.prototype.getX = function getX() {
     return this.x.fromRed();
 };
 
-},{"bn.js":"5gCSH","inherits":"3o9km","./base":"fAjXP","../utils":"inTBj"}],"kSIum":[function(require,module,exports) {
+},{"bn.js":"lAX10","inherits":"jPU4o","./base":"lks55","../utils":"4c7jf"}],"dyW5J":[function(require,module,exports) {
 'use strict';
 var utils = require('../utils');
 var BN = require('bn.js');
@@ -24362,7 +23689,7 @@ Point.prototype.eqXToP = function eqXToP(x) {
 Point.prototype.toP = Point.prototype.normalize;
 Point.prototype.mixedAdd = Point.prototype.add;
 
-},{"../utils":"inTBj","bn.js":"5gCSH","inherits":"3o9km","./base":"fAjXP"}],"1F2Eu":[function(require,module,exports) {
+},{"../utils":"4c7jf","bn.js":"lAX10","inherits":"jPU4o","./base":"lks55"}],"b5gqC":[function(require,module,exports) {
 'use strict';
 var curves = exports;
 var hash = require('hash.js');
@@ -24531,7 +23858,7 @@ defineCurve('secp256k1', {
     ]
 });
 
-},{"hash.js":"2B3Sm","./curve":"iLTZo","./utils":"inTBj","./precomputed/secp256k1":"iyorM"}],"2B3Sm":[function(require,module,exports) {
+},{"hash.js":"fgiA0","./curve":"1XDL8","./utils":"4c7jf","./precomputed/secp256k1":"ketzK"}],"fgiA0":[function(require,module,exports) {
 var hash = exports;
 hash.utils = require('./hash/utils');
 hash.common = require('./hash/common');
@@ -24546,7 +23873,7 @@ hash.sha384 = hash.sha.sha384;
 hash.sha512 = hash.sha.sha512;
 hash.ripemd160 = hash.ripemd.ripemd160;
 
-},{"./hash/utils":"2Ubyi","./hash/common":"9B0up","./hash/sha":"6PKhW","./hash/ripemd":"eJo48","./hash/hmac":"1pXaK"}],"2Ubyi":[function(require,module,exports) {
+},{"./hash/utils":"lzF4l","./hash/common":"iLEt0","./hash/sha":"dmmou","./hash/ripemd":"iszA4","./hash/hmac":"eTTRI"}],"lzF4l":[function(require,module,exports) {
 'use strict';
 var assert = require('minimalistic-assert');
 var inherits = require('inherits');
@@ -24765,7 +24092,7 @@ function shr64_lo(ah, al, num) {
 }
 exports.shr64_lo = shr64_lo;
 
-},{"minimalistic-assert":"g8xZT","inherits":"3o9km"}],"9B0up":[function(require,module,exports) {
+},{"minimalistic-assert":"jja1w","inherits":"jPU4o"}],"iLEt0":[function(require,module,exports) {
 'use strict';
 var utils = require('./utils');
 var assert = require('minimalistic-assert');
@@ -24837,7 +24164,7 @@ BlockHash.prototype._pad = function pad() {
     return res;
 };
 
-},{"./utils":"2Ubyi","minimalistic-assert":"g8xZT"}],"6PKhW":[function(require,module,exports) {
+},{"./utils":"lzF4l","minimalistic-assert":"jja1w"}],"dmmou":[function(require,module,exports) {
 'use strict';
 exports.sha1 = require('./sha/1');
 exports.sha224 = require('./sha/224');
@@ -24845,7 +24172,7 @@ exports.sha256 = require('./sha/256');
 exports.sha384 = require('./sha/384');
 exports.sha512 = require('./sha/512');
 
-},{"./sha/1":"7ao78","./sha/224":"giYD5","./sha/256":"dkeVG","./sha/384":"89nAs","./sha/512":"EMnk9"}],"7ao78":[function(require,module,exports) {
+},{"./sha/1":"9ObXh","./sha/224":"coe5L","./sha/256":"gLyPT","./sha/384":"dqIfC","./sha/512":"hGtD0"}],"9ObXh":[function(require,module,exports) {
 'use strict';
 var utils = require('../utils');
 var common = require('../common');
@@ -24908,7 +24235,7 @@ SHA1.prototype._digest = function digest(enc) {
     else return utils.split32(this.h, 'big');
 };
 
-},{"../utils":"2Ubyi","../common":"9B0up","./common":"hpNpu"}],"hpNpu":[function(require,module,exports) {
+},{"../utils":"lzF4l","../common":"iLEt0","./common":"1exAd"}],"1exAd":[function(require,module,exports) {
 'use strict';
 var utils = require('../utils');
 var rotr32 = utils.rotr32;
@@ -24947,7 +24274,7 @@ function g1_256(x) {
 }
 exports.g1_256 = g1_256;
 
-},{"../utils":"2Ubyi"}],"giYD5":[function(require,module,exports) {
+},{"../utils":"lzF4l"}],"coe5L":[function(require,module,exports) {
 'use strict';
 var utils = require('../utils');
 var SHA256 = require('./256');
@@ -24977,7 +24304,7 @@ SHA224.prototype._digest = function digest(enc) {
     else return utils.split32(this.h.slice(0, 7), 'big');
 };
 
-},{"../utils":"2Ubyi","./256":"dkeVG"}],"dkeVG":[function(require,module,exports) {
+},{"../utils":"lzF4l","./256":"gLyPT"}],"gLyPT":[function(require,module,exports) {
 'use strict';
 var utils = require('../utils');
 var common = require('../common');
@@ -25120,7 +24447,7 @@ SHA256.prototype._digest = function digest(enc) {
     else return utils.split32(this.h, 'big');
 };
 
-},{"../utils":"2Ubyi","../common":"9B0up","./common":"hpNpu","minimalistic-assert":"g8xZT"}],"89nAs":[function(require,module,exports) {
+},{"../utils":"lzF4l","../common":"iLEt0","./common":"1exAd","minimalistic-assert":"jja1w"}],"dqIfC":[function(require,module,exports) {
 'use strict';
 var utils = require('../utils');
 var SHA512 = require('./512');
@@ -25157,7 +24484,7 @@ SHA384.prototype._digest = function digest(enc) {
     else return utils.split32(this.h.slice(0, 12), 'big');
 };
 
-},{"../utils":"2Ubyi","./512":"EMnk9"}],"EMnk9":[function(require,module,exports) {
+},{"../utils":"lzF4l","./512":"hGtD0"}],"hGtD0":[function(require,module,exports) {
 'use strict';
 var utils = require('../utils');
 var common = require('../common');
@@ -25537,7 +24864,7 @@ function g1_512_lo(xh, xl) {
     return r;
 }
 
-},{"../utils":"2Ubyi","../common":"9B0up","minimalistic-assert":"g8xZT"}],"eJo48":[function(require,module,exports) {
+},{"../utils":"lzF4l","../common":"iLEt0","minimalistic-assert":"jja1w"}],"iszA4":[function(require,module,exports) {
 'use strict';
 var utils = require('./utils');
 var common = require('./common');
@@ -25950,7 +25277,7 @@ var sh = [
     11
 ];
 
-},{"./utils":"2Ubyi","./common":"9B0up"}],"1pXaK":[function(require,module,exports) {
+},{"./utils":"lzF4l","./common":"iLEt0"}],"eTTRI":[function(require,module,exports) {
 'use strict';
 var utils = require('./utils');
 var assert = require('minimalistic-assert');
@@ -25985,7 +25312,7 @@ Hmac.prototype.digest = function digest(enc) {
     return this.outer.digest(enc);
 };
 
-},{"./utils":"2Ubyi","minimalistic-assert":"g8xZT"}],"iyorM":[function(require,module,exports) {
+},{"./utils":"lzF4l","minimalistic-assert":"jja1w"}],"ketzK":[function(require,module,exports) {
 module.exports = {
     doubles: {
         step: 4,
@@ -26767,7 +26094,7 @@ module.exports = {
     }
 };
 
-},{}],"3fSLD":[function(require,module,exports) {
+},{}],"eSRui":[function(require,module,exports) {
 'use strict';
 var BN = require('bn.js');
 var HmacDRBG = require('hmac-drbg');
@@ -26948,7 +26275,7 @@ EC.prototype.getKeyRecoveryParam = function(e, signature, Q, enc) {
     throw new Error('Unable to find valid recovery factor');
 };
 
-},{"bn.js":"5gCSH","hmac-drbg":"g8IfJ","../utils":"inTBj","../curves":"1F2Eu","brorand":"eewt8","./key":"8J6ar","./signature":"gMlia"}],"g8IfJ":[function(require,module,exports) {
+},{"bn.js":"lAX10","hmac-drbg":"d3nB2","../utils":"4c7jf","../curves":"b5gqC","brorand":"fWbBT","./key":"grA25","./signature":"eHRbn"}],"d3nB2":[function(require,module,exports) {
 'use strict';
 var hash = require('hash.js');
 var utils = require('minimalistic-crypto-utils');
@@ -27035,7 +26362,7 @@ HmacDRBG.prototype.generate = function generate(len, enc, add, addEnc) {
     return utils.encode(res, enc);
 };
 
-},{"hash.js":"2B3Sm","minimalistic-crypto-utils":"6YrDA","minimalistic-assert":"g8xZT"}],"8J6ar":[function(require,module,exports) {
+},{"hash.js":"fgiA0","minimalistic-crypto-utils":"jbuQh","minimalistic-assert":"jja1w"}],"grA25":[function(require,module,exports) {
 'use strict';
 var BN = require('bn.js');
 var utils = require('../utils');
@@ -27130,7 +26457,7 @@ KeyPair.prototype.inspect = function inspect() {
     return '<Key priv: ' + (this.priv && this.priv.toString(16, 2)) + ' pub: ' + (this.pub && this.pub.inspect()) + ' >';
 };
 
-},{"bn.js":"5gCSH","../utils":"inTBj"}],"gMlia":[function(require,module,exports) {
+},{"bn.js":"lAX10","../utils":"4c7jf"}],"eHRbn":[function(require,module,exports) {
 'use strict';
 var BN = require('bn.js');
 var utils = require('../utils');
@@ -27244,7 +26571,7 @@ Signature.prototype.toDER = function toDER(enc) {
     return utils.encode(res, enc);
 };
 
-},{"bn.js":"5gCSH","../utils":"inTBj"}],"8halk":[function(require,module,exports) {
+},{"bn.js":"lAX10","../utils":"4c7jf"}],"aPs8g":[function(require,module,exports) {
 'use strict';
 var hash1 = require('hash.js');
 var curves = require('../curves');
@@ -27342,7 +26669,7 @@ EDDSA.prototype.isPoint = function isPoint(val) {
     return val instanceof this.pointClass;
 };
 
-},{"hash.js":"2B3Sm","../curves":"1F2Eu","../utils":"inTBj","./key":"3V50d","./signature":"iehWr"}],"3V50d":[function(require,module,exports) {
+},{"hash.js":"fgiA0","../curves":"b5gqC","../utils":"4c7jf","./key":"bxqj2","./signature":"lSaLw"}],"bxqj2":[function(require,module,exports) {
 'use strict';
 var utils = require('../utils');
 var assert = utils.assert;
@@ -27419,7 +26746,7 @@ KeyPair.prototype.getPublic = function getPublic(enc) {
 };
 module.exports = KeyPair;
 
-},{"../utils":"inTBj"}],"iehWr":[function(require,module,exports) {
+},{"../utils":"4c7jf"}],"lSaLw":[function(require,module,exports) {
 'use strict';
 var BN = require('bn.js');
 var utils = require('../utils');
@@ -27466,7 +26793,7 @@ Signature.prototype.toHex = function toHex() {
 };
 module.exports = Signature;
 
-},{"bn.js":"5gCSH","../utils":"inTBj"}],"5UOeD":[function(require,module,exports) {
+},{"bn.js":"lAX10","../utils":"4c7jf"}],"3QBvS":[function(require,module,exports) {
 (function(module, exports) {
     // Utils
     function assert(val, msg) {
@@ -30230,7 +29557,7 @@ module.exports = Signature;
     };
 })(typeof module === 'undefined' || module, this);
 
-},{"buffer":"ewjlR"}],"jztz2":[function(require,module,exports) {
+},{"buffer":"4fgJa"}],"eltbf":[function(require,module,exports) {
 var asn1 = require('./asn1');
 var aesid = require('./aesid.json');
 var fixProc = require('./fixProc');
@@ -30335,7 +29662,7 @@ function decrypt(data, password) {
     return Buffer.concat(out);
 }
 
-},{"./asn1":"7DJeN","./aesid.json":"9jMdJ","./fixProc":"dU8Fq","browserify-aes":"6gsfD","pbkdf2":"4CKda","safe-buffer":"lQQY8"}],"7DJeN":[function(require,module,exports) {
+},{"./asn1":"8SEEm","./aesid.json":"kvW5N","./fixProc":"d4Xsw","browserify-aes":"FfV7w","pbkdf2":"9OMAW","safe-buffer":"g3FK1"}],"8SEEm":[function(require,module,exports) {
 // from https://github.com/indutny/self-signed/blob/gh-pages/lib/asn1.js
 // Fedor, you are amazing.
 'use strict';
@@ -30384,7 +29711,7 @@ exports.signature = asn1.define('signature', function() {
     this.seq().obj(this.key('r').int(), this.key('s').int());
 });
 
-},{"asn1.js":"2ai5I","./certificate":"79lsq"}],"2ai5I":[function(require,module,exports) {
+},{"asn1.js":"6slNO","./certificate":"3YXz4"}],"6slNO":[function(require,module,exports) {
 'use strict';
 const asn1 = exports;
 asn1.bignum = require('bn.js');
@@ -30394,7 +29721,7 @@ asn1.constants = require('./asn1/constants');
 asn1.decoders = require('./asn1/decoders');
 asn1.encoders = require('./asn1/encoders');
 
-},{"bn.js":"5gCSH","./asn1/api":"9PMfw","./asn1/base":"dveWx","./asn1/constants":"dGTkr","./asn1/decoders":"4CJir","./asn1/encoders":"bzecM"}],"9PMfw":[function(require,module,exports) {
+},{"bn.js":"lAX10","./asn1/api":"3aSlp","./asn1/base":"9Gati","./asn1/constants":"btARH","./asn1/decoders":"267kX","./asn1/encoders":"fcIB9"}],"3aSlp":[function(require,module,exports) {
 'use strict';
 const encoders = require('./encoders');
 const decoders = require('./decoders');
@@ -30441,13 +29768,13 @@ Entity.prototype.encode = function encode(data, enc, /* internal */ reporter) {
     return this._getEncoder(enc).encode(data, reporter);
 };
 
-},{"./encoders":"bzecM","./decoders":"4CJir","inherits":"3o9km"}],"bzecM":[function(require,module,exports) {
+},{"./encoders":"fcIB9","./decoders":"267kX","inherits":"jPU4o"}],"fcIB9":[function(require,module,exports) {
 'use strict';
 const encoders = exports;
 encoders.der = require('./der');
 encoders.pem = require('./pem');
 
-},{"./der":"74SeK","./pem":"7mboS"}],"74SeK":[function(require,module,exports) {
+},{"./der":"eb9PA","./pem":"4kII1"}],"eb9PA":[function(require,module,exports) {
 'use strict';
 const inherits = require('inherits');
 const Buffer = require('safer-buffer').Buffer;
@@ -30642,7 +29969,7 @@ function encodeTag(tag, primitive, cls, reporter) {
     return res;
 }
 
-},{"inherits":"3o9km","safer-buffer":"2ples","../base/node":"i3h8I","../constants/der":"jANIF"}],"2ples":[function(require,module,exports) {
+},{"inherits":"jPU4o","safer-buffer":"5Pmop","../base/node":"9qRx0","../constants/der":"7w4sR"}],"5Pmop":[function(require,module,exports) {
 var process = require("process");
 /* eslint-disable node/no-deprecated-api */ 'use strict';
 var buffer = require('buffer');
@@ -30691,7 +30018,7 @@ if (!safer.constants) {
 }
 module.exports = safer;
 
-},{"process":"djbKH","buffer":"4pU4x"}],"i3h8I":[function(require,module,exports) {
+},{"process":"kbSAY","buffer":"aB81x"}],"9qRx0":[function(require,module,exports) {
 'use strict';
 const Reporter = require('../base/reporter').Reporter;
 const EncoderBuffer = require('../base/buffer').EncoderBuffer;
@@ -31190,7 +30517,7 @@ Node.prototype._isPrintstr = function isPrintstr(str) {
     return /^[A-Za-z0-9 '()+,-./:=?]*$/.test(str);
 };
 
-},{"../base/reporter":"63LPT","../base/buffer":"1qHMZ","minimalistic-assert":"g8xZT"}],"63LPT":[function(require,module,exports) {
+},{"../base/reporter":"bmNNp","../base/buffer":"9zzSX","minimalistic-assert":"jja1w"}],"bmNNp":[function(require,module,exports) {
 'use strict';
 const inherits = require('inherits');
 function Reporter(options) {
@@ -31283,7 +30610,7 @@ ReporterError.prototype.rethrow = function rethrow(msg) {
     return this;
 };
 
-},{"inherits":"3o9km"}],"1qHMZ":[function(require,module,exports) {
+},{"inherits":"jPU4o"}],"9zzSX":[function(require,module,exports) {
 'use strict';
 const inherits = require('inherits');
 const Reporter = require('../base/reporter').Reporter;
@@ -31385,7 +30712,7 @@ EncoderBuffer.prototype.join = function join(out, offset) {
     return out;
 };
 
-},{"inherits":"3o9km","../base/reporter":"63LPT","safer-buffer":"2ples"}],"jANIF":[function(require,module,exports) {
+},{"inherits":"jPU4o","../base/reporter":"bmNNp","safer-buffer":"5Pmop"}],"7w4sR":[function(require,module,exports) {
 'use strict';
 // Helper
 function reverse(map) {
@@ -31439,7 +30766,7 @@ exports.tag = {
 };
 exports.tagByName = reverse(exports.tag);
 
-},{}],"7mboS":[function(require,module,exports) {
+},{}],"4kII1":[function(require,module,exports) {
 'use strict';
 const inherits = require('inherits');
 const DEREncoder = require('./der');
@@ -31460,13 +30787,13 @@ PEMEncoder.prototype.encode = function encode(data, options) {
     return out.join('\n');
 };
 
-},{"inherits":"3o9km","./der":"74SeK"}],"4CJir":[function(require,module,exports) {
+},{"inherits":"jPU4o","./der":"eb9PA"}],"267kX":[function(require,module,exports) {
 'use strict';
 const decoders = exports;
 decoders.der = require('./der');
 decoders.pem = require('./pem');
 
-},{"./der":"2mWVk","./pem":"crB1u"}],"2mWVk":[function(require,module,exports) {
+},{"./der":"49lzs","./pem":"fBBhw"}],"49lzs":[function(require,module,exports) {
 'use strict';
 const inherits = require('inherits');
 const bignum = require('bn.js');
@@ -31689,7 +31016,7 @@ function derDecodeLen(buf, primitive, fail) {
     return len;
 }
 
-},{"inherits":"3o9km","bn.js":"5gCSH","../base/buffer":"1qHMZ","../base/node":"i3h8I","../constants/der":"jANIF"}],"crB1u":[function(require,module,exports) {
+},{"inherits":"jPU4o","bn.js":"lAX10","../base/buffer":"9zzSX","../base/node":"9qRx0","../constants/der":"7w4sR"}],"fBBhw":[function(require,module,exports) {
 'use strict';
 const inherits = require('inherits');
 const Buffer = require('safer-buffer').Buffer;
@@ -31727,7 +31054,7 @@ PEMDecoder.prototype.decode = function decode(data, options) {
     return DERDecoder.prototype.decode.call(this, input, options);
 };
 
-},{"inherits":"3o9km","safer-buffer":"2ples","./der":"2mWVk"}],"dveWx":[function(require,module,exports) {
+},{"inherits":"jPU4o","safer-buffer":"5Pmop","./der":"49lzs"}],"9Gati":[function(require,module,exports) {
 'use strict';
 const base = exports;
 base.Reporter = require('./reporter').Reporter;
@@ -31735,7 +31062,7 @@ base.DecoderBuffer = require('./buffer').DecoderBuffer;
 base.EncoderBuffer = require('./buffer').EncoderBuffer;
 base.Node = require('./node');
 
-},{"./reporter":"63LPT","./buffer":"1qHMZ","./node":"i3h8I"}],"dGTkr":[function(require,module,exports) {
+},{"./reporter":"bmNNp","./buffer":"9zzSX","./node":"9qRx0"}],"btARH":[function(require,module,exports) {
 'use strict';
 const constants = exports;
 // Helper
@@ -31752,7 +31079,7 @@ constants._reverse = function reverse(map) {
 };
 constants.der = require('./der');
 
-},{"./der":"jANIF"}],"79lsq":[function(require,module,exports) {
+},{"./der":"7w4sR"}],"3YXz4":[function(require,module,exports) {
 // from https://github.com/Rantanen/node-dtls/blob/25a7dc861bda38cfeac93a723500eea4f0ac2e86/Certificate.js
 // thanks to @Rantanen
 'use strict';
@@ -31797,10 +31124,10 @@ var X509Certificate = asn.define('X509Certificate', function() {
 });
 module.exports = X509Certificate;
 
-},{"asn1.js":"2ai5I"}],"9jMdJ":[function(require,module,exports) {
+},{"asn1.js":"6slNO"}],"kvW5N":[function(require,module,exports) {
 module.exports = JSON.parse("{\"2.16.840.1.101.3.4.1.1\":\"aes-128-ecb\",\"2.16.840.1.101.3.4.1.2\":\"aes-128-cbc\",\"2.16.840.1.101.3.4.1.3\":\"aes-128-ofb\",\"2.16.840.1.101.3.4.1.4\":\"aes-128-cfb\",\"2.16.840.1.101.3.4.1.21\":\"aes-192-ecb\",\"2.16.840.1.101.3.4.1.22\":\"aes-192-cbc\",\"2.16.840.1.101.3.4.1.23\":\"aes-192-ofb\",\"2.16.840.1.101.3.4.1.24\":\"aes-192-cfb\",\"2.16.840.1.101.3.4.1.41\":\"aes-256-ecb\",\"2.16.840.1.101.3.4.1.42\":\"aes-256-cbc\",\"2.16.840.1.101.3.4.1.43\":\"aes-256-ofb\",\"2.16.840.1.101.3.4.1.44\":\"aes-256-cfb\"}");
 
-},{}],"dU8Fq":[function(require,module,exports) {
+},{}],"d4Xsw":[function(require,module,exports) {
 // adapted from https://github.com/apatil/pemstrip
 var findProc = /Proc-Type: 4,ENCRYPTED[\n\r]+DEK-Info: AES-((?:128)|(?:192)|(?:256))-CBC,([0-9A-H]+)[\n\r]+([0-9A-z\n\r+/=]+)[\n\r]+/m;
 var startRegex = /^-----BEGIN ((?:.*? KEY)|CERTIFICATE)-----/m;
@@ -31833,10 +31160,10 @@ module.exports = function(okey, password) {
     };
 };
 
-},{"evp_bytestokey":"60UIC","browserify-aes":"6gsfD","safe-buffer":"lQQY8"}],"9nVzr":[function(require,module,exports) {
+},{"evp_bytestokey":"fb7DO","browserify-aes":"FfV7w","safe-buffer":"g3FK1"}],"18CJP":[function(require,module,exports) {
 module.exports = JSON.parse("{\"1.3.132.0.10\":\"secp256k1\",\"1.3.132.0.33\":\"p224\",\"1.2.840.10045.3.1.1\":\"p192\",\"1.2.840.10045.3.1.7\":\"p256\",\"1.3.132.0.34\":\"p384\",\"1.3.132.0.35\":\"p521\"}");
 
-},{}],"50ofT":[function(require,module,exports) {
+},{}],"bcLdb":[function(require,module,exports) {
 // much of this based on https://github.com/indutny/self-signed/blob/gh-pages/lib/rsa.js
 var Buffer = require('safe-buffer').Buffer;
 var BN = require('bn.js');
@@ -31911,7 +31238,7 @@ function checkValue(b, q) {
 }
 module.exports = verify;
 
-},{"safe-buffer":"lQQY8","bn.js":"5UOeD","elliptic":"TsStb","parse-asn1":"jztz2","./curves.json":"9nVzr"}],"cFK0T":[function(require,module,exports) {
+},{"safe-buffer":"g3FK1","bn.js":"3QBvS","elliptic":"bphNB","parse-asn1":"eltbf","./curves.json":"18CJP"}],"dFm1s":[function(require,module,exports) {
 var Buffer = require("buffer").Buffer;
 var elliptic = require('elliptic');
 var BN = require('bn.js');
@@ -32014,7 +31341,7 @@ function formatReturnValue(bn, enc, len) {
     else return buf.toString(enc);
 }
 
-},{"buffer":"4pU4x","elliptic":"TsStb","bn.js":"5gCSH"}],"3bQFj":[function(require,module,exports) {
+},{"buffer":"aB81x","elliptic":"bphNB","bn.js":"lAX10"}],"hrPM1":[function(require,module,exports) {
 exports.publicEncrypt = require('./publicEncrypt');
 exports.privateDecrypt = require('./privateDecrypt');
 exports.privateEncrypt = function privateEncrypt(key, buf) {
@@ -32024,7 +31351,7 @@ exports.publicDecrypt = function publicDecrypt(key, buf) {
     return exports.privateDecrypt(key, buf, true);
 };
 
-},{"./publicEncrypt":"jpAGd","./privateDecrypt":"cSAEj"}],"jpAGd":[function(require,module,exports) {
+},{"./publicEncrypt":"e6ZSi","./privateDecrypt":"11tqv"}],"e6ZSi":[function(require,module,exports) {
 var parseKeys = require('parse-asn1');
 var randomBytes = require('randombytes');
 var createHash = require('create-hash');
@@ -32107,7 +31434,7 @@ function nonZero(len) {
     return out;
 }
 
-},{"parse-asn1":"jztz2","randombytes":"jwv6z","create-hash":"2HTm9","./mgf":"bBY7Y","./xor":"7Iohx","bn.js":"5gCSH","./withPublic":"Zzt18","browserify-rsa":"iUFeG","safe-buffer":"lQQY8"}],"bBY7Y":[function(require,module,exports) {
+},{"parse-asn1":"eltbf","randombytes":"hcmr4","create-hash":"4GVZE","./mgf":"8Reus","./xor":"5fro4","bn.js":"lAX10","./withPublic":"9hQzd","browserify-rsa":"91nZh","safe-buffer":"g3FK1"}],"8Reus":[function(require,module,exports) {
 var createHash = require('create-hash');
 var Buffer = require('safe-buffer').Buffer;
 module.exports = function(seed, len) {
@@ -32129,7 +31456,7 @@ function i2ops(c) {
     return out;
 }
 
-},{"create-hash":"2HTm9","safe-buffer":"lQQY8"}],"7Iohx":[function(require,module,exports) {
+},{"create-hash":"4GVZE","safe-buffer":"g3FK1"}],"5fro4":[function(require,module,exports) {
 module.exports = function xor(a, b) {
     var len = a.length;
     var i = -1;
@@ -32137,7 +31464,7 @@ module.exports = function xor(a, b) {
     return a;
 };
 
-},{}],"Zzt18":[function(require,module,exports) {
+},{}],"9hQzd":[function(require,module,exports) {
 var BN = require('bn.js');
 var Buffer = require('safe-buffer').Buffer;
 function withPublic(paddedMsg, key) {
@@ -32145,7 +31472,7 @@ function withPublic(paddedMsg, key) {
 }
 module.exports = withPublic;
 
-},{"bn.js":"5gCSH","safe-buffer":"lQQY8"}],"cSAEj":[function(require,module,exports) {
+},{"bn.js":"lAX10","safe-buffer":"g3FK1"}],"11tqv":[function(require,module,exports) {
 var parseKeys = require('parse-asn1');
 var mgf = require('./mgf');
 var xor = require('./xor');
@@ -32218,9 +31545,9 @@ function compare(a, b) {
     return dif;
 }
 
-},{"parse-asn1":"jztz2","./mgf":"bBY7Y","./xor":"7Iohx","bn.js":"5gCSH","browserify-rsa":"iUFeG","create-hash":"2HTm9","./withPublic":"Zzt18","safe-buffer":"lQQY8"}],"2dbcf":[function(require,module,exports) {
-var process = require("process");
+},{"parse-asn1":"eltbf","./mgf":"8Reus","./xor":"5fro4","bn.js":"lAX10","browserify-rsa":"91nZh","create-hash":"4GVZE","./withPublic":"9hQzd","safe-buffer":"g3FK1"}],"h7Nvi":[function(require,module,exports) {
 var global = arguments[3];
+var process = require("process");
 'use strict';
 function oldBrowser() {
     throw new Error('secure random number generation not supported by this browser\nuse chrome, FireFox or Internet Explorer 11');
@@ -32294,7 +31621,37 @@ function randomFillSync(buf, offset, size) {
     return actualFill(buf, offset, size);
 }
 
-},{"process":"djbKH","safe-buffer":"lQQY8","randombytes":"jwv6z"}],"bfFtc":[function(require,module,exports) {
+},{"process":"kbSAY","safe-buffer":"g3FK1","randombytes":"hcmr4"}],"1megf":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, '__esModule', {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === 'default' || key === '__esModule' || dest.hasOwnProperty(key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"7mFKP":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 exports.default = [
@@ -58272,7 +57629,620 @@ exports.default = [
     112, 
 ];
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"8FsVl"}],"7PMky":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"1megf"}],"3cVmc":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _idbfsMjs = require("./IDBFS.mjs");
+var _workerfsMjs = require("./WORKERFS.mjs");
+exports.default = {
+    IDBFS: _idbfsMjs.IDBFS,
+    WORKERFS: _workerfsMjs.WORKERFS
+};
+
+},{"./IDBFS.mjs":"d50sj","./WORKERFS.mjs":"6IO5p","@parcel/transformer-js/src/esmodule-helpers.js":"1megf"}],"d50sj":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "IDBFS", ()=>IDBFS
+);
+let IDBFS = (object)=>{
+    return new Promise(async (resolve1, reject)=>{
+        let idbfs = {
+            fs: {
+                load: ()=>{
+                    return new Promise(async (resolve, reject)=>{
+                        object.fs.idbfs.syncfs(true, (e)=>{
+                            if (e) {
+                                console.error('error', e);
+                                resolve(false);
+                            } else {
+                                console.log('fs is loaded');
+                                resolve(true);
+                            }
+                        });
+                    });
+                },
+                save: ()=>{
+                    return new Promise(async (resolve, reject)=>{
+                        object.fs.idbfs.syncfs(false, (err)=>{
+                            if (err) resolve({
+                                status: "false",
+                                success: false,
+                                message: err
+                            });
+                            else {
+                                console.log('file save');
+                                resolve({
+                                    status: "true",
+                                    success: true,
+                                    message: 'file save'
+                                });
+                            }
+                        });
+                    });
+                }
+            },
+            is: {
+                file: async (file)=>{
+                    try {
+                        let isFile = object.fs.idbfs.analyzePath(file).exists ? await object.fs.idbfs.isFile(object.fs.idbfs.analyzePath(file).object.mode) : false;
+                        console.log(`${file} file ${isFile}`);
+                        resolve1(isFile);
+                    } catch (e) {
+                        console.error('error', e);
+                        resolve1({
+                            status: true,
+                            message: e
+                        });
+                    }
+                },
+                dir: (dir = '/')=>{
+                    return new Promise(async (resolve, reject)=>{
+                        try {
+                            let isDir = object.fs.idbfs.analyzePath(dir).exists ? await object.fs.idbfs.isDir(object.fs.idbfs.analyzePath(dir).object.mode) : false;
+                            console.log(`${dir} dir ${isDir}`);
+                            resolve(isDir);
+                        } catch (e) {
+                            console.error('error', e);
+                            resolve({
+                                status: true,
+                                message: e
+                            });
+                        }
+                    });
+                }
+            },
+            file: {
+                read: (file, encoding = "utf8")=>{
+                    return new Promise(async (resolve, reject)=>{
+                        try {
+                            let readFile = await object.fs.idbfs.readFile(`${object.dirShared}${object.dirData}/${file}`, {
+                                encoding: encoding
+                            });
+                            console.log(readFile);
+                            resolve(readFile);
+                        } catch (e) {
+                            console.error('error', e);
+                            resolve({
+                                status: true,
+                                message: e
+                            });
+                        }
+                    });
+                },
+                write: (file, contents)=>{
+                    return new Promise(async (resolve, reject)=>{
+                        try {
+                            let writeFile = typeof contents !== "string" ? await object.fs.idbfs.writeFile(`${object.dirShared}${object.dirData}/${file}`, JSON.stringify(contents)) : await object.fs.idbfs.writeFile(`${object.dirShared}${object.dirData}/${file}`, contents);
+                            console.log('file is writ');
+                            resolve(writeFile);
+                        } catch (e) {
+                            console.error('error', e);
+                            resolve({
+                                status: true,
+                                message: e
+                            });
+                        }
+                    });
+                },
+                createData: (folder, file, contents, readable = true, writable = true)=>{
+                    return new Promise(async (resolve, reject)=>{
+                        try {
+                            let createDataFile = await object.fs.idbfs.createDataFile(folder, file, contents, readable, writable);
+                            resolve(createDataFile);
+                        } catch (e) {
+                            resolve({
+                                status: true,
+                                message: e
+                            });
+                        }
+                    });
+                },
+                rename: (oldName, newName)=>{
+                    return new Promise(async (resolve, reject)=>{
+                        try {
+                            let path = `${object.dirShared}${object.dirData}`;
+                            let rename = idbfs.is.file(oldName) ? (await object.fs.idbfs.rename(`${path}/${oldName}`, `${path}/${newName}`), true) : false;
+                            resolve(rename);
+                        } catch (e) {
+                            console.error('error', e);
+                            resolve({
+                                status: true,
+                                message: e
+                            });
+                        }
+                    });
+                },
+                remove: (file)=>{
+                    return new Promise(async (resolve, reject)=>{
+                        try {
+                            let unlink = await object.fs.idbfs.unlink(file);
+                            console.log('remove');
+                            resolve(unlink);
+                        } catch (e) {
+                            resolve({
+                                status: true,
+                                message: e
+                            });
+                        }
+                    });
+                }
+            },
+            symlink: async (oldPath, newPath)=>{
+                try {
+                    let symlink = await object.fs.idbfs.symlink(oldPath, newPath);
+                    resolve1(symlink);
+                } catch (e) {
+                    resolve1({
+                        status: true,
+                        message: e
+                    });
+                }
+            },
+            mount: async (type = {
+            }, dir = '/newKind', params = {
+            })=>{
+                try {
+                    let mount = await object.fs.idbfs.mount(type, params, dir);
+                    resolve1(mount);
+                } catch (e) {
+                    resolve1({
+                        status: true,
+                        message: e
+                    });
+                }
+            },
+            unmount: async (mountPoint = '/newKind')=>{
+                try {
+                    let unmount = await object.fs.idbfs.unmount(mountPoint);
+                    resolve1(unmount);
+                } catch (e) {
+                    resolve1({
+                        status: true,
+                        message: e
+                    });
+                }
+            },
+            mkdir: (path)=>{
+                return new Promise(async (resolve, reject)=>{
+                    try {
+                        let mkdir = await object.fs.idbfs.mkdir(path);
+                        resolve(mkdir);
+                    } catch (e) {
+                        resolve({
+                            status: true,
+                            message: e
+                        });
+                    }
+                });
+            },
+            readdir: (path)=>{
+                return new Promise(async (resolve, reject)=>{
+                    try {
+                        let readdir = await object.fs.idbfs.readdir(path);
+                        resolve(readdir);
+                    } catch (e) {
+                        console.error('dir error:', e);
+                        resolve({
+                            status: true,
+                            message: e
+                        });
+                    }
+                });
+            },
+            rmdir: (path)=>{
+                return new Promise(async (resolve, reject)=>{
+                    try {
+                        let rmdir = await object.fs.idbfs.rmdir(path);
+                        resolve(rmdir);
+                    } catch (e) {
+                        resolve({
+                            status: true,
+                            message: e
+                        });
+                    }
+                });
+            },
+            cwd: (path)=>{
+                return new Promise(async (resolve, reject)=>{
+                    try {
+                        let cwd = await object.fs.idbfs.cwd();
+                        resolve(cwd);
+                    } catch (e) {
+                        resolve({
+                            status: true,
+                            message: e
+                        });
+                    }
+                });
+            }
+        };
+        resolve1(idbfs);
+    });
+};
+exports.default = {
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"1megf"}],"6IO5p":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "WORKERFS", ()=>WORKERFS
+);
+var _axiosMjs = require("../stream/axios.mjs");
+var _axiosMjsDefault = parcelHelpers.interopDefault(_axiosMjs);
+let WORKERFS = (object = {
+})=>{
+    return new Promise(async (resolve1, reject)=>{
+        let workerfs = {
+            files: [],
+            is: {
+                chrdev: async (chrdev)=>{
+                    try {
+                        let isChrdev = object.fs.worker.analyzePath(isChrdev).exists ? await object.fs.worker.isChrdev(object.fs.worker.analyzePath(block).object.mode) : false;
+                        console.log('socket', isChrdev, chrdev);
+                        resolve1(isChrdev);
+                    } catch (e) {
+                        console.error('error', e);
+                        resolve1({
+                            status: true,
+                            message: e
+                        });
+                    }
+                },
+                socket: async (socket)=>{
+                    try {
+                        let isSocket = object.fs.worker.analyzePath(isSocket).exists ? await object.fs.worker.isSocket(object.fs.worker.analyzePath(block).object.mode) : false;
+                        console.log('socket', isSocket, socket);
+                        resolve1(isSocket);
+                    } catch (e) {
+                        console.error('error', e);
+                        resolve1({
+                            status: true,
+                            message: e
+                        });
+                    }
+                },
+                blkdev: async (block)=>{
+                    try {
+                        let isBlkdev = object.fs.worker.analyzePath(block).exists ? await object.fs.worker.isBlkdev(object.fs.worker.analyzePath(block).object.mode) : false;
+                        resolve1(isBlkdev);
+                    } catch (e) {
+                        console.error('error', e);
+                        resolve1({
+                            status: true,
+                            message: e
+                        });
+                    }
+                },
+                file: async (file)=>{
+                    try {
+                        let isFile = object.fs.worker.analyzePath(file).exists ? await object.fs.worker.isFile(object.fs.worker.analyzePath(file).object.mode) : false;
+                        console.log(`${file} file ${isFile}`);
+                        resolve1(isFile);
+                    } catch (e) {
+                        console.error('error', e);
+                        resolve1({
+                            status: true,
+                            message: e
+                        });
+                    }
+                },
+                dir: (dir = '/')=>{
+                    return new Promise(async (resolve, reject)=>{
+                        try {
+                            let isDir = object.fs.worker.analyzePath(dir).exists ? await object.fs.worker.isDir(object.fs.worker.analyzePath(dir).object.mode) : false;
+                            console.log(`${dir} dir ${isDir}`);
+                            resolve(isDir);
+                        } catch (e) {
+                            console.error('error', e);
+                            resolve({
+                                status: true,
+                                message: e
+                            });
+                        }
+                    });
+                },
+                link: async (dir = '/')=>{
+                    try {
+                        let isLink = object.fs.worker.analyzePath(dir).exists ? await object.fs.worker.isLink(object.fs.worker.analyzePath(dir).object.mode) : false;
+                        resolve1(isLink);
+                    } catch (e) {
+                        console.error('error', e);
+                        resolve1({
+                            status: true,
+                            message: e
+                        });
+                    }
+                }
+            },
+            list: {
+                dir: (path = '/')=>{
+                    return new Promise(async (resolve, reject)=>{
+                        try {
+                            let list = {
+                            };
+                            if (await workerfs.is.dir(path)) list = (await workerfs.readdir(path)).filter((item)=>item !== '.' && item !== '..'
+                            );
+                            console.log(list);
+                            resolve(list);
+                        } catch (e) {
+                            console.error('error', e);
+                            resolve({
+                                status: true,
+                                message: e
+                            });
+                        }
+                    });
+                },
+                files: ()=>{
+                    return new Promise(async (resolve, reject)=>{
+                        try {
+                            let list = {
+                            };
+                            if (await workerfs.is.dir(object.dirMounted)) list = (await workerfs.readdir(object.dirMounted)).filter((item)=>item !== '.' && item !== '..'
+                            );
+                            resolve(list);
+                        } catch (e) {
+                            console.error('error', e);
+                            resolve({
+                                status: true,
+                                message: e
+                            });
+                        }
+                    });
+                }
+            },
+            readFile: (file, type = 'binary' | 'utf8')=>{
+                return new Promise(async (resolve, reject)=>{
+                    try {
+                        let contents = object.fs.worker.readFile(file, {
+                            encoding: type
+                        });
+                        resolve(contents);
+                    } catch (e) {
+                        resolve({
+                            status: true,
+                            message: e
+                        });
+                    }
+                });
+            },
+            symlink: (oldpath, newpath)=>{
+                return new Promise(async (resolve, reject)=>{
+                    try {
+                        let symlink = await object.fs.worker.symlink(oldpath, newpath);
+                        resolve(symlink);
+                    } catch (e) {
+                        console.error('error', e);
+                        resolve({
+                            status: true,
+                            message: e
+                        });
+                    }
+                });
+            },
+            unlink: (path)=>{
+                return new Promise(async (resolve, reject)=>{
+                    try {
+                        let unlink = await object.fs.worker.unlink(path);
+                        resolve(unlink);
+                    } catch (e) {
+                        resolve({
+                            status: true,
+                            message: e
+                        });
+                    }
+                });
+            },
+            read: async (file, call, highWaterMark = 200, isRelation = true)=>{
+                return new Promise(async (resolve, reject)=>{
+                    try {
+                        let path = `${object.dirMounted}/${file}`;
+                        let isFile = workerfs.is.file(path);
+                        if (isFile) {
+                            let reader = await _axiosMjsDefault.default(object, 'isWorkerFs', path, highWaterMark, isRelation);
+                            new ReadableStream({
+                                start (controller) {
+                                    async function push() {
+                                        await reader.read().then(({ done , value , progress  })=>{
+                                            if (done) {
+                                                call(done, value, progress);
+                                                controller.close();
+                                                resolve(true);
+                                                return;
+                                            }
+                                            controller.enqueue(done, value);
+                                            call(done, value, progress);
+                                            push();
+                                        });
+                                    }
+                                    push();
+                                }
+                            });
+                        } else resolve(false);
+                    } catch (e) {
+                        console.error('dir error:', e);
+                        resolve({
+                            status: true,
+                            message: e
+                        });
+                    }
+                });
+            },
+            stat: (path)=>{
+                return new Promise(async (resolve, reject)=>{
+                    try {
+                        let stat = await object.fs.worker.stat(path);
+                        console.log('stat:', stat);
+                        resolve(stat);
+                    } catch (e) {
+                        console.error('dir error:', e);
+                        resolve({
+                            status: true,
+                            message: e
+                        });
+                    }
+                });
+            },
+            readdir: (path = "/")=>{
+                return new Promise(async (resolve, reject)=>{
+                    try {
+                        const readdir = await workerfs.is.dir(path) ? await object.fs.worker.readdir(path) : false;
+                        resolve(readdir);
+                    } catch (e) {
+                        console.error('dir error:', e);
+                        resolve({
+                            status: true,
+                            message: e
+                        });
+                    }
+                });
+            },
+            unMount: async (dirMounted = '/newKind')=>{
+                try {
+                    let unMount = await object.fs.worker.unmount(dirMounted);
+                    console.log('unMount', unMount);
+                    resolve1(unMount);
+                } catch (e) {
+                    resolve1({
+                        status: true,
+                        message: e
+                    });
+                }
+            },
+            mount: (files)=>{
+                return new Promise((resolve, reject)=>{
+                    let reader = new FileReaderSync();
+                    console.log('~~~~~~~~~~~~~~~~', reader);
+                    let toMount = [], mountedPaths = [];
+                    if (!files?.length || typeof files === "string") files = [
+                        files
+                    ];
+                    for (let file of files){
+                        if (file instanceof File || file?.data instanceof Blob && file.name) {
+                            toMount.push(file);
+                            mountedPaths.push(file.name);
+                        } else if (typeof file == "string" && file.startsWith("http")) {
+                            const fileName = file.split("//").pop().replace(/\//g, "-");
+                            mountedPaths.push(fileName);
+                        } else throw "Cannot mount file(s) specified. Must be a File, Blob, or a URL string.";
+                    }
+                    try {
+                        workerfs.unmount(dirMounted);
+                    } catch (e) {
+                    }
+                    workerfs.files = workerfs.files.concat(toMount);
+                    object.fs.worker.mount(object.fs.worker.filesystems.WORKERFS, {
+                        files: workerfs.files.filter((f)=>f instanceof File
+                        ),
+                        blobs: workerfs.files.filter((f)=>f?.data instanceof Blob
+                        )
+                    }, object.dirMounted);
+                    let out = mountedPaths.map((path)=>`${object.dirMounted}`
+                    );
+                    console.log('~~~~~~~~~~~', out);
+                    resolve(out);
+                });
+            },
+            mkdir: (path)=>{
+                return new Promise(async (resolve, reject)=>{
+                    try {
+                        let mkdir = await object.fs.worker.mkdir(path);
+                        resolve(mkdir);
+                    } catch (e) {
+                        resolve({
+                            status: true,
+                            message: e
+                        });
+                    }
+                });
+            },
+            unmount: async (mountPoint = '/newKind')=>{
+                try {
+                    let unmount = await object.fs.worker.unmount(mountPoint);
+                    resolve1(unmount);
+                } catch (e) {
+                    resolve1({
+                        status: true,
+                        message: e
+                    });
+                }
+            },
+            // Log if debug enabled
+            _log (message) {
+                // if(!aioli.config.debug)
+                //     return;
+                // Support custom %c arguments
+                let args = [
+                    ...arguments
+                ];
+                args.shift();
+                console.log(`%c[WebWorker]%c ${message}`, "font-weight:bold", "", ...args);
+            }
+        };
+        resolve1(workerfs);
+    });
+};
+exports.default = {
+};
+
+},{"../stream/axios.mjs":"46Z2x","@parcel/transformer-js/src/esmodule-helpers.js":"1megf"}],"46Z2x":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+let reader = {
+    isWorkerFs: (node, obj, path, highWaterMark, isRelation)=>{
+        return new Promise(async (resolve1, reject)=>{
+            obj.stream = node.fs.worker.open(path, 'r');
+            obj.highWaterMark = highWaterMark ? isRelation ? obj.stream.node.size / highWaterMark <= 1 ? obj.stream.node.size : obj.stream.node.size / highWaterMark : highWaterMark : Math.trunc(obj.stream.node.size / 5 <= 1 ? obj.stream.node.size : obj.stream.node.size / 5);
+            obj.read = ()=>{
+                return new Promise((resolve, reject)=>{
+                    let done = false;
+                    let length = obj.stream.node.size - obj.stream.position - obj.highWaterMark <= 0 ? (done = true, obj.stream.node.size - obj.stream.position) : obj.highWaterMark;
+                    let buffer = new Uint8Array(length);
+                    node.fs.worker.read(obj.stream, buffer, 0, length);
+                    let progress = 100 * obj.stream.position / obj.stream.node.size;
+                    resolve({
+                        done: done,
+                        value: buffer,
+                        progress: progress
+                    });
+                });
+            };
+            resolve1(obj);
+        });
+    }
+};
+exports.default = (node, type = 'isWorkerFs', path = "/", highWaterMark, isRelation = false)=>{
+    return new Promise(async (resolve, reject)=>{
+        let obj = {
+        };
+        if (type === 'isWorkerFs') obj = await reader.isWorkerFs(node, obj, path, highWaterMark, isRelation);
+        else if (type === 'isIdbFs') console.log('in Progress');
+        else console.warn('неизвестный тип ридера', type);
+        resolve(obj);
+    });
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"1megf"}],"eTYKB":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 let has = Object.prototype.hasOwnProperty;
@@ -58315,7 +58285,10 @@ function isEmpty(val) {
 }
 exports.default = isEmpty;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"8FsVl"}],"cL1pH":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"1megf"}],"bdatz":[function(require,module,exports) {
+module.exports = JSON.parse("{\"name\":\"@newkind/service\",\"version\":\"0.1.0\",\"description\":\"peer to peer connect\",\"source\":\"./frontend/src/index.mjs\",\"module\":\"./dist/index.mjs\",\"main\":\"./dist/index.mjs\",\"author\":\"Zababurin Sergey\",\"license\":\"GPL-3.0-only\",\"targets\":{\"main\":false,\"module\":{\"includeNodeModules\":true,\"optimize\":true},\"docs\":{\"source\":\"./frontend/src/index.html\"}},\"staticFiles\":{\"staticPath\":\"frontend/src/static\"},\"config\":{\"html\":\"./frontend/src/index.html\",\"mjs\":\"./frontend/src/index.mjs\",\"port\":4517},\"scripts\":{\"dev\":\"rimraf ./docs/* && parcel $npm_package_config_html --port $npm_package_config_port --cache-dir ./.parcel-cache  --no-source-maps --dist-dir ./docs \",\"build:html\":\"rimraf ./docs/* && parcel build --target docs --no-source-maps --dist-dir ./docs \",\"build\":\"rimraf ./dist/* && parcel build $npm_package_config_mjs --no-source-maps --dist-dir ./dist \",\"kill\":\"kill $(lsof -t -i:$npm_package_config_port)\",\"clean:parcel\":\"find . -name \\\".parcel-cache\\\" -exec rm -rf '{}' +; \",\"clean\":\"rimraf ./docs/* && rimraf ./dist/*\"},\"devDependencies\":{\"@parcel/packager-raw-url\":\"^2.0.1\",\"@parcel/transformer-webmanifest\":\"^2.0.1\",\"@types/libsodium-wrappers\":\"^0.7.9\",\"parcel\":\"2.0.1\",\"parcel-reporter-static-files-copy\":\"^1.3.0\"},\"dependencies\":{\"comlink\":\"^4.3.1\",\"libsodium-wrappers\":\"^0.7.9\",\"redux\":\"^4.1.2\",\"web-streams-polyfill\":\"^3.2.0\"},\"eslintConfig\":{\"extends\":[\"react-app\",\"react-app/jest\"]}}");
+
+},{}],"2m3Aa":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "createEndpoint", ()=>createEndpoint
@@ -58650,5 +58623,5 @@ function generateUUID() {
     ).join("-");
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"8FsVl"}]},["i4iHc","3bMve"], "3bMve", "parcelRequirec3cc")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"1megf"}]},["8O44o","l1fZx"], "l1fZx", "parcelRequirec3cc")
 

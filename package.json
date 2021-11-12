@@ -23,7 +23,7 @@
   "config": {
     "html": "./frontend/src/index.html",
     "mjs": "./frontend/src/index.mjs",
-    "port": 4513
+    "port": 4517
   },
   "scripts": {
     "dev": "rimraf ./docs/* && parcel $npm_package_config_html --port $npm_package_config_port --cache-dir ./.parcel-cache  --no-source-maps --dist-dir ./docs ",

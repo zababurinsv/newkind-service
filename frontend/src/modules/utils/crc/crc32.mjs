@@ -32,15 +32,17 @@ function createCrcTable() {
  * @return {number} The calculated CRC checksum.
  */
 export let crc32 = (chunkName, chunkData) => {
-  const uint8Array = new Uint8Array(chunkData.byteLength + 4);
-  uint8Array.set(chunkName.split('').map(str => str.charCodeAt(0)), 0);
-  uint8Array.set(new Uint8Array(chunkData), 4);
+  return new Promise((resolve, reject) => {
+    const uint8Array = new Uint8Array(chunkData.byteLength + 4);
+    uint8Array.set(chunkName.split('').map(str => str.charCodeAt(0)), 0);
+    uint8Array.set(new Uint8Array(chunkData), 4);
 
-  let crc = 0 ^ (-1);
+    let crc = 0 ^ (-1);
 
-  for (const byte of uint8Array) {
-    crc = (crc >>> 8) ^ CRC_TABLE[(crc ^ byte) & 0xFF];
-  }
-
-  return (crc ^ (-1)) >>> 0;
+    for (const byte of uint8Array) {
+      crc = (crc >>> 8) ^ CRC_TABLE[(crc ^ byte) & 0xFF];
+    }
+    const out = (crc ^ (-1)) >>> 0;
+    resolve(out) 
+  })
 }

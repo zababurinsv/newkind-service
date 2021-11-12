@@ -1,74 +1,70 @@
-const initComlink = (service, scope) => {
+import * as Comlink from "comlink";
+
+const initWorker = (worker) => {
+  return new Promise(async (resolve, reject) => {
+    const { port1, port2 } = new MessageChannel();
+    const msg = {
+      worker: true,
+      port: port1,
+    };
+    worker.postMessage(msg, [port1]);
+    const memory = Comlink.wrap(port2)
+    resolve(memory);
+  })
+}
+
+const initService = () => {
   return new Promise(async (resolve, reject) => {
     const { port1, port2 } = new MessageChannel();
     const msg = {
       service: true,
       port: port1,
     };
-    // navigator.serviceWorker.controller.postMessage(msg, [port1]);
-    // const swProxy = Comlink.wrap(port2);
-    // console.log(await swProxy.counter);
-    // await swProxy.inc();
-    // console.log(await swProxy.counter);
+    navigator.serviceWorker.controller.postMessage(msg, [port1]);
+    let service = Comlink.wrap(port2)
+    resolve(service);
   })
 }
 
-export default (service, scope) => {
+export default () => {
   return new Promise(async (resolve, reject) => {
+    let init = {
+      db: false,
+      fs: false
+    }
+
+    const verify = async (type, obj) => {
+
+      (type === 'service')
+          ? init.db = obj
+          : init.fs = obj
+    }
+
+    const activation = async (type, obj) => {
+      verify(type, obj)
+      if(init.fs && init.db) {
+        resolve({db: init.db, fs: init.fs})
+      }
+    }
+
     if ('serviceWorker' in navigator) {
-      // await initComlink(service, scope);
-      navigator.serviceWorker.addEventListener("controllerchange", (event) => {
-        console.log('~~~~~~~~~~~~>',event)
-        // initComlink()
+      let serviceUrl = new URL('./index.mjs', import.meta.url)
+      let workerUrl = new URL('./WORKERFS.mjs', import.meta.url)
+      let worker = new Worker(workerUrl, { type: "module" });
+      navigator.serviceWorker.register(serviceUrl, { type: "module" });
+      navigator.serviceWorker.addEventListener("controllerchange", async (event) => {
+        console.log('service init',event)
+        const service =  await initService()
+        await activation('service', service)
       });
-      let url = new URL('./worker.mjs', import.meta.url)
-      navigator.serviceWorker.register(url, { type: "module" });
-      resolve(true)
+      worker.onmessage = async () => {
+        console.log('worker init')
+        const memory =  await initWorker(worker)
+        await activation('worker', memory)
+      }
     } else {
       console.error('serviceWorker not work')
       resolve(false)
     }
   })
 }
-
-
-
-// export default (service, scope) => {
-//   if ('serviceWorker' in navigator) {
-//     navigator.serviceWorker.register(service)
-//     .then(function(reg) {
-//       console.log('reg', reg)
-//       if(reg.installing) {
-//         if(reg.installing) {
-//           console.log('Service worker installing');
-//         } else if(reg.waiting) {
-//           console.log('Service worker installed');
-//         }
-//         const sw = reg.installing || reg.waiting;
-//         sw.onstatechange = function() {
-//           if (sw.state === 'installed') {
-//             onward();
-          // }
-        // };
-      // } else if(reg.active) {
-      //   console.log('Service worker active');
-        // status('<p>Service Worker is installed and not functioning as intended.<p>Please contact developer.')
-      // }
-    // })
-    // .catch(function(error) {
-    //   console.log('errror', error)
-      // status(error)
-    // });
-
-    // navigator.serviceWorker.addEventListener('message', event => {
-    //   console.log('events --->', event)
-    //   ProgressBar.evalProgress(event.data)
-    // })
-  // }
-// }
-
-// function onward() {
-//   setTimeout(function() {
-//     window.location.reload();
-//   },2000);
-// }

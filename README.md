@@ -108,3 +108,6 @@ https://github.com/ente-io/bada-frame
 
 ## maskable-icon
 https://web.dev/maskable-icon/?utm_source=devtools
+
+## Service Worker
+* [Strategy CACHE](https://habr.com/ru/company/2gis/blog/345552/)
