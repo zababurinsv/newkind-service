@@ -9,7 +9,7 @@
 <body>
 <div class="fs">
     <div class="fs__main">
-        <label class="main__upload_label"><input type="button" class="main__upload_label_list" multiple/> Список файлов</label>
+       <button class="main__list">Список файлов</button>
         <label class="main__upload_label"><input type="file" class="main__upload_label_multiple" multiple/></label>
         <form name="files" class="main__form">
             <select class="main__data">
@@ -51,6 +51,12 @@
 
     .main__data {
         font-size: 1.5vw;
+    }
+
+    .main__list {
+        font-size: 1.5vw;
+        padding: 1vw;
+        margin: 1vw;
     }
 
     .main__data_submit {
@@ -108,13 +114,14 @@
     import {lacertaRadio} from './modules/radio/index.mjs'
     import utils from './modules/utils/index.mjs'
 
+
     const CONFIG = {
         upload: document.querySelector('.main__upload_label_multiple'),
         select: document.querySelector('.main__data'),
         img: document.querySelector('.main__data_files_img'),
         audio: document.querySelector('.main__data_files_audio'),
         submit: document.querySelector('.main__data_submit'),
-        list: document.querySelector('.main__upload_label_list'),
+        list: document.querySelector('.main__list'),
         image: {
             this: document.querySelector('.main__img_container_img'),
             on: () => { CONFIG.image.this.classList.remove('hidden') },
@@ -135,72 +142,69 @@
             files: document.querySelector('#main__data_files_fs')
         },
     };
-
     service().then(async (worker) => {
-        // let test = await list()
-        // await tests(`/newkind-fs/${test[`newkind-fs`]}`)
-        console.log('init service && worker', worker)
-        await worker.db.fs.save()
-        CONFIG.submit.addEventListener('click', async (e) => {
-            e.preventDefault()
-            if(CONFIG.select.value) {
-                CONFIG.progress.on()
-                let arrays = [];
-                worker.fs.stream.img(CONFIG.select.value, Comlink.proxy(async (done, value, progress) => {
-                    if(done) {
-                        CONFIG.progress.this.value = progress
-                        arrays.push(value);
-                        let blob = new Blob([await utils.concat(arrays)], {'type': 'image/png'});
-                        let url = URL.createObjectURL(blob);
-                        CONFIG.image.this.src = ''
-                        CONFIG.image.this.src = `${url}`
-                        CONFIG.progress.off()
-                    } else {
-                        CONFIG.progress.this.value = progress
-                        arrays.push(value);
-                    }
-                }))
-            }
-        })
+        try {
+            // let test = await list()
+            // await tests(`/newkind-fs/${test[`newkind-fs`]}`)
+            // console.log('init service && worker', worker)
+            await worker.db.save()
+            navigator.serviceWorker.controller.postMessage({test: true})
+            CONFIG.submit.addEventListener('click', async (e) => {
+                e.preventDefault()
+                if(CONFIG.select.value) {
+                    CONFIG.progress.on()
+                    let arrays = [];
+                    worker.fs.stream.img(CONFIG.select.value, Comlink.proxy(async (done, value, progress) => {
+                        if(done) {
+                            CONFIG.progress.this.value = progress
+                            arrays.push(value);
+                            let blob = new Blob([await utils.concat(arrays)], {'type': 'image/png'});
+                            let url = URL.createObjectURL(blob);
+                            CONFIG.image.this.src = ''
+                            CONFIG.image.this.src = `${url}`
+                            CONFIG.progress.off()
+                        } else {
+                            CONFIG.progress.this.value = progress
+                            arrays.push(value);
+                        }
+                    }))
+                }
+            })
 
-        CONFIG.upload.addEventListener('change', async (e) => {
-            // console.log(worker.fs)
+            CONFIG.upload.addEventListener('change', async (e) => {
+                await worker.fs.write.files(e.target.files)
+                const list = await worker.fs.list.files()
+                CONFIG.img.innerHTML = ''
+                list.forEach(item => {
+                    const template  = CONFIG.template.files.content.cloneNode(true)
+                    const option = template.querySelector('option')
+                    option.textContent = item
+                    option.value = `${item}`
+                    CONFIG.img.appendChild(template)
+                })
+            })
 
-
-            await worker.fs.write.files(e.target.files)
-            // const list = await worker.fs.list.files()
-            // await worker.fs.list.dir('/')
-            // await worker.fs.list.dir('/mnt')
-            // await worker.fs.list.dir('/shared')
-            // await worker.fs.list.dir('/shared/data')
-            // await worker.fs.list.dir('/shared/mnt')
-            // console.log(list)
-            // CONFIG.img.innerHTML = ''
-            // list.forEach(item => {
-            //     const template  = CONFIG.template.files.content.cloneNode(true)
-            //     const option = template.querySelector('option')
-            //     option.textContent = item
-            //     option.value = `${item}`
-            //     CONFIG.img.appendChild(template)
-            // })
-        })
-
-        CONFIG.list.addEventListener('click', async (e) => {
-            console.log('~~~list~~~~')
-            const list = await worker.fs.list.files()
+            CONFIG.list.addEventListener('click', async (e) => {
+                console.log('~~~list~~~~')
+                const list = await worker.fs.list.files()
+            })
 
 
-        })
-
-
-        window.onbeforeunload = function () {
+            window.onbeforeunload = function () {
+                navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                    for(let registration of registrations) {
+                        console.log('terminate', registration)
+                        registration.unregister()
+                    } })
+            };
+        } catch (e) {
+            console.error('error', e)
             navigator.serviceWorker.getRegistrations().then(function(registrations) {
                 for(let registration of registrations) {
                     console.log('terminate', registration)
                     registration.unregister()
                 } })
-        };
-
+        }
     })
 </script>
 </html>

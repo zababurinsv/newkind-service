@@ -9,7 +9,7 @@
 <body>
 <div class="fs">
     <div class="fs__main">
-        <label class="main__upload_label"><input type="button" class="main__upload_label_list" multiple=""> Список файлов</label>
+       <button class="main__list">Список файлов</button>
         <label class="main__upload_label"><input type="file" class="main__upload_label_multiple" multiple=""></label>
         <form name="files" class="main__form">
             <select class="main__data">
@@ -51,6 +51,12 @@
 
     .main__data {
         font-size: 1.5vw;
+    }
+
+    .main__list {
+        font-size: 1.5vw;
+        padding: 1vw;
+        margin: 1vw;
     }
 
     .main__data_submit {
@@ -244,12 +250,12 @@
       this[globalName] = mainExports;
     }
   }
-})({"cpy7N":[function(require,module,exports) {
+})({"3p0MW":[function(require,module,exports) {
 var HMR_HOST = null;
 var HMR_PORT = null;
 var HMR_SECURE = false;
 var HMR_ENV_HASH = "1293bae57ac04db4";
-module.bundle.HMR_BUNDLE_ID = "7fdff0b42969c6ac";
+module.bundle.HMR_BUNDLE_ID = "192715f42ac3bfda";
 "use strict";
 function _createForOfIteratorHelper(o, allowArrayLike) {
     var it;
@@ -562,7 +568,7 @@ function hmrAcceptRun(bundle, id) {
     acceptedAssets[id] = true;
 }
 
-},{}],"4W19b":[function(require,module,exports) {
+},{}],"9H0FP":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _serviceMjs = require("./service.mjs");
 var _serviceMjsDefault = parcelHelpers.interopDefault(_serviceMjs);
@@ -577,7 +583,7 @@ const CONFIG = {
     img: document.querySelector('.main__data_files_img'),
     audio: document.querySelector('.main__data_files_audio'),
     submit: document.querySelector('.main__data_submit'),
-    list: document.querySelector('.main__upload_label_list'),
+    list: document.querySelector('.main__list'),
     image: {
         this: document.querySelector('.main__img_container_img'),
         on: ()=>{
@@ -603,143 +609,207 @@ const CONFIG = {
     }
 };
 _serviceMjsDefault.default().then(async (worker)=>{
-    // let test = await list()
-    // await tests(`/newkind-fs/${test[`newkind-fs`]}`)
-    console.log('init service && worker', worker);
-    await worker.db.fs.save();
-    CONFIG.submit.addEventListener('click', async (e)=>{
-        e.preventDefault();
-        if (CONFIG.select.value) {
-            CONFIG.progress.on();
-            let arrays = [];
-            worker.fs.stream.img(CONFIG.select.value, _comlink.proxy(async (done, value, progress)=>{
-                if (done) {
-                    CONFIG.progress.this.value = progress;
-                    arrays.push(value);
-                    let blob = new Blob([
-                        await _indexMjsDefault.default.concat(arrays)
-                    ], {
-                        'type': 'image/png'
-                    });
-                    let url = URL.createObjectURL(blob);
-                    CONFIG.image.this.src = '';
-                    CONFIG.image.this.src = `${url}`;
-                    CONFIG.progress.off();
-                } else {
-                    CONFIG.progress.this.value = progress;
-                    arrays.push(value);
+    try {
+        // let test = await list()
+        // await tests(`/newkind-fs/${test[`newkind-fs`]}`)
+        // console.log('init service && worker', worker)
+        await worker.db.save();
+        navigator.serviceWorker.controller.postMessage({
+            test: true
+        });
+        CONFIG.submit.addEventListener('click', async (e)=>{
+            e.preventDefault();
+            if (CONFIG.select.value) {
+                CONFIG.progress.on();
+                let arrays = [];
+                worker.fs.stream.img(CONFIG.select.value, _comlink.proxy(async (done, value, progress)=>{
+                    if (done) {
+                        CONFIG.progress.this.value = progress;
+                        arrays.push(value);
+                        let blob = new Blob([
+                            await _indexMjsDefault.default.concat(arrays)
+                        ], {
+                            'type': 'image/png'
+                        });
+                        let url = URL.createObjectURL(blob);
+                        CONFIG.image.this.src = '';
+                        CONFIG.image.this.src = `${url}`;
+                        CONFIG.progress.off();
+                    } else {
+                        CONFIG.progress.this.value = progress;
+                        arrays.push(value);
+                    }
+                }));
+            }
+        });
+        CONFIG.upload.addEventListener('change', async (e)=>{
+            await worker.fs.write.files(e.target.files);
+            const list = await worker.fs.list.files();
+            CONFIG.img.innerHTML = '';
+            list.forEach((item)=>{
+                const template = CONFIG.template.files.content.cloneNode(true);
+                const option = template.querySelector('option');
+                option.textContent = item;
+                option.value = `${item}`;
+                CONFIG.img.appendChild(template);
+            });
+        });
+        CONFIG.list.addEventListener('click', async (e)=>{
+            console.log('~~~list~~~~');
+            const list = await worker.fs.list.files();
+        });
+        window.onbeforeunload = function() {
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                for (let registration of registrations){
+                    console.log('terminate', registration);
+                    registration.unregister();
                 }
-            }));
-        }
-    });
-    CONFIG.upload.addEventListener('change', async (e)=>{
-        // console.log(worker.fs)
-        await worker.fs.write.files(e.target.files);
-    // const list = await worker.fs.list.files()
-    // await worker.fs.list.dir('/')
-    // await worker.fs.list.dir('/mnt')
-    // await worker.fs.list.dir('/shared')
-    // await worker.fs.list.dir('/shared/data')
-    // await worker.fs.list.dir('/shared/mnt')
-    // console.log(list)
-    // CONFIG.img.innerHTML = ''
-    // list.forEach(item => {
-    //     const template  = CONFIG.template.files.content.cloneNode(true)
-    //     const option = template.querySelector('option')
-    //     option.textContent = item
-    //     option.value = `${item}`
-    //     CONFIG.img.appendChild(template)
-    // })
-    });
-    CONFIG.list.addEventListener('click', async (e)=>{
-        console.log('~~~list~~~~');
-        const list = await worker.fs.list.files();
-    });
-    window.onbeforeunload = function() {
+            });
+        };
+    } catch (e) {
+        console.error('error', e);
         navigator.serviceWorker.getRegistrations().then(function(registrations) {
             for (let registration of registrations){
                 console.log('terminate', registration);
                 registration.unregister();
             }
         });
-    };
+    }
 });
 
 },{"./service.mjs":"8nprK","@newkind/tests":"r4IPu","comlink":"cL1pH","./modules/radio/index.mjs":"1Khuy","./modules/utils/index.mjs":"jkUon","@parcel/transformer-js/src/esmodule-helpers.js":"8FsVl"}],"8nprK":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _comlink = require("comlink");
-const initWorker = (worker)=>{
-    return new Promise(async (resolve, reject)=>{
-        const { port1 , port2  } = new MessageChannel();
-        const msg = {
-            worker: true,
-            port: port1
-        };
-        worker.postMessage(msg, [
-            port1
-        ]);
-        const memory = _comlink.wrap(port2);
-        resolve(memory);
-    });
+let service = {
 };
-const initService = ()=>{
-    return new Promise(async (resolve, reject)=>{
-        const { port1 , port2  } = new MessageChannel();
-        const msg = {
-            service: true,
-            port: port1
-        };
-        navigator.serviceWorker.controller.postMessage(msg, [
-            port1
-        ]);
-        let service = _comlink.wrap(port2);
-        resolve(service);
-    });
+let worker = {
+};
+let init = {
+    install: {
+        service: false,
+        web: false
+    },
+    activate: {
+        service: false,
+        web: false,
+        memory: false
+    }
+};
+const installVerify = async (type, obj)=>{
+    switch(type){
+        case 'service':
+            init.install.service = obj;
+            break;
+        case 'worker':
+            init.install.web = obj;
+            break;
+        default:
+            console.warn('неизвестное событие', event.data);
+            break;
+    }
+    return true;
+};
+const activateVerify = async (type, obj)=>{
+    switch(type){
+        case 'service':
+            init.activate.service = obj;
+            break;
+        case 'worker':
+            init.activate.web = obj;
+            break;
+        case 'memory':
+            init.activate.memory = obj;
+            break;
+        default:
+            console.warn('неизвестное событие', event.data);
+            break;
+    }
 };
 exports.default = ()=>{
-    return new Promise(async (resolve, reject)=>{
-        let init = {
-            db: false,
-            fs: false
-        };
-        const verify = async (type, obj)=>{
-            type === 'service' ? init.db = obj : init.fs = obj;
-        };
-        const activation = async (type, obj)=>{
-            verify(type, obj);
-            if (init.fs && init.db) resolve({
-                db: init.db,
-                fs: init.fs
-            });
-        };
+    return new Promise(async (resolve1, reject)=>{
         if ('serviceWorker' in navigator) {
-            let serviceUrl = new URL(require("948e431febf7de"));
+            const install = async (type, obj)=>{
+                installVerify(type, obj);
+                if (init.install.web && init.install.service) await port();
+            };
+            const activate = async (type, obj)=>{
+                activateVerify(type, obj);
+                if (init.activate.web && init.activate.service && init.activate.memory) {
+                    let memory = init.activate.memory;
+                    init = {
+                    };
+                    resolve1(memory);
+                }
+            };
+            const port = ()=>{
+                return new Promise(async (resolve, reject)=>{
+                    const serviceWorkerChannel = new MessageChannel();
+                    const mainWorkerChannel = new MessageChannel();
+                    const workerService = {
+                        activate: true,
+                        service: serviceWorkerChannel.port1,
+                        main: mainWorkerChannel.port1
+                    };
+                    const serviceWorker = {
+                        activate: true,
+                        worker: serviceWorkerChannel.port2
+                    };
+                    worker.postMessage(workerService, [
+                        serviceWorkerChannel.port1,
+                        mainWorkerChannel.port1
+                    ]);
+                    navigator.serviceWorker.controller.postMessage(serviceWorker, [
+                        serviceWorkerChannel.port2
+                    ]);
+                    const memory = _comlink.wrap(mainWorkerChannel.port2);
+                    await activate('memory', memory);
+                    resolve(true);
+                });
+            };
+            let serviceUrl = new URL(require("92dd570e7e656201"));
             let workerUrl = new URL(require("36c98e741cbdd7b9"));
-            let worker = new Worker(workerUrl, {
+            worker = new Worker(workerUrl, {
                 type: "module"
             });
             navigator.serviceWorker.register(serviceUrl, {
                 type: "module"
             });
-            navigator.serviceWorker.addEventListener("controllerchange", async (event)=>{
-                console.log('service init', event);
-                const service = await initService();
-                await activation('service', service);
+            navigator.serviceWorker.addEventListener("controllerchange", async (event)=>await install('service', true)
+            );
+            navigator.serviceWorker.addEventListener('message', async (event)=>{
+                console.log('service incoming', event.data.service);
+                switch(event.data.service){
+                    case 'activate':
+                        await activate('service', true);
+                        break;
+                    default:
+                        console.warn('неизвестное событие', event.data);
+                        break;
+                }
             });
-            worker.onmessage = async ()=>{
-                console.log('worker init');
-                const memory = await initWorker(worker);
-                await activation('worker', memory);
+            worker.onmessage = async (event)=>{
+                console.log('event worker', event.data.worker);
+                switch(event.data.worker){
+                    case 'install':
+                        await install('worker', true);
+                        break;
+                    case 'activate':
+                        await activate('worker', true);
+                        break;
+                    default:
+                        console.warn('неизвестное событие', event.data);
+                        break;
+                }
             };
         } else {
             console.error('serviceWorker not work');
-            resolve(false);
+            resolve1(false);
         }
     });
 };
 
-},{"comlink":"cL1pH","948e431febf7de":"2R7lr","36c98e741cbdd7b9":"fYHgK","@parcel/transformer-js/src/esmodule-helpers.js":"8FsVl"}],"cL1pH":[function(require,module,exports) {
+},{"comlink":"cL1pH","92dd570e7e656201":"66kC0","36c98e741cbdd7b9":"lKjRl","@parcel/transformer-js/src/esmodule-helpers.js":"8FsVl"}],"cL1pH":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "createEndpoint", ()=>createEndpoint
@@ -1104,8 +1174,8 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"2R7lr":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('aYFOk') + "frontend.2b91f0b3.js" + "?" + Date.now();
+},{}],"66kC0":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('29T05') + "PROXY.da3f5367.js" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lYoMy"}],"lYoMy":[function(require,module,exports) {
 "use strict";
@@ -1142,8 +1212,8 @@ exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
 exports.getOrigin = getOrigin;
 
-},{}],"fYHgK":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('aYFOk') + "WORKERFS.38179114.js" + "?" + Date.now();
+},{}],"lKjRl":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('29T05') + "WORKERFS.38179114.js" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lYoMy"}],"r4IPu":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -56846,14 +56916,12 @@ function concat(arrays) {
         return resolve(result);
     });
 }
-exports.default = ()=>{
-    return {
-        concat: concat,
-        crc32: _crc32Mjs.crc32
-    };
+exports.default = {
+    concat: concat,
+    crc32: _crc32Mjs.crc32
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"8FsVl","./crc/crc32.mjs":"h7ZMs"}],"h7ZMs":[function(require,module,exports) {
+},{"./crc/crc32.mjs":"h7ZMs","@parcel/transformer-js/src/esmodule-helpers.js":"8FsVl"}],"h7ZMs":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "crc32", ()=>crc32
@@ -56888,7 +56956,7 @@ let crc32 = (chunkName, chunkData)=>{
     });
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"8FsVl"}]},["cpy7N","4W19b"], "4W19b", "parcelRequirec3cc")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"8FsVl"}]},["3p0MW","9H0FP"], "9H0FP", "parcelRequirec3cc")
 
 </script>
 </html>

@@ -13,9 +13,7 @@ function concat(arrays) {
     })
 }
 
-export default () => {
-    return {
-        concat: concat,
-        crc32: crc32
-    }
+export default  {
+    concat: concat,
+    crc32: crc32
 }

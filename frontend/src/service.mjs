@@ -1,66 +1,128 @@
 import * as Comlink from "comlink";
 
-const initWorker = (worker) => {
-  return new Promise(async (resolve, reject) => {
-    const { port1, port2 } = new MessageChannel();
-    const msg = {
-      worker: true,
-      port: port1,
-    };
-    worker.postMessage(msg, [port1]);
-    const memory = Comlink.wrap(port2)
-    resolve(memory);
-  })
+let service = {};
+let worker = {};
+
+let init = {
+  install: {
+    service: false,
+    web: false
+  },
+  activate: {
+    service: false,
+    web: false,
+    memory: false
+  }
 }
 
-const initService = () => {
-  return new Promise(async (resolve, reject) => {
-    const { port1, port2 } = new MessageChannel();
-    const msg = {
-      service: true,
-      port: port1,
-    };
-    navigator.serviceWorker.controller.postMessage(msg, [port1]);
-    let service = Comlink.wrap(port2)
-    resolve(service);
-  })
+const installVerify = async (type, obj) => {
+  switch (type) {
+    case 'service':
+      init.install.service = obj
+      break
+    case 'worker':
+      init.install.web = obj
+      break
+    default:
+      console.warn('неизвестное событие', event.data)
+      break
+  }
+  return true
+}
+
+const activateVerify = async (type, obj) => {
+  switch (type) {
+    case 'service':
+      init.activate.service = obj
+      break
+    case 'worker':
+      init.activate.web = obj
+      break
+    case 'memory':
+      init.activate.memory = obj
+      break
+    default:
+      console.warn('неизвестное событие', event.data)
+      break
+  }
 }
 
 export default () => {
   return new Promise(async (resolve, reject) => {
-    let init = {
-      db: false,
-      fs: false
-    }
-
-    const verify = async (type, obj) => {
-
-      (type === 'service')
-          ? init.db = obj
-          : init.fs = obj
-    }
-
-    const activation = async (type, obj) => {
-      verify(type, obj)
-      if(init.fs && init.db) {
-        resolve({db: init.db, fs: init.fs})
-      }
-    }
-
     if ('serviceWorker' in navigator) {
-      let serviceUrl = new URL('./index.mjs', import.meta.url)
+      const install = async (type, obj) => {
+        installVerify(type, obj)
+        if(init.install.web && init.install.service) {
+          await port()
+        }
+      }
+
+      const activate = async (type, obj) => {
+        activateVerify(type, obj)
+        if(init.activate.web && init.activate.service && init.activate.memory) {
+          let memory = init.activate.memory
+          init = {}
+          resolve(memory)
+        }
+      }
+
+      const port = () => {
+        return new Promise(async (resolve, reject) => {
+          const serviceWorkerChannel = new MessageChannel();
+          const mainWorkerChannel = new MessageChannel();
+
+          const workerService = {
+            activate: true,
+            service: serviceWorkerChannel.port1,
+            main: mainWorkerChannel.port1,
+          };
+
+          const serviceWorker = {
+            activate: true,
+            worker: serviceWorkerChannel.port2,
+          };
+
+          worker.postMessage(workerService, [serviceWorkerChannel.port1, mainWorkerChannel.port1]);
+          navigator.serviceWorker.controller.postMessage(serviceWorker, [serviceWorkerChannel.port2]);
+          const memory = Comlink.wrap(mainWorkerChannel.port2)
+          await activate('memory', memory)
+          resolve(true);
+        })
+      }
+
+      let serviceUrl = new URL('./PROXY.mjs', import.meta.url)
       let workerUrl = new URL('./WORKERFS.mjs', import.meta.url)
-      let worker = new Worker(workerUrl, { type: "module" });
+
+      worker = new Worker(workerUrl, { type: "module" });
       navigator.serviceWorker.register(serviceUrl, { type: "module" });
-      navigator.serviceWorker.addEventListener("controllerchange", async (event) => {
-        console.log('service init',event)
-        const service =  await initService()
-        await activation('service', service)
+
+      navigator.serviceWorker.addEventListener("controllerchange", async event => await install('service', true));
+
+      navigator.serviceWorker.addEventListener('message',async event => {
+        console.log('service incoming', event.data.service);
+        switch (event.data.service) {
+          case 'activate':
+            await activate('service', true)
+            break
+          default:
+            console.warn('неизвестное событие', event.data)
+            break
+        }
       });
-      worker.onmessage = async () => {
-        console.log('worker init')
-        const memory =  await initWorker(worker)
-        await activation('worker', memory)
+
+      worker.onmessage = async event => {
+        console.log('event worker', event.data.worker)
+        switch (event.data.worker) {
+          case 'install':
+            await install('worker', true)
+            break
+          case 'activate':
+            await activate('worker', true)
+            break
+          default:
+            console.warn('неизвестное событие', event.data)
+            break
+        }
       }
     } else {
       console.error('serviceWorker not work')

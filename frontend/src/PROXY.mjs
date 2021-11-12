@@ -1,10 +1,9 @@
 import * as Comlink from "comlink";
-import api from './modules/fs/api.mjs'
 
 const CONFIG = {
     CACHE: "@newkind/cache@0.1.0",
     timeout: 0,
-    db: {},
+    memory: {},
     progressIndicatorUrls: "/\?requestId=/i;",
     strategy: {
         NetworkOrCache: false,
@@ -18,7 +17,6 @@ const CONFIG = {
 
 self.addEventListener("install", (event) => {
     event.waitUntil((async () => {
-        CONFIG.db = await api()
         const cache = await caches.open(CONFIG.CACHE)
         // cache.addAll([
         //     '/img/background'
@@ -32,7 +30,6 @@ self.addEventListener("activate", (event) => {
     // `self.clients.claim()` позволяет SW начать перехватывать запросы с самого начала,
     // это работает вместе с `skipWaiting()`, позволяя использовать `fallback` с самых первых запросов.
     event.waitUntil(self.clients.claim());
-    console.log('activate in worker')
     // clients.claim()
 });
 
@@ -74,37 +71,31 @@ self.addEventListener('fetch', event => {
                 .then(refresh)
         );
     } else {
-        event.respondWith((async () => {
-            console.log("🏉", event.request.url)
-            if(event.request.url ==="https://hermitage.hostingradio.ru/hermitage128.mp3") {
-                const response = await fetch(event.request);
-                return response;
-
-                // let request = customHeaderRequestFetch(event)
-                // console.log('~~~request~~~', request)
-                // fetch(request).then(response => {
-                //     console.log('response', response)
-                //     return response
-                // })
-            } else {
-                const response = await fetch(event.request);
-                if (!response || response.status !== 200 || response.type !== 'basic') {
+        event.respondWith(fetch(new Request(event.request, {
+            mode: 'no-cors'
+        }))
+        .then(response => {
+                console.log()
+                if(!response || response.status !== 200 || response.type !== 'basic') {
                     return response;
                 }
                 return response;
             }
-        })());
+        ));
     }
 })
 
+
 self.addEventListener("message", async (event) => {
-    if (event.data.service) {
-        Comlink.expose(CONFIG.db, event.data.port)
-        return;
+    if(event.data.activate) {
+        CONFIG.memory = Comlink.wrap(event.data.worker)
+        event.source.postMessage({service: "activate"})
+    }
+    if(event.data.test) {
+        CONFIG.memory.fs.list.dir()
     }
 });
 
-// Временно-ограниченный запрос.
 function fromNetwork(request, timeout) {
     return new Promise((fulfill, reject) => {
         let timeoutId = setTimeout(reject, timeout);
@@ -154,7 +145,6 @@ const FALLBACK =
     '    <img src="/svg/or/base64/of/your/dinosaur" alt="dinosaur"/>\n' +
     '</div>';
 
-// Он никогда не упадет, т.к мы всегда отдаем заранее подготовленные данные.
 function useFallback() {
     return Promise.resolve(new Response(FALLBACK, { headers: {
             'Content-Type': 'text/html; charset=utf-8'
