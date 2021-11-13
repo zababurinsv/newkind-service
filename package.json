@@ -27,6 +27,10 @@
     "build:html": "rimraf ./service/* && rimraf ./docs/* && jsdoc -c jsdoc.json && parcel build --target service --no-source-maps --dist-dir ./service ",
     "build": "rimraf ./dist/* && rimraf ./docs/* && jsdoc -c jsdoc.json && parcel build $npm_package_config_mjs --no-source-maps --dist-dir ./dist ",
     "deploy": "gh-pages -d service",
+    "jsdoc2md:cat": "cat ./docs/src/frontmatter.md ./API.md > ./docs/admin/src/src/api/README.md",
+    "clean:Parcel": "",
+    "jsdoc2md": "jsdoc2md  --configure jsdoc.json --source frontend/**.mjs > md_api.md",
+    "README": "cat ./md_service.md ./md_api.md > ./README.md",
     "kill": "kill $(lsof -t -i:$npm_package_config_port)",
     "clean:parcel": "find . -name \".parcel-cache\" -exec rm -rf '{}' +; ",
     "clean": "rimraf ./service/* && rimraf ./dist/*"
