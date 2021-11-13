@@ -23,11 +23,10 @@
     "port": 4517
   },
   "scripts": {
-    "dev": "rimraf ./service/* && parcel $npm_package_config_html --port $npm_package_config_port --cache-dir ./.parcel-cache  --no-source-maps --dist-dir ./service ",
+    "dev": "rimraf ./service/* && rimraf ./docs/* && jsdoc -c jsdoc.json && parcel $npm_package_config_html --port $npm_package_config_port --cache-dir ./.parcel-cache  --no-source-maps --dist-dir ./service ",
     "build:html": "rimraf ./service/* && rimraf ./docs/* && jsdoc -c jsdoc.json && parcel build --target service --no-source-maps --dist-dir ./service ",
     "build": "rimraf ./dist/* && rimraf ./docs/* && jsdoc -c jsdoc.json && parcel build $npm_package_config_mjs --no-source-maps --dist-dir ./dist ",
     "deploy": "gh-pages -d service",
-    "jsdoc": "",
     "kill": "kill $(lsof -t -i:$npm_package_config_port)",
     "clean:parcel": "find . -name \".parcel-cache\" -exec rm -rf '{}' +; ",
     "clean": "rimraf ./service/* && rimraf ./dist/*"
