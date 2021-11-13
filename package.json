@@ -13,7 +13,7 @@
       "includeNodeModules": true,
       "optimize": true
     },
-    "docs": {
+    "service": {
       "source": "./frontend/src/index.html"
     }
   },
@@ -26,12 +26,13 @@
     "port": 4517
   },
   "scripts": {
-    "dev": "rimraf ./docs/* && parcel $npm_package_config_html --port $npm_package_config_port --cache-dir ./.parcel-cache  --no-source-maps --dist-dir ./docs ",
-    "build:html": "rimraf ./docs/* && parcel build --target docs --no-source-maps --dist-dir ./docs ",
+    "dev": "rimraf ./service/* && parcel $npm_package_config_html --port $npm_package_config_port --cache-dir ./.parcel-cache  --no-source-maps --dist-dir ./service ",
+    "build:html": "rimraf ./service/* && parcel build --target service --no-source-maps --dist-dir ./service ",
     "build": "rimraf ./dist/* && parcel build $npm_package_config_mjs --no-source-maps --dist-dir ./dist ",
+    "deploy": "gh-pages -d service",
     "kill": "kill $(lsof -t -i:$npm_package_config_port)",
     "clean:parcel": "find . -name \".parcel-cache\" -exec rm -rf '{}' +; ",
-    "clean": "rimraf ./docs/* && rimraf ./dist/*"
+    "clean": "rimraf ./service/* && rimraf ./dist/*"
   },
   "devDependencies": {
     "@parcel/packager-raw-url": "^2.0.1",

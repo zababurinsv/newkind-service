@@ -11,8 +11,17 @@ const CONFIG = {
         CacheAndUpdate: false,
         CacheUpdateAndRefresh: false,
         EmbeddedFallback: false
+    },
+    contentType: (destination) => {
+        switch (destination) {
+            case'audio':
+                return 'audio/mpeg'
+                break
+            default:
+                return false
+                break
+        }
     }
-
 }
 
 self.addEventListener("install", (event) => {
@@ -71,17 +80,18 @@ self.addEventListener('fetch', event => {
                 .then(refresh)
         );
     } else {
-        event.respondWith(fetch(new Request(event.request, {
-            mode: 'no-cors'
-        }))
-        .then(response => {
-                console.log()
-                if(!response || response.status !== 200 || response.type !== 'basic') {
+        event.respondWith(fetch(new Request(event.request,{ headers: {
+                'Content-Type': CONFIG.contentType(event.request.destination)
+            }}))
+            .then(response => {
+                    console.log()
+                    if(!response || response.status !== 200 || response.type !== 'basic') {
+                        return response;
+                    }
                     return response;
                 }
-                return response;
-            }
-        ));
+            )
+        );
     }
 })
 

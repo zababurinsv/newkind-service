@@ -252,37 +252,35 @@ export let WORKERFS =  (object = {}) => {
                     })
                 }
             },
-            mount: (files) => {
-              return new Promise((resolve, reject) => {
-                  let reader = new FileReaderSync();
-                  console.log('~~~~~~~~~~~~~~~~', reader)
-                  let toMount = [], mountedPaths = [];
-                  if(!files?.length || typeof files === "string")
-                      files = [ files ];
-                  for(let file of files){
+            mount: (files,dirMounted = '/mnt', dirShared = '/shared', dirData='/data') => {
+                return new Promise((resolve, reject) => {
+                    let toMount = [], mountedPaths = [];
+                    if(!files?.length || typeof files === "string")
+                        files = [ files ];
+                    for(let file of files)
+                    {
+                        if(file instanceof File || (file?.data instanceof Blob && file.name)) {
+                            toMount.push(file);
+                            mountedPaths.push(file.name);
+                        } else if(typeof file == "string" && file.startsWith("http")) {
+                            const fileName = file.split("//").pop().replace(/\//g, "-");
+                            mountedPaths.push(fileName);
+                        } else {
+                            throw "Cannot mount file(s) specified. Must be a File, Blob, or a URL string.";
+                        }
+                    }
+                    try {
+                        workerfs.unmount(dirMounted)
+                    } catch(e) {}
+                    workerfs.files = workerfs.files.concat(toMount);
+                    object.fs.worker.mount(object.fs.worker.filesystems.WORKERFS, {
+                        files: workerfs.files.filter(f => f instanceof File),
+                        blobs: workerfs.files.filter(f => f?.data instanceof Blob)
+                    }, dirMounted);
 
-                      if(file instanceof File || (file?.data instanceof Blob && file.name)) {
-                          toMount.push(file);
-                          mountedPaths.push(file.name);
-                      } else if(typeof file == "string" && file.startsWith("http")) {
-                          const fileName = file.split("//").pop().replace(/\//g, "-");
-                          mountedPaths.push(fileName);
-                      } else {
-                          throw "Cannot mount file(s) specified. Must be a File, Blob, or a URL string.";
-                      }
-                  }
-                  try {
-                      workerfs.unmount(dirMounted)
-                  } catch(e) {}
-                  workerfs.files = workerfs.files.concat(toMount);
-                  object.fs.worker.mount(object.fs.worker.filesystems.WORKERFS, {
-                      files: workerfs.files.filter(f => f instanceof File),
-                      blobs: workerfs.files.filter(f => f?.data instanceof Blob)
-                  }, object.dirMounted);
-                  let out = mountedPaths.map(path => `${object.dirMounted}`);
-                    console.log('~~~~~~~~~~~', out)
-                  resolve(out)
-              })
+                    let out = mountedPaths.map(path => `${dirShared}${dirData}`);
+                    resolve(out)
+                })
             },
             mkdir: (path) => {
                 return new Promise(async (resolve, reject) => {
