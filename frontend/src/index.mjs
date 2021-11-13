@@ -1,6 +1,6 @@
 import * as Comlink from "comlink";
 
-let service = {};
+let index = {};
 let worker = {};
 
 let init = {
@@ -91,7 +91,7 @@ export default () => {
       }
 
       let serviceUrl = new URL('./PROXY.mjs', import.meta.url)
-      let workerUrl = new URL('./WORKERFS.mjs', import.meta.url)
+      let workerUrl = new URL('./WORKER.mjs', import.meta.url)
 
       worker = new Worker(workerUrl, { type: "module" });
       navigator.serviceWorker.register(serviceUrl, { type: "module" });
@@ -126,7 +126,10 @@ export default () => {
       }
     } else {
       console.error('serviceWorker not work')
-      resolve(false)
+      let workerUrl = new URL('./WORKER.mjs', import.meta.url)
+      worker = new Worker(workerUrl, { type: "module" });
+      let memory = Comlink.wrap(worker);
+      resolve(memory)
     }
   })
 }
