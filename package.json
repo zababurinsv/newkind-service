@@ -25,14 +25,21 @@
   "scripts": {
     "dev": "rimraf ./service/* && rimraf ./docs/* && jsdoc -c jsdoc.json && parcel $npm_package_config_html --port $npm_package_config_port --cache-dir ./.parcel-cache  --no-source-maps --dist-dir ./service ",
     "build": "rimraf ./dist/* && rimraf ./docs/* && jsdoc -c jsdoc.json && parcel build $npm_package_config_mjs --no-source-maps --dist-dir ./dist ",
-    "pages": "rimraf ./service/* && rimraf ./docs/* && jsdoc -c jsdoc.json && parcel build --target service --no-source-maps --dist-dir ./service ",
+    "sevice": "rimraf ./service/* && rimraf ./docs/* && jsdoc -c jsdoc.json && parcel build --target service --no-source-maps --dist-dir ./service ",
     "jsdoc2md": "jsdoc2md  --configure jsdoc.json --source frontend/**.mjs > md_api.md && cat ./md_info.md ./md_api.md > ./README.md",
     "deploy": "gh-pages -d service",
-    "kill": "kill $(lsof -t -i:$npm_package_config_port)",
-    "clean": "find . -name \".parcel-cache\" -exec rm -rf '{}' +; && rimraf ./service/* && rimraf ./dist/*"
+    "clean": "find . -name \".parcel-cache\" -exec rm -rf '{}' +; && rimraf ./service/* && rimraf ./dist/* && rimraf ./docs/* && rimraf ./md_api.md",
+    "kill": "kill $(lsof -t -i:$npm_package_config_port)"
+  },
+  "dependencies": {
+    "comlink": "^4.3.1",
+    "libsodium-wrappers": "^0.7.9",
+    "web-streams-polyfill": "^3.2.0"
   },
   "devDependencies": {
+    "@newkind/tests": "^0.1.5",
     "@parcel/packager-raw-url": "^2.0.1",
+    "@parcel/transformer-sass": "^2.0.1",
     "@parcel/transformer-webmanifest": "^2.0.1",
     "@types/libsodium-wrappers": "^0.7.9",
     "docdash": "^1.2.0",
@@ -40,13 +47,7 @@
     "jsdoc": "^3.6.7",
     "jsdoc-to-markdown": "^7.1.0",
     "parcel": "2.0.1",
-    "parcel-reporter-static-files-copy": "^1.3.0"
-  },
-  "dependencies": {
-    "comlink": "^4.3.1",
-    "libsodium-wrappers": "^0.7.9",
-    "redux": "^4.1.2",
-    "web-streams-polyfill": "^3.2.0"
+    "redux": "^4.1.2"
   },
   "eslintConfig": {
     "extends": [

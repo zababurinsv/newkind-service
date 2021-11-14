@@ -84,13 +84,13 @@ export let IDBFS = (object = { }) => {
             await object.fs.api.mount(object.fs.idbfs.filesystems.IDBFS,  mount, {})
             await object.fs.api.fs.load();
             object.terminate = () => {
-                if(window) {
-                    window.onbeforeunload = function () {
-                        object.fs.api.fsSave()
-                    };
-                } else {
-                    console.log('неопределённое поведение')
-                }
+                // if(window) {
+                //     window.onbeforeunload = function () {
+                //         object.fs.api.fsSave()
+                //     };
+                // } else {
+                //     console.log('неопределённое поведение')
+                // }
             }
             resolve(new Proxy(object.fs.api,{
                 get: (obj, prop) => {

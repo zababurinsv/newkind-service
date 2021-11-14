@@ -47,9 +47,9 @@ const activateVerify = async (type, obj) => {
   }
 }
 
-export default () => {
+export default (service = true) => {
   return new Promise(async (resolve, reject) => {
-    if ('serviceWorker' in navigator) {
+    if ('serviceWorker' in navigator && service) {
       const install = async (type, obj) => {
         installVerify(type, obj)
         if(init.install.web && init.install.service) {
@@ -125,7 +125,11 @@ export default () => {
         }
       }
     } else {
-      console.error('serviceWorker not work')
+      navigator.serviceWorker.getRegistrations().then(function(registrations) {
+        for(let registration of registrations) {
+          console.log('terminate', registration)
+          registration.unregister()
+      }})
       let workerUrl = new URL('./WORKER.mjs', import.meta.url)
       worker = new Worker(workerUrl, { type: "module" });
       let memory = Comlink.wrap(worker);

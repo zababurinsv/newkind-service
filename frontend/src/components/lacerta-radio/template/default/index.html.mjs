@@ -1,6 +1,6 @@
 export default () => {
 return `
-    <template>
+<template>
     <div class="audio-newkind">
         <h1 class="audio-newkind__title">NewKind Radio</h1>
         <form class="audio-newkind__form">
