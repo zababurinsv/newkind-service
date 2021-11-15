@@ -31,14 +31,14 @@ self.addEventListener("install", (event) => {
         //     '/img/background'
         // ])
         console.log('install in worker')
-        self.skipWaiting()
+        // self.skipWaiting()
     })())
 });
 
 self.addEventListener("activate", (event) => {
     // `self.clients.claim()` позволяет SW начать перехватывать запросы с самого начала,
     // это работает вместе с `skipWaiting()`, позволяя использовать `fallback` с самых первых запросов.
-    event.waitUntil(self.clients.claim());
+    // event.waitUntil(self.clients.claim());
     // clients.claim()
 });
 

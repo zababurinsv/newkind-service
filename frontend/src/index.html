@@ -204,9 +204,9 @@
 
             CONFIG.upload.addEventListener('change', async (e) => {
                 await worker.fs.write.files(e.target.files)
-              consolr.log('files loaded')
+              console.log('files loaded')
                 const list = await worker.fs.list.files()
-                consolr.log('list loaded', list)
+                console.log('list loaded', list)
                 CONFIG.img.innerHTML = ''
                 list.forEach(item => {
                     const template  = CONFIG.template.files.content.cloneNode(true)
