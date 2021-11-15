@@ -233,10 +233,10 @@
   resolved "https://registry.yarnpkg.com/@iarna/toml/-/toml-2.2.5.tgz#b32366c89b43c6f8cefbdefac778b9c828e3ba8c"
   integrity sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==
 
-"@newkind/tests@^0.1.5":
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/@newkind/tests/-/tests-0.1.5.tgz#09c1a2b7a7f9e3ed21f416be35fc773c4b61a30f"
-  integrity sha512-11GxSqbvsKesiOhQij6Vf1Zrb+D7s5EWOSBrok0RIk9bBPO5Kaab6ukUPoLMXQ9WNx7VOwrLZseABUccZwZCdA==
+"@newkind/tests@^0.1.7":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@newkind/tests/-/tests-0.1.7.tgz#b57ab47551bd1f3b8937811f9b45086cd9e88bf6"
+  integrity sha512-i/oxx2op0ypWw+bq5X0JbLqCu+GPihMdGc17DjarqKlDe0Psq/HzMoYaGLDx/D7aHfHdFM2bpAUWz+JlYhSIOw==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
