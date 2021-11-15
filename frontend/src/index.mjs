@@ -16,6 +16,7 @@ let init = {
 }
 
 const installVerify = async (type, obj) => {
+  console.log('verify', type, obj)
   switch (type) {
     case 'service':
       init.install.service = obj
@@ -50,9 +51,11 @@ const activateVerify = async (type, obj) => {
 export default (service = true) => {
   return new Promise(async (resolve, reject) => {
     if ('serviceWorker' in navigator && service) {
+
       const install = async (type, obj) => {
         installVerify(type, obj)
         if(init.install.web && init.install.service) {
+          console.log('install port 1')
           await port()
         }
       }
@@ -60,6 +63,7 @@ export default (service = true) => {
       const activate = async (type, obj) => {
         activateVerify(type, obj)
         if(init.activate.web && init.activate.service && init.activate.memory) {
+          console.log('activate port 1')
           let memory = init.activate.memory
           init = {}
           resolve(memory)
@@ -111,7 +115,7 @@ export default (service = true) => {
       });
 
       worker.onmessage = async event => {
-        console.log('event worker', event.data.worker)
+        console.log('worker incoming 1', event.data.worker)
         switch (event.data.worker) {
           case 'install':
             await install('worker', true)
@@ -125,15 +129,44 @@ export default (service = true) => {
         }
       }
     } else {
-      navigator.serviceWorker.getRegistrations().then(function(registrations) {
-        for(let registration of registrations) {
-          console.log('terminate', registration)
-          registration.unregister()
-      }})
+      console.log("service worker not installed", 'serviceWorker' in navigator)
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+          for(let registration of registrations) {
+            console.log('terminate', registration)
+            registration.unregister()
+          } })
+      }
+
       let workerUrl = new URL('./WORKER.mjs', import.meta.url)
       worker = new Worker(workerUrl, { type: "module" });
-      let memory = Comlink.wrap(worker);
-      resolve(memory)
+      let memory = {}
+      const port = () => {
+        return new Promise(async (resolve, reject) => {
+          const mainWorkerChannel = new MessageChannel();
+          const mainWorker = {
+            main: true,
+            port: mainWorkerChannel.port1,
+          };
+          memory = Comlink.wrap(mainWorkerChannel.port2)
+          worker.postMessage(mainWorker, [mainWorkerChannel.port1]);
+        })
+      }
+
+      worker.onmessage = async event => {
+        console.log('worker incoming 2', event.data.worker)
+        switch (event.data.worker) {
+          case 'install':
+            await port()
+            break
+          case 'activate':
+            resolve(memory)
+            break
+          default:
+            console.warn('неизвестное событие', event.data)
+            break
+        }
+      }
     }
   })
 }

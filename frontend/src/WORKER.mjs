@@ -40,9 +40,13 @@ import * as Comlink from "comlink";
          }
     }
     onmessage = function(event) {
+        console.log('in worker', event.data)
         if (event.data.activate) {
             Comlink.expose(obj, event.data.service)
             Comlink.expose(obj, event.data.main)
+            self.postMessage({worker: "activate"})
+        } else if(event.data.main){
+            Comlink.expose(obj, event.data.port)
             self.postMessage({worker: "activate"})
         }
     }

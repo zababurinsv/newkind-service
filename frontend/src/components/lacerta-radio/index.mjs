@@ -18,6 +18,7 @@ const template = (self) => {
     component.this.shadowRoot.appendChild(style)
     component.this.shadowRoot.appendChild(body.getElementsByTagName('template')[0].content.cloneNode(true))
     component.this.classList.remove('skeleton-box')
+    component.this.innerHTML = ''
     resolve(component)
   })
 }
@@ -39,11 +40,13 @@ try {
   customElements.define('lacerta-radio', lacertaRadio );
 } catch (e) {
   console.error('error',e)
-  navigator.serviceWorker.getRegistrations().then(function(registrations) {
-    for(let registration of registrations) {
-      console.log('terminate', registration)
-      registration.unregister()
-    } })
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(function(registrations) {
+      for(let registration of registrations) {
+        console.log('terminate', registration)
+        registration.unregister()
+      } })
+  }
 }
 
 

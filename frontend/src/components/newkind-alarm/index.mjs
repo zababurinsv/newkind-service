@@ -11,6 +11,7 @@ const template = async (self, props = {}) => {
     component.this.attachShadow({mode: 'open'})
     component.props = await modules(component.this.shadowRoot, props)
     component.this.classList.remove('skeleton-box')
+    component.this.innerHTML = ''
     resolve(component)
   })
 }
@@ -32,11 +33,13 @@ try {
   customElements.define('newkind-alarm', newkindAlarm );
 } catch (e) {
   console.error('error',e)
-  navigator.serviceWorker.getRegistrations().then(function(registrations) {
-    for(let registration of registrations) {
-      console.log('terminate', registration)
-      registration.unregister()
-    } })
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(function(registrations) {
+      for(let registration of registrations) {
+        console.log('terminate', registration)
+        registration.unregister()
+      } })
+  }
 }
 
 export { newkindAlarm }

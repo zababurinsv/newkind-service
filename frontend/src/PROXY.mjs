@@ -97,6 +97,7 @@ self.addEventListener('fetch', event => {
 
 
 self.addEventListener("message", async (event) => {
+    console.log('in service', event.data)
     if(event.data.activate) {
         CONFIG.memory = Comlink.wrap(event.data.worker)
         event.source.postMessage({service: "activate"})
