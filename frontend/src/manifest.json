@@ -2,7 +2,6 @@
   "name": "Elite",
   "short_name": "NewKind",
   "start_url": ".",
-  "url": "/",
   "display": "standalone",
   "background_color": "#fff",
   "description": "elite of universe",

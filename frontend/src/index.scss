@@ -104,111 +104,110 @@ body {
       transform: translateX(100%);
     }
   }
-}
 
 
-//``````````````````
-.audio-newkind__radio + label:hover {
-  cursor: pointer;
+  .audio-newkind__radio + label:hover {
+    cursor: pointer;
 
-}
+  }
 
-.audio-newkind__radio {
-  display: none;
-}
+  .audio-newkind__radio {
+    display: none;
+  }
 
-.audio-newkind__radio + label span {
-  border: 2px solid transparent;
-  border-radius: 80%;
-  font-size: 1rem;
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  margin: 4px 8px 8px 8px;
-  padding: 2px;
-  text-align: center;
-  vertical-align: middle;
-}
+  .audio-newkind__radio + label span {
+    border: 2px solid transparent;
+    border-radius: 80%;
+    font-size: 1rem;
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 4px 8px 8px 8px;
+    padding: 2px;
+    text-align: center;
+    vertical-align: middle;
+  }
 
-.audio-newkind__radio:checked + label span {
-  background: transparent;
-}
+  .audio-newkind__radio:checked + label span {
+    background: transparent;
+  }
 
-.audio-newkind {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
-}
-
-
-.audio-newkind__btn {
-  appearance: none;
-  border: none;
-  border-radius: 4px;
-  box-shadow: inset 0px 1px 0px 0px rgba(255, 255, 255, .4), 2px 6px 10px 0px rgba(0, 0, 0, 0.2);
-  width: 100%;
-  max-width: 200px;
-  margin: auto;
-  display: flex;
-  justify-content: center;
-  outline: none;
-  margin-top: 0.75rem;
-  padding: 1em;
-  position: relative;
-  z-index: 1;
-  font-family: 'Roboto', sans-serif;
-  font-size: 0.875rem;
-  background-color: rgba(225, 221, 221, 0.56);
-  color: black;
-}
-
-.audio-newkind__btn:hover {
-  cursor: pointer;
-}
-
-.audio-newkind__title {
-  background-color: rgba(225, 221, 221, 0.56);
-  align-self: center;
-  width: 20vw;
-  height: 4vw;
-}
-
-#oscilloscope {
-  border-top: 0.3vw solid #e6ebf1;
-  border-bottom: 0.3vw solid #e6ebf1;
-  height: 200px;
-  width: 100%;
-  background-color: rgba(225, 221, 221, 0.56);
-  margin: 0;
-}
-
-.audio-newkind__form {
-  max-width: 100%;
-  background-color: rgba(225, 221, 221, 0.56);
-  font-family: 'Roboto', sans-serif;
-  color: transparent;
-  margin: 1rem auto 1rem 0;
-}
+  .audio-newkind {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+  }
 
 
-h1 {
-  color: transparent;
-  background:  rgba(225, 221, 221, 0.56);
-  width: max-content;
-}
+  .audio-newkind__btn {
+    appearance: none;
+    border: none;
+    border-radius: 4px;
+    box-shadow: inset 0px 1px 0px 0px rgba(255, 255, 255, .4), 2px 6px 10px 0px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 200px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    outline: none;
+    margin-top: 0.75rem;
+    padding: 1em;
+    position: relative;
+    z-index: 1;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.875rem;
+    background-color: rgba(225, 221, 221, 0.56);
+    color: black;
+  }
 
-button {
-  color: transparent;
-  border: none;
-}
+  .audio-newkind__btn:hover {
+    cursor: pointer;
+  }
 
-ul {
-  color: transparent;
-  background:  rgba(225, 221, 221, 0.56);
-  width: max-content;
-}
+  .audio-newkind__title {
+    background-color: rgba(225, 221, 221, 0.56);
+    align-self: center;
+    width: 20vw;
+    height: 4vw;
+  }
 
-.app-alarmList {
-  color: transparent;
+  #oscilloscope {
+    border-top: 0.3vw solid #e6ebf1;
+    border-bottom: 0.3vw solid #e6ebf1;
+    height: 200px;
+    width: 100%;
+    background-color: rgba(225, 221, 221, 0.56);
+    margin: 0;
+  }
+
+  .audio-newkind__form {
+    max-width: 100%;
+    background-color: rgba(225, 221, 221, 0.56);
+    font-family: 'Roboto', sans-serif;
+    color: transparent;
+    margin: 1rem auto 1rem 0;
+  }
+
+
+  h1 {
+    color: transparent;
+    background:  rgba(225, 221, 221, 0.56);
+    width: max-content;
+  }
+
+  button {
+    color: transparent;
+    border: none;
+  }
+
+  ul {
+    color: transparent;
+    background:  rgba(225, 221, 221, 0.56);
+    width: max-content;
+  }
+
+  .app-alarmList {
+    color: transparent;
+  }
 }

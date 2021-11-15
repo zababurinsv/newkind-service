@@ -50,6 +50,7 @@ const activateVerify = async (type, obj) => {
 export default (service = true) => {
   return new Promise(async (resolve, reject) => {
     if ('serviceWorker' in navigator && service) {
+
       const install = async (type, obj) => {
         installVerify(type, obj)
         if(init.install.web && init.install.service) {
@@ -130,10 +131,37 @@ export default (service = true) => {
           console.log('terminate', registration)
           registration.unregister()
       }})
+
       let workerUrl = new URL('./WORKER.mjs', import.meta.url)
       worker = new Worker(workerUrl, { type: "module" });
-      let memory = Comlink.wrap(worker);
-      resolve(memory)
+      let memory = {}
+      const port = () => {
+        return new Promise(async (resolve, reject) => {
+          const mainWorkerChannel = new MessageChannel();
+          const mainWorker = {
+            main: true,
+            port: mainWorkerChannel.port1,
+          };
+          memory = Comlink.wrap(mainWorkerChannel.port2)
+          worker.postMessage(mainWorker, [mainWorkerChannel.port1]);
+          resolve(true);
+        })
+      }
+
+      worker.onmessage = async event => {
+        console.log('event worker', event.data.worker)
+        switch (event.data.worker) {
+          case 'install':
+            await port()
+            break
+          case 'activate':
+            resolve(memory)
+            break
+          default:
+            console.warn('неизвестное событие', event.data)
+            break
+        }
+      }
     }
   })
 }

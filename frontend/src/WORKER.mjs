@@ -44,6 +44,9 @@ import * as Comlink from "comlink";
             Comlink.expose(obj, event.data.service)
             Comlink.expose(obj, event.data.main)
             self.postMessage({worker: "activate"})
+        } else if(event.data.main){
+            Comlink.expose(obj, event.data.port)
+            self.postMessage({worker: "activate"})
         }
     }
     self.postMessage({worker: "install"})

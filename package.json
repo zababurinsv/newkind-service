@@ -23,12 +23,12 @@
     "port": 4517
   },
   "scripts": {
-    "dev": "rimraf ./service/* && rimraf ./docs/* && jsdoc -c jsdoc.json && parcel $npm_package_config_html --port $npm_package_config_port --cache-dir ./.parcel-cache  --no-source-maps --dist-dir ./service ",
+    "dev": "rimraf ./service/* && parcel $npm_package_config_html --port $npm_package_config_port --cache-dir ./.parcel-cache  --no-source-maps --dist-dir ./service ",
     "build": "rimraf ./dist/* && rimraf ./docs/* && jsdoc -c jsdoc.json && parcel build $npm_package_config_mjs --no-source-maps --dist-dir ./dist ",
     "sevice": "rimraf ./service/* && rimraf ./docs/* && jsdoc -c jsdoc.json && parcel build --target service --no-source-maps --dist-dir ./service ",
     "jsdoc2md": "jsdoc2md  --configure jsdoc.json --source frontend/**.mjs > md_api.md && cat ./md_info.md ./md_api.md > ./README.md",
-    "deploy": "gh-pages -d service",
-    "clean": "find . -name \".parcel-cache\" -exec rm -rf '{}' +; && rimraf ./service/* && rimraf ./dist/* && rimraf ./docs/* && rimraf ./md_api.md",
+    "deploy": "./manifest.sh && gh-pages -d service",
+    "clean": "rimraf ./service/* && rimraf ./dist/* && rimraf ./docs/* && rimraf ./md_api.md && find . -name \".parcel-cache\" -exec rm -rf '{}' +;",
     "kill": "kill $(lsof -t -i:$npm_package_config_port)"
   },
   "dependencies": {
