@@ -25,7 +25,7 @@
   "scripts": {
     "dev": "rimraf ./service/* && parcel $npm_package_config_html --port $npm_package_config_port --cache-dir ./.parcel-cache  --no-source-maps --dist-dir ./service ",
     "build": "rimraf ./dist/* && parcel build $npm_package_config_mjs --no-source-maps --dist-dir ./dist ",
-    "sevice": "kill $(lsof -t -i:$npm_package_config_port) && rimraf ./service/* && parcel build --target service --no-source-maps --dist-dir ./service ",
+    "sevice": "rimraf ./service/* && parcel build --target service --no-source-maps --dist-dir ./service ",
     "docs": "rimraf ./docs/* && jsdoc -c jsdoc.json",
     "jsdoc2md": "jsdoc2md  --configure jsdoc.json --source frontend/**.mjs > md_api.md && cat ./md_info.md ./md_api.md > ./README.md",
     "deploy": "./manifest.sh && gh-pages -d service",
@@ -48,7 +48,8 @@
     "jsdoc": "^3.6.7",
     "jsdoc-to-markdown": "^7.1.0",
     "parcel": "2.0.1",
-    "redux": "^4.1.2"
+    "redux": "^4.1.2",
+    "redrun": "^9.0.1"
   },
   "eslintConfig": {
     "extends": [

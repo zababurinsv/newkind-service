@@ -40,13 +40,16 @@ try {
   customElements.define('lacerta-radio', lacertaRadio );
 } catch (e) {
   console.error('error',e)
-  if ('serviceWorker' in navigator) {
+
+  /*
+   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.getRegistrations().then(function(registrations) {
       for(let registration of registrations) {
         console.log('terminate', registration)
         registration.unregister()
       } })
   }
+   */
 }
 
 

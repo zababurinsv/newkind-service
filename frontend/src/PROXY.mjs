@@ -30,36 +30,24 @@ self.addEventListener("install", (event) => {
         // cache.addAll([
         //     '/img/background'
         // ])
-        console.log('install in worker')
+        //console.log('*** service install ***')
         self.skipWaiting()
     })())
 });
 
 self.addEventListener("activate", (event) => {
+    //console.log('*** service activate ***')
     event.waitUntil(self.clients.claim());
 });
 
-function customHeaderRequestFetch(event) {
-    var myRequest = new Request(event.request.url);
-    var myHeaders = new Headers();
-    // let request = new Request(event.request);
-    // let headers = request.headers;
-    // headers.append('Content-Type', 'audio/mpeg');
-    // headers.append('Cache-Control', 'no-cache, no-store');
-    // headers.append('Access-Control-Allow-Origin', 'http://localhost:4517');
-    // headers.append('Access-Control-Allow-Credentials', 'true');
-    // headers.append('Access-Control-Allow-Headers', 'Origin, Accept, X-Requested-With, Content-Type, Icy-MetaData');
-    // headers.append('Access-Control-Allow-Methods', 'GET, OPTIONS, SOURCE, PUT, HEAD, STATS');
-    // return request
-}
-
 self.addEventListener('fetch', event => {
+    //console.log('*** service fetch ***')
     const url = new URL(event.request.url);
     const scope = self.registration.scope;
     if(CONFIG.strategy.NetworkOrCache) {
         event.respondWith(fromNetwork(event.request, CONFIG.timeout)
             .catch((err) => {
-                console.log(`Error: ${err.message()}`);
+                //console.log(`Error: ${err.message()}`);
                 fromCache(event.request);
                 // .catch(() => return useFallback()));
             }));
@@ -81,7 +69,7 @@ self.addEventListener('fetch', event => {
                 'Content-Type': CONFIG.contentType(event.request.destination)
             }}))
             .then(response => {
-                    console.log()
+                //console.log('*** service response ***')
                     if(!response || response.status !== 200 || response.type !== 'basic') {
                         return response;
                     }
@@ -94,13 +82,10 @@ self.addEventListener('fetch', event => {
 
 
 self.addEventListener("message", async (event) => {
-    console.log('in service', event.data)
+    console.log('*** service message ***', event.data)
     if(event.data.activate) {
         CONFIG.memory = Comlink.wrap(event.data.worker)
         event.source.postMessage({service: "activate"})
-    }
-    if(event.data.test) {
-        CONFIG.memory.fs.list.dir()
     }
 });
 
