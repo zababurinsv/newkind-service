@@ -40,15 +40,29 @@ import * as Comlink from "comlink";
          }
     }
     onmessage = function(event) {
-        //console.log('in worker', event.data)
-        if (event.data.activate) {
-            Comlink.expose(obj, event.data.service)
-            Comlink.expose(obj, event.data.main)
-            self.postMessage({worker: "activate"})
-        } else if(event.data.main){
-            Comlink.expose(obj, event.data.port)
-            self.postMessage({worker: "activate"})
+        if (event.data.state.isConnected && event.data.state.type === 'main-memory') {
+            for(let port in event.data.state.from) {
+                Comlink.expose(obj, event.data.state.from[port])
+            }
+            self.postMessage({
+                state: {
+                    "main-memory": true
+                }
+            })
+        } else if(event.data.state.isConnected && event.data.state.type === 'proxy-memory') {
+            for(let port in event.data.state.from) {
+                Comlink.expose(obj, event.data.state.from[port])
+            }
+            self.postMessage({
+                state: {
+                    "proxy-memory": true
+                }
+            })
         }
     }
-    self.postMessage({worker: "install"})
+    self.postMessage({
+        state: {
+           install: true
+        }
+    })
 })()

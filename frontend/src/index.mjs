@@ -1,217 +1,311 @@
 import * as Comlink from "comlink";
 import isEmpty from './modules/isEmpty/isEmpty.mjs'
-let index = {};
-let worker = {};
 
-let init = {
-  install: {
-    service: false,
-    web: false
+let service = {
+  state: new Proxy({
+    memory: false,
+    proxy: false,
+    worker: {
+      memory: false,
+      proxy: false
+    },
+    isWorkerMemory: false,
+    isWorkerProxy: false,
+    init: {
+      memory: {
+        install: false,
+      },
+      proxy: {
+        install: false,
+      },
+      port: {
+        proxy: false,
+        memory: false
+      }
+    }
+  }, {
+    get: (obj, prop) => {
+      // console.log((obj[prop]) ? prop : "process")
+      return obj[prop];
+    },
+    set: (obj, prop, value) => {
+      console.log('🎙 >>>', prop, value)
+        switch (prop) {
+          case 'isWorkerMemory':
+            if(value)
+              service.memory.activate().catch(e => console.log('error memory', e))
+            break
+          case'isWorkerProxy':
+              service.proxy.activate().catch(e => console.log('error proxy', e))
+            break
+          default:
+            break
+        }
+        if(isEmpty(obj[prop])){
+          obj[prop] = []
+        }
+        obj[prop] = value;
+        return true
+      }
+    }
+  ),
+  memory: {
+    install: () => {
+      return new Promise(async resolve  => {
+        const url = new URL('./WORKER.mjs', import.meta.url)
+        service.state.worker.memory = new Worker(url, { type: "module" });
+        await service.listener.memory()
+        service.state.init.memory = new Proxy({},{
+          set: (obj, prop, value) => {
+            console.log('🎙 >>>', prop, value)
+            if(prop === 'install') {
+              if(value) {
+                if(!isEmpty(service.state.init.proxy.install)) {
+                  service.state.init.proxy.memory = true
+                }
+                const memory = service.memory
+                resolve(memory)
+              }
+            }
+            if(isEmpty(obj[prop])){
+              obj[prop] = []
+            }
+            obj[prop] = value;
+            return true
+          }
+        })
+      })
+    },
+    activate: () => {
+      return new Promise(async resolve  => {
+        const mainMemoryChannel = new MessageChannel();
+        const mainWorker = {
+          state: {
+            isConnected: true,
+            type: 'main-memory',
+            from: {"0": mainMemoryChannel.port1}
+          }
+        };
+        service.memory = Comlink.wrap(mainMemoryChannel.port2)
+        service.state.worker.memory.postMessage(mainWorker, [mainMemoryChannel.port1]);
+        resolve(true)
+      })
+    }
   },
-  activate: {
-    service: false,
-    web: false,
-    memory: false
+  proxy: {
+    install: () => {
+      return new Promise(async resolve  => {
+        if ('serviceWorker' in navigator) {
+          await service.listener.proxy()
+          console.log('📩 service worker will be install')
+          let serviceUrl = new URL('./PROXY.mjs', import.meta.url)
+          let serviceWorker = await navigator.serviceWorker.register(serviceUrl, { type: "module" })
+              .then(function(registration) {
+                let serviceWorker;
+                if (registration.installing) {
+                  serviceWorker = registration.installing;
+                } else if (registration.waiting) {
+                  serviceWorker = registration.waiting;
+                } else if (registration.active) {
+                  serviceWorker = registration.active;
+                }
+
+                if (serviceWorker) {
+                  serviceWorker.addEventListener('statechange', function(e) {
+                    if(e.target.state === 'activated') {
+                      service.state.isWorkerProxy = true
+                    }
+                  });
+                }
+              })
+
+          service.state.init.port = new Proxy({},{
+            set: (obj, prop, value) => {
+              console.log('🎙 >>>', prop, value)
+              if(prop === 'proxy') {
+                if(value) {
+                  if(service.state.init.port.memory) {
+                    resolve(true)
+                  }
+                }
+              }
+              if(prop === 'memory') {
+                if(value) {
+                  if(service.state.init.port.proxy) {
+                    resolve(true)
+                  }
+                }
+              }
+              if(isEmpty(obj[prop])){
+                obj[prop] = []
+              }
+              obj[prop] = value;
+              return true
+            }
+          })
+        } else {
+          console.log('🎈 service worker not found')
+          resolve(false)
+        }
+      })
+    },
+    activate: () => {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const port = () => {
+            return new Promise(async resolve  => {
+              console.log('🥉 service => memory')
+              const serviceWorkerChannel = new MessageChannel();
+              const workerService = {
+                state: {
+                  isConnected: true,
+                  type: 'proxy-memory',
+                  from: {"0": serviceWorkerChannel.port1}
+                }
+              };
+              const serviceWorker = {
+                state: {
+                  isConnected: true,
+                  type: 'proxy-memory',
+                  to: {"0": serviceWorkerChannel.port2}
+                }
+              };
+              service.state.worker.memory.postMessage(workerService, [serviceWorkerChannel.port1]);
+              navigator.serviceWorker.controller.postMessage(serviceWorker, [serviceWorkerChannel.port2]);
+            })
+          }
+
+          if(isEmpty(service.state.init.memory.install)) {
+            service.state.init.proxy = new Proxy({},{
+              set: (obj, prop, value) => {
+                console.log('🎙 >>>', prop, value)
+                if(prop === 'memory') {
+                  if(value) {
+                    port().then(port => {})
+                  }
+                }
+                if(isEmpty(obj[prop])){
+                  obj[prop] = []
+                }
+                obj[prop] = value;
+                return true
+              }
+            })
+            service.state.init.proxy.install = true
+          } else {
+            port().then(port => {})
+          }
+        } catch (e) {
+          resolve(false);
+        }
+      })
+    }
+  },
+  listener: {
+    memory: () => {
+      return new Promise(async resolve => {
+        console.log('🚘 activate memory Listener');
+
+        service.state.worker.memory.onmessageerror = async event => {
+          console.log('🌷 web worker onmessageerror', event.data)
+        }
+
+        service.state.worker.memory.oncontrollerchange = async event => {
+          console.log('🌷 web worker controllerchange', event.data)
+        }
+
+        service.state.worker.memory.onmessage = async event => {
+          console.log('🌷 web worker onmessage', event.data.state)
+          if(event.data.state.install) {
+            service.state.isWorkerMemory = true
+          }
+          if(event.data.state['main-memory']) {
+            service.state.init.memory.install = true
+          }
+          if(event.data.state['proxy-memory']) {
+            service.state.init.port.memory = true
+          }
+        }
+
+        resolve(true)
+      })
+    },
+    proxy: (ServiceWorker) => {
+      return new Promise(async resolve => {
+        console.log('🚘 activate service Listener');
+
+        navigator.serviceWorker.oncontrollerchange = async (event) => {
+          console.log('🌼 service worker oncontrollerchange', event);
+        };
+
+        navigator.serviceWorker.onmessageerror = async (event) => {
+          console.log('🌼 service worker onmessageerror +++', event.data);
+        };
+
+        navigator.serviceWorker.onmessage = async (event) => {
+          console.log('🌼 service worker onmessage', event.data);
+          if(event.data.state['proxy-memory']) {
+            service.state.init.port.proxy = true
+          }
+        };
+        navigator.serviceWorker.ready
+        .then(async function(registration) {
+
+          // registration.update().then(e => ).catch(e => console.log('error', e));
+        })
+        resolve(true)
+      })
+    }
   }
 }
 
-const installVerify = async (type, obj) => {
-  return new Promise(resolve => {
-    try {
-      switch (type) {
-        case 'service':
-          init.install.service = obj
-          break
-        case 'worker':
-          init.install.web = obj
-          break
-        default:
-          console.warn('неизвестное событие', event.data)
-          break
-      }
-      resolve(true)
-    } catch (e) {
-      console.log('error', e)
-      resolve(false)
-    }
-  })
-}
 
-const activateVerify = async (type, obj) => {
-  return new Promise(resolve => {
-    try {
-      switch (type) {
-        case 'service':
-          init.activate.service = obj
-          break
-        case 'worker':
-          init.activate.web = obj
-          break
-        case 'memory':
-          init.activate.memory = obj
-          break
-        default:
-          console.warn('неизвестное событие', event.data)
-          break
-      }
-      resolve(true)
-    } catch (e) {
-      console.log('error', e)
-      resolve(false)
-    }
-  })
-}
-
-const verifyServiceWorker = () => {
+export default (PROXY = async () => {},MEMORY = async () => {},  install) => {
   return new Promise(async resolve => {
-    try {
-      const registrations = await navigator.serviceWorker.getRegistrations();
-      console.log('🎭 registration service worker', registrations);
-      if(isEmpty(registrations)) {
-        resolve(false)
-      } else {
-        for(let registration of registrations) {
-          console.log('🎯 service registrations update', registration)
-          await registration.update();
-        }
-        resolve(true)
-      }
-    } catch (e) {
-      console.log('error', e)
-      resolve(false)
+    let CONFIG = {
+      proxy: true,
+      memory: true,
+      isProxy: false,
+      isMemory: false,
     }
-  })
-}
-
-export default (service = true) => {
-  return new Promise(async (resolve, reject) => {
-    if ('serviceWorker' in navigator && service) {
-      const install = async (type, obj) => {
-        await installVerify(type, obj)
-        if(init.install.web && init.install.service) {
-          await port()
-        }
-      }
-
-      const activate = async (type, obj) => {
-        await activateVerify(type, obj)
-        if(init.activate.web && init.activate.service && init.activate.memory) {
-          let memory = init.activate.memory
-          init = {}
-          resolve(memory)
-        }
-      }
-
-      navigator.serviceWorker.addEventListener("controllerchange", async event => {
-        console.log('+++ service worker controllerchange +++', event);
-        await install('service', true)
-      });
-
-      navigator.serviceWorker.addEventListener('message',async event => {
-        console.log('+++ service worker message +++', event.data);
-        if(event.data.service === 'activate') {
-          await activate('service', true)
-        }
-      });
-
-      const port = () => {
-        return new Promise(async (resolve, reject) => {
-          try {
-            const serviceWorkerChannel = new MessageChannel();
-            const mainWorkerChannel = new MessageChannel();
-
-            const workerService = {
-              activate: true,
-              service: serviceWorkerChannel.port1,
-              main: mainWorkerChannel.port1,
-            };
-
-            const serviceWorker = {
-              activate: true,
-              worker: serviceWorkerChannel.port2,
-            };
-
-            console.log('🎸 message from port', {
-              'worker.postMessage': worker.postMessage,
-              'navigator.serviceWorker.controller.postMessage': navigator.serviceWorker.controller.postMessage,
-              'navigator.serviceWorker.controller': navigator.serviceWorker.controller
-            })
-            worker.postMessage(workerService, [serviceWorkerChannel.port1, mainWorkerChannel.port1]);
-            navigator.serviceWorker.controller.postMessage(serviceWorker, [serviceWorkerChannel.port2]);
-            const memory = Comlink.wrap(mainWorkerChannel.port2)
-            await activate('memory', memory)
-            resolve(true);
-          } catch (e) {
-            resolve(false);
+    let config = Object.assign(CONFIG, install)
+    CONFIG = new Proxy({},{
+      set: (obj, prop, value) => {
+        console.log('🎙 >>>', prop, value)
+        if(prop === 'isMemory') {
+          if(value) {
+            if(CONFIG.isProxy) {
+              resolve(true)
+            }
           }
-        })
-      }
-
-      console.log('🎤 init start')
-      let serviceWorker = await verifyServiceWorker()
-      console.log('👾 service worker state', serviceWorker)
-      if(serviceWorker) {
-        await install('service', true)
-      } else {
-        let serviceUrl = new URL('./PROXY.mjs', import.meta.url)
-        navigator.serviceWorker.register(serviceUrl, { type: "module" });
-      }
-      let workerUrl = new URL('./WORKER.mjs', import.meta.url)
-      worker = new Worker(workerUrl, { type: "module" });
-
-      worker.onmessage = async event => {
-        //console.log('worker incoming 1', event.data.worker)
-        switch (event.data.worker) {
-          case 'install':
-            await install('worker', true)
-            break
-          case 'activate':
-            await activate('worker', true)
-            break
-          default:
-            //console.warn('неизвестное событие', event.data)
-            break
         }
+        if(prop === 'isProxy') {
+          if(value) {
+            if(CONFIG.isMemory) {
+              resolve(true)
+            }
+          }
+        }
+        if(isEmpty(obj[prop])){
+          obj[prop] = []
+        }
+        obj[prop] = value;
+        return true
       }
+    })
+    if(config.memory) {
+      service.memory.install()
+          .then(async memory => {MEMORY(memory).catch(e => console.log('error', e)); CONFIG.isMemory = true})
+          .catch(e => {console.log('memory error', e)})
     } else {
-      //console.log("service worker not installed", 'serviceWorker' in navigator)
-      // if ('serviceWorker' in navigator) {
-      //   navigator.serviceWorker.getRegistrations().then(function(registrations) {
-      //     for(let registration of registrations) {
-      //       console.log('terminate', registration)
-            // registration.unregister()
-          // } })
-      // }
-
-      let workerUrl = new URL('./WORKER.mjs', import.meta.url)
-      worker = new Worker(workerUrl, { type: "module" });
-      let memory = {}
-      const port = () => {
-        return new Promise(async (resolve, reject) => {
-          const mainWorkerChannel = new MessageChannel();
-          const mainWorker = {
-            main: true,
-            port: mainWorkerChannel.port1,
-          };
-          memory = Comlink.wrap(mainWorkerChannel.port2)
-          worker.postMessage(mainWorker, [mainWorkerChannel.port1]);
-        })
-      }
-
-      worker.onmessage = async event => {
-        //console.log('worker incoming 2', event.data.worker)
-        switch (event.data.worker) {
-          case 'install':
-            await port()
-            break
-          case 'activate':
-            resolve(memory)
-            break
-          default:
-            console.warn('неизвестное событие', event.data)
-            break
-        }
-      }
+      MEMORY(true).catch(e => console.log('error', e))
+    }
+    if(config.proxy) {
+      service.proxy.install()
+          .then(async proxy => {PROXY(proxy).catch(e => console.log('error', e)); CONFIG.isProxy = true})
+          .catch(e => {console.log('proxy error', e)})
+    } else {
+      PROXY(true).catch(e => console.log('error', e))
     }
   })
 }

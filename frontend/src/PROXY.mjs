@@ -1,6 +1,6 @@
 import * as Comlink from "comlink";
 
-const CONFIG = {
+let CONFIG = {
     CACHE: "@newkind/cache@0.1.0",
     timeout: 0,
     memory: {},
@@ -30,20 +30,18 @@ self.addEventListener("install", (event) => {
         // cache.addAll([
         //     '/img/background'
         // ])
-        //console.log('*** service install ***')
+        console.log('🎨 service install')
         self.skipWaiting()
     })())
 });
 
 self.addEventListener("activate", (event) => {
-    //console.log('*** service activate ***')
+    console.log('🎨 service activate')
     event.waitUntil(self.clients.claim());
 });
 
 self.addEventListener('fetch', event => {
-    //console.log('*** service fetch ***')
-    const url = new URL(event.request.url);
-    const scope = self.registration.scope;
+    console.log('🎨 service fetch')
     if(CONFIG.strategy.NetworkOrCache) {
         event.respondWith(fromNetwork(event.request, CONFIG.timeout)
             .catch((err) => {
@@ -82,10 +80,20 @@ self.addEventListener('fetch', event => {
 
 
 self.addEventListener("message", async (event) => {
-    console.log('*** service message ***', event.data)
-    if(event.data.activate) {
-        CONFIG.memory = Comlink.wrap(event.data.worker)
-        event.source.postMessage({service: "activate"})
+    console.log('🎫 service message', event.data)
+    if (event.data && event.data.state && event.data.state.isConnected && event.data.state.type === "proxy-memory") {
+        for(let port in event.data.state.to) {
+            CONFIG.memory = Comlink.wrap(event.data.state.to[port])
+        }
+       event.source.postMessage({
+            state: {
+                'proxy-memory': true
+            }
+        })
+    } else {
+        if(event.data.test) {
+            await CONFIG.memory.fs.list.dir()
+        }
     }
 });
 
