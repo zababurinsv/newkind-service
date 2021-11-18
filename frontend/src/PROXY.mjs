@@ -31,13 +31,13 @@ self.addEventListener("install", (event) => {
         //     '/img/background'
         // ])
         console.log('🎨 service install')
-        self.skipWaiting()
+        // self.skipWaiting()
     })())
 });
 
 self.addEventListener("activate", (event) => {
     console.log('🎨 service activate')
-    event.waitUntil(self.clients.claim());
+    // event.waitUntil(self.clients.claim());
 });
 
 self.addEventListener('fetch', event => {

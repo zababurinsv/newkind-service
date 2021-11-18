@@ -110,10 +110,23 @@ let service = {
                   serviceWorker = registration.active;
                 }
 
+                if(serviceWorker.state === 'active') {
+                  service.state.isWorkerProxy = true
+                } else {
+                  console.log('~~~~~', serviceWorker.state)
+                }
                 if (serviceWorker) {
                   serviceWorker.addEventListener('statechange', function(e) {
+                    console.log('!!!!!!!!!!!!!!!!!!!!!', e.target.state)
+                    if(e.target.state === 'installed') {
+                      if(!service.state.isWorkerProxy) {
+                        service.state.isWorkerProxy = true
+                      }
+                    }
                     if(e.target.state === 'activated') {
-                      service.state.isWorkerProxy = true
+                      if(!service.state.isWorkerProxy) {
+                        service.state.isWorkerProxy = true
+                      }
                     }
                   });
                 }
