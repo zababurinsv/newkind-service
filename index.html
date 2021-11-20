@@ -85,6 +85,7 @@
         </div>
     </div>
 </newkind-alarm>
+<button class="logs__measureMemory">Measure Memory</button>
 <style>.newkind-alarm {
   box-sizing: border-box;
   padding: 1vw;
@@ -735,7 +736,7 @@ let $6de6a409e427de1e$var$DEFAULT = {
         }
     }
 };
-var $08259da71ba760bb$exports = {};
+var $c84ee3d5f5b5e904$exports = {};
 parcelRequire.register("f0u5Z", function(module, exports) {
 
 $parcel$export(module.exports, "getBundleURL", () => $aece33724a489073$export$bdfd709ae4826697, (v) => $aece33724a489073$export$bdfd709ae4826697 = v);
@@ -779,12 +780,12 @@ $aece33724a489073$export$5a759dc7a1cfb72a = $aece33724a489073$var$getOrigin;
 });
 
 
-$08259da71ba760bb$exports = (parcelRequire("f0u5Z")).getBundleURL('duWl6') + "WORKER.197a3812.js";
+$c84ee3d5f5b5e904$exports = (parcelRequire("f0u5Z")).getBundleURL('hgwN6') + "WORKER.3cdd7aaf.js";
 
 
-var $2f73ce4c349cc241$exports = {};
+var $cbe11f4fee878304$exports = {};
 
-$2f73ce4c349cc241$exports = (parcelRequire("f0u5Z")).getBundleURL('duWl6') + "PROXY.32cd3a92.js";
+$cbe11f4fee878304$exports = (parcelRequire("f0u5Z")).getBundleURL('hgwN6') + "PROXY.32cd3a92.js";
 
 
 let $6de6a409e427de1e$var$service = {
@@ -861,7 +862,7 @@ let $6de6a409e427de1e$var$service = {
     memory: {
         install: ()=>{
             return new Promise(async (resolve)=>{
-                const url = new URL($08259da71ba760bb$exports);
+                const url = new URL($c84ee3d5f5b5e904$exports);
                 $6de6a409e427de1e$var$object.memory.self = new Worker(url, {
                     type: "module"
                 });
@@ -929,7 +930,7 @@ let $6de6a409e427de1e$var$service = {
                     };
                     await $6de6a409e427de1e$var$service.listener.proxy();
                     console.log('📩 service worker will be install');
-                    let url = new URL($2f73ce4c349cc241$exports);
+                    let url = new URL($cbe11f4fee878304$exports);
                     navigator.serviceWorker.register(url, {
                         type: "module",
                         scope: config.scope
@@ -55348,6 +55349,26 @@ function $7a58e44c61d08414$export$b3b2de96497acc47(myFile) {
 }
 
 
+function $e5aefb9f1689c6f6$export$e1a3971de07c83b5(bytes, decimals = 2) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = [
+        'Bytes',
+        'KB',
+        'MB',
+        'GB',
+        'TB',
+        'PB',
+        'EB',
+        'ZB',
+        'YB'
+    ];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+}
+
+
 function $360e29a3b6f34308$var$concat(arrays) {
     return new Promise((resolve, reject)=>{
         let totalLength = arrays.reduce((acc, value)=>acc + value.length
@@ -55365,11 +55386,15 @@ function $360e29a3b6f34308$var$concat(arrays) {
 var $360e29a3b6f34308$export$2e2bcd8739ae039 = {
     concat: $360e29a3b6f34308$var$concat,
     crc32: $50b2cdb7a4826fda$export$1cd93882633e45f5,
-    base64: $7a58e44c61d08414$export$b3b2de96497acc47
+    base64: $7a58e44c61d08414$export$b3b2de96497acc47,
+    formatBytes: $e5aefb9f1689c6f6$export$e1a3971de07c83b5
 };
 
 
-const $857a2e88193f3cb1$var$CONFIG = {
+const $0dc1423bff6be5a6$var$CONFIG = {
+    logs: {
+        measureMemory: document.querySelector('.logs__measureMemory')
+    },
     service: {
         dir: document.querySelector('.service__fs'),
         data: document.querySelector('.service__fs_data')
@@ -55383,27 +55408,30 @@ const $857a2e88193f3cb1$var$CONFIG = {
     image: {
         this: document.querySelector('.main__img_container_img'),
         on: ()=>{
-            $857a2e88193f3cb1$var$CONFIG.image.this.classList.remove('hidden');
+            $0dc1423bff6be5a6$var$CONFIG.image.this.classList.remove('hidden');
         },
         off: ()=>{
-            $857a2e88193f3cb1$var$CONFIG.image.this.classList.add('hidden');
+            $0dc1423bff6be5a6$var$CONFIG.image.this.classList.add('hidden');
         }
     },
     progress: {
         this: document.querySelector('.main__img_container_progress'),
         on: ()=>{
-            $857a2e88193f3cb1$var$CONFIG.image.off();
-            $857a2e88193f3cb1$var$CONFIG.progress.this.classList.remove('hidden');
+            $0dc1423bff6be5a6$var$CONFIG.image.off();
+            $0dc1423bff6be5a6$var$CONFIG.progress.this.classList.remove('hidden');
         },
         off: ()=>{
-            $857a2e88193f3cb1$var$CONFIG.image.on();
-            $857a2e88193f3cb1$var$CONFIG.progress.this.classList.add('hidden');
+            $0dc1423bff6be5a6$var$CONFIG.image.on();
+            $0dc1423bff6be5a6$var$CONFIG.progress.this.classList.add('hidden');
         }
     },
     template: {
         files: document.querySelector('#main__data_files_fs')
     }
 };
+$0dc1423bff6be5a6$var$CONFIG.logs.measureMemory.addEventListener('click', ()=>{
+    console.log($360e29a3b6f34308$export$2e2bcd8739ae039.formatBytes(performance.memory.usedJSHeapSize));
+});
 $6rpVi.list().then((item)=>{
     $6rpVi.tests(`/newkind-fs/${item[`newkind-fs`]}`, false).catch((e)=>console.log('error test', e)
     );
@@ -55412,7 +55440,7 @@ $6rpVi.list().then((item)=>{
 });
 $6rpVi.devTool().then((devTool)=>{
     $6de6a409e427de1e$export$2e2bcd8739ae039({
-        scope: './'
+        scope: '.'
     }, async (proxy)=>{
         try {
             console.log('🌞 init proxy');
@@ -55429,14 +55457,14 @@ $6rpVi.devTool().then((devTool)=>{
         try {
             console.log('🌞 init memory');
             await memory.db.save();
-            $857a2e88193f3cb1$var$CONFIG.submit.addEventListener('click', async (e)=>{
+            $0dc1423bff6be5a6$var$CONFIG.submit.addEventListener('click', async (e)=>{
                 e.preventDefault();
-                if ($857a2e88193f3cb1$var$CONFIG.select.value) {
-                    $857a2e88193f3cb1$var$CONFIG.progress.on();
+                if ($0dc1423bff6be5a6$var$CONFIG.select.value) {
+                    $0dc1423bff6be5a6$var$CONFIG.progress.on();
                     let arrays = [];
-                    await memory.fs.stream.img($857a2e88193f3cb1$var$CONFIG.select.value, $ce3a3801e6b1c02c$export$923f96dd5afa9ce6(async (done, value, progress)=>{
+                    await memory.fs.stream.img($0dc1423bff6be5a6$var$CONFIG.select.value, $ce3a3801e6b1c02c$export$923f96dd5afa9ce6(async (done, value, progress)=>{
                         if (done) {
-                            $857a2e88193f3cb1$var$CONFIG.progress.this.value = progress;
+                            $0dc1423bff6be5a6$var$CONFIG.progress.this.value = progress;
                             arrays.push(value);
                             let blob = new Blob([
                                 await $360e29a3b6f34308$export$2e2bcd8739ae039.concat(arrays)
@@ -55444,31 +55472,31 @@ $6rpVi.devTool().then((devTool)=>{
                                 'type': 'image/png'
                             });
                             let url = URL.createObjectURL(blob);
-                            $857a2e88193f3cb1$var$CONFIG.image.this.src = '';
-                            $857a2e88193f3cb1$var$CONFIG.image.this.src = `${url}`;
-                            $857a2e88193f3cb1$var$CONFIG.progress.off();
+                            $0dc1423bff6be5a6$var$CONFIG.image.this.src = '';
+                            $0dc1423bff6be5a6$var$CONFIG.image.this.src = `${url}`;
+                            $0dc1423bff6be5a6$var$CONFIG.progress.off();
                         } else {
-                            $857a2e88193f3cb1$var$CONFIG.progress.this.value = progress;
+                            $0dc1423bff6be5a6$var$CONFIG.progress.this.value = progress;
                             arrays.push(value);
                         }
                     }));
                 }
             });
-            $857a2e88193f3cb1$var$CONFIG.upload.addEventListener('change', async (e)=>{
+            $0dc1423bff6be5a6$var$CONFIG.upload.addEventListener('change', async (e)=>{
                 await memory.fs.write.files(e.target.files);
                 console.log('files loaded');
                 const list = await memory.fs.list.files();
                 console.log('list loaded', list);
-                $857a2e88193f3cb1$var$CONFIG.img.innerHTML = '';
+                $0dc1423bff6be5a6$var$CONFIG.img.innerHTML = '';
                 list.forEach((item)=>{
-                    const template = $857a2e88193f3cb1$var$CONFIG.template.files.content.cloneNode(true);
+                    const template = $0dc1423bff6be5a6$var$CONFIG.template.files.content.cloneNode(true);
                     const option = template.querySelector('option');
                     option.textContent = item;
                     option.value = `${item}`;
-                    $857a2e88193f3cb1$var$CONFIG.img.appendChild(template);
+                    $0dc1423bff6be5a6$var$CONFIG.img.appendChild(template);
                 });
             });
-            $857a2e88193f3cb1$var$CONFIG.list.addEventListener('click', async (e)=>{
+            $0dc1423bff6be5a6$var$CONFIG.list.addEventListener('click', async (e)=>{
                 const list = await memory.fs.list.files();
             });
         } catch (e) {
