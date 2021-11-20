@@ -780,7 +780,7 @@ $aece33724a489073$export$5a759dc7a1cfb72a = $aece33724a489073$var$getOrigin;
 });
 
 
-$c84ee3d5f5b5e904$exports = (parcelRequire("f0u5Z")).getBundleURL('hgwN6') + "WORKER.f0dedd7f.js";
+$c84ee3d5f5b5e904$exports = (parcelRequire("f0u5Z")).getBundleURL('hgwN6') + "WORKER.856c2772.js";
 
 
 var $cbe11f4fee878304$exports = {};
@@ -932,8 +932,7 @@ let $6de6a409e427de1e$var$service = {
                     console.log('📩 service worker will be install');
                     let url = new URL($cbe11f4fee878304$exports);
                     navigator.serviceWorker.register(url, {
-                        type: "module",
-                        scope: config.scope
+                        type: "module"
                     }).then((registration)=>{
                         console.log('Registration succeeded. Scope is ' + registration.scope);
                         registration.addEventListener('updatefound', function() {
