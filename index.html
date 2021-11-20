@@ -780,7 +780,7 @@ $aece33724a489073$export$5a759dc7a1cfb72a = $aece33724a489073$var$getOrigin;
 });
 
 
-$8889ba50b4b5013a$exports = (parcelRequire("f0u5Z")).getBundleURL('hgwN6') + "MEMORY.9c101074.js";
+$8889ba50b4b5013a$exports = (parcelRequire("f0u5Z")).getBundleURL('hgwN6') + "MEMORY.dafb88af.js";
 
 
 var $cbe11f4fee878304$exports = {};
@@ -932,9 +932,10 @@ let $6de6a409e427de1e$var$service = {
                     console.log('📩 service worker will be install');
                     let url = new URL($cbe11f4fee878304$exports);
                     navigator.serviceWorker.register(url, {
-                        type: "module"
+                        type: "module",
+                        scope: config.scope
                     }).then((registration)=>{
-                        console.log('Registration succeeded. Scope is ' + registration.scope);
+                        console.log('💛 Registration succeeded. Scope is ' + registration.scope);
                         registration.addEventListener('updatefound', function() {
                             let serviceWorker = state(registration);
                             console.log('🎈 A new service worker is being installed:');
@@ -1070,7 +1071,7 @@ var $6de6a409e427de1e$export$2e2bcd8739ae039 = (config, PROXY = ()=>{
             console.log('memory error', e);
         });
         $6de6a409e427de1e$var$service.proxy.install({
-            scope: MAIN.scope
+            scope: config.scope
         }).then(async (proxy)=>{
             MAIN.proxy(proxy).catch((e)=>console.log('error', e)
             );
@@ -55439,7 +55440,7 @@ $6rpVi.list().then((item)=>{
 });
 $6rpVi.devTool().then((devTool)=>{
     $6de6a409e427de1e$export$2e2bcd8739ae039({
-        scope: '/'
+        scope: '/newkind-service/'
     }, async (proxy)=>{
         try {
             console.log('🌞 init proxy');
