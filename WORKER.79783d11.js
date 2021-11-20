@@ -43,8 +43,6 @@ if (parcelRequire == null) {
   $parcel$global["parcelRequirec3cc"] = parcelRequire;
 }
 var $3c04d2526e55b4af$exports = {};
-var $2a614ec136eab308$var$__filename = "frontend/src/modules/fs/main.mjs";
-var $2a614ec136eab308$var$__dirname = "frontend/src/modules/fs";
 var $b944f327406e77d1$exports = {};
 
 $parcel$export($b944f327406e77d1$exports, "Buffer", () => $b944f327406e77d1$export$a143d493d941bafc, (v) => $b944f327406e77d1$export$a143d493d941bafc = v);
@@ -1608,6 +1606,8 @@ $ba9b49c2d28709e2$var$process.umask = function() {
 };
 
 
+var $2a614ec136eab308$var$__dirname = "frontend/src/modules/fs";
+var $2a614ec136eab308$var$__filename = "frontend/src/modules/fs/main.mjs";
 parcelRequire.register("g7BbX", function(module, exports) {
 
 // 'path' module extracted from Node.js v8.11.1 (only the posix part)
@@ -59281,4 +59281,4 @@ function $ce3a3801e6b1c02c$var$generateUUID() {
 })();
 
 
-//# sourceMappingURL=WORKER.f3c7a399.js.map
+//# sourceMappingURL=WORKER.79783d11.js.map

@@ -779,7 +779,7 @@ $aece33724a489073$export$5a759dc7a1cfb72a = $aece33724a489073$var$getOrigin;
 });
 
 
-$08259da71ba760bb$exports = (parcelRequire("f0u5Z")).getBundleURL('duWl6') + "WORKER.f3c7a399.js";
+$08259da71ba760bb$exports = (parcelRequire("f0u5Z")).getBundleURL('duWl6') + "WORKER.79783d11.js";
 
 
 var $2f73ce4c349cc241$exports = {};
@@ -905,7 +905,8 @@ let $6de6a409e427de1e$var$service = {
         }
     },
     proxy: {
-        install: ()=>{
+        install: (config = {
+        })=>{
             return new Promise(async (resolve)=>{
                 if ('serviceWorker' in navigator) {
                     $6de6a409e427de1e$var$service.state.init.proxy = new Proxy({
@@ -931,7 +932,7 @@ let $6de6a409e427de1e$var$service = {
                     let url = new URL($2f73ce4c349cc241$exports);
                     navigator.serviceWorker.register(url, {
                         type: "module",
-                        scope: '.'
+                        scope: config.scope
                     }).then((registration)=>{
                         console.log('Registration succeeded. Scope is ' + registration.scope);
                         registration.addEventListener('updatefound', function() {
@@ -1025,12 +1026,12 @@ let $6de6a409e427de1e$var$service = {
         }
     }
 };
-var $6de6a409e427de1e$export$2e2bcd8739ae039 = (PROXY = ()=>{
+var $6de6a409e427de1e$export$2e2bcd8739ae039 = (config, PROXY = ()=>{
 }, MEMORY = ()=>{
 }, PORT = ()=>{
 })=>{
     return new Promise(async (resolve)=>{
-        let CONFIG = new Proxy({
+        let MAIN = new Proxy({
             resolve: false,
             isPort: false,
             isProxy: false,
@@ -1046,15 +1047,15 @@ var $6de6a409e427de1e$export$2e2bcd8739ae039 = (PROXY = ()=>{
                 obj[prop] = value;
                 console.log(`🎙 main:${prop}`, value);
                 if (prop === 'isMemory' || prop === 'isProxy') {
-                    if (CONFIG.isProxy && CONFIG.isMemory) CONFIG.isPort = true;
+                    if (MAIN.isProxy && MAIN.isMemory) MAIN.isPort = true;
                 }
                 if (prop === 'isPort') $6de6a409e427de1e$var$service.port.install().then((status)=>{
-                    CONFIG.port(true);
-                    status ? CONFIG.activated = true : CONFIG.activated = false;
+                    MAIN.port(true);
+                    status ? MAIN.activated = true : MAIN.activated = false;
                 });
                 if (prop === 'activated') {
-                    if (!CONFIG.resolve) {
-                        CONFIG.resolve = true;
+                    if (!MAIN.resolve) {
+                        MAIN.resolve = true;
                         resolve(value);
                     }
                 }
@@ -1062,16 +1063,18 @@ var $6de6a409e427de1e$export$2e2bcd8739ae039 = (PROXY = ()=>{
             }
         });
         $6de6a409e427de1e$var$service.memory.install().then((memory)=>{
-            CONFIG.memory(memory).catch((e)=>console.log('error', e)
+            MAIN.memory(memory).catch((e)=>console.log('error', e)
             );
-            CONFIG.isMemory = true;
+            MAIN.isMemory = true;
         }).catch((e)=>{
             console.log('memory error', e);
         });
-        $6de6a409e427de1e$var$service.proxy.install().then(async (proxy)=>{
-            CONFIG.proxy(proxy).catch((e)=>console.log('error', e)
+        $6de6a409e427de1e$var$service.proxy.install({
+            scope: MAIN.scope
+        }).then(async (proxy)=>{
+            MAIN.proxy(proxy).catch((e)=>console.log('error', e)
             );
-            CONFIG.isProxy = true;
+            MAIN.isProxy = true;
         }).catch((e)=>{
             console.log('proxy error', e);
         });
@@ -55408,7 +55411,9 @@ $6rpVi.list().then((item)=>{
     console.log('list', e);
 });
 $6rpVi.devTool().then((devTool)=>{
-    $6de6a409e427de1e$export$2e2bcd8739ae039(async (proxy)=>{
+    $6de6a409e427de1e$export$2e2bcd8739ae039({
+        scope: 'https://zababurinsv.github.io/newkind-service/'
+    }, async (proxy)=>{
         try {
             console.log('🌞 init proxy');
         // CONFIG.service.dir.addEventListener('click',event =>{
@@ -55471,7 +55476,7 @@ $6rpVi.devTool().then((devTool)=>{
         }
     }, async ()=>{
         console.log('🌞 init port');
-    }, true).then(async (out)=>{
+    }).then(async (out)=>{
         console.log('🌞 resolve service');
     }).catch((e)=>{
         console.log('error', e);
