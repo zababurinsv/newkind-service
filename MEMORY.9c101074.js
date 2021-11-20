@@ -43,7 +43,7 @@ if (parcelRequire == null) {
   $parcel$global["parcelRequirec3cc"] = parcelRequire;
 }
 var $bac0bd5ea5b6de16$exports = {};
-var $2a614ec136eab308$var$__dirname = "frontend/src/modules/fs";
+var $2a614ec136eab308$var$__filename = "frontend/src/modules/fs/main.mjs";
 var $ba9b49c2d28709e2$exports = {};
 // shim for using process in browser
 var $ba9b49c2d28709e2$var$process = $ba9b49c2d28709e2$exports = {
@@ -194,6 +194,7 @@ $ba9b49c2d28709e2$var$process.umask = function() {
 };
 
 
+var $2a614ec136eab308$var$__dirname = "frontend/src/modules/fs";
 var $b944f327406e77d1$exports = {};
 
 $parcel$export($b944f327406e77d1$exports, "Buffer", () => $b944f327406e77d1$export$a143d493d941bafc, (v) => $b944f327406e77d1$export$a143d493d941bafc = v);
@@ -1607,7 +1608,6 @@ var $b944f327406e77d1$var$hexSliceLookupTable = function() {
 
 
 var $2a614ec136eab308$require$Buffer = $b944f327406e77d1$export$a143d493d941bafc;
-var $2a614ec136eab308$var$__filename = "frontend/src/modules/fs/main.mjs";
 parcelRequire.register("g7BbX", function(module, exports) {
 
 // 'path' module extracted from Node.js v8.11.1 (only the posix part)
@@ -59281,4 +59281,4 @@ function $ce3a3801e6b1c02c$var$generateUUID() {
 })();
 
 
-//# sourceMappingURL=MEMORY.c69cfff7.js.map
+//# sourceMappingURL=MEMORY.9c101074.js.map
