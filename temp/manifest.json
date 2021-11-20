@@ -2,7 +2,7 @@
   "name": "Elite",
   "id": "newkind-service",
   "short_name": "NewKind",
-  "start_url": ".",
+  "start_url": "https://zababurinsv.github.io/newkind-service/",
   "scope": "/",
   "theme_color": "#B12A34",
   "background_color": "#B12A34",
@@ -15,22 +15,27 @@
       "name": "How's weather today?",
       "short_name": "Today",
       "description": "View weather information for today",
-      "url": "/today",
-      "icons": [
-        { "src": "/newkind-service/public/newkind-icon-192-any.png",
-          "sizes": "192x192"
-        }
-      ]
+      "url": "/today?source=pwa",
+      "icons": [{ "src": "./manifest/newkind-icon-192-any.png", "sizes": "192x192" }]
     },
     {
       "name": "How's weather tomorrow?",
       "short_name": "Tomorrow",
       "description": "View weather information for tomorrow",
-      "url": "/tomorrow",
-      "icons": [{
-        "src": "/newkind-service/public/newkind-icon-192-maskable.png",
-        "sizes": "192x192"
-      }]
+      "url": "/tomorrow?source=pwa",
+      "icons": [{ "src": "./manifest/newkind-icon-192-maskable.png", "sizes": "192x192" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/images/screenshot1.png",
+      "type": "image/png",
+      "sizes": "540x720"
+    },
+    {
+      "src": "/images/screenshot2.jpg",
+      "type": "image/jpg",
+      "sizes": "540x720"
     }
   ],
   "icons": [{
@@ -93,5 +98,9 @@
     "sizes": "512x512",
     "type": "image/png",
     "purpose": "maskable"
+  },{
+    "src": "/images/icons-vector.svg",
+    "type": "image/svg+xml",
+    "sizes": "512x512"
   }]
 }

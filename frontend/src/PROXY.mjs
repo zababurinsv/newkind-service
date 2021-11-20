@@ -1,7 +1,13 @@
 import * as Comlink from "comlink";
-
+let CACHE_NAME = '"@newkind/cache@0.1.0"';
+let urlsToCache = [
+    '/'
+];
+//1s
 let CONFIG = {
-    CACHE: "@newkind/cache@0.1.0",
+    CACHE: CACHE_NAME,
+    URLS: urlsToCache,
+    AllowList: [CACHE_NAME, 'blog-posts-cache-v1'],
     timeout: 0,
     memory: {},
     progressIndicatorUrls: "/\?requestId=/i;",
@@ -25,23 +31,74 @@ let CONFIG = {
 }
 
 self.addEventListener("install", (event) => {
-    event.waitUntil((async () => {
-        const cache = await caches.open(CONFIG.CACHE)
-        // cache.addAll([
-        //     '/img/background'
-        // ])
-        console.log('🎨 service install')
-        // self.skipWaiting()
-    })())
+
+    event.waitUntil(self.skipWaiting())
+    event.waitUntil(
+        caches.open(CONFIG.CACHE)
+            .then(function(cache) {
+
+                return cache.addAll(CONFIG.URLS);
+            })
+    );
+
+    console.log('🖤 service install')
 });
 
 self.addEventListener("activate", (event) => {
-    console.log('🎨 service activate')
-    // event.waitUntil(self.clients.claim());
+    event.waitUntil(self.clients.claim())
+    event.waitUntil(
+        caches.keys().then(function(cacheNames) {
+            return Promise.all(
+                cacheNames.map(function(cacheName) {
+                    if (CONFIG.AllowList.indexOf(cacheName) === -1) {
+                        return caches.delete(cacheName);
+                    }
+                })
+            );
+        })
+    );
+    console.log('🖤 service activate')
 });
 
+self.addEventListener('notificationclick', function(event) {
+    console.log('🖤 service notificationclick', event)
+    // event.notification.close();
+
+    // var promise = new Promise(function(resolve) {
+    //     setTimeout(resolve, 1000);
+    // }).then(function() {
+    //     return clients.openWindow(event.data.locator);
+    // });
+    //
+    // event.waitUntil(promise);
+});
+
+self.addEventListener('push', function(event) {
+    console.log('🖤 service push', event)
+    // console.log('Received a push message', event);
+    // let title = 'Yay a message.';
+    // let body = 'We have received a push message.';
+    // let icon = '/images/icon-192x192.png';
+    // let tag = 'simple-push-demo-notification-tag';
+    // event.waitUntil(
+    //     self.registration.showNotification(title, {
+    //         body: body,
+    //         icon: icon,
+    //         tag: tag
+    //     })
+    // );
+});
+
+self.addEventListener('sync', (event) => {
+    console.log('🖤 service sync', event)
+    // console.log('event sync', event)
+    // if (event.tag == 'event1') {
+    //     event.waitUntil(doSomething())
+    // }вввпарапsssssssssss
+})
+
 self.addEventListener('fetch', event => {
-    console.log('🎨 service fetch')
+    console.log('🖤 service fetch')
     if(CONFIG.strategy.NetworkOrCache) {
         event.respondWith(fromNetwork(event.request, CONFIG.timeout)
             .catch((err) => {
@@ -73,15 +130,14 @@ self.addEventListener('fetch', event => {
                     }
                     return response;
                 }
-            )
+            ).catch(() => useFallback() )
         );
     }
 })
 
-
 self.addEventListener("message", async (event) => {
-    console.log('🎫 service message', event.data)
     if (event.data && event.data.state && event.data.state.isConnected && event.data.state.type === "proxy-memory") {
+        console.log('🌼 🎫 service message', event.data.state)
         for(let port in event.data.state.to) {
             CONFIG.memory = Comlink.wrap(event.data.state.to[port])
         }
@@ -93,6 +149,11 @@ self.addEventListener("message", async (event) => {
     } else {
         if(event.data.test) {
             await CONFIG.memory.fs.list.dir()
+            event.source.postMessage({
+                state: {
+                    '~~~~~ test ~~~~~': true
+                }
+            })
         }
     }
 });
@@ -143,7 +204,7 @@ const FALLBACK =
     '<div>\n' +
     '    <div>App Title</div>\n' +
     '    <div>you are offline</div>\n' +
-    '    <img src="/svg/or/base64/of/your/dinosaur" alt="dinosaur"/>\n' +
+    '    <img src="/svg/or/base64/of/your/dinosaur" alt="newkind"/>\n' +
     '</div>';
 
 function useFallback() {

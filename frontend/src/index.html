@@ -2,11 +2,16 @@
     <html lang="en">
     <head>
         <title>Service</title>
+        <meta http-equiv="Permissions-Policy" content="interest-cohort=()"/>
+        <link rel="manifest" crossorigin="use-credentials" href="./manifest.json"/>
+        <script async src="https://unpkg.com/pwacompat" crossorigin="anonymous"></script>
+        <link rel="icon" type="image/png" href="./manifest/newkind-icon-128-any.png" sizes="128x128" />
+        <meta name="theme-color" media="(prefers-color-scheme: light)" content="white">
+        <meta name="theme-color" media="(prefers-color-scheme: dark)"  content="black">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 <!--        <meta http-equiv="Content-Security-Policy" content="script-src 'unsafe-eval'">-->
 <!--        <meta http-equiv="Content-Security-Policy" content="worker-src 'unsafe-inline'">-->
-        <link rel="shortcut icon" href="data:image/png;base64, AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAbbv+DGW3/mRlt/5kZbf+ZGq6/hIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGa3/ohkt/7/Zbj//2S3/v9lt/6WAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGm5/iRlt/74Zbj//2W4//9luP//Zbf++mi4/i4gIPciGhr24hsb9uwbG/bsGhr24CEh9xoAAAAAAAAAAAAAAABnuP5mZLf+/2W4//9luP//Zbj//2S3/v9muP5yGBj2rhMT9v8TE/b/ExP2/xMT9f8YGPWkAAAAAAAAAAAAAAAAb7z/BGW3/tZluP//Zbj//2W4//9lt/7gJzH3ShMT9f8TE/b/ExP2/xMT9v8TE/b/ExP1/CAg9joAAAAAAAAAAAAAAABmuP5GZLf+6GS3/uhkt/7oZbf+UhgY9YQSEvX/ExP2/xMT9v8TE/b/ExP2/xIS9f8aGvZ8AAAAAD4++gQgIPZ6IiL2hiIi9oYgIPZ8KCj5BAAAAAAtLfgUFBT17BMT9v8TE/b/ExP2/xMT9v8VFfXoLCz4DgAAAAAaGvZqEhL1/xMT9v8TE/b/EhL1/xsb9nIAAAAAAAAAABwc9m4SEvX/ExP2/xMT9v8SEvX/HR32ZAAAAAAnJ/gSFRX16hMT9v8TE/b/ExP2/xMT9v8UFPXuJyf4Fp2xlAKNnqUYLC/mfhYW83ATE/VuFxf1aDc3+gIAAAAAGBj1fhIS9f8TE/b/ExP2/xMT9v8TE/b/ExP1/xkZ9YaGn3yIhZ57/4Wee/+Gn3yKAAAAAAAAAAAAAAAAAAAAACMj9zYTE/X8ExP2/xMT9v8TE/b/ExP2/xMT9f9JUshihZ57+IaffP+Gn3z/hZ579oigfiYAAAAAAAAAAAAAAAAAAAAAGBj1oBIS9f8TE/b/ExP2/xMT9f8YGPWmiKB+PIWee/+Gn3z/hp98/4Wee/+HoH06AAAAAAAAAAAAAAAAAAAAACUl9xgVFfXOExP11BMT9dQUFPXQJib3HgAAAACGn3ymhp98/4affP+Gn3ymAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAiKB+EIihf0CIoX9AiKB+EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADg/wAA4MMAAOCBAADggQAA8QEAAOeBAADDwwAAgf8AAIAPAACBDwAAgQ8AAMMPAAD//wAA//8AAA==" type="image/png">
-        <link rel="manifest" crossorigin="use-credentials" href="./manifest.json"/>
+        <link rel="shortcut icon" href="./favicon.ico" type="image/png">
         <meta name="description" content="Put your description here.">
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta property="og:site_name" content="Elite"/>
@@ -22,11 +27,15 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <meta name="apple-mobile-web-app-title" content="New Kind">
-        <meta name="msapplication-TileImage" content="./manifest/newkind-icon-144.png">
+        <meta name="msapplication-TileImage" content="data:image/png;base64, AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAbbv+DGW3/mRlt/5kZbf+ZGq6/hIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGa3/ohkt/7/Zbj//2S3/v9lt/6WAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGm5/iRlt/74Zbj//2W4//9luP//Zbf++mi4/i4gIPciGhr24hsb9uwbG/bsGhr24CEh9xoAAAAAAAAAAAAAAABnuP5mZLf+/2W4//9luP//Zbj//2S3/v9muP5yGBj2rhMT9v8TE/b/ExP2/xMT9f8YGPWkAAAAAAAAAAAAAAAAb7z/BGW3/tZluP//Zbj//2W4//9lt/7gJzH3ShMT9f8TE/b/ExP2/xMT9v8TE/b/ExP1/CAg9joAAAAAAAAAAAAAAABmuP5GZLf+6GS3/uhkt/7oZbf+UhgY9YQSEvX/ExP2/xMT9v8TE/b/ExP2/xIS9f8aGvZ8AAAAAD4++gQgIPZ6IiL2hiIi9oYgIPZ8KCj5BAAAAAAtLfgUFBT17BMT9v8TE/b/ExP2/xMT9v8VFfXoLCz4DgAAAAAaGvZqEhL1/xMT9v8TE/b/EhL1/xsb9nIAAAAAAAAAABwc9m4SEvX/ExP2/xMT9v8SEvX/HR32ZAAAAAAnJ/gSFRX16hMT9v8TE/b/ExP2/xMT9v8UFPXuJyf4Fp2xlAKNnqUYLC/mfhYW83ATE/VuFxf1aDc3+gIAAAAAGBj1fhIS9f8TE/b/ExP2/xMT9v8TE/b/ExP1/xkZ9YaGn3yIhZ57/4Wee/+Gn3yKAAAAAAAAAAAAAAAAAAAAACMj9zYTE/X8ExP2/xMT9v8TE/b/ExP2/xMT9f9JUshihZ57+IaffP+Gn3z/hZ579oigfiYAAAAAAAAAAAAAAAAAAAAAGBj1oBIS9f8TE/b/ExP2/xMT9f8YGPWmiKB+PIWee/+Gn3z/hp98/4Wee/+HoH06AAAAAAAAAAAAAAAAAAAAACUl9xgVFfXOExP11BMT9dQUFPXQJib3HgAAAACGn3ymhp98/4affP+Gn3ymAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAiKB+EIihf0CIoX9AiKB+EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADg/wAA4MMAAOCBAADggQAA8QEAAOeBAADDwwAAgf8AAIAPAACBDwAAgQ8AAMMPAAD//wAA//8AAA==">
         <meta name="msapplication-TileColor" content="#FFFFFF">
     </head>
 <body>
 <div class="fs">
+<!--    <div class="service">-->
+<!--        <button class="service__fs">Get Dir</button>-->
+<!--        <button class="service__fs_data"></button>-->
+<!--    </div>-->
     <div class="fs__main">
        <button class="main__list">Список файлов</button>
         <label class="main__upload_label"><input type="file" class="main__upload_label_multiple" multiple/></label>
@@ -76,81 +85,11 @@
         </div>
     </div>
 </newkind-alarm>
+<button class="logs__measureMemory">Measure Memory</button>
 <style>
     @import "index.scss";
-    .newkind-alarm {
-        box-sizing: border-box;
-        padding: 1vw;
-    }
-    .fs {
-        display: flex;
-        flex-direction: row;
-    }
-
-    .fs__main {
-        display: flex;
-        flex-direction: column;
-        justify-content: start;
-        box-sizing: border-box;
-        padding: 1vw;
-    }
-
-    .main__form {
-        box-sizing: border-box;
-        padding: 1vw;
-    }
-
-    .main__data {
-        font-size: 1.5vw;
-    }
-
-    .main__list {
-        font-size: 1.5vw;
-        padding: 1vw;
-        margin: 1vw;
-    }
-
-    .main__data_submit {
-        font-size: 1.5vw;
-        margin-left: 2vw;
-    }
-
-    .main__upload_label {
-        box-sizing: border-box;
-        padding: 1vw;
-    }
-
-    .main__upload_label_multiple {
-        font-size: 1.5vw;
-    }
-
-    .main__img_container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        position: relative;
-        box-sizing: border-box;
-        padding: 1vw;
-        overflow: hidden;
-        min-height: 32vw;
-        min-width: 32vw;
-        background: #81d54c38;
-        border-radius: 0.8vw;
-    }
-
-    .main__img_container_img {
-        border-radius: 0.8vw;
-    }
-
-    .main__img_container_progress {
-        left: 10%;
-        position: absolute;
-        top: 50%;
-        width: 80%;
-    }
-
-    .hidden {
-        display: none;
+    link[rel="manifest"] {
+        --pwacompat-splash-font: 24px Verdana;
     }
 </style>
 </body>
@@ -165,7 +104,15 @@
     import * as Comlink from "comlink";
     import utils from './modules/utils/index.mjs'
 
+
     const CONFIG = {
+        logs: {
+            measureMemory: document.querySelector('.logs__measureMemory'),
+        },
+        service: {
+            dir: document.querySelector('.service__fs'),
+            data: document.querySelector('.service__fs_data'),
+        },
         upload: document.querySelector('.main__upload_label_multiple'),
         select: document.querySelector('.main__data'),
         img: document.querySelector('.main__data_files_img'),
@@ -192,27 +139,29 @@
             files: document.querySelector('#main__data_files_fs')
         },
     };
-    list()
-    .then(item => {
-        devTool().then()
-        tests(`/newkind-fs/${item[`newkind-fs`]}`, false).then()
-        service(async (proxy) => {
-            try {
-                console.log('🌞 init proxy', navigator.serviceWorker.controller)
-                navigator.serviceWorker.controller.postMessage({test: true})
-                // window.onbeforeunload = function () {
-                /*
-                   if ('serviceWorker' in navigator) {
-                    navigator.serviceWorker.getRegistrations().then(function(registrations) {
-                        for(let registration of registrations) {
-                            console.log('terminate', registration)
-                            registration.unregister()
-                        } })
-                }
-                 */
-                // };
-            } catch (e) {
 
+    CONFIG.logs.measureMemory.addEventListener('click', () => {
+        console.log(utils.formatBytes(performance.memory.usedJSHeapSize));
+    })
+
+    list().then(item => {
+        tests(`/newkind-fs/${item[`newkind-fs`]}`, false).catch(e => console.log('error test', e))
+    }).catch(e => {console.log('list', e)})
+
+    devTool().then(devTool => {
+        service({
+            scope:'.'
+        },async (proxy) => {
+            try {
+                console.log('🌞 init proxy')
+                // CONFIG.service.dir.addEventListener('click',event =>{
+                //
+                //     navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
+                //         serviceWorkerRegistration.active.postMessage({test: true});
+                //     })
+                // })
+            } catch (e) {
+                console.log('eeeeeeeeeeeeee', e)
             }
         }, async (memory) => {
             try {
@@ -256,22 +205,23 @@
                 })
 
                 CONFIG.list.addEventListener('click', async (e) => {
-                    console.log('~~~list~~~~')
                     const list = await memory.fs.list.files()
                 })
             } catch (e) {
                 console.log('error', e)
             }
 
-        },true)
+        },async () => {
+            console.log('🌞 init port')
+
+
+        })
         .then(async (out) => {
             console.log('🌞 resolve service')
         })
         .catch(e => {
             console.log('error', e)
         })
-    }).catch(e => {
-        console.log('error', e)
-    })
+    }).catch(e => { console.log(e) })
 </script>
 </html>

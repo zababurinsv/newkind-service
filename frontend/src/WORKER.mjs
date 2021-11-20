@@ -41,6 +41,7 @@ import * as Comlink from "comlink";
     }
     onmessage = function(event) {
         if (event.data.state.isConnected && event.data.state.type === 'main-memory') {
+            console.log('🌷 🎫 main-memory message', event.data.state)
             for(let port in event.data.state.from) {
                 Comlink.expose(obj, event.data.state.from[port])
             }
@@ -50,6 +51,7 @@ import * as Comlink from "comlink";
                 }
             })
         } else if(event.data.state.isConnected && event.data.state.type === 'proxy-memory') {
+            console.log('🌷 🎫 proxy-memory message', event.data.state)
             for(let port in event.data.state.from) {
                 Comlink.expose(obj, event.data.state.from[port])
             }
