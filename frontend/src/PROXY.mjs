@@ -1,7 +1,7 @@
 import * as Comlink from "comlink";
 let CACHE_NAME = '"@newkind/cache@0.1.0"';
 let urlsToCache = [
-    '/'
+    '/newkind-service'
 ];
 //1s
 let CONFIG = {

@@ -144,13 +144,13 @@
         console.log(utils.formatBytes(performance.memory.usedJSHeapSize));
     })
 
-    list().then(item => {
-        tests(`/newkind-fs/${item[`newkind-fs`]}`, false).catch(e => console.log('error test', e))
-    }).catch(e => {console.log('list', e)})
+    // list().then(item => {
+    //     tests(`/newkind-fs/${item[`newkind-fs`]}`, false).catch(e => console.log('error test', e))
+    // }).catch(e => {console.log('list', e)})
 
     devTool().then(devTool => {
         service({
-            scope:'/'
+            scope:'/newkind-service/'
         },async (proxy) => {
             try {
                 console.log('🌞 init proxy')

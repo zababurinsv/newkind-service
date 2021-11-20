@@ -200,9 +200,9 @@ let service = {
           await service.listener.proxy()
             console.log('📩 service worker will be install')
             let url = new URL('./PROXY.mjs', import.meta.url)
-            navigator.serviceWorker.register(url, { type: "module"})
+            navigator.serviceWorker.register(url, { type: "module", scope: config.scope})
               .then(registration => {
-                console.log('Registration succeeded. Scope is ' + registration.scope);
+                console.log('💚 Registration succeeded. Scope is ' + registration.scope);
                 registration.addEventListener('updatefound', function() {
                   let serviceWorker = state(registration)
                   console.log('🎈 A new service worker is being installed:');
@@ -351,6 +351,7 @@ export default (config, PROXY = () => {}, MEMORY = () => {}, PORT = () => {}) =>
         if(prop === 'activated') {
           if(!MAIN.resolve) {
             MAIN.resolve = true
+            // service = {}
             resolve(value)
           }
         }
@@ -358,10 +359,10 @@ export default (config, PROXY = () => {}, MEMORY = () => {}, PORT = () => {}) =>
       }
     })
     service.memory.install()
-        .then(memory => {MAIN.memory(memory).catch(e => console.log('error', e)); MAIN.isMemory = true})
-        .catch(e => {console.log('memory error', e)})
+    .then(memory => {MAIN.memory(memory).catch(e => console.log('error', e)); MAIN.isMemory = true})
+    .catch(e => {console.log('memory error', e)})
     service.proxy.install({
-      scope: MAIN.scope
+      scope: config.scope
     })
     .then(async proxy => {MAIN.proxy(proxy).catch(e => console.log('error', e)); MAIN.isProxy = true})
     .catch(e => {console.log('proxy error', e)})

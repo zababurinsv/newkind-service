@@ -3,7 +3,9 @@ import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 const pkg = require("../package.json");
 
-let port = process.env.PORT || pkg.config.port + 1
+const port = (process.env.PORT)
+    ? process.env.PORT
+    : pkg.config.port_back
 app.listen(port ,() => {
     console.log('pid: ', process.pid)
     console.log('listening on http://localhost:'+ port);
