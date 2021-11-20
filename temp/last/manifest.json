@@ -2,8 +2,8 @@
   "name": "Elite",
   "id": "newkind-service",
   "short_name": "NewKind",
-  "start_url": "https://zababurinsv.github.io/newkind-service/",
-  "scope": "https://zababurinsv.github.io/newkind-service/",
+  "start_url": "/",
+  "scope": "/",
   "theme_color": "#B12A34",
   "background_color": "#B12A34",
   "description": "elite of universe",
@@ -15,7 +15,7 @@
       "name": "How's weather today?",
       "short_name": "Today",
       "description": "View weather information for today",
-      "url": "./today",
+      "url": "/today",
       "icons": [
         { "src": "/newkind-service/public/newkind-icon-192-any.png",
           "sizes": "192x192"
@@ -26,7 +26,7 @@
       "name": "How's weather tomorrow?",
       "short_name": "Tomorrow",
       "description": "View weather information for tomorrow",
-      "url": "./tomorrow",
+      "url": "/tomorrow",
       "icons": [{
         "src": "/newkind-service/public/newkind-icon-192-maskable.png",
         "sizes": "192x192"

@@ -132,7 +132,7 @@ let service = {
   memory: {
     install: () => {
       return new Promise(async resolve  => {
-        const url = new URL('./WORKER.mjs', import.meta.url)
+        const url = new URL('./MEMORY.mjs', import.meta.url)
         object.memory.self = new Worker(url, { type: "module" });
         await service.listener.memory()
         service.state.init.memory = new Proxy({},{
@@ -200,7 +200,7 @@ let service = {
           await service.listener.proxy()
             console.log('📩 service worker will be install')
             let url = new URL('./PROXY.mjs', import.meta.url)
-            navigator.serviceWorker.register(url, { type: "module",  scope: config.scope})
+            navigator.serviceWorker.register(url, { type: "module"})
               .then(registration => {
                 console.log('Registration succeeded. Scope is ' + registration.scope);
                 registration.addEventListener('updatefound', function() {
