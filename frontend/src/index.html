@@ -2,12 +2,12 @@
     <html lang="en">
     <head>
         <title>Service</title>
-        <meta http-equiv="Permissions-Policy" content="interest-cohort=()"/>
+<!--        <meta http-equiv="Permissions-Policy" content="interest-cohort=()"/>-->
         <link rel="manifest" crossorigin="use-credentials" href="./manifest.json"/>
-        <script async src="https://unpkg.com/pwacompat" crossorigin="anonymous"></script>
+<!--        <script async src="https://unpkg.com/pwacompat" crossorigin="anonymous"></script>-->
         <link rel="icon" type="image/png" href="./manifest/newkind-icon-128-any.png" sizes="128x128" />
-        <meta name="theme-color" media="(prefers-color-scheme: light)" content="white">
-        <meta name="theme-color" media="(prefers-color-scheme: dark)"  content="black">
+<!--        <meta name="theme-color" media="(prefers-color-scheme: light)" content="white">-->
+<!--        <meta name="theme-color" media="(prefers-color-scheme: dark)"  content="black">-->
         <meta name="viewport" content="width=device-width, initial-scale=1">
 <!--        <meta http-equiv="Content-Security-Policy" content="script-src 'unsafe-eval'">-->
 <!--        <meta http-equiv="Content-Security-Policy" content="worker-src 'unsafe-inline'">-->
@@ -100,7 +100,7 @@
     import service from './index.mjs'
     import {lacertaRadio} from './components/lacerta-radio/index.mjs'
     import { newkindAlarm } from './components/newkind-alarm/index.mjs'
-    import { devTool } from '@newkind/tests'
+    // import { devTool } from '@newkind/tests'
     import * as Comlink from "comlink";
     import utils from './modules/utils/index.mjs'
 
@@ -184,27 +184,49 @@
         })
     }
 
-    devTool().then(async devTool => {
+    let serviceListener = () => {
+        return new Promise(async resolve => {
+            navigator.serviceWorker.oncontrollerchange = async (event) => {
+                console.log('🌼 service worker oncontrollerchange');
+                if( event.currentTarget.controller.state === 'activate') {
+                    console.log('🌼 activate', event)
+                } else {
+                    event.currentTarget.controller.addEventListener('statechange', (event) => {
+                        console.log('🌼 statechange',  event.currentTarget.state)
+                        if(event.currentTarget.state === 'activated') {
+                            console.log('🌼 activate', event)
+                        }
+                    });
+                }
+            };
+        })
+    }
+
+    // devTool().then(async devTool => {
         service({
             isProxy: ('serviceWorker' in navigator),
             scope:'/newkind-service/'
         }, (status) => {
-            console.log('🌞 init proxy', status)
-            // if(!navigator.serviceWorker.controller) {
-            //     navigator.serviceWorker.ready.then(async serviceWorkerRegistration => {
-            //         await navigator.serviceWorker.register(serviceWorkerRegistration.active.scriptURL)
-            //         console.log('😠👥', navigator.serviceWorker.controller)
-            //     })
-            // } else {
-            //     console.log('👀👥', navigator.serviceWorker.controller)
-            // }
-            // console.log(navigator.serviceWorker.controller)
+            console.log('🌞 init proxy')
+            serviceListener().then(() => {})
+            // navigator.serviceWorker.getRegistrations()
+            //     .then(async Registrations => {
+                    // console.log('registration', Registrations[0])
+                    // if(Registrations[0]) {
+                    //     Registrations[0].addEventListener('updatefound', async () => {
+                    //         await serviceListener()
+                    //     })
+                    // } else {
+                    //     await serviceListener()
+                    // }
+                // })
         },(memory) => {
             console.log('🌞 init memory')
             action(memory)
         })
         .then(status => {console.log('🌞 resolve service', status)})
         .catch(e => {console.log('service error:', e)})
-    }).catch(e => {console.log('error devtool', e)})
+    // }).catch(e => {console.log('error devtool', e)})
+    // });
 </script>
 </html>

@@ -34,6 +34,25 @@ const lacertaRadio =  class extends HTMLElement {
         console.warn('error', error)
       })
   }
+  connectedCallback() {
+    console.log('connected callback');
+    // alert('connected callback')
+  }
+  connectedCallback() {
+    // alert('connectedCallback')
+  }
+
+  disconnectedCallback() {
+    // alert('disconnectedCallback')
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    // alert('attributeChangedCallback')
+  }
+
+  adoptedCallback() {
+    // alert('adoptedCallback')
+  }
 }
 
 try {

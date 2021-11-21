@@ -25,11 +25,11 @@ app.use(queue.getMiddleware());
 
 app.use(`${pkg.config.service}`, service);
 
-app.options(`/*`, await cors(corsOptions))
-app.get(`/*`, async (req, res) => {
+app.options(`/`, await cors(corsOptions))
+app.get(`/`, async (req, res) => {
     res.status(404).send(await notFound(pkg.config.service));
 })
-
+app.use(express.static(path.join(__dirname, '../service')));
 app.use(queue.getErrorMiddleware())
 
 export default app

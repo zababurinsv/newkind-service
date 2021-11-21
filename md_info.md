@@ -12,4 +12,27 @@ https://web.dev/maskable-icon/?utm_source=devtools
 * [parcel worklet](https://parceljs.org/blog/rc0/)
 ---  
 
+if (window.performance) {
+console.info("window.performance works fine on this browser");
+}
+// console.info(performance.navigation.type);
+// if (performance.navigation.type ===
+//     performance.navigation.TYPE_RELOAD) {
+//     alert('relod')
+//     console.info( "This page is reloaded" );
+// } else {
+//     alert('relod')
+//     console.info( "This page is not reloaded");
+// }
 
+            document.addEventListener('visibilitychange', function() {
+                if (document.visibilityState == 'hidden') {
+
+                }
+                if (document.visibilityState == 'visible') {
+
+                }
+                // if (document.visibilityState == 'hidden') {
+                //     navigator.sendBeacon("/log.php", analyticsData);
+                // }
+            });
