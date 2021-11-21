@@ -27,14 +27,15 @@
     "service": {
       "includeNodeModules": true,
       "optimize": false,
-      "distDir": "service",
+      "distDir": "service/newkind-service",
+      "sourceMap": false,
       "publicUrl": "/newkind-service",
       "source": "./frontend/src/index.html"
     }
   },
   "staticFiles": {
     "staticPath": "frontend/src/static",
-    "distDir": "./service",
+    "distDir": "./service/newkind-service",
     "staticOutPath": "public"
   },
   "config": {
@@ -52,13 +53,13 @@
     }
   },
   "scripts": {
-    "dev": "rimraf ./service/* && parcel --cache-dir ./.parcel-cache --no-hmr --port $npm_package_config_port_dev --dist-dir service --target dev",
+    "dev": "rimraf ./service/* && parcel --cache-dir ./.parcel-cache --no-hmr --port $npm_package_config_port_dev --dist-dir service/newkind-service --target dev",
     "server": "nodemon ./backend/index.mjs",
     "build": "rimraf ./dist/* && parcel build --target module",
     "sevice": "rimraf ./service/* && rimraf .parcel-cache && parcel build --target service",
     "docs": "rimraf ./docs/* && jsdoc -c jsdoc.json",
-    "jsdoc2md": "jsdoc2md  --configure jsdoc.json --source frontend/**.mjs > md_api.md && cat ./md_info.md ./md_api.md > ./README.md",
-    "deploy": "gh-pages -d service",
+    "jsdoc2md": "jsdoc2md --configure jsdoc.json --source frontend/index.mjs > md_api.md && cat ./md_info.md ./md_api.md > ./README.md",
+    "deploy": "gh-pages -d service/newkind-service",
     "clean": "rimraf ./service/* && rimraf ./dist/* && find . -name \".parcel-cache\" -exec rm -rf '{}' +;",
     "clean:all": "rimraf ./service/* && rimraf ./dist/* && rimraf ./docs/* && rimraf ./md_api.md && find . -name \".parcel-cache\" -exec rm -rf '{}' +;",
     "kill:dev": "kill $(lsof -t -i:$npm_package_config_port_dev)",

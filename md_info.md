@@ -4,6 +4,7 @@
 https://web.dev/maskable-icon/?utm_source=devtools
 
 [add-manifest](https://web.dev/add-manifest/)
+[dev-server](https://parceljs.org/features/development#dev-server)
 
 ## Service Worker
 * [Strategy CACHE](https://habr.com/ru/company/2gis/blog/345552/)
@@ -12,27 +13,24 @@ https://web.dev/maskable-icon/?utm_source=devtools
 * [parcel worklet](https://parceljs.org/blog/rc0/)
 ---  
 
-if (window.performance) {
-console.info("window.performance works fine on this browser");
-}
-// console.info(performance.navigation.type);
-// if (performance.navigation.type ===
-//     performance.navigation.TYPE_RELOAD) {
-//     alert('relod')
-//     console.info( "This page is reloaded" );
-// } else {
-//     alert('relod')
-//     console.info( "This page is not reloaded");
-// }
+packagesrc  
+┣ pen_file_foldercomponents  
+┃ ┣scrollsome.component.tsx
+┣open_file_folderpages  
+┃ ┣open_file_foldersome-specific-page  
+┃ ┃ ┗scrollsome-specific-page.tsx  
+┃ ┣scrollmain.ts
 
-            document.addEventListener('visibilitychange', function() {
-                if (document.visibilityState == 'hidden') {
+```js
+document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState == 'hidden') {
 
-                }
-                if (document.visibilityState == 'visible') {
+    }
+    if (document.visibilityState == 'visible') {
 
-                }
-                // if (document.visibilityState == 'hidden') {
-                //     navigator.sendBeacon("/log.php", analyticsData);
-                // }
-            });
+    }
+    // if (document.visibilityState == 'hidden') {
+    //     navigator.sendBeacon("/log.php", analyticsData);
+    // }
+});
+```

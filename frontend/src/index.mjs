@@ -1,6 +1,6 @@
 import * as Comlink from "comlink";
 import isEmpty from './modules/isEmpty/isEmpty.mjs'
-
+/** This is a description of the foo function. */
 // If updatefound is fired, it means that there's
 // a new service worker being installed.
 // You can listen for changes to the installing service worker's

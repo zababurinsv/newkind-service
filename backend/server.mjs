@@ -29,6 +29,13 @@ app.options(`/`, await cors(corsOptions))
 app.get(`/`, async (req, res) => {
     res.status(404).send(await notFound(pkg.config.service));
 })
+
+app.use((req, res, next) => {
+    console.log('__',req.path);
+    next();
+});
+
+
 app.use(express.static(path.join(__dirname, '../service')));
 app.use(queue.getErrorMiddleware())
 
