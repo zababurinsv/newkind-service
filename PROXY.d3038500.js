@@ -1,4 +1,4 @@
-var $53f2f5b49ef73547$exports = {};
+var $4883c1c8e3d2f5bf$exports = {};
 /**
  * Copyright 2019 Google Inc. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -10,20 +10,20 @@ var $53f2f5b49ef73547$exports = {};
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ const $ce3a3801e6b1c02c$export$be5234c0b764b6e0 = Symbol("Comlink.proxy");
-const $ce3a3801e6b1c02c$export$39fb953702b7fcd7 = Symbol("Comlink.endpoint");
-const $ce3a3801e6b1c02c$export$89981d4b8d9f48aa = Symbol("Comlink.releaseProxy");
-const $ce3a3801e6b1c02c$var$throwMarker = Symbol("Comlink.thrown");
-const $ce3a3801e6b1c02c$var$isObject = (val)=>typeof val === "object" && val !== null || typeof val === "function"
+ */ const $0b1a5804b8fde326$export$be5234c0b764b6e0 = Symbol("Comlink.proxy");
+const $0b1a5804b8fde326$export$39fb953702b7fcd7 = Symbol("Comlink.endpoint");
+const $0b1a5804b8fde326$export$89981d4b8d9f48aa = Symbol("Comlink.releaseProxy");
+const $0b1a5804b8fde326$var$throwMarker = Symbol("Comlink.thrown");
+const $0b1a5804b8fde326$var$isObject = (val)=>typeof val === "object" && val !== null || typeof val === "function"
 ;
 /**
  * Internal transfer handle to handle objects marked to proxy.
- */ const $ce3a3801e6b1c02c$var$proxyTransferHandler = {
-    canHandle: (val)=>$ce3a3801e6b1c02c$var$isObject(val) && val[$ce3a3801e6b1c02c$export$be5234c0b764b6e0]
+ */ const $0b1a5804b8fde326$var$proxyTransferHandler = {
+    canHandle: (val)=>$0b1a5804b8fde326$var$isObject(val) && val[$0b1a5804b8fde326$export$be5234c0b764b6e0]
     ,
     serialize (obj) {
         const { port1: port1 , port2: port2  } = new MessageChannel();
-        $ce3a3801e6b1c02c$export$9b7f6e342a8cbd38(obj, port1);
+        $0b1a5804b8fde326$export$9b7f6e342a8cbd38(obj, port1);
         return [
             port2,
             [
@@ -33,13 +33,13 @@ const $ce3a3801e6b1c02c$var$isObject = (val)=>typeof val === "object" && val !==
     },
     deserialize (port) {
         port.start();
-        return $ce3a3801e6b1c02c$export$4997ffc0176396a6(port);
+        return $0b1a5804b8fde326$export$4997ffc0176396a6(port);
     }
 };
 /**
  * Internal transfer handler to handle thrown exceptions.
- */ const $ce3a3801e6b1c02c$var$throwTransferHandler = {
-    canHandle: (value)=>$ce3a3801e6b1c02c$var$isObject(value) && $ce3a3801e6b1c02c$var$throwMarker in value
+ */ const $0b1a5804b8fde326$var$throwTransferHandler = {
+    canHandle: (value)=>$0b1a5804b8fde326$var$isObject(value) && $0b1a5804b8fde326$var$throwMarker in value
     ,
     serialize ({ value: value  }) {
         let serialized;
@@ -67,23 +67,23 @@ const $ce3a3801e6b1c02c$var$isObject = (val)=>typeof val === "object" && val !==
 };
 /**
  * Allows customizing the serialization of certain values.
- */ const $ce3a3801e6b1c02c$export$ab8f1c00731ee83e = new Map([
+ */ const $0b1a5804b8fde326$export$ab8f1c00731ee83e = new Map([
     [
         "proxy",
-        $ce3a3801e6b1c02c$var$proxyTransferHandler
+        $0b1a5804b8fde326$var$proxyTransferHandler
     ],
     [
         "throw",
-        $ce3a3801e6b1c02c$var$throwTransferHandler
+        $0b1a5804b8fde326$var$throwTransferHandler
     ], 
 ]);
-function $ce3a3801e6b1c02c$export$9b7f6e342a8cbd38(obj1, ep = self) {
+function $0b1a5804b8fde326$export$9b7f6e342a8cbd38(obj1, ep = self) {
     ep.addEventListener("message", function callback(ev) {
         if (!ev || !ev.data) return;
         const { id: id , type: type , path: path  } = Object.assign({
             path: []
         }, ev.data);
-        const argumentList = (ev.data.argumentList || []).map($ce3a3801e6b1c02c$var$fromWireValue);
+        const argumentList = (ev.data.argumentList || []).map($0b1a5804b8fde326$var$fromWireValue);
         let returnValue1;
         try {
             const parent = path.slice(0, -1).reduce((obj, prop)=>obj[prop]
@@ -95,7 +95,7 @@ function $ce3a3801e6b1c02c$export$9b7f6e342a8cbd38(obj1, ep = self) {
                     returnValue1 = rawValue;
                     break;
                 case "SET" /* SET */ :
-                    parent[path.slice(-1)[0]] = $ce3a3801e6b1c02c$var$fromWireValue(ev.data.value);
+                    parent[path.slice(-1)[0]] = $0b1a5804b8fde326$var$fromWireValue(ev.data.value);
                     returnValue1 = true;
                     break;
                 case "APPLY" /* APPLY */ :
@@ -104,14 +104,14 @@ function $ce3a3801e6b1c02c$export$9b7f6e342a8cbd38(obj1, ep = self) {
                 case "CONSTRUCT" /* CONSTRUCT */ :
                     {
                         const value = new rawValue(...argumentList);
-                        returnValue1 = $ce3a3801e6b1c02c$export$923f96dd5afa9ce6(value);
+                        returnValue1 = $0b1a5804b8fde326$export$923f96dd5afa9ce6(value);
                     }
                     break;
                 case "ENDPOINT" /* ENDPOINT */ :
                     {
                         const { port1: port1 , port2: port2  } = new MessageChannel();
-                        $ce3a3801e6b1c02c$export$9b7f6e342a8cbd38(obj1, port2);
-                        returnValue1 = $ce3a3801e6b1c02c$export$c9b234447cf4ef7c(port1, [
+                        $0b1a5804b8fde326$export$9b7f6e342a8cbd38(obj1, port2);
+                        returnValue1 = $0b1a5804b8fde326$export$c9b234447cf4ef7c(port1, [
                             port1
                         ]);
                     }
@@ -125,16 +125,16 @@ function $ce3a3801e6b1c02c$export$9b7f6e342a8cbd38(obj1, ep = self) {
         } catch (value1) {
             returnValue1 = {
                 value: value1,
-                [$ce3a3801e6b1c02c$var$throwMarker]: 0
+                [$0b1a5804b8fde326$var$throwMarker]: 0
             };
         }
         Promise.resolve(returnValue1).catch((value)=>{
             return {
                 value: value,
-                [$ce3a3801e6b1c02c$var$throwMarker]: 0
+                [$0b1a5804b8fde326$var$throwMarker]: 0
             };
         }).then((returnValue)=>{
-            const [wireValue, transferables] = $ce3a3801e6b1c02c$var$toWireValue(returnValue);
+            const [wireValue, transferables] = $0b1a5804b8fde326$var$toWireValue(returnValue);
             ep.postMessage(Object.assign(Object.assign({
             }, wireValue), {
                 id: id
@@ -142,37 +142,37 @@ function $ce3a3801e6b1c02c$export$9b7f6e342a8cbd38(obj1, ep = self) {
             if (type === "RELEASE" /* RELEASE */ ) {
                 // detach and deactive after sending release response above.
                 ep.removeEventListener("message", callback);
-                $ce3a3801e6b1c02c$var$closeEndPoint(ep);
+                $0b1a5804b8fde326$var$closeEndPoint(ep);
             }
         });
     });
     if (ep.start) ep.start();
 }
-function $ce3a3801e6b1c02c$var$isMessagePort(endpoint) {
+function $0b1a5804b8fde326$var$isMessagePort(endpoint) {
     return endpoint.constructor.name === "MessagePort";
 }
-function $ce3a3801e6b1c02c$var$closeEndPoint(endpoint) {
-    if ($ce3a3801e6b1c02c$var$isMessagePort(endpoint)) endpoint.close();
+function $0b1a5804b8fde326$var$closeEndPoint(endpoint) {
+    if ($0b1a5804b8fde326$var$isMessagePort(endpoint)) endpoint.close();
 }
-function $ce3a3801e6b1c02c$export$4997ffc0176396a6(ep, target) {
-    return $ce3a3801e6b1c02c$var$createProxy(ep, [], target);
+function $0b1a5804b8fde326$export$4997ffc0176396a6(ep, target) {
+    return $0b1a5804b8fde326$var$createProxy(ep, [], target);
 }
-function $ce3a3801e6b1c02c$var$throwIfProxyReleased(isReleased) {
+function $0b1a5804b8fde326$var$throwIfProxyReleased(isReleased) {
     if (isReleased) throw new Error("Proxy has been released and is not useable");
 }
-function $ce3a3801e6b1c02c$var$createProxy(ep, path = [], target = function() {
+function $0b1a5804b8fde326$var$createProxy(ep, path = [], target = function() {
 }) {
     let isProxyReleased = false;
     const proxy = new Proxy(target, {
         get (_target, prop) {
-            $ce3a3801e6b1c02c$var$throwIfProxyReleased(isProxyReleased);
-            if (prop === $ce3a3801e6b1c02c$export$89981d4b8d9f48aa) return ()=>{
-                return $ce3a3801e6b1c02c$var$requestResponseMessage(ep, {
+            $0b1a5804b8fde326$var$throwIfProxyReleased(isProxyReleased);
+            if (prop === $0b1a5804b8fde326$export$89981d4b8d9f48aa) return ()=>{
+                return $0b1a5804b8fde326$var$requestResponseMessage(ep, {
                     type: "RELEASE" /* RELEASE */ ,
                     path: path.map((p)=>p.toString()
                     )
                 }).then(()=>{
-                    $ce3a3801e6b1c02c$var$closeEndPoint(ep);
+                    $0b1a5804b8fde326$var$closeEndPoint(ep);
                     isProxyReleased = true;
                 });
             };
@@ -180,24 +180,24 @@ function $ce3a3801e6b1c02c$var$createProxy(ep, path = [], target = function() {
                 if (path.length === 0) return {
                     then: ()=>proxy
                 };
-                const r = $ce3a3801e6b1c02c$var$requestResponseMessage(ep, {
+                const r = $0b1a5804b8fde326$var$requestResponseMessage(ep, {
                     type: "GET" /* GET */ ,
                     path: path.map((p)=>p.toString()
                     )
-                }).then($ce3a3801e6b1c02c$var$fromWireValue);
+                }).then($0b1a5804b8fde326$var$fromWireValue);
                 return r.then.bind(r);
             }
-            return $ce3a3801e6b1c02c$var$createProxy(ep, [
+            return $0b1a5804b8fde326$var$createProxy(ep, [
                 ...path,
                 prop
             ]);
         },
         set (_target, prop, rawValue) {
-            $ce3a3801e6b1c02c$var$throwIfProxyReleased(isProxyReleased);
+            $0b1a5804b8fde326$var$throwIfProxyReleased(isProxyReleased);
             // FIXME: ES6 Proxy Handler `set` methods are supposed to return a
             // boolean. To show good will, we return true asynchronously ¯\_(ツ)_/¯
-            const [value, transferables] = $ce3a3801e6b1c02c$var$toWireValue(rawValue);
-            return $ce3a3801e6b1c02c$var$requestResponseMessage(ep, {
+            const [value, transferables] = $0b1a5804b8fde326$var$toWireValue(rawValue);
+            return $0b1a5804b8fde326$var$requestResponseMessage(ep, {
                 type: "SET" /* SET */ ,
                 path: [
                     ...path,
@@ -205,60 +205,60 @@ function $ce3a3801e6b1c02c$var$createProxy(ep, path = [], target = function() {
                 ].map((p)=>p.toString()
                 ),
                 value: value
-            }, transferables).then($ce3a3801e6b1c02c$var$fromWireValue);
+            }, transferables).then($0b1a5804b8fde326$var$fromWireValue);
         },
         apply (_target, _thisArg, rawArgumentList) {
-            $ce3a3801e6b1c02c$var$throwIfProxyReleased(isProxyReleased);
+            $0b1a5804b8fde326$var$throwIfProxyReleased(isProxyReleased);
             const last = path[path.length - 1];
-            if (last === $ce3a3801e6b1c02c$export$39fb953702b7fcd7) return $ce3a3801e6b1c02c$var$requestResponseMessage(ep, {
+            if (last === $0b1a5804b8fde326$export$39fb953702b7fcd7) return $0b1a5804b8fde326$var$requestResponseMessage(ep, {
                 type: "ENDPOINT" /* ENDPOINT */ 
-            }).then($ce3a3801e6b1c02c$var$fromWireValue);
+            }).then($0b1a5804b8fde326$var$fromWireValue);
             // We just pretend that `bind()` didn’t happen.
-            if (last === "bind") return $ce3a3801e6b1c02c$var$createProxy(ep, path.slice(0, -1));
-            const [argumentList, transferables] = $ce3a3801e6b1c02c$var$processArguments(rawArgumentList);
-            return $ce3a3801e6b1c02c$var$requestResponseMessage(ep, {
+            if (last === "bind") return $0b1a5804b8fde326$var$createProxy(ep, path.slice(0, -1));
+            const [argumentList, transferables] = $0b1a5804b8fde326$var$processArguments(rawArgumentList);
+            return $0b1a5804b8fde326$var$requestResponseMessage(ep, {
                 type: "APPLY" /* APPLY */ ,
                 path: path.map((p)=>p.toString()
                 ),
                 argumentList: argumentList
-            }, transferables).then($ce3a3801e6b1c02c$var$fromWireValue);
+            }, transferables).then($0b1a5804b8fde326$var$fromWireValue);
         },
         construct (_target, rawArgumentList) {
-            $ce3a3801e6b1c02c$var$throwIfProxyReleased(isProxyReleased);
-            const [argumentList, transferables] = $ce3a3801e6b1c02c$var$processArguments(rawArgumentList);
-            return $ce3a3801e6b1c02c$var$requestResponseMessage(ep, {
+            $0b1a5804b8fde326$var$throwIfProxyReleased(isProxyReleased);
+            const [argumentList, transferables] = $0b1a5804b8fde326$var$processArguments(rawArgumentList);
+            return $0b1a5804b8fde326$var$requestResponseMessage(ep, {
                 type: "CONSTRUCT" /* CONSTRUCT */ ,
                 path: path.map((p)=>p.toString()
                 ),
                 argumentList: argumentList
-            }, transferables).then($ce3a3801e6b1c02c$var$fromWireValue);
+            }, transferables).then($0b1a5804b8fde326$var$fromWireValue);
         }
     });
     return proxy;
 }
-function $ce3a3801e6b1c02c$var$myFlat(arr) {
+function $0b1a5804b8fde326$var$myFlat(arr) {
     return Array.prototype.concat.apply([], arr);
 }
-function $ce3a3801e6b1c02c$var$processArguments(argumentList) {
-    const processed = argumentList.map($ce3a3801e6b1c02c$var$toWireValue);
+function $0b1a5804b8fde326$var$processArguments(argumentList) {
+    const processed = argumentList.map($0b1a5804b8fde326$var$toWireValue);
     return [
         processed.map((v)=>v[0]
         ),
-        $ce3a3801e6b1c02c$var$myFlat(processed.map((v)=>v[1]
+        $0b1a5804b8fde326$var$myFlat(processed.map((v)=>v[1]
         ))
     ];
 }
-const $ce3a3801e6b1c02c$var$transferCache = new WeakMap();
-function $ce3a3801e6b1c02c$export$c9b234447cf4ef7c(obj, transfers) {
-    $ce3a3801e6b1c02c$var$transferCache.set(obj, transfers);
+const $0b1a5804b8fde326$var$transferCache = new WeakMap();
+function $0b1a5804b8fde326$export$c9b234447cf4ef7c(obj, transfers) {
+    $0b1a5804b8fde326$var$transferCache.set(obj, transfers);
     return obj;
 }
-function $ce3a3801e6b1c02c$export$923f96dd5afa9ce6(obj) {
+function $0b1a5804b8fde326$export$923f96dd5afa9ce6(obj) {
     return Object.assign(obj, {
-        [$ce3a3801e6b1c02c$export$be5234c0b764b6e0]: true
+        [$0b1a5804b8fde326$export$be5234c0b764b6e0]: true
     });
 }
-function $ce3a3801e6b1c02c$export$f2c03fb5a6c19546(w, context = self, targetOrigin = "*") {
+function $0b1a5804b8fde326$export$f2c03fb5a6c19546(w, context = self, targetOrigin = "*") {
     return {
         postMessage: (msg, transferables)=>w.postMessage(msg, targetOrigin, transferables)
         ,
@@ -266,8 +266,8 @@ function $ce3a3801e6b1c02c$export$f2c03fb5a6c19546(w, context = self, targetOrig
         removeEventListener: context.removeEventListener.bind(context)
     };
 }
-function $ce3a3801e6b1c02c$var$toWireValue(value) {
-    for (const [name, handler] of $ce3a3801e6b1c02c$export$ab8f1c00731ee83e)if (handler.canHandle(value)) {
+function $0b1a5804b8fde326$var$toWireValue(value) {
+    for (const [name, handler] of $0b1a5804b8fde326$export$ab8f1c00731ee83e)if (handler.canHandle(value)) {
         const [serializedValue, transferables] = handler.serialize(value);
         return [
             {
@@ -283,20 +283,20 @@ function $ce3a3801e6b1c02c$var$toWireValue(value) {
             type: "RAW" /* RAW */ ,
             value: value
         },
-        $ce3a3801e6b1c02c$var$transferCache.get(value) || [], 
+        $0b1a5804b8fde326$var$transferCache.get(value) || [], 
     ];
 }
-function $ce3a3801e6b1c02c$var$fromWireValue(value) {
+function $0b1a5804b8fde326$var$fromWireValue(value) {
     switch(value.type){
         case "HANDLER" /* HANDLER */ :
-            return $ce3a3801e6b1c02c$export$ab8f1c00731ee83e.get(value.name).deserialize(value.value);
+            return $0b1a5804b8fde326$export$ab8f1c00731ee83e.get(value.name).deserialize(value.value);
         case "RAW" /* RAW */ :
             return value.value;
     }
 }
-function $ce3a3801e6b1c02c$var$requestResponseMessage(ep, msg, transfers) {
+function $0b1a5804b8fde326$var$requestResponseMessage(ep, msg, transfers) {
     return new Promise((resolve)=>{
-        const id = $ce3a3801e6b1c02c$var$generateUUID();
+        const id = $0b1a5804b8fde326$var$generateUUID();
         ep.addEventListener("message", function l(ev) {
             if (!ev.data || !ev.data.id || ev.data.id !== id) return;
             ep.removeEventListener("message", l);
@@ -308,22 +308,22 @@ function $ce3a3801e6b1c02c$var$requestResponseMessage(ep, msg, transfers) {
         }, msg), transfers);
     });
 }
-function $ce3a3801e6b1c02c$var$generateUUID() {
+function $0b1a5804b8fde326$var$generateUUID() {
     return new Array(4).fill(0).map(()=>Math.floor(Math.random() * Number.MAX_SAFE_INTEGER).toString(16)
     ).join("-");
 }
 
 
-let $53f2f5b49ef73547$var$CACHE_NAME = "@newkind/cache@0.1.1";
-let $53f2f5b49ef73547$var$urlsToCache = [
+let $4883c1c8e3d2f5bf$var$CACHE_NAME = "@newkind/cache@0.1.1";
+let $4883c1c8e3d2f5bf$var$urlsToCache = [
     '/newkind-service/'
 ];
 //1s
-let $53f2f5b49ef73547$var$CONFIG = {
-    CACHE: $53f2f5b49ef73547$var$CACHE_NAME,
-    URLS: $53f2f5b49ef73547$var$urlsToCache,
+let $4883c1c8e3d2f5bf$var$CONFIG = {
+    CACHE: $4883c1c8e3d2f5bf$var$CACHE_NAME,
+    URLS: $4883c1c8e3d2f5bf$var$urlsToCache,
     AllowList: [
-        $53f2f5b49ef73547$var$CACHE_NAME
+        $4883c1c8e3d2f5bf$var$CACHE_NAME
     ],
     timeout: 0,
     memory: {
@@ -347,9 +347,9 @@ let $53f2f5b49ef73547$var$CONFIG = {
 };
 self.addEventListener("install", (event)=>{
     event.waitUntil(self.skipWaiting());
-    event.waitUntil(caches.open($53f2f5b49ef73547$var$CONFIG.CACHE).then(function(cache) {
-        console.log('💖 addAll', $53f2f5b49ef73547$var$CONFIG.URLS);
-        return cache.addAll($53f2f5b49ef73547$var$CONFIG.URLS);
+    event.waitUntil(caches.open($4883c1c8e3d2f5bf$var$CONFIG.CACHE).then(function(cache) {
+        console.log('💖 addAll', $4883c1c8e3d2f5bf$var$CONFIG.URLS);
+        return cache.addAll($4883c1c8e3d2f5bf$var$CONFIG.URLS);
     }));
     console.log('🖤 service install');
 });
@@ -357,7 +357,7 @@ self.addEventListener("activate", (event)=>{
     event.waitUntil(self.clients.claim());
     event.waitUntil(caches.keys().then(function(cacheNames) {
         return Promise.all(cacheNames.map(function(cacheName) {
-            if ($53f2f5b49ef73547$var$CONFIG.AllowList.indexOf(cacheName) === -1) return caches.delete(cacheName);
+            if ($4883c1c8e3d2f5bf$var$CONFIG.AllowList.indexOf(cacheName) === -1) return caches.delete(cacheName);
         }));
     }));
     console.log('🖤 service activate');
@@ -397,36 +397,36 @@ self.addEventListener('sync', (event)=>{
 });
 self.addEventListener('fetch', (event)=>{
     console.log('🖤 service fetch', event.request.url);
-    if ($53f2f5b49ef73547$var$CONFIG.strategy.NetworkOrCache) event.respondWith($53f2f5b49ef73547$var$fromNetwork(event.request, $53f2f5b49ef73547$var$CONFIG.timeout).catch((err)=>{
+    if ($4883c1c8e3d2f5bf$var$CONFIG.strategy.NetworkOrCache) event.respondWith($4883c1c8e3d2f5bf$var$fromNetwork(event.request, $4883c1c8e3d2f5bf$var$CONFIG.timeout).catch((err)=>{
         //console.log(`Error: ${err.message()}`);
-        $53f2f5b49ef73547$var$fromCache(event.request);
+        $4883c1c8e3d2f5bf$var$fromCache(event.request);
     // .catch(() => return useFallback()));
     }));
-    else if ($53f2f5b49ef73547$var$CONFIG.strategy.CacheOnly) event.respondWith($53f2f5b49ef73547$var$fromCache(event.request));
-    else if ($53f2f5b49ef73547$var$CONFIG.strategy.CacheAndUpdate) {
-        event.respondWith($53f2f5b49ef73547$var$fromCache(event.request));
-        event.waitUntil($53f2f5b49ef73547$var$update(event.request));
-    } else if ($53f2f5b49ef73547$var$CONFIG.strategy.CacheUpdateAndRefresh) {
+    else if ($4883c1c8e3d2f5bf$var$CONFIG.strategy.CacheOnly) event.respondWith($4883c1c8e3d2f5bf$var$fromCache(event.request));
+    else if ($4883c1c8e3d2f5bf$var$CONFIG.strategy.CacheAndUpdate) {
+        event.respondWith($4883c1c8e3d2f5bf$var$fromCache(event.request));
+        event.waitUntil($4883c1c8e3d2f5bf$var$update(event.request));
+    } else if ($4883c1c8e3d2f5bf$var$CONFIG.strategy.CacheUpdateAndRefresh) {
         // Как и в предыдущем примере, сначала `respondWith()` потом `waitUntil()`
-        event.respondWith($53f2f5b49ef73547$var$fromCache(event.request));
-        event.waitUntil($53f2f5b49ef73547$var$update(event.request)// В конце, после получения "свежих" данных от сервера уведомляем всех клиентов.
-        .then($53f2f5b49ef73547$var$refresh));
+        event.respondWith($4883c1c8e3d2f5bf$var$fromCache(event.request));
+        event.waitUntil($4883c1c8e3d2f5bf$var$update(event.request)// В конце, после получения "свежих" данных от сервера уведомляем всех клиентов.
+        .then($4883c1c8e3d2f5bf$var$refresh));
     } else event.respondWith(fetch(new Request(event.request, {
         headers: {
-            'Content-Type': $53f2f5b49ef73547$var$CONFIG.contentType(event.request.destination)
+            'Content-Type': $4883c1c8e3d2f5bf$var$CONFIG.contentType(event.request.destination)
         }
     })).then((response)=>{
         //console.log('*** service response ***')
         if (!response || response.status !== 200 || response.type !== 'basic') return response;
         return response;
-    }).catch(()=>$53f2f5b49ef73547$var$useFallback()
+    }).catch(()=>$4883c1c8e3d2f5bf$var$useFallback()
     ));
 });
 self.addEventListener("message", async (event)=>{
     console.log('🖤 🌼 service message', event.data);
     if (event.data && event.data.state && event.data.state.isConnected && event.data.state.type === "proxy-memory") {
         console.log('🖤 🌼 service message', event.data.state);
-        for(let port in event.data.state.to)$53f2f5b49ef73547$var$CONFIG.memory = $ce3a3801e6b1c02c$export$4997ffc0176396a6(event.data.state.to[port]);
+        for(let port in event.data.state.to)$4883c1c8e3d2f5bf$var$CONFIG.memory = $0b1a5804b8fde326$export$4997ffc0176396a6(event.data.state.to[port]);
         console.log('🖤 🌼 🎫 service message', event.data.state);
         event.source.postMessage({
             state: {
@@ -443,7 +443,7 @@ self.addEventListener("message", async (event)=>{
         });
     }
 });
-function $53f2f5b49ef73547$var$fromNetwork(request, timeout) {
+function $4883c1c8e3d2f5bf$var$fromNetwork(request, timeout) {
     return new Promise((fulfill, reject)=>{
         let timeoutId = setTimeout(reject, timeout);
         fetch(request).then((response)=>{
@@ -452,20 +452,20 @@ function $53f2f5b49ef73547$var$fromNetwork(request, timeout) {
         }, reject);
     });
 }
-function $53f2f5b49ef73547$var$fromCache(request) {
-    return caches.open($53f2f5b49ef73547$var$CONFIG.CACHE).then((cache)=>cache.match(request).then((matching)=>matching || Promise.reject('no-match')
+function $4883c1c8e3d2f5bf$var$fromCache(request) {
+    return caches.open($4883c1c8e3d2f5bf$var$CONFIG.CACHE).then((cache)=>cache.match(request).then((matching)=>matching || Promise.reject('no-match')
         )
     );
 }
-function $53f2f5b49ef73547$var$update(request) {
-    return caches.open($53f2f5b49ef73547$var$CONFIG.CACHE).then((cache)=>fetch(request).then((response)=>// cache.put(request, response)
+function $4883c1c8e3d2f5bf$var$update(request) {
+    return caches.open($4883c1c8e3d2f5bf$var$CONFIG.CACHE).then((cache)=>fetch(request).then((response)=>// cache.put(request, response)
             cache.put(request, response.clone()).then(()=>response
             )
         )
     );
 }
 // Шлём сообщения об обновлении данных всем клиентам. dd
-function $53f2f5b49ef73547$var$refresh(response) {
+function $4883c1c8e3d2f5bf$var$refresh(response) {
     return self.clients.matchAll().then((clients)=>{
         clients.forEach((client)=>{
             // Подробнее про ETag можно прочитать тут
@@ -480,7 +480,7 @@ function $53f2f5b49ef73547$var$refresh(response) {
         });
     });
 }
-const $53f2f5b49ef73547$var$FALLBACK = `
+const $4883c1c8e3d2f5bf$var$FALLBACK = `
 <html>
 <head>
 <title>Elite</title>
@@ -545,8 +545,8 @@ ul {
 </body>
 </html>
 `;
-function $53f2f5b49ef73547$var$useFallback() {
-    return Promise.resolve(new Response($53f2f5b49ef73547$var$FALLBACK, {
+function $4883c1c8e3d2f5bf$var$useFallback() {
+    return Promise.resolve(new Response($4883c1c8e3d2f5bf$var$FALLBACK, {
         headers: {
             'Content-Type': 'text/html; charset=utf-8'
         }
@@ -554,4 +554,3 @@ function $53f2f5b49ef73547$var$useFallback() {
 }
 
 
-//# sourceMappingURL=PROXY.20a77d47.js.map

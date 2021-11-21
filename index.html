@@ -333,20 +333,20 @@ if (parcelRequire == null) {
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ const $ce3a3801e6b1c02c$export$be5234c0b764b6e0 = Symbol("Comlink.proxy");
-const $ce3a3801e6b1c02c$export$39fb953702b7fcd7 = Symbol("Comlink.endpoint");
-const $ce3a3801e6b1c02c$export$89981d4b8d9f48aa = Symbol("Comlink.releaseProxy");
-const $ce3a3801e6b1c02c$var$throwMarker = Symbol("Comlink.thrown");
-const $ce3a3801e6b1c02c$var$isObject = (val)=>typeof val === "object" && val !== null || typeof val === "function"
+ */ const $0b1a5804b8fde326$export$be5234c0b764b6e0 = Symbol("Comlink.proxy");
+const $0b1a5804b8fde326$export$39fb953702b7fcd7 = Symbol("Comlink.endpoint");
+const $0b1a5804b8fde326$export$89981d4b8d9f48aa = Symbol("Comlink.releaseProxy");
+const $0b1a5804b8fde326$var$throwMarker = Symbol("Comlink.thrown");
+const $0b1a5804b8fde326$var$isObject = (val)=>typeof val === "object" && val !== null || typeof val === "function"
 ;
 /**
  * Internal transfer handle to handle objects marked to proxy.
- */ const $ce3a3801e6b1c02c$var$proxyTransferHandler = {
-    canHandle: (val)=>$ce3a3801e6b1c02c$var$isObject(val) && val[$ce3a3801e6b1c02c$export$be5234c0b764b6e0]
+ */ const $0b1a5804b8fde326$var$proxyTransferHandler = {
+    canHandle: (val)=>$0b1a5804b8fde326$var$isObject(val) && val[$0b1a5804b8fde326$export$be5234c0b764b6e0]
     ,
     serialize (obj) {
         const { port1: port1 , port2: port2  } = new MessageChannel();
-        $ce3a3801e6b1c02c$export$9b7f6e342a8cbd38(obj, port1);
+        $0b1a5804b8fde326$export$9b7f6e342a8cbd38(obj, port1);
         return [
             port2,
             [
@@ -356,13 +356,13 @@ const $ce3a3801e6b1c02c$var$isObject = (val)=>typeof val === "object" && val !==
     },
     deserialize (port) {
         port.start();
-        return $ce3a3801e6b1c02c$export$4997ffc0176396a6(port);
+        return $0b1a5804b8fde326$export$4997ffc0176396a6(port);
     }
 };
 /**
  * Internal transfer handler to handle thrown exceptions.
- */ const $ce3a3801e6b1c02c$var$throwTransferHandler = {
-    canHandle: (value)=>$ce3a3801e6b1c02c$var$isObject(value) && $ce3a3801e6b1c02c$var$throwMarker in value
+ */ const $0b1a5804b8fde326$var$throwTransferHandler = {
+    canHandle: (value)=>$0b1a5804b8fde326$var$isObject(value) && $0b1a5804b8fde326$var$throwMarker in value
     ,
     serialize ({ value: value  }) {
         let serialized;
@@ -390,23 +390,23 @@ const $ce3a3801e6b1c02c$var$isObject = (val)=>typeof val === "object" && val !==
 };
 /**
  * Allows customizing the serialization of certain values.
- */ const $ce3a3801e6b1c02c$export$ab8f1c00731ee83e = new Map([
+ */ const $0b1a5804b8fde326$export$ab8f1c00731ee83e = new Map([
     [
         "proxy",
-        $ce3a3801e6b1c02c$var$proxyTransferHandler
+        $0b1a5804b8fde326$var$proxyTransferHandler
     ],
     [
         "throw",
-        $ce3a3801e6b1c02c$var$throwTransferHandler
+        $0b1a5804b8fde326$var$throwTransferHandler
     ], 
 ]);
-function $ce3a3801e6b1c02c$export$9b7f6e342a8cbd38(obj1, ep = self) {
+function $0b1a5804b8fde326$export$9b7f6e342a8cbd38(obj1, ep = self) {
     ep.addEventListener("message", function callback(ev) {
         if (!ev || !ev.data) return;
         const { id: id , type: type , path: path  } = Object.assign({
             path: []
         }, ev.data);
-        const argumentList = (ev.data.argumentList || []).map($ce3a3801e6b1c02c$var$fromWireValue);
+        const argumentList = (ev.data.argumentList || []).map($0b1a5804b8fde326$var$fromWireValue);
         let returnValue1;
         try {
             const parent = path.slice(0, -1).reduce((obj, prop)=>obj[prop]
@@ -418,7 +418,7 @@ function $ce3a3801e6b1c02c$export$9b7f6e342a8cbd38(obj1, ep = self) {
                     returnValue1 = rawValue;
                     break;
                 case "SET" /* SET */ :
-                    parent[path.slice(-1)[0]] = $ce3a3801e6b1c02c$var$fromWireValue(ev.data.value);
+                    parent[path.slice(-1)[0]] = $0b1a5804b8fde326$var$fromWireValue(ev.data.value);
                     returnValue1 = true;
                     break;
                 case "APPLY" /* APPLY */ :
@@ -427,14 +427,14 @@ function $ce3a3801e6b1c02c$export$9b7f6e342a8cbd38(obj1, ep = self) {
                 case "CONSTRUCT" /* CONSTRUCT */ :
                     {
                         const value = new rawValue(...argumentList);
-                        returnValue1 = $ce3a3801e6b1c02c$export$923f96dd5afa9ce6(value);
+                        returnValue1 = $0b1a5804b8fde326$export$923f96dd5afa9ce6(value);
                     }
                     break;
                 case "ENDPOINT" /* ENDPOINT */ :
                     {
                         const { port1: port1 , port2: port2  } = new MessageChannel();
-                        $ce3a3801e6b1c02c$export$9b7f6e342a8cbd38(obj1, port2);
-                        returnValue1 = $ce3a3801e6b1c02c$export$c9b234447cf4ef7c(port1, [
+                        $0b1a5804b8fde326$export$9b7f6e342a8cbd38(obj1, port2);
+                        returnValue1 = $0b1a5804b8fde326$export$c9b234447cf4ef7c(port1, [
                             port1
                         ]);
                     }
@@ -448,16 +448,16 @@ function $ce3a3801e6b1c02c$export$9b7f6e342a8cbd38(obj1, ep = self) {
         } catch (value1) {
             returnValue1 = {
                 value: value1,
-                [$ce3a3801e6b1c02c$var$throwMarker]: 0
+                [$0b1a5804b8fde326$var$throwMarker]: 0
             };
         }
         Promise.resolve(returnValue1).catch((value)=>{
             return {
                 value: value,
-                [$ce3a3801e6b1c02c$var$throwMarker]: 0
+                [$0b1a5804b8fde326$var$throwMarker]: 0
             };
         }).then((returnValue)=>{
-            const [wireValue, transferables] = $ce3a3801e6b1c02c$var$toWireValue(returnValue);
+            const [wireValue, transferables] = $0b1a5804b8fde326$var$toWireValue(returnValue);
             ep.postMessage(Object.assign(Object.assign({
             }, wireValue), {
                 id: id
@@ -465,37 +465,37 @@ function $ce3a3801e6b1c02c$export$9b7f6e342a8cbd38(obj1, ep = self) {
             if (type === "RELEASE" /* RELEASE */ ) {
                 // detach and deactive after sending release response above.
                 ep.removeEventListener("message", callback);
-                $ce3a3801e6b1c02c$var$closeEndPoint(ep);
+                $0b1a5804b8fde326$var$closeEndPoint(ep);
             }
         });
     });
     if (ep.start) ep.start();
 }
-function $ce3a3801e6b1c02c$var$isMessagePort(endpoint) {
+function $0b1a5804b8fde326$var$isMessagePort(endpoint) {
     return endpoint.constructor.name === "MessagePort";
 }
-function $ce3a3801e6b1c02c$var$closeEndPoint(endpoint) {
-    if ($ce3a3801e6b1c02c$var$isMessagePort(endpoint)) endpoint.close();
+function $0b1a5804b8fde326$var$closeEndPoint(endpoint) {
+    if ($0b1a5804b8fde326$var$isMessagePort(endpoint)) endpoint.close();
 }
-function $ce3a3801e6b1c02c$export$4997ffc0176396a6(ep, target) {
-    return $ce3a3801e6b1c02c$var$createProxy(ep, [], target);
+function $0b1a5804b8fde326$export$4997ffc0176396a6(ep, target) {
+    return $0b1a5804b8fde326$var$createProxy(ep, [], target);
 }
-function $ce3a3801e6b1c02c$var$throwIfProxyReleased(isReleased) {
+function $0b1a5804b8fde326$var$throwIfProxyReleased(isReleased) {
     if (isReleased) throw new Error("Proxy has been released and is not useable");
 }
-function $ce3a3801e6b1c02c$var$createProxy(ep, path = [], target = function() {
+function $0b1a5804b8fde326$var$createProxy(ep, path = [], target = function() {
 }) {
     let isProxyReleased = false;
     const proxy = new Proxy(target, {
         get (_target, prop) {
-            $ce3a3801e6b1c02c$var$throwIfProxyReleased(isProxyReleased);
-            if (prop === $ce3a3801e6b1c02c$export$89981d4b8d9f48aa) return ()=>{
-                return $ce3a3801e6b1c02c$var$requestResponseMessage(ep, {
+            $0b1a5804b8fde326$var$throwIfProxyReleased(isProxyReleased);
+            if (prop === $0b1a5804b8fde326$export$89981d4b8d9f48aa) return ()=>{
+                return $0b1a5804b8fde326$var$requestResponseMessage(ep, {
                     type: "RELEASE" /* RELEASE */ ,
                     path: path.map((p)=>p.toString()
                     )
                 }).then(()=>{
-                    $ce3a3801e6b1c02c$var$closeEndPoint(ep);
+                    $0b1a5804b8fde326$var$closeEndPoint(ep);
                     isProxyReleased = true;
                 });
             };
@@ -503,24 +503,24 @@ function $ce3a3801e6b1c02c$var$createProxy(ep, path = [], target = function() {
                 if (path.length === 0) return {
                     then: ()=>proxy
                 };
-                const r = $ce3a3801e6b1c02c$var$requestResponseMessage(ep, {
+                const r = $0b1a5804b8fde326$var$requestResponseMessage(ep, {
                     type: "GET" /* GET */ ,
                     path: path.map((p)=>p.toString()
                     )
-                }).then($ce3a3801e6b1c02c$var$fromWireValue);
+                }).then($0b1a5804b8fde326$var$fromWireValue);
                 return r.then.bind(r);
             }
-            return $ce3a3801e6b1c02c$var$createProxy(ep, [
+            return $0b1a5804b8fde326$var$createProxy(ep, [
                 ...path,
                 prop
             ]);
         },
         set (_target, prop, rawValue) {
-            $ce3a3801e6b1c02c$var$throwIfProxyReleased(isProxyReleased);
+            $0b1a5804b8fde326$var$throwIfProxyReleased(isProxyReleased);
             // FIXME: ES6 Proxy Handler `set` methods are supposed to return a
             // boolean. To show good will, we return true asynchronously ¯\_(ツ)_/¯
-            const [value, transferables] = $ce3a3801e6b1c02c$var$toWireValue(rawValue);
-            return $ce3a3801e6b1c02c$var$requestResponseMessage(ep, {
+            const [value, transferables] = $0b1a5804b8fde326$var$toWireValue(rawValue);
+            return $0b1a5804b8fde326$var$requestResponseMessage(ep, {
                 type: "SET" /* SET */ ,
                 path: [
                     ...path,
@@ -528,60 +528,60 @@ function $ce3a3801e6b1c02c$var$createProxy(ep, path = [], target = function() {
                 ].map((p)=>p.toString()
                 ),
                 value: value
-            }, transferables).then($ce3a3801e6b1c02c$var$fromWireValue);
+            }, transferables).then($0b1a5804b8fde326$var$fromWireValue);
         },
         apply (_target, _thisArg, rawArgumentList) {
-            $ce3a3801e6b1c02c$var$throwIfProxyReleased(isProxyReleased);
+            $0b1a5804b8fde326$var$throwIfProxyReleased(isProxyReleased);
             const last = path[path.length - 1];
-            if (last === $ce3a3801e6b1c02c$export$39fb953702b7fcd7) return $ce3a3801e6b1c02c$var$requestResponseMessage(ep, {
+            if (last === $0b1a5804b8fde326$export$39fb953702b7fcd7) return $0b1a5804b8fde326$var$requestResponseMessage(ep, {
                 type: "ENDPOINT" /* ENDPOINT */ 
-            }).then($ce3a3801e6b1c02c$var$fromWireValue);
+            }).then($0b1a5804b8fde326$var$fromWireValue);
             // We just pretend that `bind()` didn’t happen.
-            if (last === "bind") return $ce3a3801e6b1c02c$var$createProxy(ep, path.slice(0, -1));
-            const [argumentList, transferables] = $ce3a3801e6b1c02c$var$processArguments(rawArgumentList);
-            return $ce3a3801e6b1c02c$var$requestResponseMessage(ep, {
+            if (last === "bind") return $0b1a5804b8fde326$var$createProxy(ep, path.slice(0, -1));
+            const [argumentList, transferables] = $0b1a5804b8fde326$var$processArguments(rawArgumentList);
+            return $0b1a5804b8fde326$var$requestResponseMessage(ep, {
                 type: "APPLY" /* APPLY */ ,
                 path: path.map((p)=>p.toString()
                 ),
                 argumentList: argumentList
-            }, transferables).then($ce3a3801e6b1c02c$var$fromWireValue);
+            }, transferables).then($0b1a5804b8fde326$var$fromWireValue);
         },
         construct (_target, rawArgumentList) {
-            $ce3a3801e6b1c02c$var$throwIfProxyReleased(isProxyReleased);
-            const [argumentList, transferables] = $ce3a3801e6b1c02c$var$processArguments(rawArgumentList);
-            return $ce3a3801e6b1c02c$var$requestResponseMessage(ep, {
+            $0b1a5804b8fde326$var$throwIfProxyReleased(isProxyReleased);
+            const [argumentList, transferables] = $0b1a5804b8fde326$var$processArguments(rawArgumentList);
+            return $0b1a5804b8fde326$var$requestResponseMessage(ep, {
                 type: "CONSTRUCT" /* CONSTRUCT */ ,
                 path: path.map((p)=>p.toString()
                 ),
                 argumentList: argumentList
-            }, transferables).then($ce3a3801e6b1c02c$var$fromWireValue);
+            }, transferables).then($0b1a5804b8fde326$var$fromWireValue);
         }
     });
     return proxy;
 }
-function $ce3a3801e6b1c02c$var$myFlat(arr) {
+function $0b1a5804b8fde326$var$myFlat(arr) {
     return Array.prototype.concat.apply([], arr);
 }
-function $ce3a3801e6b1c02c$var$processArguments(argumentList) {
-    const processed = argumentList.map($ce3a3801e6b1c02c$var$toWireValue);
+function $0b1a5804b8fde326$var$processArguments(argumentList) {
+    const processed = argumentList.map($0b1a5804b8fde326$var$toWireValue);
     return [
         processed.map((v)=>v[0]
         ),
-        $ce3a3801e6b1c02c$var$myFlat(processed.map((v)=>v[1]
+        $0b1a5804b8fde326$var$myFlat(processed.map((v)=>v[1]
         ))
     ];
 }
-const $ce3a3801e6b1c02c$var$transferCache = new WeakMap();
-function $ce3a3801e6b1c02c$export$c9b234447cf4ef7c(obj, transfers) {
-    $ce3a3801e6b1c02c$var$transferCache.set(obj, transfers);
+const $0b1a5804b8fde326$var$transferCache = new WeakMap();
+function $0b1a5804b8fde326$export$c9b234447cf4ef7c(obj, transfers) {
+    $0b1a5804b8fde326$var$transferCache.set(obj, transfers);
     return obj;
 }
-function $ce3a3801e6b1c02c$export$923f96dd5afa9ce6(obj) {
+function $0b1a5804b8fde326$export$923f96dd5afa9ce6(obj) {
     return Object.assign(obj, {
-        [$ce3a3801e6b1c02c$export$be5234c0b764b6e0]: true
+        [$0b1a5804b8fde326$export$be5234c0b764b6e0]: true
     });
 }
-function $ce3a3801e6b1c02c$export$f2c03fb5a6c19546(w, context = self, targetOrigin = "*") {
+function $0b1a5804b8fde326$export$f2c03fb5a6c19546(w, context = self, targetOrigin = "*") {
     return {
         postMessage: (msg, transferables)=>w.postMessage(msg, targetOrigin, transferables)
         ,
@@ -589,8 +589,8 @@ function $ce3a3801e6b1c02c$export$f2c03fb5a6c19546(w, context = self, targetOrig
         removeEventListener: context.removeEventListener.bind(context)
     };
 }
-function $ce3a3801e6b1c02c$var$toWireValue(value) {
-    for (const [name, handler] of $ce3a3801e6b1c02c$export$ab8f1c00731ee83e)if (handler.canHandle(value)) {
+function $0b1a5804b8fde326$var$toWireValue(value) {
+    for (const [name, handler] of $0b1a5804b8fde326$export$ab8f1c00731ee83e)if (handler.canHandle(value)) {
         const [serializedValue, transferables] = handler.serialize(value);
         return [
             {
@@ -606,20 +606,20 @@ function $ce3a3801e6b1c02c$var$toWireValue(value) {
             type: "RAW" /* RAW */ ,
             value: value
         },
-        $ce3a3801e6b1c02c$var$transferCache.get(value) || [], 
+        $0b1a5804b8fde326$var$transferCache.get(value) || [], 
     ];
 }
-function $ce3a3801e6b1c02c$var$fromWireValue(value) {
+function $0b1a5804b8fde326$var$fromWireValue(value) {
     switch(value.type){
         case "HANDLER" /* HANDLER */ :
-            return $ce3a3801e6b1c02c$export$ab8f1c00731ee83e.get(value.name).deserialize(value.value);
+            return $0b1a5804b8fde326$export$ab8f1c00731ee83e.get(value.name).deserialize(value.value);
         case "RAW" /* RAW */ :
             return value.value;
     }
 }
-function $ce3a3801e6b1c02c$var$requestResponseMessage(ep, msg, transfers) {
+function $0b1a5804b8fde326$var$requestResponseMessage(ep, msg, transfers) {
     return new Promise((resolve)=>{
-        const id = $ce3a3801e6b1c02c$var$generateUUID();
+        const id = $0b1a5804b8fde326$var$generateUUID();
         ep.addEventListener("message", function l(ev) {
             if (!ev.data || !ev.data.id || ev.data.id !== id) return;
             ep.removeEventListener("message", l);
@@ -631,15 +631,15 @@ function $ce3a3801e6b1c02c$var$requestResponseMessage(ep, msg, transfers) {
         }, msg), transfers);
     });
 }
-function $ce3a3801e6b1c02c$var$generateUUID() {
+function $0b1a5804b8fde326$var$generateUUID() {
     return new Array(4).fill(0).map(()=>Math.floor(Math.random() * Number.MAX_SAFE_INTEGER).toString(16)
     ).join("-");
 }
 
 
-let $1a0f01ac0ba08138$var$has = Object.prototype.hasOwnProperty;
-let $1a0f01ac0ba08138$var$toString = Object.prototype.toString;
-function $1a0f01ac0ba08138$var$isEmpty(val) {
+let $28f325bf4f713dfb$var$has = Object.prototype.hasOwnProperty;
+let $28f325bf4f713dfb$var$toString = Object.prototype.toString;
+function $28f325bf4f713dfb$var$isEmpty(val) {
     // Null and Undefined...
     if (val == null) return true;
     // Booleans...
@@ -659,7 +659,7 @@ function $1a0f01ac0ba08138$var$isEmpty(val) {
     // Errors...
     if (val instanceof Error) return val.message === '';
     // Objects...
-    if (val.toString == $1a0f01ac0ba08138$var$toString) switch(val.toString()){
+    if (val.toString == $28f325bf4f713dfb$var$toString) switch(val.toString()){
         // Maps, Sets, Files and Errors...
         case '[object File]':
         case '[object Map]':
@@ -668,61 +668,61 @@ function $1a0f01ac0ba08138$var$isEmpty(val) {
         // Plain objects...
         case '[object Object]':
             for(var key in val){
-                if ($1a0f01ac0ba08138$var$has.call(val, key)) return false;
+                if ($28f325bf4f713dfb$var$has.call(val, key)) return false;
             }
             return true;
     }
     // Anything else...
     return false;
 }
-var $1a0f01ac0ba08138$export$2e2bcd8739ae039 = $1a0f01ac0ba08138$var$isEmpty;
+var $28f325bf4f713dfb$export$2e2bcd8739ae039 = $28f325bf4f713dfb$var$isEmpty;
 
 
-var $8889ba50b4b5013a$exports = {};
-parcelRequire.register("f0u5Z", function(module, exports) {
+var $3dd6980a55df8c1f$exports = {};
+parcelRequire.register("cilgm", function(module, exports) {
 
-$parcel$export(module.exports, "getBundleURL", () => $aece33724a489073$export$bdfd709ae4826697, (v) => $aece33724a489073$export$bdfd709ae4826697 = v);
-var $aece33724a489073$export$bdfd709ae4826697;
-var $aece33724a489073$export$c9e73fbda7da57b6;
-var $aece33724a489073$export$5a759dc7a1cfb72a;
+$parcel$export(module.exports, "getBundleURL", () => $8f37a8da90a113dc$export$bdfd709ae4826697, (v) => $8f37a8da90a113dc$export$bdfd709ae4826697 = v);
+var $8f37a8da90a113dc$export$bdfd709ae4826697;
+var $8f37a8da90a113dc$export$c9e73fbda7da57b6;
+var $8f37a8da90a113dc$export$5a759dc7a1cfb72a;
 "use strict";
-var $aece33724a489073$var$bundleURL = {
+var $8f37a8da90a113dc$var$bundleURL = {
 };
-function $aece33724a489073$var$getBundleURLCached(id) {
-    var value = $aece33724a489073$var$bundleURL[id];
+function $8f37a8da90a113dc$var$getBundleURLCached(id) {
+    var value = $8f37a8da90a113dc$var$bundleURL[id];
     if (!value) {
-        value = $aece33724a489073$var$getBundleURL();
-        $aece33724a489073$var$bundleURL[id] = value;
+        value = $8f37a8da90a113dc$var$getBundleURL();
+        $8f37a8da90a113dc$var$bundleURL[id] = value;
     }
     return value;
 }
-function $aece33724a489073$var$getBundleURL() {
+function $8f37a8da90a113dc$var$getBundleURL() {
     try {
         throw new Error();
     } catch (err) {
         var matches = ('' + err.stack).match(/(https?|file|ftp):\/\/[^)\n]+/g);
         if (matches) // The first two stack frames will be this function and getBundleURLCached.
         // Use the 3rd one, which will be a runtime in the original bundle.
-        return $aece33724a489073$var$getBaseURL(matches[2]);
+        return $8f37a8da90a113dc$var$getBaseURL(matches[2]);
     }
     return '/';
 }
-function $aece33724a489073$var$getBaseURL(url) {
+function $8f37a8da90a113dc$var$getBaseURL(url) {
     return ('' + url).replace(/^((?:https?|file|ftp):\/\/.+)\/[^/]+$/, '$1') + '/';
 } // TODO: Replace uses with `new URL(url).origin` when ie11 is no longer supported.
-function $aece33724a489073$var$getOrigin(url) {
+function $8f37a8da90a113dc$var$getOrigin(url) {
     var matches = ('' + url).match(/(https?|file|ftp):\/\/[^/]+/);
     if (!matches) throw new Error('Origin not found');
     return matches[0];
 }
-$aece33724a489073$export$bdfd709ae4826697 = $aece33724a489073$var$getBundleURLCached;
-$aece33724a489073$export$c9e73fbda7da57b6 = $aece33724a489073$var$getBaseURL;
-$aece33724a489073$export$5a759dc7a1cfb72a = $aece33724a489073$var$getOrigin;
+$8f37a8da90a113dc$export$bdfd709ae4826697 = $8f37a8da90a113dc$var$getBundleURLCached;
+$8f37a8da90a113dc$export$c9e73fbda7da57b6 = $8f37a8da90a113dc$var$getBaseURL;
+$8f37a8da90a113dc$export$5a759dc7a1cfb72a = $8f37a8da90a113dc$var$getOrigin;
 
 });
 
 
-$8889ba50b4b5013a$exports = (parcelRequire("f0u5Z")).getBundleURL('hgwN6') + "MEMORY.09eb054f.js";
+$3dd6980a55df8c1f$exports = (parcelRequire("cilgm")).getBundleURL('kK0iB') + "MEMORY.8ed00fa8.js";
 
 
 /** This is a description of the foo function. */ // If updatefound is fired, it means that there's
@@ -738,11 +738,11 @@ $8889ba50b4b5013a$exports = (parcelRequire("f0u5Z")).getBundleURL('hgwN6') + "ME
 // "activated"  - fully active
 // "redundant"  - discarded. Either failed install, or it's been
 //                replaced by a newer version
-let $6de6a409e427de1e$var$memory = (config)=>{
+let $c75e65c372cef2ea$var$memory = (config)=>{
     return new Promise(async (resolve)=>{
         let api = {
         };
-        const url = new URL($8889ba50b4b5013a$exports);
+        const url = new URL($3dd6980a55df8c1f$exports);
         let memory;
         memory = new Worker(url, {
             type: "module"
@@ -770,7 +770,7 @@ let $6de6a409e427de1e$var$memory = (config)=>{
                 memory.postMessage(mainWorker, [
                     mainMemoryChannel.port1
                 ]);
-                api = $ce3a3801e6b1c02c$export$4997ffc0176396a6(mainMemoryChannel.port2);
+                api = $0b1a5804b8fde326$export$4997ffc0176396a6(mainMemoryChannel.port2);
             } else if (event.data.state['main-memory']) {
                 console.log('🌷 🎫', event.data.state['main-memory']);
                 resolve(api);
@@ -778,12 +778,12 @@ let $6de6a409e427de1e$var$memory = (config)=>{
         };
     });
 };
-var $cbe11f4fee878304$exports = {};
+var $254d13381341468b$exports = {};
 
-$cbe11f4fee878304$exports = (parcelRequire("f0u5Z")).getBundleURL('hgwN6') + "PROXY.20a77d47.js";
+$254d13381341468b$exports = (parcelRequire("cilgm")).getBundleURL('kK0iB') + "PROXY.d3038500.js";
 
 
-let $6de6a409e427de1e$var$proxy = (config)=>{
+let $c75e65c372cef2ea$var$proxy = (config)=>{
     return new Promise(async (resolve1)=>{
         const state = (registration)=>{
             let serviceWorker;
@@ -795,7 +795,7 @@ let $6de6a409e427de1e$var$proxy = (config)=>{
         let init = ()=>{
             return new Promise((resolve)=>{
                 try {
-                    let url = new URL($cbe11f4fee878304$exports);
+                    let url = new URL($254d13381341468b$exports);
                     navigator.serviceWorker.register(url, {
                         type: "module",
                         scope: config.scope
@@ -828,7 +828,7 @@ let $6de6a409e427de1e$var$proxy = (config)=>{
         } else {
             console.log('🎈 controller false');
             navigator.serviceWorker.getRegistrations().then(async (Registrations)=>{
-                if ($1a0f01ac0ba08138$export$2e2bcd8739ae039(Registrations[0])) {
+                if ($28f325bf4f713dfb$export$2e2bcd8739ae039(Registrations[0])) {
                     console.log('🎈 Registration false');
                     init().then(()=>{
                         resolve1(true);
@@ -838,7 +838,7 @@ let $6de6a409e427de1e$var$proxy = (config)=>{
                 } else {
                     console.log('🎈 Registration true');
                     let serviceWorker1 = state(Registrations[0]);
-                    if ($1a0f01ac0ba08138$export$2e2bcd8739ae039(serviceWorker1)) {
+                    if ($28f325bf4f713dfb$export$2e2bcd8739ae039(serviceWorker1)) {
                         console.log('🎈 неизвестная ошибка', serviceWorker1, navigator.serviceWorker);
                         resolve1(false);
                     } else {
@@ -858,16 +858,16 @@ let $6de6a409e427de1e$var$proxy = (config)=>{
         }
     });
 };
-var $6de6a409e427de1e$export$2e2bcd8739ae039 = (config, PROXY = ()=>{
+var $c75e65c372cef2ea$export$2e2bcd8739ae039 = (config, PROXY = ()=>{
 }, MEMORY = ()=>{
 }, PORT = ()=>{
 })=>{
     return new Promise(async (resolve)=>{
-        $6de6a409e427de1e$var$memory(config).then((memory)=>{
+        $c75e65c372cef2ea$var$memory(config).then((memory)=>{
             MEMORY(memory);
             memory = null;
         });
-        $6de6a409e427de1e$var$proxy(config).then((proxy)=>{
+        $c75e65c372cef2ea$var$proxy(config).then((proxy)=>{
             PROXY(proxy);
             proxy = null;
         });
@@ -876,7 +876,7 @@ var $6de6a409e427de1e$export$2e2bcd8739ae039 = (config, PROXY = ()=>{
 };
 
 
-const $417d8f0c9129c502$var$CONFIG = {
+const $e414b13174c2b33a$var$CONFIG = {
     audio: {
         ctx: false,
         analyser: false,
@@ -912,7 +912,7 @@ const $417d8f0c9129c502$var$CONFIG = {
         crossOrigin: 'anonymous'
     }
 };
-const $417d8f0c9129c502$var$newAudio = (CONFIG)=>{
+const $e414b13174c2b33a$var$newAudio = (CONFIG)=>{
     if (CONFIG.stream.song) CONFIG.stream.song.pause();
     CONFIG.stream.song = new Audio(CONFIG.stream.path);
     CONFIG.stream.source = CONFIG.audio.ctx.createMediaElementSource(CONFIG.stream.song);
@@ -922,25 +922,25 @@ const $417d8f0c9129c502$var$newAudio = (CONFIG)=>{
     CONFIG.html.button.start.textContent = 'Stop Audio';
     return true;
 };
-const $417d8f0c9129c502$var$drawOscilloscope = ()=>{
-    $417d8f0c9129c502$var$CONFIG.html.scope.context = $417d8f0c9129c502$var$CONFIG.html.scope.canvas.getContext('2d');
-    $417d8f0c9129c502$var$CONFIG.html.scope.canvas.width = $417d8f0c9129c502$var$CONFIG.audio.waveform.length;
-    $417d8f0c9129c502$var$CONFIG.html.scope.canvas.height = 200;
-    $417d8f0c9129c502$var$CONFIG.html.scope.context.clearRect(0, 0, $417d8f0c9129c502$var$CONFIG.html.scope.canvas.width, $417d8f0c9129c502$var$CONFIG.html.scope.canvas.height);
-    $417d8f0c9129c502$var$CONFIG.html.scope.context.beginPath();
-    for(let i = 0; i < $417d8f0c9129c502$var$CONFIG.audio.waveform.length; i++){
+const $e414b13174c2b33a$var$drawOscilloscope = ()=>{
+    $e414b13174c2b33a$var$CONFIG.html.scope.context = $e414b13174c2b33a$var$CONFIG.html.scope.canvas.getContext('2d');
+    $e414b13174c2b33a$var$CONFIG.html.scope.canvas.width = $e414b13174c2b33a$var$CONFIG.audio.waveform.length;
+    $e414b13174c2b33a$var$CONFIG.html.scope.canvas.height = 200;
+    $e414b13174c2b33a$var$CONFIG.html.scope.context.clearRect(0, 0, $e414b13174c2b33a$var$CONFIG.html.scope.canvas.width, $e414b13174c2b33a$var$CONFIG.html.scope.canvas.height);
+    $e414b13174c2b33a$var$CONFIG.html.scope.context.beginPath();
+    for(let i = 0; i < $e414b13174c2b33a$var$CONFIG.audio.waveform.length; i++){
         const x = i;
-        const y = (0.5 + $417d8f0c9129c502$var$CONFIG.audio.waveform[i] / 2) * $417d8f0c9129c502$var$CONFIG.html.scope.canvas.height;
-        if (i === 0) $417d8f0c9129c502$var$CONFIG.html.scope.context.moveTo(x, y);
-        else $417d8f0c9129c502$var$CONFIG.html.scope.context.lineTo(x, y);
+        const y = (0.5 + $e414b13174c2b33a$var$CONFIG.audio.waveform[i] / 2) * $e414b13174c2b33a$var$CONFIG.html.scope.canvas.height;
+        if (i === 0) $e414b13174c2b33a$var$CONFIG.html.scope.context.moveTo(x, y);
+        else $e414b13174c2b33a$var$CONFIG.html.scope.context.lineTo(x, y);
     }
-    $417d8f0c9129c502$var$CONFIG.audio.analyser.getFloatTimeDomainData($417d8f0c9129c502$var$CONFIG.audio.waveform);
-    $417d8f0c9129c502$var$CONFIG.html.scope.context.strokeStyle = '#5661FA';
-    $417d8f0c9129c502$var$CONFIG.html.scope.context.lineWidth = 2;
-    $417d8f0c9129c502$var$CONFIG.html.scope.context.stroke();
-    window.requestAnimationFrame($417d8f0c9129c502$var$drawOscilloscope);
+    $e414b13174c2b33a$var$CONFIG.audio.analyser.getFloatTimeDomainData($e414b13174c2b33a$var$CONFIG.audio.waveform);
+    $e414b13174c2b33a$var$CONFIG.html.scope.context.strokeStyle = '#5661FA';
+    $e414b13174c2b33a$var$CONFIG.html.scope.context.lineWidth = 2;
+    $e414b13174c2b33a$var$CONFIG.html.scope.context.stroke();
+    window.requestAnimationFrame($e414b13174c2b33a$var$drawOscilloscope);
 };
-const $417d8f0c9129c502$var$ctx = (CONFIG)=>{
+const $e414b13174c2b33a$var$ctx = (CONFIG)=>{
     CONFIG.audio.ctx = new (window.AudioContext || window.webkitAudioContext)();
     CONFIG.audio.analyser = CONFIG.audio.ctx.createAnalyser();
     CONFIG.audio.waveform = new Float32Array(CONFIG.audio.analyser.frequencyBinCount);
@@ -949,40 +949,40 @@ const $417d8f0c9129c502$var$ctx = (CONFIG)=>{
     CONFIG.audio.master.gain.connect(CONFIG.audio.ctx.destination);
     CONFIG.audio.master.gain.connect(CONFIG.audio.analyser);
 };
-const $417d8f0c9129c502$var$init = (self)=>{
-    $417d8f0c9129c502$var$CONFIG.html.scope.canvas = self['this']['shadowRoot'].querySelector('#oscilloscope');
-    $417d8f0c9129c502$var$CONFIG.html.button.start = self['this']['shadowRoot'].querySelector('#start');
-    $417d8f0c9129c502$var$CONFIG.html.button.radios.this = self['this']['shadowRoot'].querySelectorAll('input[name="radio-selection"]');
-    $417d8f0c9129c502$var$CONFIG.html.button.radios.length = $417d8f0c9129c502$var$CONFIG.html.button.radios.this.length;
+const $e414b13174c2b33a$var$init = (self)=>{
+    $e414b13174c2b33a$var$CONFIG.html.scope.canvas = self['this']['shadowRoot'].querySelector('#oscilloscope');
+    $e414b13174c2b33a$var$CONFIG.html.button.start = self['this']['shadowRoot'].querySelector('#start');
+    $e414b13174c2b33a$var$CONFIG.html.button.radios.this = self['this']['shadowRoot'].querySelectorAll('input[name="radio-selection"]');
+    $e414b13174c2b33a$var$CONFIG.html.button.radios.length = $e414b13174c2b33a$var$CONFIG.html.button.radios.this.length;
 };
-var $417d8f0c9129c502$export$2e2bcd8739ae039 = async ()=>{
+var $e414b13174c2b33a$export$2e2bcd8739ae039 = async ()=>{
     return new Promise((resolve, reject)=>{
         class Radio {
             constructor(self){
-                $417d8f0c9129c502$var$init(self);
-                for(let i = 0, max = $417d8f0c9129c502$var$CONFIG.html.button.radios.length; i < max; i++)if ($417d8f0c9129c502$var$CONFIG.html.button.radios.this[i].checked === true) $417d8f0c9129c502$var$CONFIG.stream.path = $417d8f0c9129c502$var$CONFIG.html.button.radios.this[i].value;
-                for(let i1 = 0, max1 = $417d8f0c9129c502$var$CONFIG.html.button.radios.length; i1 < max1; i1++)$417d8f0c9129c502$var$CONFIG.html.button.radios.this[i1].addEventListener('change', (event)=>{
-                    if ($417d8f0c9129c502$var$CONFIG.player.isPlaying) {
-                        $417d8f0c9129c502$var$CONFIG.stream.song.pause();
-                        $417d8f0c9129c502$var$CONFIG.html.button.start.textContent = 'Start Audio';
-                        $417d8f0c9129c502$var$CONFIG.player.isPlaying = !$417d8f0c9129c502$var$CONFIG.player.isPlaying;
-                        $417d8f0c9129c502$var$CONFIG.stream.path = event.target.value;
-                        if ($417d8f0c9129c502$var$CONFIG.audio.ctx) {
-                            $417d8f0c9129c502$var$CONFIG.player.isPlaying = !$417d8f0c9129c502$var$CONFIG.player.isPlaying;
-                            $417d8f0c9129c502$var$newAudio($417d8f0c9129c502$var$CONFIG);
+                $e414b13174c2b33a$var$init(self);
+                for(let i = 0, max = $e414b13174c2b33a$var$CONFIG.html.button.radios.length; i < max; i++)if ($e414b13174c2b33a$var$CONFIG.html.button.radios.this[i].checked === true) $e414b13174c2b33a$var$CONFIG.stream.path = $e414b13174c2b33a$var$CONFIG.html.button.radios.this[i].value;
+                for(let i1 = 0, max1 = $e414b13174c2b33a$var$CONFIG.html.button.radios.length; i1 < max1; i1++)$e414b13174c2b33a$var$CONFIG.html.button.radios.this[i1].addEventListener('change', (event)=>{
+                    if ($e414b13174c2b33a$var$CONFIG.player.isPlaying) {
+                        $e414b13174c2b33a$var$CONFIG.stream.song.pause();
+                        $e414b13174c2b33a$var$CONFIG.html.button.start.textContent = 'Start Audio';
+                        $e414b13174c2b33a$var$CONFIG.player.isPlaying = !$e414b13174c2b33a$var$CONFIG.player.isPlaying;
+                        $e414b13174c2b33a$var$CONFIG.stream.path = event.target.value;
+                        if ($e414b13174c2b33a$var$CONFIG.audio.ctx) {
+                            $e414b13174c2b33a$var$CONFIG.player.isPlaying = !$e414b13174c2b33a$var$CONFIG.player.isPlaying;
+                            $e414b13174c2b33a$var$newAudio($e414b13174c2b33a$var$CONFIG);
                         }
                     }
                 });
-                $417d8f0c9129c502$var$CONFIG.html.button.start.addEventListener('click', async (e)=>{
-                    if ($417d8f0c9129c502$var$CONFIG.player.isPlaying) {
-                        $417d8f0c9129c502$var$CONFIG.stream.song.pause();
-                        $417d8f0c9129c502$var$CONFIG.html.button.start.textContent = 'Start Audio';
+                $e414b13174c2b33a$var$CONFIG.html.button.start.addEventListener('click', async (e)=>{
+                    if ($e414b13174c2b33a$var$CONFIG.player.isPlaying) {
+                        $e414b13174c2b33a$var$CONFIG.stream.song.pause();
+                        $e414b13174c2b33a$var$CONFIG.html.button.start.textContent = 'Start Audio';
                     } else {
-                        $417d8f0c9129c502$var$ctx($417d8f0c9129c502$var$CONFIG);
-                        $417d8f0c9129c502$var$newAudio($417d8f0c9129c502$var$CONFIG);
-                        $417d8f0c9129c502$var$drawOscilloscope();
+                        $e414b13174c2b33a$var$ctx($e414b13174c2b33a$var$CONFIG);
+                        $e414b13174c2b33a$var$newAudio($e414b13174c2b33a$var$CONFIG);
+                        $e414b13174c2b33a$var$drawOscilloscope();
                     }
-                    $417d8f0c9129c502$var$CONFIG.player.isPlaying = !$417d8f0c9129c502$var$CONFIG.player.isPlaying;
+                    $e414b13174c2b33a$var$CONFIG.player.isPlaying = !$e414b13174c2b33a$var$CONFIG.player.isPlaying;
                 });
             }
         }
@@ -991,7 +991,7 @@ var $417d8f0c9129c502$export$2e2bcd8739ae039 = async ()=>{
 };
 
 
-var $d39f553bcaaf9ab0$export$2e2bcd8739ae039 = ()=>{
+var $19339d0ea8246657$export$2e2bcd8739ae039 = ()=>{
     return `
 .audio-newkind__form {
   max-width: 100%;
@@ -1076,7 +1076,7 @@ var $d39f553bcaaf9ab0$export$2e2bcd8739ae039 = ()=>{
 };
 
 
-var $cd92e24f07f13302$export$2e2bcd8739ae039 = ()=>{
+var $8c6471f34501abe7$export$2e2bcd8739ae039 = ()=>{
     return `
 <template>
     <div class="audio-newkind">
@@ -1096,23 +1096,23 @@ var $cd92e24f07f13302$export$2e2bcd8739ae039 = ()=>{
 };
 
 
-var $097c4dcec0ea703e$export$2e2bcd8739ae039 = (type)=>{
+var $ad456dd1906721e7$export$2e2bcd8739ae039 = (type)=>{
     let template = {
     };
     template.default = {
-        css: $d39f553bcaaf9ab0$export$2e2bcd8739ae039(),
-        html: $cd92e24f07f13302$export$2e2bcd8739ae039()
+        css: $19339d0ea8246657$export$2e2bcd8739ae039(),
+        html: $8c6471f34501abe7$export$2e2bcd8739ae039()
     };
     return template[`${type}`] ? template[`${type}`] : (console.warn('type not found: ', `${type}`, 'Set default'), template[`default`]);
 };
 
 
-const $8fb55ec36abf31ff$var$template = (self)=>{
+const $823735831435e47a$var$template = (self)=>{
     return new Promise(async (resolve, reject)=>{
         let component = {
         };
         component.this = self;
-        component.template = component.this.dataset.preset ? await $097c4dcec0ea703e$export$2e2bcd8739ae039(component.this.dataset.preset) : await $097c4dcec0ea703e$export$2e2bcd8739ae039('default');
+        component.template = component.this.dataset.preset ? await $ad456dd1906721e7$export$2e2bcd8739ae039(component.this.dataset.preset) : await $ad456dd1906721e7$export$2e2bcd8739ae039('default');
         component.this.style.width = '100%';
         component.this.attachShadow({
             mode: 'open'
@@ -1129,11 +1129,11 @@ const $8fb55ec36abf31ff$var$template = (self)=>{
         resolve(component);
     });
 };
-const $8fb55ec36abf31ff$export$7eff57b6843d484 = class extends HTMLElement {
+const $823735831435e47a$export$7eff57b6843d484 = class extends HTMLElement {
     constructor(){
         super();
-        $8fb55ec36abf31ff$var$template(this).then(async (component)=>{
-            new (await $417d8f0c9129c502$export$2e2bcd8739ae039())(component);
+        $823735831435e47a$var$template(this).then(async (component)=>{
+            new (await $e414b13174c2b33a$export$2e2bcd8739ae039())(component);
         }).catch((error)=>{
             console.warn('error', error);
         });
@@ -1156,7 +1156,7 @@ const $8fb55ec36abf31ff$export$7eff57b6843d484 = class extends HTMLElement {
     }
 };
 try {
-    customElements.define('lacerta-radio', $8fb55ec36abf31ff$export$7eff57b6843d484);
+    customElements.define('lacerta-radio', $823735831435e47a$export$7eff57b6843d484);
 } catch (e) {
     console.error('error', e);
 /*
@@ -1170,7 +1170,7 @@ try {
    */ }
 
 
-function $459628f295a1626d$var$e(e, n, t, r) {
+function $1d59b02f6a92ccaa$var$e(e, n, t, r) {
     Object.defineProperty(e, n, {
         get: t,
         set: r,
@@ -1178,44 +1178,44 @@ function $459628f295a1626d$var$e(e, n, t, r) {
         configurable: !0
     });
 }
-var $459628f295a1626d$var$n = "undefined" != typeof globalThis ? globalThis : "undefined" != typeof self ? self : "undefined" != typeof window ? window : "undefined" != typeof $parcel$global ? $parcel$global : {
-}, $459628f295a1626d$var$t = {
-}, $459628f295a1626d$var$r = {
-}, $459628f295a1626d$var$l = $459628f295a1626d$var$n.parcelRequireccb8;
-null == $459628f295a1626d$var$l && (($459628f295a1626d$var$l = function(e) {
-    if (e in $459628f295a1626d$var$t) return $459628f295a1626d$var$t[e].exports;
-    if (e in $459628f295a1626d$var$r) {
-        var n = $459628f295a1626d$var$r[e];
-        delete $459628f295a1626d$var$r[e];
+var $1d59b02f6a92ccaa$var$n = "undefined" != typeof globalThis ? globalThis : "undefined" != typeof self ? self : "undefined" != typeof window ? window : "undefined" != typeof $parcel$global ? $parcel$global : {
+}, $1d59b02f6a92ccaa$var$t = {
+}, $1d59b02f6a92ccaa$var$r = {
+}, $1d59b02f6a92ccaa$var$l = $1d59b02f6a92ccaa$var$n.parcelRequireccb8;
+null == $1d59b02f6a92ccaa$var$l && (($1d59b02f6a92ccaa$var$l = function(e) {
+    if (e in $1d59b02f6a92ccaa$var$t) return $1d59b02f6a92ccaa$var$t[e].exports;
+    if (e in $1d59b02f6a92ccaa$var$r) {
+        var n = $1d59b02f6a92ccaa$var$r[e];
+        delete $1d59b02f6a92ccaa$var$r[e];
         var l = {
             id: e,
             exports: {
             }
         };
-        return $459628f295a1626d$var$t[e] = l, n.call(l.exports, l, l.exports), l.exports;
+        return $1d59b02f6a92ccaa$var$t[e] = l, n.call(l.exports, l, l.exports), l.exports;
     }
     var a = new Error("Cannot find module '" + e + "'");
     throw a.code = "MODULE_NOT_FOUND", a;
 }).register = function(e, n) {
-    $459628f295a1626d$var$r[e] = n;
-}, $459628f295a1626d$var$n.parcelRequireccb8 = $459628f295a1626d$var$l);
-var $459628f295a1626d$var$a;
-$459628f295a1626d$var$l.register("ihC4S", function(n1, t1) {
+    $1d59b02f6a92ccaa$var$r[e] = n;
+}, $1d59b02f6a92ccaa$var$n.parcelRequireccb8 = $1d59b02f6a92ccaa$var$l);
+var $1d59b02f6a92ccaa$var$a;
+$1d59b02f6a92ccaa$var$l.register("ihC4S", function(n1, t1) {
     var r1, a1, o1;
-    $459628f295a1626d$var$e(n1.exports, "Fragment", function() {
+    $1d59b02f6a92ccaa$var$e(n1.exports, "Fragment", function() {
         return r1;
     }, function(e) {
         return r1 = e;
-    }), $459628f295a1626d$var$e(n1.exports, "jsx", function() {
+    }), $1d59b02f6a92ccaa$var$e(n1.exports, "jsx", function() {
         return a1;
     }, function(e) {
         return a1 = e;
-    }), $459628f295a1626d$var$e(n1.exports, "jsxs", function() {
+    }), $1d59b02f6a92ccaa$var$e(n1.exports, "jsxs", function() {
         return o1;
     }, function(e) {
         return o1 = e;
-    }), $459628f295a1626d$var$l("cFvYN");
-    var u = $459628f295a1626d$var$l("iOWXV"), i = 60103;
+    }), $1d59b02f6a92ccaa$var$l("cFvYN");
+    var u = $1d59b02f6a92ccaa$var$l("iOWXV"), i = 60103;
     if (r1 = 60107, "function" == typeof Symbol && Symbol.for) {
         var c = Symbol.for;
         i = c("react.element"), r1 = c("react.fragment");
@@ -1241,7 +1241,7 @@ $459628f295a1626d$var$l.register("ihC4S", function(n1, t1) {
         };
     }
     a1 = p, o1 = p;
-}), $459628f295a1626d$var$l.register("cFvYN", function(e1, n2) {
+}), $1d59b02f6a92ccaa$var$l.register("cFvYN", function(e1, n2) {
     var t2 = Object.getOwnPropertySymbols, r = Object.prototype.hasOwnProperty, l = Object.prototype.propertyIsEnumerable;
     function a(e) {
         if (null == e) throw new TypeError("Object.assign cannot be called with null or undefined");
@@ -1275,124 +1275,124 @@ $459628f295a1626d$var$l.register("ihC4S", function(n1, t1) {
         }
         return i;
     };
-}), $459628f295a1626d$var$l.register("iOWXV", function(e, n) {
-    e.exports = $459628f295a1626d$var$l("lfGy8");
-}), $459628f295a1626d$var$l.register("lfGy8", function(n3, t3) {
+}), $1d59b02f6a92ccaa$var$l.register("iOWXV", function(e, n) {
+    e.exports = $1d59b02f6a92ccaa$var$l("lfGy8");
+}), $1d59b02f6a92ccaa$var$l.register("lfGy8", function(n3, t3) {
     var r2, a2, o2, u1, i1, c1, s, f, d, p, h, m, v, g, y, b, w, k, E, S, x, _, C, P, N, T, L, z;
-    $459628f295a1626d$var$e(n3.exports, "Fragment", function() {
+    $1d59b02f6a92ccaa$var$e(n3.exports, "Fragment", function() {
         return r2;
     }, function(e) {
         return r2 = e;
-    }), $459628f295a1626d$var$e(n3.exports, "StrictMode", function() {
+    }), $1d59b02f6a92ccaa$var$e(n3.exports, "StrictMode", function() {
         return a2;
     }, function(e) {
         return a2 = e;
-    }), $459628f295a1626d$var$e(n3.exports, "Profiler", function() {
+    }), $1d59b02f6a92ccaa$var$e(n3.exports, "Profiler", function() {
         return o2;
     }, function(e) {
         return o2 = e;
-    }), $459628f295a1626d$var$e(n3.exports, "Suspense", function() {
+    }), $1d59b02f6a92ccaa$var$e(n3.exports, "Suspense", function() {
         return u1;
     }, function(e) {
         return u1 = e;
-    }), $459628f295a1626d$var$e(n3.exports, "Children", function() {
+    }), $1d59b02f6a92ccaa$var$e(n3.exports, "Children", function() {
         return i1;
     }, function(e) {
         return i1 = e;
-    }), $459628f295a1626d$var$e(n3.exports, "Component", function() {
+    }), $1d59b02f6a92ccaa$var$e(n3.exports, "Component", function() {
         return c1;
     }, function(e) {
         return c1 = e;
-    }), $459628f295a1626d$var$e(n3.exports, "PureComponent", function() {
+    }), $1d59b02f6a92ccaa$var$e(n3.exports, "PureComponent", function() {
         return s;
     }, function(e) {
         return s = e;
-    }), $459628f295a1626d$var$e(n3.exports, "__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED", function() {
+    }), $1d59b02f6a92ccaa$var$e(n3.exports, "__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED", function() {
         return f;
     }, function(e) {
         return f = e;
-    }), $459628f295a1626d$var$e(n3.exports, "cloneElement", function() {
+    }), $1d59b02f6a92ccaa$var$e(n3.exports, "cloneElement", function() {
         return d;
     }, function(e) {
         return d = e;
-    }), $459628f295a1626d$var$e(n3.exports, "createContext", function() {
+    }), $1d59b02f6a92ccaa$var$e(n3.exports, "createContext", function() {
         return p;
     }, function(e) {
         return p = e;
-    }), $459628f295a1626d$var$e(n3.exports, "createElement", function() {
+    }), $1d59b02f6a92ccaa$var$e(n3.exports, "createElement", function() {
         return h;
     }, function(e) {
         return h = e;
-    }), $459628f295a1626d$var$e(n3.exports, "createFactory", function() {
+    }), $1d59b02f6a92ccaa$var$e(n3.exports, "createFactory", function() {
         return m;
     }, function(e) {
         return m = e;
-    }), $459628f295a1626d$var$e(n3.exports, "createRef", function() {
+    }), $1d59b02f6a92ccaa$var$e(n3.exports, "createRef", function() {
         return v;
     }, function(e) {
         return v = e;
-    }), $459628f295a1626d$var$e(n3.exports, "forwardRef", function() {
+    }), $1d59b02f6a92ccaa$var$e(n3.exports, "forwardRef", function() {
         return g;
     }, function(e) {
         return g = e;
-    }), $459628f295a1626d$var$e(n3.exports, "isValidElement", function() {
+    }), $1d59b02f6a92ccaa$var$e(n3.exports, "isValidElement", function() {
         return y;
     }, function(e) {
         return y = e;
-    }), $459628f295a1626d$var$e(n3.exports, "lazy", function() {
+    }), $1d59b02f6a92ccaa$var$e(n3.exports, "lazy", function() {
         return b;
     }, function(e) {
         return b = e;
-    }), $459628f295a1626d$var$e(n3.exports, "memo", function() {
+    }), $1d59b02f6a92ccaa$var$e(n3.exports, "memo", function() {
         return w;
     }, function(e) {
         return w = e;
-    }), $459628f295a1626d$var$e(n3.exports, "useCallback", function() {
+    }), $1d59b02f6a92ccaa$var$e(n3.exports, "useCallback", function() {
         return k;
     }, function(e) {
         return k = e;
-    }), $459628f295a1626d$var$e(n3.exports, "useContext", function() {
+    }), $1d59b02f6a92ccaa$var$e(n3.exports, "useContext", function() {
         return E;
     }, function(e) {
         return E = e;
-    }), $459628f295a1626d$var$e(n3.exports, "useDebugValue", function() {
+    }), $1d59b02f6a92ccaa$var$e(n3.exports, "useDebugValue", function() {
         return S;
     }, function(e) {
         return S = e;
-    }), $459628f295a1626d$var$e(n3.exports, "useEffect", function() {
+    }), $1d59b02f6a92ccaa$var$e(n3.exports, "useEffect", function() {
         return x;
     }, function(e) {
         return x = e;
-    }), $459628f295a1626d$var$e(n3.exports, "useImperativeHandle", function() {
+    }), $1d59b02f6a92ccaa$var$e(n3.exports, "useImperativeHandle", function() {
         return _;
     }, function(e) {
         return _ = e;
-    }), $459628f295a1626d$var$e(n3.exports, "useLayoutEffect", function() {
+    }), $1d59b02f6a92ccaa$var$e(n3.exports, "useLayoutEffect", function() {
         return C;
     }, function(e) {
         return C = e;
-    }), $459628f295a1626d$var$e(n3.exports, "useMemo", function() {
+    }), $1d59b02f6a92ccaa$var$e(n3.exports, "useMemo", function() {
         return P;
     }, function(e) {
         return P = e;
-    }), $459628f295a1626d$var$e(n3.exports, "useReducer", function() {
+    }), $1d59b02f6a92ccaa$var$e(n3.exports, "useReducer", function() {
         return N;
     }, function(e) {
         return N = e;
-    }), $459628f295a1626d$var$e(n3.exports, "useRef", function() {
+    }), $1d59b02f6a92ccaa$var$e(n3.exports, "useRef", function() {
         return T;
     }, function(e) {
         return T = e;
-    }), $459628f295a1626d$var$e(n3.exports, "useState", function() {
+    }), $1d59b02f6a92ccaa$var$e(n3.exports, "useState", function() {
         return L;
     }, function(e) {
         return L = e;
-    }), $459628f295a1626d$var$e(n3.exports, "version", function() {
+    }), $1d59b02f6a92ccaa$var$e(n3.exports, "version", function() {
         return z;
     }, function(e) {
         return z = e;
     });
-    var O = $459628f295a1626d$var$l("cFvYN"), R = 60103, M = 60106;
+    var O = $1d59b02f6a92ccaa$var$l("cFvYN"), R = 60103, M = 60106;
     r2 = 60107, a2 = 60108, o2 = 60114;
     var F = 60109, I = 60110, D = 60112;
     u1 = 60113;
@@ -1657,8 +1657,8 @@ $459628f295a1626d$var$l.register("ihC4S", function(n1, t1) {
     }, L = function(e) {
         return oe().useState(e);
     }, z = "17.0.2";
-}), $459628f295a1626d$var$a = $459628f295a1626d$var$l("ihC4S");
-var $459628f295a1626d$var$o = $459628f295a1626d$var$l("iOWXV"), $459628f295a1626d$var$u = {
+}), $1d59b02f6a92ccaa$var$a = $1d59b02f6a92ccaa$var$l("ihC4S");
+var $1d59b02f6a92ccaa$var$o = $1d59b02f6a92ccaa$var$l("iOWXV"), $1d59b02f6a92ccaa$var$u = {
 };
 !function e() {
     if ("undefined" != typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" == typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE) try {
@@ -1666,54 +1666,54 @@ var $459628f295a1626d$var$o = $459628f295a1626d$var$l("iOWXV"), $459628f295a1626
     } catch (e7) {
         console.error(e7);
     }
-}(), $459628f295a1626d$var$l.register("e6MQp", function(n7, t4) {
+}(), $1d59b02f6a92ccaa$var$l.register("e6MQp", function(n7, t4) {
     var r3, a3, o3, u2, i2, c2, s1, f1, d1, p1, h1;
-    $459628f295a1626d$var$e(n7.exports, "__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED", function() {
+    $1d59b02f6a92ccaa$var$e(n7.exports, "__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED", function() {
         return r3;
     }, function(e) {
         return r3 = e;
-    }), $459628f295a1626d$var$e(n7.exports, "createPortal", function() {
+    }), $1d59b02f6a92ccaa$var$e(n7.exports, "createPortal", function() {
         return a3;
     }, function(e) {
         return a3 = e;
-    }), $459628f295a1626d$var$e(n7.exports, "findDOMNode", function() {
+    }), $1d59b02f6a92ccaa$var$e(n7.exports, "findDOMNode", function() {
         return o3;
     }, function(e) {
         return o3 = e;
-    }), $459628f295a1626d$var$e(n7.exports, "flushSync", function() {
+    }), $1d59b02f6a92ccaa$var$e(n7.exports, "flushSync", function() {
         return u2;
     }, function(e) {
         return u2 = e;
-    }), $459628f295a1626d$var$e(n7.exports, "hydrate", function() {
+    }), $1d59b02f6a92ccaa$var$e(n7.exports, "hydrate", function() {
         return i2;
     }, function(e) {
         return i2 = e;
-    }), $459628f295a1626d$var$e(n7.exports, "render", function() {
+    }), $1d59b02f6a92ccaa$var$e(n7.exports, "render", function() {
         return c2;
     }, function(e) {
         return c2 = e;
-    }), $459628f295a1626d$var$e(n7.exports, "unmountComponentAtNode", function() {
+    }), $1d59b02f6a92ccaa$var$e(n7.exports, "unmountComponentAtNode", function() {
         return s1;
     }, function(e) {
         return s1 = e;
-    }), $459628f295a1626d$var$e(n7.exports, "unstable_batchedUpdates", function() {
+    }), $1d59b02f6a92ccaa$var$e(n7.exports, "unstable_batchedUpdates", function() {
         return f1;
     }, function(e) {
         return f1 = e;
-    }), $459628f295a1626d$var$e(n7.exports, "unstable_createPortal", function() {
+    }), $1d59b02f6a92ccaa$var$e(n7.exports, "unstable_createPortal", function() {
         return d1;
     }, function(e) {
         return d1 = e;
-    }), $459628f295a1626d$var$e(n7.exports, "unstable_renderSubtreeIntoContainer", function() {
+    }), $1d59b02f6a92ccaa$var$e(n7.exports, "unstable_renderSubtreeIntoContainer", function() {
         return p1;
     }, function(e) {
         return p1 = e;
-    }), $459628f295a1626d$var$e(n7.exports, "version", function() {
+    }), $1d59b02f6a92ccaa$var$e(n7.exports, "version", function() {
         return h1;
     }, function(e) {
         return h1 = e;
     });
-    var m1 = $459628f295a1626d$var$l("iOWXV"), v1 = $459628f295a1626d$var$l("cFvYN"), g1 = $459628f295a1626d$var$l("8LEdE");
+    var m1 = $1d59b02f6a92ccaa$var$l("iOWXV"), v1 = $1d59b02f6a92ccaa$var$l("cFvYN"), g1 = $1d59b02f6a92ccaa$var$l("8LEdE");
     function y1(e) {
         for(var n = "https://reactjs.org/docs/error-decoder.html?invariant=" + e, t = 1; t < arguments.length; t++)n += "&args[]=" + encodeURIComponent(arguments[t]);
         return "Minified React error #" + e + "; visit " + n + " for the full message or use the non-minified dev environment for full errors and additional helpful warnings.";
@@ -6743,83 +6743,83 @@ var $459628f295a1626d$var$o = $459628f295a1626d$var$l("iOWXV"), $459628f295a1626
         if (null == e || void 0 === e._reactInternals) throw Error(y1(38));
         return yc(e, n, t, !1, r);
     }, h1 = "17.0.2";
-}), $459628f295a1626d$var$l.register("8LEdE", function(e, n) {
-    e.exports = $459628f295a1626d$var$l("47c3Z");
-}), $459628f295a1626d$var$l.register("47c3Z", function(n26, t13) {
+}), $1d59b02f6a92ccaa$var$l.register("8LEdE", function(e, n) {
+    e.exports = $1d59b02f6a92ccaa$var$l("47c3Z");
+}), $1d59b02f6a92ccaa$var$l.register("47c3Z", function(n26, t13) {
     var r10, l4, a6, o5, u6, i6, c, s, f, d, p, h, m, v, g, y, b, w, k, E, S, x, _;
-    if ($459628f295a1626d$var$e(n26.exports, "unstable_now", function() {
+    if ($1d59b02f6a92ccaa$var$e(n26.exports, "unstable_now", function() {
         return r10;
     }, function(e) {
         return r10 = e;
-    }), $459628f295a1626d$var$e(n26.exports, "unstable_shouldYield", function() {
+    }), $1d59b02f6a92ccaa$var$e(n26.exports, "unstable_shouldYield", function() {
         return l4;
     }, function(e) {
         return l4 = e;
-    }), $459628f295a1626d$var$e(n26.exports, "unstable_forceFrameRate", function() {
+    }), $1d59b02f6a92ccaa$var$e(n26.exports, "unstable_forceFrameRate", function() {
         return a6;
     }, function(e) {
         return a6 = e;
-    }), $459628f295a1626d$var$e(n26.exports, "unstable_IdlePriority", function() {
+    }), $1d59b02f6a92ccaa$var$e(n26.exports, "unstable_IdlePriority", function() {
         return o5;
     }, function(e) {
         return o5 = e;
-    }), $459628f295a1626d$var$e(n26.exports, "unstable_ImmediatePriority", function() {
+    }), $1d59b02f6a92ccaa$var$e(n26.exports, "unstable_ImmediatePriority", function() {
         return u6;
     }, function(e) {
         return u6 = e;
-    }), $459628f295a1626d$var$e(n26.exports, "unstable_LowPriority", function() {
+    }), $1d59b02f6a92ccaa$var$e(n26.exports, "unstable_LowPriority", function() {
         return i6;
     }, function(e) {
         return i6 = e;
-    }), $459628f295a1626d$var$e(n26.exports, "unstable_NormalPriority", function() {
+    }), $1d59b02f6a92ccaa$var$e(n26.exports, "unstable_NormalPriority", function() {
         return c;
     }, function(e) {
         return c = e;
-    }), $459628f295a1626d$var$e(n26.exports, "unstable_Profiling", function() {
+    }), $1d59b02f6a92ccaa$var$e(n26.exports, "unstable_Profiling", function() {
         return s;
     }, function(e) {
         return s = e;
-    }), $459628f295a1626d$var$e(n26.exports, "unstable_UserBlockingPriority", function() {
+    }), $1d59b02f6a92ccaa$var$e(n26.exports, "unstable_UserBlockingPriority", function() {
         return f;
     }, function(e) {
         return f = e;
-    }), $459628f295a1626d$var$e(n26.exports, "unstable_cancelCallback", function() {
+    }), $1d59b02f6a92ccaa$var$e(n26.exports, "unstable_cancelCallback", function() {
         return d;
     }, function(e) {
         return d = e;
-    }), $459628f295a1626d$var$e(n26.exports, "unstable_continueExecution", function() {
+    }), $1d59b02f6a92ccaa$var$e(n26.exports, "unstable_continueExecution", function() {
         return p;
     }, function(e) {
         return p = e;
-    }), $459628f295a1626d$var$e(n26.exports, "unstable_getCurrentPriorityLevel", function() {
+    }), $1d59b02f6a92ccaa$var$e(n26.exports, "unstable_getCurrentPriorityLevel", function() {
         return h;
     }, function(e) {
         return h = e;
-    }), $459628f295a1626d$var$e(n26.exports, "unstable_getFirstCallbackNode", function() {
+    }), $1d59b02f6a92ccaa$var$e(n26.exports, "unstable_getFirstCallbackNode", function() {
         return m;
     }, function(e) {
         return m = e;
-    }), $459628f295a1626d$var$e(n26.exports, "unstable_next", function() {
+    }), $1d59b02f6a92ccaa$var$e(n26.exports, "unstable_next", function() {
         return v;
     }, function(e) {
         return v = e;
-    }), $459628f295a1626d$var$e(n26.exports, "unstable_pauseExecution", function() {
+    }), $1d59b02f6a92ccaa$var$e(n26.exports, "unstable_pauseExecution", function() {
         return g;
     }, function(e) {
         return g = e;
-    }), $459628f295a1626d$var$e(n26.exports, "unstable_requestPaint", function() {
+    }), $1d59b02f6a92ccaa$var$e(n26.exports, "unstable_requestPaint", function() {
         return y;
     }, function(e) {
         return y = e;
-    }), $459628f295a1626d$var$e(n26.exports, "unstable_runWithPriority", function() {
+    }), $1d59b02f6a92ccaa$var$e(n26.exports, "unstable_runWithPriority", function() {
         return b;
     }, function(e) {
         return b = e;
-    }), $459628f295a1626d$var$e(n26.exports, "unstable_scheduleCallback", function() {
+    }), $1d59b02f6a92ccaa$var$e(n26.exports, "unstable_scheduleCallback", function() {
         return w;
     }, function(e) {
         return w = e;
-    }), $459628f295a1626d$var$e(n26.exports, "unstable_wrapCallback", function() {
+    }), $1d59b02f6a92ccaa$var$e(n26.exports, "unstable_wrapCallback", function() {
         return k;
     }, function(e) {
         return k = e;
@@ -7047,35 +7047,35 @@ var $459628f295a1626d$var$o = $459628f295a1626d$var$l("iOWXV"), $459628f295a1626
             }
         };
     };
-}), $459628f295a1626d$var$u = $459628f295a1626d$var$l("e6MQp");
-$459628f295a1626d$var$o = $459628f295a1626d$var$l("iOWXV"), $459628f295a1626d$var$o = $459628f295a1626d$var$l("iOWXV");
-const $459628f295a1626d$var$i = (e)=>{
-    const [n, t] = $459628f295a1626d$var$o.useState(!1);
-    console.log("alaramList component", e), $459628f295a1626d$var$o.useEffect(()=>{
+}), $1d59b02f6a92ccaa$var$u = $1d59b02f6a92ccaa$var$l("e6MQp");
+$1d59b02f6a92ccaa$var$o = $1d59b02f6a92ccaa$var$l("iOWXV"), $1d59b02f6a92ccaa$var$o = $1d59b02f6a92ccaa$var$l("iOWXV");
+const $1d59b02f6a92ccaa$var$i = (e)=>{
+    const [n, t] = $1d59b02f6a92ccaa$var$o.useState(!1);
+    console.log("alaramList component", e), $1d59b02f6a92ccaa$var$o.useEffect(()=>{
         console.log("2");
     }, [
         n
     ]);
-    return $459628f295a1626d$var$a.jsxs("div", {
+    return $1d59b02f6a92ccaa$var$a.jsxs("div", {
         className: "app-alarmList",
         children: [
-            $459628f295a1626d$var$a.jsxs("div", {
+            $1d59b02f6a92ccaa$var$a.jsxs("div", {
                 className: "title",
                 children: [
-                    $459628f295a1626d$var$a.jsx("h1", {
+                    $1d59b02f6a92ccaa$var$a.jsx("h1", {
                         children: "React Alarm"
                     }),
-                    $459628f295a1626d$var$a.jsxs("div", {
+                    $1d59b02f6a92ccaa$var$a.jsxs("div", {
                         className: "crossWrapper",
                         title: "add an alarm",
                         onClick: (e)=>{
                             console.log("event Alaram"), t(!n);
                         },
                         children: [
-                            $459628f295a1626d$var$a.jsx("span", {
+                            $1d59b02f6a92ccaa$var$a.jsx("span", {
                                 className: "cross"
                             }),
-                            $459628f295a1626d$var$a.jsx("button", {
+                            $1d59b02f6a92ccaa$var$a.jsx("button", {
                                 onClick: (e)=>{
                                     t(!n);
                                 },
@@ -7085,34 +7085,34 @@ const $459628f295a1626d$var$i = (e)=>{
                     })
                 ]
             }),
-            $459628f295a1626d$var$a.jsx("ul", {
+            $1d59b02f6a92ccaa$var$a.jsx("ul", {
                 className: "alarms",
                 children: "alarms"
             })
         ]
     });
-}, $459628f295a1626d$var$c = {
+}, $1d59b02f6a92ccaa$var$c = {
     onClick: ()=>{
         console.log("dddddddddddddddddddd");
     },
     change: "default"
 };
-let $459628f295a1626d$export$60f2569f98be8ae8 = (e)=>{
-    const [n, t] = $459628f295a1626d$var$o.useState(!1), r = Object.assign($459628f295a1626d$var$c, e);
-    return console.log("index component"), $459628f295a1626d$var$o.useEffect(()=>{
+let $1d59b02f6a92ccaa$export$60f2569f98be8ae8 = (e)=>{
+    const [n, t] = $1d59b02f6a92ccaa$var$o.useState(!1), r = Object.assign($1d59b02f6a92ccaa$var$c, e);
+    return console.log("index component"), $1d59b02f6a92ccaa$var$o.useEffect(()=>{
         console.log("index");
     }, [
         n
-    ]), $459628f295a1626d$var$a.jsxs("div", {
+    ]), $1d59b02f6a92ccaa$var$a.jsxs("div", {
         className: "newkind-alarm",
         children: [
-            $459628f295a1626d$var$a.jsx("button", {
+            $1d59b02f6a92ccaa$var$a.jsx("button", {
                 onClick: (e)=>{
                     t(!n);
                 },
                 children: " Index component "
             }),
-            $459628f295a1626d$var$a.jsx($459628f295a1626d$var$i, {
+            $1d59b02f6a92ccaa$var$a.jsx($1d59b02f6a92ccaa$var$i, {
                 alarms: r.change,
                 goTo: r.onClick,
                 test: r.test
@@ -7120,17 +7120,17 @@ let $459628f295a1626d$export$60f2569f98be8ae8 = (e)=>{
         ]
     });
 };
-var $459628f295a1626d$export$2e2bcd8739ae039 = (e, n)=>{
-    const t = Object.assign($459628f295a1626d$var$c, e);
-    $459628f295a1626d$var$u.render($459628f295a1626d$var$a.jsx($459628f295a1626d$export$60f2569f98be8ae8, {
+var $1d59b02f6a92ccaa$export$2e2bcd8739ae039 = (e, n)=>{
+    const t = Object.assign($1d59b02f6a92ccaa$var$c, e);
+    $1d59b02f6a92ccaa$var$u.render($1d59b02f6a92ccaa$var$a.jsx($1d59b02f6a92ccaa$export$60f2569f98be8ae8, {
         data: t
     }), n);
 };
 
 
-let $0de3e2781f5546eb$var$has = Object.prototype.hasOwnProperty;
-let $0de3e2781f5546eb$var$toString = Object.prototype.toString;
-function $0de3e2781f5546eb$var$isEmpty(val) {
+let $79eed15ee69bbb49$var$has = Object.prototype.hasOwnProperty;
+let $79eed15ee69bbb49$var$toString = Object.prototype.toString;
+function $79eed15ee69bbb49$var$isEmpty(val) {
     // Null and Undefined...
     if (val == null) return true;
     // Booleans...
@@ -7150,7 +7150,7 @@ function $0de3e2781f5546eb$var$isEmpty(val) {
     // Errors...
     if (val instanceof Error) return val.message === '';
     // Objects...
-    if (val.toString == $0de3e2781f5546eb$var$toString) switch(val.toString()){
+    if (val.toString == $79eed15ee69bbb49$var$toString) switch(val.toString()){
         // Maps, Sets, Files and Errors...
         case '[object File]':
         case '[object Map]':
@@ -7159,17 +7159,17 @@ function $0de3e2781f5546eb$var$isEmpty(val) {
         // Plain objects...
         case '[object Object]':
             for(var key in val){
-                if ($0de3e2781f5546eb$var$has.call(val, key)) return false;
+                if ($79eed15ee69bbb49$var$has.call(val, key)) return false;
             }
             return true;
     }
     // Anything else...
     return false;
 }
-var $0de3e2781f5546eb$export$2e2bcd8739ae039 = $0de3e2781f5546eb$var$isEmpty;
+var $79eed15ee69bbb49$export$2e2bcd8739ae039 = $79eed15ee69bbb49$var$isEmpty;
 
 
-var $14526077a91f9e8d$export$2e2bcd8739ae039 = (mount = document.body, props = {
+var $70889e54a922f0a8$export$2e2bcd8739ae039 = (mount = document.body, props = {
 })=>{
     return new Promise(async (resolve, reject)=>{
         let config = {
@@ -7194,19 +7194,19 @@ var $14526077a91f9e8d$export$2e2bcd8739ae039 = (mount = document.body, props = {
             },
             set: (obj, prop, value)=>{
                 console.log(prop, obj[prop] ? value : "process");
-                if ($0de3e2781f5546eb$export$2e2bcd8739ae039(obj[prop])) obj[prop] = [];
+                if ($79eed15ee69bbb49$export$2e2bcd8739ae039(obj[prop])) obj[prop] = [];
                 obj[prop] = value;
                 return true;
             }
         });
-        $459628f295a1626d$export$2e2bcd8739ae039(CONFIG, mount);
+        $1d59b02f6a92ccaa$export$2e2bcd8739ae039(CONFIG, mount);
         resolve(CONFIG);
     });
 };
 
 
 
-const $13ae571b1294099a$var$template = async (self, props = {
+const $ce130198d3fd9027$var$template = async (self, props = {
 })=>{
     return new Promise(async (resolve, reject)=>{
         let component = {
@@ -7216,16 +7216,16 @@ const $13ae571b1294099a$var$template = async (self, props = {
         component.this.attachShadow({
             mode: 'open'
         });
-        component.props = await $14526077a91f9e8d$export$2e2bcd8739ae039(component.this.shadowRoot, props);
+        component.props = await $70889e54a922f0a8$export$2e2bcd8739ae039(component.this.shadowRoot, props);
         component.this.classList.remove('skeleton-box');
         component.this.innerHTML = '';
         resolve(component);
     });
 };
-const $13ae571b1294099a$export$bcc23be1d99e8f6e = class extends HTMLElement {
+const $ce130198d3fd9027$export$bcc23be1d99e8f6e = class extends HTMLElement {
     constructor(){
         super();
-        $13ae571b1294099a$var$template(this).then((component)=>{
+        $ce130198d3fd9027$var$template(this).then((component)=>{
             console.log('component', component);
         }).catch((error)=>{
             console.warn('error', error);
@@ -7233,7 +7233,7 @@ const $13ae571b1294099a$export$bcc23be1d99e8f6e = class extends HTMLElement {
     }
 };
 try {
-    customElements.define('newkind-alarm', $13ae571b1294099a$export$bcc23be1d99e8f6e);
+    customElements.define('newkind-alarm', $ce130198d3fd9027$export$bcc23be1d99e8f6e);
 } catch (e) {
     console.error('error', e);
 /*
@@ -7251,12 +7251,12 @@ try {
 /**
  * This file contains the logic to create CRC32 checksums for PNG chunks.
  */ // Initialize CRC Table
-const $50b2cdb7a4826fda$var$CRC_TABLE = $50b2cdb7a4826fda$var$createCrcTable();
+const $9317e32bfd34f56a$var$CRC_TABLE = $9317e32bfd34f56a$var$createCrcTable();
 /**
  * Create the initial CRC table needed to calculate the checksums.
  *
  * @return {number[]} An array containing hashes.
- */ function $50b2cdb7a4826fda$var$createCrcTable() {
+ */ function $9317e32bfd34f56a$var$createCrcTable() {
     const crcTable = [];
     for(let n = 0; n < 256; n += 1){
         let c = n;
@@ -7265,21 +7265,21 @@ const $50b2cdb7a4826fda$var$CRC_TABLE = $50b2cdb7a4826fda$var$createCrcTable();
     }
     return crcTable;
 }
-let $50b2cdb7a4826fda$export$1cd93882633e45f5 = (chunkName, chunkData)=>{
+let $9317e32bfd34f56a$export$1cd93882633e45f5 = (chunkName, chunkData)=>{
     return new Promise((resolve, reject)=>{
         const uint8Array = new Uint8Array(chunkData.byteLength + 4);
         uint8Array.set(chunkName.split('').map((str)=>str.charCodeAt(0)
         ), 0);
         uint8Array.set(new Uint8Array(chunkData), 4);
         let crc = -1;
-        for (const byte of uint8Array)crc = crc >>> 8 ^ $50b2cdb7a4826fda$var$CRC_TABLE[(crc ^ byte) & 255];
+        for (const byte of uint8Array)crc = crc >>> 8 ^ $9317e32bfd34f56a$var$CRC_TABLE[(crc ^ byte) & 255];
         const out = (crc ^ -1) >>> 0;
         resolve(out);
     });
 };
 
 
-function $7a58e44c61d08414$export$b3b2de96497acc47(myFile) {
+function $c34171850be9b419$export$b3b2de96497acc47(myFile) {
     return new Promise((resolve, reject)=>{
         const fileReader = new FileReader();
         if (fileReader && myFile) {
@@ -7295,7 +7295,7 @@ function $7a58e44c61d08414$export$b3b2de96497acc47(myFile) {
 }
 
 
-function $e5aefb9f1689c6f6$export$e1a3971de07c83b5(bytes, decimals = 2) {
+function $b6395ea8629fe77a$export$e1a3971de07c83b5(bytes, decimals = 2) {
     if (bytes === 0) return '0 Bytes';
     const k = 1024;
     const dm = decimals < 0 ? 0 : decimals;
@@ -7315,7 +7315,7 @@ function $e5aefb9f1689c6f6$export$e1a3971de07c83b5(bytes, decimals = 2) {
 }
 
 
-function $360e29a3b6f34308$var$concat(arrays) {
+function $d3166027c2c41070$var$concat(arrays) {
     return new Promise((resolve, reject)=>{
         let totalLength = arrays.reduce((acc, value)=>acc + value.length
         , 0);
@@ -7329,11 +7329,11 @@ function $360e29a3b6f34308$var$concat(arrays) {
         return resolve(result);
     });
 }
-var $360e29a3b6f34308$export$2e2bcd8739ae039 = {
-    concat: $360e29a3b6f34308$var$concat,
-    crc32: $50b2cdb7a4826fda$export$1cd93882633e45f5,
-    base64: $7a58e44c61d08414$export$b3b2de96497acc47,
-    formatBytes: $e5aefb9f1689c6f6$export$e1a3971de07c83b5
+var $d3166027c2c41070$export$2e2bcd8739ae039 = {
+    concat: $d3166027c2c41070$var$concat,
+    crc32: $9317e32bfd34f56a$export$1cd93882633e45f5,
+    base64: $c34171850be9b419$export$b3b2de96497acc47,
+    formatBytes: $b6395ea8629fe77a$export$e1a3971de07c83b5
 };
 
 
@@ -7358,7 +7358,7 @@ var $360e29a3b6f34308$export$2e2bcd8739ae039 = {
 //     return event.returnValue = "Are you sure you want to exit?";
 // };
 // document.body.addEventListener("beforeunload", beforeUnloadListener, {capture: true});
-let $0dc1423bff6be5a6$var$CONFIG = {
+let $03d66260cca03204$var$CONFIG = {
     logs: {
         measureMemory: document.querySelector('.logs__measureMemory')
     },
@@ -7375,21 +7375,21 @@ let $0dc1423bff6be5a6$var$CONFIG = {
     image: {
         this: document.querySelector('.main__img_container_img'),
         on: ()=>{
-            $0dc1423bff6be5a6$var$CONFIG.image.this.classList.remove('hidden');
+            $03d66260cca03204$var$CONFIG.image.this.classList.remove('hidden');
         },
         off: ()=>{
-            $0dc1423bff6be5a6$var$CONFIG.image.this.classList.add('hidden');
+            $03d66260cca03204$var$CONFIG.image.this.classList.add('hidden');
         }
     },
     progress: {
         this: document.querySelector('.main__img_container_progress'),
         on: ()=>{
-            $0dc1423bff6be5a6$var$CONFIG.image.off();
-            $0dc1423bff6be5a6$var$CONFIG.progress.this.classList.remove('hidden');
+            $03d66260cca03204$var$CONFIG.image.off();
+            $03d66260cca03204$var$CONFIG.progress.this.classList.remove('hidden');
         },
         off: ()=>{
-            $0dc1423bff6be5a6$var$CONFIG.image.on();
-            $0dc1423bff6be5a6$var$CONFIG.progress.this.classList.add('hidden');
+            $03d66260cca03204$var$CONFIG.image.on();
+            $03d66260cca03204$var$CONFIG.progress.this.classList.add('hidden');
         }
     },
     template: {
