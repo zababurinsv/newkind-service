@@ -32,10 +32,10 @@
     </head>
 <body>
 <div class="fs">
-<!--    <div class="service">-->
-<!--        <button class="service__fs">Get Dir</button>-->
+    <div class="service">
+        <button class="service__fs">Get Dir</button>
 <!--        <button class="service__fs_data"></button>-->
-<!--    </div>-->
+    </div>
     <div class="fs__main">
        <button class="main__list">Список файлов</button>
         <label class="main__upload_label"><input type="file" class="main__upload_label_multiple" multiple/></label>
@@ -100,12 +100,11 @@
     import service from './index.mjs'
     import {lacertaRadio} from './components/lacerta-radio/index.mjs'
     import { newkindAlarm } from './components/newkind-alarm/index.mjs'
-    import { tests, list, devTool } from '@newkind/tests'
+    import { devTool } from '@newkind/tests'
     import * as Comlink from "comlink";
     import utils from './modules/utils/index.mjs'
 
-
-    const CONFIG = {
+    let CONFIG = {
         logs: {
             measureMemory: document.querySelector('.logs__measureMemory'),
         },
@@ -140,88 +139,72 @@
         },
     };
 
-    CONFIG.logs.measureMemory.addEventListener('click', () => {
-        console.log(utils.formatBytes(performance.memory.usedJSHeapSize));
-    })
-
-    // list().then(item => {
-    //     tests(`/newkind-fs/${item[`newkind-fs`]}`, false).catch(e => console.log('error test', e))
-    // }).catch(e => {console.log('list', e)})
-
-    devTool().then(devTool => {
-        service({
-            scope:'/newkind-service/'
-        },async (proxy) => {
-            try {
-                console.log('🌞 init proxy')
-                // CONFIG.service.dir.addEventListener('click',event =>{
-                //
-                //     navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
-                //         serviceWorkerRegistration.active.postMessage({test: true});
-                //     })
-                // })
-            } catch (e) {
-                console.log('eeeeeeeeeeeeee', e)
-            }
-        }, async (memory) => {
-            try {
-                console.log('🌞 init memory')
-                await memory.db.save()
-                CONFIG.submit.addEventListener('click', async (e) => {
-                    e.preventDefault()
-                    if(CONFIG.select.value) {
-                        CONFIG.progress.on()
-                        let arrays = [];
-                        await memory.fs.stream.img(CONFIG.select.value, Comlink.proxy(async (done, value, progress) => {
-                            if(done) {
-                                CONFIG.progress.this.value = progress
-                                arrays.push(value);
-                                let blob = new Blob([await utils.concat(arrays)], {'type': 'image/png'});
-                                let url = URL.createObjectURL(blob);
-                                CONFIG.image.this.src = ''
-                                CONFIG.image.this.src = `${url}`
-                                CONFIG.progress.off()
-                            } else {
-                                CONFIG.progress.this.value = progress
-                                arrays.push(value);
-                            }
-                        }))
+    let action = async (memory) => {
+        console.log('🔎 init action')
+        await memory.db.save()
+        CONFIG.submit.addEventListener('click', async (e) => {
+            e.preventDefault()
+            if(CONFIG.select.value) {
+                CONFIG.progress.on()
+                let arrays = [];
+                await memory.fs.stream.img(CONFIG.select.value, Comlink.proxy(async (done, value, progress) => {
+                    if(done) {
+                        CONFIG.progress.this.value = progress
+                        arrays.push(value);
+                        let blob = new Blob([await utils.concat(arrays)], {'type': 'image/png'});
+                        let url = URL.createObjectURL(blob);
+                        CONFIG.image.this.src = ''
+                        CONFIG.image.this.src = `${url}`
+                        CONFIG.progress.off()
+                    } else {
+                        CONFIG.progress.this.value = progress
+                        arrays.push(value);
                     }
-                })
-
-                CONFIG.upload.addEventListener('change', async (e) => {
-                    await memory.fs.write.files(e.target.files)
-                    console.log('files loaded')
-                    const list = await memory.fs.list.files()
-                    console.log('list loaded', list)
-                    CONFIG.img.innerHTML = ''
-                    list.forEach(item => {
-                        const template  = CONFIG.template.files.content.cloneNode(true)
-                        const option = template.querySelector('option')
-                        option.textContent = item
-                        option.value = `${item}`
-                        CONFIG.img.appendChild(template)
-                    })
-                })
-
-                CONFIG.list.addEventListener('click', async (e) => {
-                    const list = await memory.fs.list.files()
-                })
-            } catch (e) {
-                console.log('error', e)
+                }))
             }
-
-        },async () => {
-            console.log('🌞 init port')
-
-
         })
-        .then(async (out) => {
-            console.log('🌞 resolve service')
+
+        CONFIG.upload.addEventListener('change', async (e) => {
+            await memory.fs.write.files(e.target.files)
+            console.log('files loaded')
+            const list = await memory.fs.list.files()
+            console.log('list loaded', list)
+            CONFIG.img.innerHTML = ''
+            list.forEach(item => {
+                const template  = CONFIG.template.files.content.cloneNode(true)
+                const option = template.querySelector('option')
+                option.textContent = item
+                option.value = `${item}`
+                CONFIG.img.appendChild(template)
+            })
         })
-        .catch(e => {
-            console.log('error', e)
+
+        CONFIG.list.addEventListener('click', async (e) => {
+            const list = await memory.fs.list.files()
         })
-    }).catch(e => { console.log(e) })
+    }
+
+    devTool().then(async devTool => {
+        service({
+            isProxy: ('serviceWorker' in navigator),
+            scope:'/newkind-service/'
+        }, (status) => {
+            console.log('🌞 init proxy', status)
+            // if(!navigator.serviceWorker.controller) {
+            //     navigator.serviceWorker.ready.then(async serviceWorkerRegistration => {
+            //         await navigator.serviceWorker.register(serviceWorkerRegistration.active.scriptURL)
+            //         console.log('😠👥', navigator.serviceWorker.controller)
+            //     })
+            // } else {
+            //     console.log('👀👥', navigator.serviceWorker.controller)
+            // }
+            // console.log(navigator.serviceWorker.controller)
+        },(memory) => {
+            console.log('🌞 init memory')
+            action(memory)
+        })
+        .then(status => {console.log('🌞 resolve service', status)})
+        .catch(e => {console.log('service error:', e)})
+    }).catch(e => {console.log('error devtool', e)})
 </script>
 </html>

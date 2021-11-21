@@ -1,13 +1,13 @@
 import * as Comlink from "comlink";
-let CACHE_NAME = '"@newkind/cache@0.1.0"';
+let CACHE_NAME = "@newkind/cache@0.1.1";
 let urlsToCache = [
-    '/newkind-service'
+    '/newkind-service/'
 ];
 //1s
 let CONFIG = {
     CACHE: CACHE_NAME,
     URLS: urlsToCache,
-    AllowList: [CACHE_NAME, 'blog-posts-cache-v1'],
+    AllowList: [CACHE_NAME],
     timeout: 0,
     memory: {},
     progressIndicatorUrls: "/\?requestId=/i;",
@@ -31,16 +31,14 @@ let CONFIG = {
 }
 
 self.addEventListener("install", (event) => {
-
     event.waitUntil(self.skipWaiting())
     event.waitUntil(
         caches.open(CONFIG.CACHE)
             .then(function(cache) {
-
+                console.log('💖 addAll', CONFIG.URLS)
                 return cache.addAll(CONFIG.URLS);
             })
     );
-
     console.log('🖤 service install')
 });
 
@@ -62,7 +60,7 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener('notificationclick', function(event) {
     console.log('🖤 service notificationclick', event)
-    // event.notification.close();
+    // event.notification.close();df
 
     // var promise = new Promise(function(resolve) {
     //     setTimeout(resolve, 1000);
@@ -92,13 +90,13 @@ self.addEventListener('push', function(event) {
 self.addEventListener('sync', (event) => {
     console.log('🖤 service sync', event)
     // console.log('event sync', event)
-    // if (event.tag == 'event1') {
+    // if (event.tag == 'event1') {f
     //     event.waitUntil(doSomething())
     // }вввпарапsssssssssss
 })
 
 self.addEventListener('fetch', event => {
-    console.log('🖤 service fetch')
+    console.log('🖤 service fetch', event.request.url)
     if(CONFIG.strategy.NetworkOrCache) {
         event.respondWith(fromNetwork(event.request, CONFIG.timeout)
             .catch((err) => {
@@ -136,11 +134,13 @@ self.addEventListener('fetch', event => {
 })
 
 self.addEventListener("message", async (event) => {
+    console.log('🖤 🌼 service message', event.data)
     if (event.data && event.data.state && event.data.state.isConnected && event.data.state.type === "proxy-memory") {
-        console.log('🌼 🎫 service message', event.data.state)
+        console.log('🖤 🌼 service message', event.data.state)
         for(let port in event.data.state.to) {
             CONFIG.memory = Comlink.wrap(event.data.state.to[port])
         }
+       console.log('🖤 🌼 🎫 service message', event.data.state)
        event.source.postMessage({
             state: {
                 'proxy-memory': true
@@ -148,7 +148,8 @@ self.addEventListener("message", async (event) => {
         })
     } else {
         if(event.data.test) {
-            await CONFIG.memory.fs.list.dir()
+            // await CONFIG.memory.fs.list.dir()
+            console.log('🖤 🌼 🎫 service message', event.data.state)
             event.source.postMessage({
                 state: {
                     '~~~~~ test ~~~~~': true
@@ -184,7 +185,7 @@ function update(request) {
     );
 }
 
-// Шлём сообщения об обновлении данных всем клиентам.
+// Шлём сообщения об обновлении данных всем клиентам. dd
 function refresh(response) {
     return self.clients.matchAll().then((clients) => {
         clients.forEach((client) => {
@@ -200,12 +201,71 @@ function refresh(response) {
         });
     });
 }
-const FALLBACK =
-    '<div>\n' +
-    '    <div>App Title</div>\n' +
-    '    <div>you are offline</div>\n' +
-    '    <img src="/svg/or/base64/of/your/dinosaur" alt="newkind"/>\n' +
-    '</div>';
+const FALLBACK = `
+<html>
+<head>
+<title>Elite</title>
+<style>
+body {
+  padding: 3em 0em;
+  background: #eeeeee;
+}
+hr {
+  color: lightgray;
+  width: 100%;
+}
+img {
+  float: left;
+  opacity: .8;
+}
+#box {
+  background: white;
+  border: 1px solid lightgray;
+  width: 600px;
+  padding: 60px;
+  margin: auto;
+}
+h1 {
+  font-size: 130%;
+  font-weight: bold;
+  border-bottom: 1px solid lightgray;
+  margin-left: 48px;
+}
+h2 {
+  font-size: 100%;
+  font-weight: normal;
+  border-bottom: 1px solid lightgray;
+  margin-left: 48px;
+}
+ul {
+  font-size: 80%;
+  padding-left: 48px;
+  margin: 0;
+}
+#reloadButton {
+  padding-left: 48px;
+}
+</style>
+</head>
+<body>
+  <div id="box">
+    <img src="data:image/png;base64, AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAbbv+DGW3/mRlt/5kZbf+ZGq6/hIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGa3/ohkt/7/Zbj//2S3/v9lt/6WAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGm5/iRlt/74Zbj//2W4//9luP//Zbf++mi4/i4gIPciGhr24hsb9uwbG/bsGhr24CEh9xoAAAAAAAAAAAAAAABnuP5mZLf+/2W4//9luP//Zbj//2S3/v9muP5yGBj2rhMT9v8TE/b/ExP2/xMT9f8YGPWkAAAAAAAAAAAAAAAAb7z/BGW3/tZluP//Zbj//2W4//9lt/7gJzH3ShMT9f8TE/b/ExP2/xMT9v8TE/b/ExP1/CAg9joAAAAAAAAAAAAAAABmuP5GZLf+6GS3/uhkt/7oZbf+UhgY9YQSEvX/ExP2/xMT9v8TE/b/ExP2/xIS9f8aGvZ8AAAAAD4++gQgIPZ6IiL2hiIi9oYgIPZ8KCj5BAAAAAAtLfgUFBT17BMT9v8TE/b/ExP2/xMT9v8VFfXoLCz4DgAAAAAaGvZqEhL1/xMT9v8TE/b/EhL1/xsb9nIAAAAAAAAAABwc9m4SEvX/ExP2/xMT9v8SEvX/HR32ZAAAAAAnJ/gSFRX16hMT9v8TE/b/ExP2/xMT9v8UFPXuJyf4Fp2xlAKNnqUYLC/mfhYW83ATE/VuFxf1aDc3+gIAAAAAGBj1fhIS9f8TE/b/ExP2/xMT9v8TE/b/ExP1/xkZ9YaGn3yIhZ57/4Wee/+Gn3yKAAAAAAAAAAAAAAAAAAAAACMj9zYTE/X8ExP2/xMT9v8TE/b/ExP2/xMT9f9JUshihZ57+IaffP+Gn3z/hZ579oigfiYAAAAAAAAAAAAAAAAAAAAAGBj1oBIS9f8TE/b/ExP2/xMT9f8YGPWmiKB+PIWee/+Gn3z/hp98/4Wee/+HoH06AAAAAAAAAAAAAAAAAAAAACUl9xgVFfXOExP11BMT9dQUFPXQJib3HgAAAACGn3ymhp98/4affP+Gn3ymAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAiKB+EIihf0CIoX9AiKB+EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADg/wAA4MMAAOCBAADggQAA8QEAAOeBAADDwwAAgf8AAIAPAACBDwAAgQ8AAMMPAAD//wAA//8AAA==" width="32" height="32"/>
+    <h1>Elite</h1>
+    <h2>When connecting to: https://zababurinsv.github.io/newkind-service/</h2>
+    <ul>
+      <li>Check the address for errors such as <b>ww</b>.example.com
+      instead of <b>www</b>.example.com</li>
+      <li>If the address is correct, try checking the network
+      connection.</li>
+      <li>If your computer or network is protected by a firewall or
+      proxy, make sure that the browser demo is permitted to access
+      the network.</li>
+    </ul>
+    <br/><br/>
+  </div>
+</body>
+</html>
+`
 
 function useFallback() {
     return Promise.resolve(new Response(FALLBACK, { headers: {
