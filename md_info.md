@@ -1,5 +1,9 @@
 # @newkind/Service
 
+## TEST FOR SERVICE WORKERS
+[testing-service-workers](https://medium.com/dev-channel/testing-service-workers-318d7b016b19)
+
+
 ## maskable-icon
 https://web.dev/maskable-icon/?utm_source=devtools
 
