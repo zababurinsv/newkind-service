@@ -33,4 +33,26 @@ document.addEventListener('visibilitychange', function() {
     //     navigator.sendBeacon("/log.php", analyticsData);
     // }
 });
+window.onpagehide = event => {
+    if (event.persisted) {
+        alert('sdsds')
+    }
+    alert('sdsds')
+}
+window.addEventListener('beforeunload', function(event) {
+    alert('sdsds')
+    console.assert(false)
+    console.log('I am the 1st one.');
+});
+window.addEventListener('unload', function(event) {
+    alert('sdsds')
+    console.assert(false)
+    console.log('I am the 3rd one.');
+});
+const beforeUnloadListener = (event) => {
+    event.preventDefault();
+    return event.returnValue = "Are you sure you want to exit?";
+};
+document.body.addEventListener("beforeunload", beforeUnloadListener, {capture: true});
 ```
+[tera ide](https://terawallet.org/dapp-edit.html)

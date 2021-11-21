@@ -1,19 +1,5 @@
 import * as Comlink from "comlink";
 import isEmpty from './modules/isEmpty/isEmpty.mjs'
-/** This is a description of the foo function. */
-// If updatefound is fired, it means that there's
-// a new service worker being installed.
-// You can listen for changes to the installing service worker's
-// state via installingWorker.onstatechange
-// reg.installing; // the installing worker, or undefined
-// reg.waiting; // the waiting worker, or undefined
-// reg.active; // the active worker, or undefined
-// "installing" - the install event has fired, but not yet complete
-// "installed"  - install complete
-// "activating" - the activate event has fired, but not yet complete
-// "activated"  - fully active
-// "redundant"  - discarded. Either failed install, or it's been
-//                replaced by a newer version
 
 let memory = (config) => {
     return new Promise(async resolve  => {
@@ -52,6 +38,21 @@ let memory = (config) => {
     })
 }
 
+/**
+ * If updatefound is fired, it means that there's
+ * a new service worker being installed.
+ * You can listen for changes to the installing service worker's
+ * state via installingWorker.onstatechange
+ * reg.installing; // the installing worker, or undefined
+ * reg.waiting; // the waiting worker, or undefined
+ * reg.active; // the active worker, or undefined
+ * "installing" - the install event has fired, but not yet complete
+ * "installed"  - install complete
+ * "activating" - the activate event has fired, but not yet complete
+ * "activated"  - fully active
+ * "redundant"  - discarded. Either failed install, or it's been
+ *  replaced by a newer version
+ */
 let proxy = (config) => {
       return new Promise(async resolve  => {
             const state = (registration) => {
@@ -65,6 +66,10 @@ let proxy = (config) => {
                 }
                 return serviceWorker
             }
+          /**
+           * init service worker
+           * @returns {Promise<boolean>}
+           */
             let init = () => {
                 return new Promise(resolve => {
                     try {
@@ -80,12 +85,11 @@ let proxy = (config) => {
                                 })
                                 resolve(true)
                             }).catch(e => { console.log('🔼 error', e) })
-                    }catch (e) {
+                    } catch (e) {
                         console.log('~~~~~~~~~!!!!!!!!!!~~~~~~~~~~', e)
                     }
                 })
             }
-
 
             if(navigator.serviceWorker.controller) {
                 console.log('🎈 controller true')
@@ -129,10 +133,9 @@ export default (config, PROXY = () => {}, MEMORY = () => {}, PORT = () => {}) =>
             MEMORY(memory)
             memory = null
         })
-        proxy(config).then(proxy => {
-            PROXY(proxy)
-            proxy = null
-        })
-        // resolve(true)
+        // proxy(config).then(proxy => {
+        //     PROXY(proxy)
+        //     proxy = null
+        // })
     })
 }

@@ -34,7 +34,7 @@ document.addEventListener('visibilitychange', function() {
     // }
 });
 ```
-## Members
+[tera ide](https://terawallet.org/dapp-edit.html)## Members
 
 <dl>
 <dt><a href="#crc32">crc32</a> ⇒ <code>number</code></dt>
@@ -45,7 +45,19 @@ document.addEventListener('visibilitychange', function() {
 
 <dl>
 <dt><a href="#memory">memory()</a></dt>
-<dd><p>This is a description of the foo function.</p></dd>
+<dd><p>If updatefound is fired, it means that there's<br>
+a new service worker being installed.<br>
+You can listen for changes to the installing service worker's<br>
+state via installingWorker.onstatechange<br>
+reg.installing; // the installing worker, or undefined<br>
+reg.waiting; // the waiting worker, or undefined<br>
+reg.active; // the active worker, or undefined<br>
+&quot;installing&quot; - the install event has fired, but not yet complete<br>
+&quot;installed&quot;  - install complete<br>
+&quot;activating&quot; - the activate event has fired, but not yet complete<br>
+&quot;activated&quot;  - fully active<br>
+&quot;redundant&quot;  - discarded. Either failed install, or it's been<br>
+replaced by a newer version</p></dd>
 <dt><a href="#createCrcTable">createCrcTable()</a> ⇒ <code>Array.&lt;number&gt;</code></dt>
 <dd><p>Create the initial CRC table needed to calculate the checksums.</p></dd>
 </dl>
@@ -67,10 +79,23 @@ document.addEventListener('visibilitychange', function() {
 <a name="memory"></a>
 
 ## memory()
-<p>This is a description of the foo function.</p>
+<p>If updatefound is fired, it means that there's<br>
+a new service worker being installed.<br>
+You can listen for changes to the installing service worker's<br>
+state via installingWorker.onstatechange<br>
+reg.installing; // the installing worker, or undefined<br>
+reg.waiting; // the waiting worker, or undefined<br>
+reg.active; // the active worker, or undefined<br>
+&quot;installing&quot; - the install event has fired, but not yet complete<br>
+&quot;installed&quot;  - install complete<br>
+&quot;activating&quot; - the activate event has fired, but not yet complete<br>
+&quot;activated&quot;  - fully active<br>
+&quot;redundant&quot;  - discarded. Either failed install, or it's been<br>
+replaced by a newer version</p>
 
 **Kind**: global function  
-**Summary**: This is a description of the foo function.  
+**Summary**: <p>If updatefound is fired, it means that there's<br>
+a new service worker being installed.</br></p>  
 <a name="createCrcTable"></a>
 
 ## createCrcTable() ⇒ <code>Array.&lt;number&gt;</code>

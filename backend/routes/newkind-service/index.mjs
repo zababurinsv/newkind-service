@@ -30,6 +30,11 @@ app.get(`${pkg.config.service}/public/:source`, async (req, res) => {
     res.status(200).sendFile(`${req.params.source}`, { root: path.join(__dirname, '../service/public') });
 })
 
+app.options(`/tests/:source`, await cors(corsOptions))
+app.get(`/tests/:source`, async (req, res) => {
+    console.log(`${pkg.config.service}/tests/:source`,req.params.source)
+    res.status(200).sendFile(`${req.params.source}`, { root: path.join(__dirname, `../service/${pkg.config.service}/tests`) });
+})
 
 // app.use(`/newkind-service/public`,express.static(path.join(__dirname, '../../../service/public')));
 // app.use('/',express.static(path.join(__dirname, '../../../service')));

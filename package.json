@@ -34,9 +34,9 @@
     }
   },
   "staticFiles": {
-    "staticPath": "frontend/src/static",
+    "staticPath": "frontend/src/tests",
     "distDir": "./service/newkind-service",
-    "staticOutPath": "public"
+    "staticOutPath": "tests"
   },
   "config": {
     "html": "./frontend/src/index.html",
@@ -77,7 +77,7 @@
     "web-streams-polyfill": "^3.2.0"
   },
   "devDependencies": {
-    "@newkind/tests": "^0.1.8",
+    "@newkind/tests": "^0.1.9",
     "@parcel/packager-raw-url": "^2.0.1",
     "@parcel/transformer-sass": "^2.0.1",
     "@parcel/transformer-webmanifest": "^2.0.1",

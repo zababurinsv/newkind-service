@@ -100,32 +100,12 @@
     import service from './index.mjs'
     import {lacertaRadio} from './components/lacerta-radio/index.mjs'
     import { newkindAlarm } from './components/newkind-alarm/index.mjs'
-    // import { devTool } from '@newkind/tests'
+    import { devTool, tests } from '@newkind/tests'
     import * as Comlink from "comlink";
     import utils from './modules/utils/index.mjs'
-    // window.onpagehide = event => {
-    //     if (event.persisted) {
-    //         alert('sdsds')
-    //     }
-    //     alert('sdsds')
-    // }
-    // window.addEventListener('beforeunload', function(event) {
-    //     alert('sdsds')
-    //     console.assert(false)
-    //     console.log('I am the 1st one.');
-    // });
-    // window.addEventListener('unload', function(event) {
-    //     alert('sdsds')
-    //     console.assert(false)
-    //     console.log('I am the 3rd one.');
-    // });
-    // const beforeUnloadListener = (event) => {
-    //     event.preventDefault();
-    //     return event.returnValue = "Are you sure you want to exit?";
-    // };
-    // document.body.addEventListener("beforeunload", beforeUnloadListener, {capture: true});
 
 
+    tests('/tests/service.tests.mjs', true).catch(e => {console.log('error devtool', e)})
     let CONFIG = {
         logs: {
             measureMemory: document.querySelector('.logs__measureMemory'),
@@ -161,94 +141,93 @@
         },
     };
 
-    // let action = async (memory) => {
-    //     console.log('🔎 init action')
-    //     await memory.db.save()
-    //     CONFIG.submit.addEventListener('click', async (e) => {
-    //         e.preventDefault()
-    //         if(CONFIG.select.value) {
-    //             CONFIG.progress.on()
-    //             let arrays = [];
-    //             await memory.fs.stream.img(CONFIG.select.value, Comlink.proxy(async (done, value, progress) => {
-    //                 if(done) {
-    //                     CONFIG.progress.this.value = progress
-    //                     arrays.push(value);
-    //                     let blob = new Blob([await utils.concat(arrays)], {'type': 'image/png'});
-    //                     let url = URL.createObjectURL(blob);
-    //                     CONFIG.image.this.src = ''
-    //                     CONFIG.image.this.src = `${url}`
-    //                     CONFIG.progress.off()
-    //                 } else {
-    //                     CONFIG.progress.this.value = progress
-    //                     arrays.push(value);
-    //                 }
-    //             }))
-    //         }
-    //     })
-    //
-    //     CONFIG.upload.addEventListener('change', async (e) => {
-    //         await memory.fs.write.files(e.target.files)
-    //         console.log('files loaded')
-    //         const list = await memory.fs.list.files()
-    //         console.log('list loaded', list)
-    //         CONFIG.img.innerHTML = ''
-    //         list.forEach(item => {
-    //             const template  = CONFIG.template.files.content.cloneNode(true)
-    //             const option = template.querySelector('option')
-    //             option.textContent = item
-    //             option.value = `${item}`
-    //             CONFIG.img.appendChild(template)
-    //         })
-    //     })
-    //
-    //     CONFIG.list.addEventListener('click', async (e) => {
-    //         const list = await memory.fs.list.files()
-    //     })
-    // }
-    //
-    // let serviceListener = () => {
-    //     return new Promise(async resolve => {
-    //         navigator.serviceWorker.oncontrollerchange = async (event) => {
-    //             console.log('🌼 service worker oncontrollerchange');
-    //             if( event.currentTarget.controller.state === 'activate') {
-    //                 console.log('🌼 activate', event)
-    //             } else {
-    //                 event.currentTarget.controller.addEventListener('statechange', (event) => {
-    //                     console.log('🌼 statechange',  event.currentTarget.state)
-    //                     if(event.currentTarget.state === 'activated') {
-    //                         console.log('🌼 activate', event)
-    //                     }
-    //                 });
-    //             }
-    //         };
-    //     })
-    // }
-    //
+    let action = async (memory) => {
+        console.log('🔎 init action')
+        await memory.db.save()
+        CONFIG.submit.addEventListener('click', async (e) => {
+            e.preventDefault()
+            if(CONFIG.select.value) {
+                CONFIG.progress.on()
+                let arrays = [];
+                await memory.fs.stream.img(CONFIG.select.value, Comlink.proxy(async (done, value, progress) => {
+                    if(done) {
+                        CONFIG.progress.this.value = progress
+                        arrays.push(value);
+                        let blob = new Blob([await utils.concat(arrays)], {'type': 'image/png'});
+                        let url = URL.createObjectURL(blob);
+                        CONFIG.image.this.src = ''
+                        CONFIG.image.this.src = `${url}`
+                        CONFIG.progress.off()
+                    } else {
+                        CONFIG.progress.this.value = progress
+                        arrays.push(value);
+                    }
+                }))
+            }
+        })
+
+        CONFIG.upload.addEventListener('change', async (e) => {
+            await memory.fs.write.files(e.target.files)
+            console.log('files loaded')
+            const list = await memory.fs.list.files()
+            console.log('list loaded', list)
+            CONFIG.img.innerHTML = ''
+            list.forEach(item => {
+                const template  = CONFIG.template.files.content.cloneNode(true)
+                const option = template.querySelector('option')
+                option.textContent = item
+                option.value = `${item}`
+                CONFIG.img.appendChild(template)
+            })
+        })
+
+        CONFIG.list.addEventListener('click', async (e) => {
+            const list = await memory.fs.list.files()
+        })
+    }
+
+    let serviceListener = () => {
+        return new Promise(async resolve => {
+            navigator.serviceWorker.oncontrollerchange = async (event) => {
+                console.log('🌼 service worker oncontrollerchange');
+                if( event.currentTarget.controller.state === 'activate') {
+                    console.log('🌼 activate', event)
+                } else {
+                    event.currentTarget.controller.addEventListener('statechange', (event) => {
+                        console.log('🌼 statechange',  event.currentTarget.state)
+                        if(event.currentTarget.state === 'activated') {
+                            console.log('🌼 activate', event)
+                        }
+                    });
+                }
+            };
+        })
+    }
+
     // devTool().then(async devTool => {
-    //     service({
-    //         isProxy: ('serviceWorker' in navigator),
-    //         scope:'/newkind-service/'
-    //     }, (status) => {
-    //         console.log('🌞 init proxy')
-    //         serviceListener().then(() => {})
-            // navigator.serviceWorker.getRegistrations()
-            //     .then(async Registrations => {
-                    // console.log('registration', Registrations[0])
-                    // if(Registrations[0]) {
-                    //     Registrations[0].addEventListener('updatefound', async () => {
-                    //         await serviceListener()
-                    //     })
-                    // } else {
-                    //     await serviceListener()
-                    // }
-                // })
-        // },(memory) => {
-        //     console.log('🌞 init memory')
-        //     action(memory)
-        // })
-        // .then(status => {console.log('🌞 resolve service', status)})
-        // .catch(e => {console.log('service error:', e)})
+        service({
+            isProxy: ('serviceWorker' in navigator),
+            scope:'/newkind-service/'
+        }, (status) => {
+            console.log('🌞 init proxy')
+            serviceListener().then(() => {})
+            navigator.serviceWorker.getRegistrations()
+                .then(async Registrations => {
+                    console.log('👤 registration', Registrations)
+                    if(Registrations[0]) {
+                        Registrations[0].addEventListener('updatefound', async () => {
+                            await serviceListener()
+                        })
+                    } else {
+                        await serviceListener()
+                    }
+                })
+        },(memory) => {
+            console.log('🌞 init memory')
+            action(memory)
+        })
+        .then(status => {console.log('🌞 resolve service', status)})
+        .catch(e => {console.log('service error:', e)})
     // }).catch(e => {console.log('error devtool', e)})
-    // });
 </script>
 </html>

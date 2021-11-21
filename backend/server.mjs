@@ -35,8 +35,8 @@ app.use((req, res, next) => {
     next();
 });
 
-
-app.use(express.static(path.join(__dirname, '../service')));
+app.use(express.static(path.join(__dirname,`../service/${pkg.config.service}`)));
+app.use('/tests',express.static(path.join(__dirname,`../service/${pkg.config.service}/tests`)));
 app.use(queue.getErrorMiddleware())
 
 export default app
