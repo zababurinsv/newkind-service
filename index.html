@@ -4,7 +4,7 @@
         <title>Service</title>
 <!--        <meta http-equiv="Permissions-Policy" content="interest-cohort=()"/>-->
         <link rel="manifest" crossorigin="use-credentials" href="/newkind-service/manifest.webmanifest">
-        <script async="" src="https://unpkg.com/pwacompat" crossorigin="anonymous"></script>
+<!--        <script async src="https://unpkg.com/pwacompat" crossorigin="anonymous"></script>-->
         <link rel="icon" type="image/png" href="/newkind-service/newkind-icon-128-any.fd40b713.png" sizes="128x128">
 <!--        <meta name="theme-color" media="(prefers-color-scheme: light)" content="white">-->
 <!--        <meta name="theme-color" media="(prefers-color-scheme: dark)"  content="black">-->
@@ -722,7 +722,7 @@ $aece33724a489073$export$5a759dc7a1cfb72a = $aece33724a489073$var$getOrigin;
 });
 
 
-$8889ba50b4b5013a$exports = (parcelRequire("f0u5Z")).getBundleURL('hgwN6') + "MEMORY.f9f4dc0e.js";
+$8889ba50b4b5013a$exports = (parcelRequire("f0u5Z")).getBundleURL('hgwN6') + "MEMORY.8e706897.js";
 
 
 // If updatefound is fired, it means that there's
@@ -819,7 +819,7 @@ let $6de6a409e427de1e$var$proxy = (config)=>{
             });
         };
         if (navigator.serviceWorker.controller) {
-            console.log('🎈 service worker is run');
+            console.log('🎈 controller true');
             init().then(()=>{
                 resolve1(true);
             }).catch((e)=>{
@@ -827,22 +827,30 @@ let $6de6a409e427de1e$var$proxy = (config)=>{
             });
         } else {
             console.log('🎈 controller false');
-            navigator.serviceWorker.getRegistration().then(async (reg)=>{
-                if ($1a0f01ac0ba08138$export$2e2bcd8739ae039(reg)) init().then(()=>{
-                    resolve1(true);
-                }).catch((e)=>{
-                    console.log('🔼 error', e);
-                });
-                else {
-                    let serviceWorker1 = state(reg);
+            navigator.serviceWorker.getRegistrations().then(async (Registrations)=>{
+                if ($1a0f01ac0ba08138$export$2e2bcd8739ae039(Registrations[0])) {
+                    console.log('🎈 Registration false');
+                    init().then(()=>{
+                        resolve1(true);
+                    }).catch((e)=>{
+                        console.log('🔼 error', e);
+                    });
+                } else {
+                    console.log('🎈 Registration true');
+                    let serviceWorker1 = state(Registrations[0]);
                     if ($1a0f01ac0ba08138$export$2e2bcd8739ae039(serviceWorker1)) {
                         console.log('🎈 неизвестная ошибка', serviceWorker1, navigator.serviceWorker);
                         resolve1(false);
-                    } else navigator.serviceWorker.ready.then(async (serviceWorkerRegistration)=>{
-                        let serviceWorker = state(serviceWorkerRegistration);
-                        await navigator.serviceWorker.register(serviceWorker.scriptURL);
-                        resolve1(true);
-                    });
+                    } else {
+                        console.log('🎈 serviceWorker', serviceWorker1);
+                        await navigator.serviceWorker.register(serviceWorker1.scriptURL);
+                        navigator.serviceWorker.ready.then(async (serviceWorkerRegistration)=>{
+                            console.log('🎈 ready true');
+                            let serviceWorker = state(serviceWorkerRegistration);
+                            await navigator.serviceWorker.register(serviceWorker.scriptURL);
+                            resolve1(true);
+                        });
+                    }
                 }
             }).catch((e)=>{
                 console.log('🔼 error', e);
@@ -855,10 +863,14 @@ var $6de6a409e427de1e$export$2e2bcd8739ae039 = (config, PROXY = ()=>{
 }, PORT = ()=>{
 })=>{
     return new Promise(async (resolve)=>{
-        MEMORY(await $6de6a409e427de1e$var$memory(config));
-        $6de6a409e427de1e$var$memory = null;
-        PROXY(await $6de6a409e427de1e$var$proxy(config));
-        $6de6a409e427de1e$var$proxy = null;
+        $6de6a409e427de1e$var$memory(config).then((memory)=>{
+            MEMORY(memory);
+            memory = null;
+        });
+        $6de6a409e427de1e$var$proxy(config).then((proxy)=>{
+            PROXY(proxy);
+            proxy = null;
+        });
     // resolve(true)
     });
 };
@@ -7409,32 +7421,37 @@ let $0dc1423bff6be5a6$var$action = async (memory)=>{
         const list = await memory.fs.list.files();
     });
 };
-// devTool().then(async devTool => {
-$6de6a409e427de1e$export$2e2bcd8739ae039({
-    isProxy: 'serviceWorker' in navigator,
-    scope: '/newkind-service/'
-}, (status)=>{
-    navigator.serviceWorker.getRegistration().then(async (registration)=>{
-        console.log('registration', registration);
-        if (registration) registration.addEventListener('updatefound', ()=>{
-            navigator.serviceWorker.oncontrollerchange = async (event1)=>{
-                console.log('🌼 service worker oncontrollerchange');
-                if (event1.currentTarget.controller.state === 'activate') console.log('🌼 activate', event1);
-                else event1.currentTarget.controller.addEventListener('statechange', (event)=>{
-                    console.log('🌼 statechange', event.currentTarget.state);
-                    if (event.currentTarget.state === 'activated') console.log('🌼 activate', event);
-                });
-            };
-        });
-        else navigator.serviceWorker.oncontrollerchange = async (event2)=>{
+let $0dc1423bff6be5a6$var$serviceListener = ()=>{
+    return new Promise(async (resolve)=>{
+        navigator.serviceWorker.oncontrollerchange = async (event1)=>{
             console.log('🌼 service worker oncontrollerchange');
-            if (event2.currentTarget.controller.state === 'activate') console.log('🌼 activate', event2);
-            else event2.currentTarget.controller.addEventListener('statechange', (event)=>{
+            if (event1.currentTarget.controller.state === 'activate') console.log('🌼 activate', event1);
+            else event1.currentTarget.controller.addEventListener('statechange', (event)=>{
                 console.log('🌼 statechange', event.currentTarget.state);
                 if (event.currentTarget.state === 'activated') console.log('🌼 activate', event);
             });
         };
     });
+};
+// devTool().then(async devTool => {
+$6de6a409e427de1e$export$2e2bcd8739ae039({
+    isProxy: 'serviceWorker' in navigator,
+    scope: '/newkind-service/'
+}, (status)=>{
+    console.log('🌞 init proxy');
+    $0dc1423bff6be5a6$var$serviceListener().then(()=>{
+    });
+// navigator.serviceWorker.getRegistrations()
+//     .then(async Registrations => {
+// console.log('registration', Registrations[0])
+// if(Registrations[0]) {
+//     Registrations[0].addEventListener('updatefound', async () => {
+//         await serviceListener()
+//     })
+// } else {
+//     await serviceListener()
+// }
+// })
 }, (memory)=>{
     console.log('🌞 init memory');
     $0dc1423bff6be5a6$var$action(memory);
