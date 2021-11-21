@@ -43,6 +43,7 @@ if (parcelRequire == null) {
   $parcel$global["parcelRequirec3cc"] = parcelRequire;
 }
 var $bac0bd5ea5b6de16$exports = {};
+var $2a614ec136eab308$var$__filename = "frontend/src/modules/fs/main.mjs";
 var $ba9b49c2d28709e2$exports = {};
 // shim for using process in browser
 var $ba9b49c2d28709e2$var$process = $ba9b49c2d28709e2$exports = {
@@ -193,7 +194,6 @@ $ba9b49c2d28709e2$var$process.umask = function() {
 };
 
 
-var $2a614ec136eab308$var$__dirname = "frontend/src/modules/fs";
 var $b944f327406e77d1$exports = {};
 
 $parcel$export($b944f327406e77d1$exports, "Buffer", () => $b944f327406e77d1$export$a143d493d941bafc, (v) => $b944f327406e77d1$export$a143d493d941bafc = v);
@@ -1607,7 +1607,7 @@ var $b944f327406e77d1$var$hexSliceLookupTable = function() {
 
 
 var $2a614ec136eab308$require$Buffer = $b944f327406e77d1$export$a143d493d941bafc;
-var $2a614ec136eab308$var$__filename = "frontend/src/modules/fs/main.mjs";
+var $2a614ec136eab308$var$__dirname = "frontend/src/modules/fs";
 parcelRequire.register("g7BbX", function(module, exports) {
 
 // 'path' module extracted from Node.js v8.11.1 (only the posix part)
@@ -58784,7 +58784,7 @@ var $1a0f01ac0ba08138$export$2e2bcd8739ae039 = $1a0f01ac0ba08138$var$isEmpty;
 
 
 var $25aa53b510a4577e$exports = {};
-$25aa53b510a4577e$exports = JSON.parse("{\"name\":\"@newkind/service\",\"version\":\"0.1.0\",\"description\":\"peer to peer connect\",\"module\":\"./dist/index.mjs\",\"main\":\"./dist/index.mjs\",\"author\":\"Zababurin Sergey\",\"license\":\"GPL-3.0-only\",\"targets\":{\"main\":false,\"dev\":{\"includeNodeModules\":true,\"optimize\":true,\"sourceMap\":false,\"publicUrl\":\"/newkind-service\",\"scopeHoist\":true,\"distDir\":\"./service\",\"context\":\"browser\",\"source\":\"./frontend/src/index.html\"},\"module\":{\"includeNodeModules\":true,\"optimize\":true,\"sourceMap\":false,\"source\":\"./frontend/src/index.mjs\"},\"service\":{\"includeNodeModules\":true,\"optimize\":false,\"distDir\":\"service\",\"publicUrl\":\"/newkind-service\",\"source\":\"./frontend/src/index.html\"}},\"staticFiles\":{\"staticPath\":\"frontend/src/static\",\"distDir\":\"./service\",\"staticOutPath\":\"public\"},\"config\":{\"html\":\"./frontend/src/index.html\",\"service\":\"/newkind-service\",\"port_dev\":4517,\"port_back\":4518,\"highWaterMark\":300,\"list\":{\"white\":[\"http://localhost:4517\",\"https://zababurinsv.github.io/newkind-service/\"],\"black\":[]}},\"scripts\":{\"dev\":\"rimraf ./service/* && parcel --cache-dir ./.parcel-cache --no-hmr --port $npm_package_config_port_dev --dist-dir service --target dev\",\"server\":\"nodemon ./backend/index.mjs\",\"build\":\"rimraf ./dist/* && parcel build --target module\",\"sevice\":\"rimraf ./service/* && rimraf .parcel-cache && parcel build --target service\",\"docs\":\"rimraf ./docs/* && jsdoc -c jsdoc.json\",\"jsdoc2md\":\"jsdoc2md  --configure jsdoc.json --source frontend/**.mjs > md_api.md && cat ./md_info.md ./md_api.md > ./README.md\",\"deploy\":\"gh-pages -d service\",\"clean\":\"rimraf ./service/* && rimraf ./dist/* && find . -name \\\".parcel-cache\\\" -exec rm -rf '{}' +;\",\"clean:all\":\"rimraf ./service/* && rimraf ./dist/* && rimraf ./docs/* && rimraf ./md_api.md && find . -name \\\".parcel-cache\\\" -exec rm -rf '{}' +;\",\"kill:dev\":\"kill $(lsof -t -i:$npm_package_config_port_dev)\",\"kill:back\":\"kill $(lsof -t -i:$npm_package_config_port_back)\"},\"dependencies\":{\"comlink\":\"^4.3.1\",\"compression\":\"^1.7.4\",\"cors\":\"^2.8.5\",\"express\":\"^4.17.1\",\"express-enqueue\":\"^1.0.0\",\"global\":\"^4.4.0\",\"libsodium-wrappers\":\"^0.7.9\",\"nodemon\":\"^2.0.15\",\"web-streams-polyfill\":\"^3.2.0\"},\"devDependencies\":{\"@newkind/tests\":\"^0.1.8\",\"@parcel/packager-raw-url\":\"^2.0.1\",\"@parcel/transformer-sass\":\"^2.0.1\",\"@parcel/transformer-webmanifest\":\"^2.0.1\",\"@types/libsodium-wrappers\":\"^0.7.9\",\"docdash\":\"^1.2.0\",\"gh-pages\":\"^3.2.3\",\"jsdoc\":\"^3.6.7\",\"jsdoc-to-markdown\":\"^7.1.0\",\"parcel\":\"2.0.1\",\"parcel-reporter-static-files-copy\":\"^1.3.1\",\"redrun\":\"^9.0.1\",\"redux\":\"^4.1.2\"},\"eslintConfig\":{\"extends\":[\"react-app\",\"react-app/jest\"]}}");
+$25aa53b510a4577e$exports = JSON.parse("{\"name\":\"@newkind/service\",\"version\":\"0.1.0\",\"description\":\"peer to peer connect\",\"module\":\"./dist/index.mjs\",\"main\":\"./dist/index.mjs\",\"author\":\"Zababurin Sergey\",\"license\":\"GPL-3.0-only\",\"targets\":{\"main\":false,\"dev\":{\"includeNodeModules\":true,\"optimize\":true,\"sourceMap\":false,\"publicUrl\":\"/newkind-service\",\"scopeHoist\":true,\"distDir\":\"./service\",\"context\":\"browser\",\"source\":\"./frontend/src/index.html\"},\"module\":{\"includeNodeModules\":true,\"optimize\":true,\"sourceMap\":false,\"source\":\"./frontend/src/index.mjs\"},\"service\":{\"includeNodeModules\":true,\"optimize\":false,\"distDir\":\"service\",\"publicUrl\":\"/newkind-service\",\"source\":\"./frontend/src/index.html\"}},\"staticFiles\":{\"staticPath\":\"frontend/src/static\",\"distDir\":\"./service/newkind-service\",\"staticOutPath\":\"public\"},\"config\":{\"html\":\"./frontend/src/index.html\",\"service\":\"/newkind-service\",\"port_dev\":4517,\"port_back\":4518,\"highWaterMark\":300,\"list\":{\"white\":[\"http://localhost:4517\",\"https://zababurinsv.github.io/newkind-service/\"],\"black\":[]}},\"scripts\":{\"dev\":\"rimraf ./service/* && parcel --cache-dir ./.parcel-cache --no-hmr --port $npm_package_config_port_dev --dist-dir service/newkind-service --target dev\",\"server\":\"nodemon ./backend/index.mjs\",\"build\":\"rimraf ./dist/* && parcel build --target module\",\"sevice\":\"rimraf ./service/* && rimraf .parcel-cache && parcel build --target service\",\"docs\":\"rimraf ./docs/* && jsdoc -c jsdoc.json\",\"jsdoc2md\":\"jsdoc2md --configure jsdoc.json --source frontend/index.mjs > md_api.md && cat ./md_info.md ./md_api.md > ./README.md\",\"deploy\":\"gh-pages -d service\",\"clean\":\"rimraf ./service/* && rimraf ./dist/* && find . -name \\\".parcel-cache\\\" -exec rm -rf '{}' +;\",\"clean:all\":\"rimraf ./service/* && rimraf ./dist/* && rimraf ./docs/* && rimraf ./md_api.md && find . -name \\\".parcel-cache\\\" -exec rm -rf '{}' +;\",\"kill:dev\":\"kill $(lsof -t -i:$npm_package_config_port_dev)\",\"kill:back\":\"kill $(lsof -t -i:$npm_package_config_port_back)\"},\"dependencies\":{\"comlink\":\"^4.3.1\",\"compression\":\"^1.7.4\",\"cors\":\"^2.8.5\",\"express\":\"^4.17.1\",\"express-enqueue\":\"^1.0.0\",\"global\":\"^4.4.0\",\"libsodium-wrappers\":\"^0.7.9\",\"nodemon\":\"^2.0.15\",\"web-streams-polyfill\":\"^3.2.0\"},\"devDependencies\":{\"@newkind/tests\":\"^0.1.8\",\"@parcel/packager-raw-url\":\"^2.0.1\",\"@parcel/transformer-sass\":\"^2.0.1\",\"@parcel/transformer-webmanifest\":\"^2.0.1\",\"@types/libsodium-wrappers\":\"^0.7.9\",\"docdash\":\"^1.2.0\",\"gh-pages\":\"^3.2.3\",\"jsdoc\":\"^3.6.7\",\"jsdoc-to-markdown\":\"^7.1.0\",\"parcel\":\"2.0.1\",\"parcel-reporter-static-files-copy\":\"^1.3.1\",\"redrun\":\"^9.0.1\",\"redux\":\"^4.1.2\"},\"eslintConfig\":{\"extends\":[\"react-app\",\"react-app/jest\"]}}");
 
 
 const $cdce4b9fca8ee8d4$var$CONFIG_DEFAULTS = {
@@ -59281,4 +59281,4 @@ function $ce3a3801e6b1c02c$var$generateUUID() {
 })();
 
 
-//# sourceMappingURL=MEMORY.8e706897.js.map
+//# sourceMappingURL=MEMORY.ac8ae39a.js.map

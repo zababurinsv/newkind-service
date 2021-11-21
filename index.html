@@ -5,7 +5,7 @@
 <!--        <meta http-equiv="Permissions-Policy" content="interest-cohort=()"/>-->
         <link rel="manifest" crossorigin="use-credentials" href="/newkind-service/manifest.webmanifest">
 <!--        <script async src="https://unpkg.com/pwacompat" crossorigin="anonymous"></script>-->
-        <link rel="icon" type="image/png" href="/newkind-service/newkind-icon-128-any.fd40b713.png" sizes="128x128">
+        <link rel="icon" type="image/png" href="/newkind-service/newkind-icon-128-any.fc892f98.png" sizes="128x128">
 <!--        <meta name="theme-color" media="(prefers-color-scheme: light)" content="white">-->
 <!--        <meta name="theme-color" media="(prefers-color-scheme: dark)"  content="black">-->
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,7 +20,7 @@
         <meta property="og:title" content="Elite">
         <meta property="og:description" content="markdown">
         <meta property="og:url" content="https://zababurinsv.github.io/newkind-service/">
-        <meta property="og:image" content="https://i.imgur.com/pSrPUkJ.jpg">
+        <meta property="og:image" content="https://i.imgur.com/SfrC1my.png">
         <meta property="og:image:width" content="537">
         <meta property="og:image:height" content="240">
         <meta name="theme-color" content="white">
@@ -31,6 +31,7 @@
         <meta name="msapplication-TileColor" content="#FFFFFF">
     </head>
 <body>
+<blockquote class="imgur-embed-pub" lang="en" data-id="9deK80Z"><a href="https://imgur.com/9deK80Z">View post on imgur.com</a></blockquote><script async="" src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
 <div class="fs">
     <div class="service">
         <button class="service__fs">Get Dir</button>
@@ -678,7 +679,7 @@ function $1a0f01ac0ba08138$var$isEmpty(val) {
 var $1a0f01ac0ba08138$export$2e2bcd8739ae039 = $1a0f01ac0ba08138$var$isEmpty;
 
 
-var $8889ba50b4b5013a$exports = {};
+var $21df659f9f00d5bd$exports = {};
 parcelRequire.register("f0u5Z", function(module, exports) {
 
 $parcel$export(module.exports, "getBundleURL", () => $aece33724a489073$export$bdfd709ae4826697, (v) => $aece33724a489073$export$bdfd709ae4826697 = v);
@@ -722,10 +723,10 @@ $aece33724a489073$export$5a759dc7a1cfb72a = $aece33724a489073$var$getOrigin;
 });
 
 
-$8889ba50b4b5013a$exports = (parcelRequire("f0u5Z")).getBundleURL('hgwN6') + "MEMORY.8e706897.js";
+$21df659f9f00d5bd$exports = (parcelRequire("f0u5Z")).getBundleURL('5vngk') + "MEMORY.ac8ae39a.js";
 
 
-// If updatefound is fired, it means that there's
+/** This is a description of the foo function. */ // If updatefound is fired, it means that there's
 // a new service worker being installed.
 // You can listen for changes to the installing service worker's
 // state via installingWorker.onstatechange
@@ -742,7 +743,7 @@ let $6de6a409e427de1e$var$memory = (config)=>{
     return new Promise(async (resolve)=>{
         let api = {
         };
-        const url = new URL($8889ba50b4b5013a$exports);
+        const url = new URL($21df659f9f00d5bd$exports);
         let memory;
         memory = new Worker(url, {
             type: "module"
@@ -778,9 +779,9 @@ let $6de6a409e427de1e$var$memory = (config)=>{
         };
     });
 };
-var $cbe11f4fee878304$exports = {};
+var $ffbc1b25ca04c91f$exports = {};
 
-$cbe11f4fee878304$exports = (parcelRequire("f0u5Z")).getBundleURL('hgwN6') + "PROXY.20a77d47.js";
+$ffbc1b25ca04c91f$exports = (parcelRequire("f0u5Z")).getBundleURL('5vngk') + "PROXY.20a77d47.js";
 
 
 let $6de6a409e427de1e$var$proxy = (config)=>{
@@ -795,7 +796,7 @@ let $6de6a409e427de1e$var$proxy = (config)=>{
         let init = ()=>{
             return new Promise((resolve)=>{
                 try {
-                    let url = new URL($cbe11f4fee878304$exports);
+                    let url = new URL($ffbc1b25ca04c91f$exports);
                     navigator.serviceWorker.register(url, {
                         type: "module",
                         scope: config.scope
@@ -7337,7 +7338,28 @@ var $360e29a3b6f34308$export$2e2bcd8739ae039 = {
 };
 
 
-let $0dc1423bff6be5a6$var$CONFIG = {
+// window.onpagehide = event => {
+//     if (event.persisted) {
+//         alert('sdsds')
+//     }
+//     alert('sdsds')
+// }
+// window.addEventListener('beforeunload', function(event) {
+//     alert('sdsds')
+//     console.assert(false)
+//     console.log('I am the 1st one.');
+// });
+// window.addEventListener('unload', function(event) {
+//     alert('sdsds')
+//     console.assert(false)
+//     console.log('I am the 3rd one.');
+// });
+// const beforeUnloadListener = (event) => {
+//     event.preventDefault();
+//     return event.returnValue = "Are you sure you want to exit?";
+// };
+// document.body.addEventListener("beforeunload", beforeUnloadListener, {capture: true});
+let $374a470123d2a6c8$var$CONFIG = {
     logs: {
         measureMemory: document.querySelector('.logs__measureMemory')
     },
@@ -7354,114 +7376,115 @@ let $0dc1423bff6be5a6$var$CONFIG = {
     image: {
         this: document.querySelector('.main__img_container_img'),
         on: ()=>{
-            $0dc1423bff6be5a6$var$CONFIG.image.this.classList.remove('hidden');
+            $374a470123d2a6c8$var$CONFIG.image.this.classList.remove('hidden');
         },
         off: ()=>{
-            $0dc1423bff6be5a6$var$CONFIG.image.this.classList.add('hidden');
+            $374a470123d2a6c8$var$CONFIG.image.this.classList.add('hidden');
         }
     },
     progress: {
         this: document.querySelector('.main__img_container_progress'),
         on: ()=>{
-            $0dc1423bff6be5a6$var$CONFIG.image.off();
-            $0dc1423bff6be5a6$var$CONFIG.progress.this.classList.remove('hidden');
+            $374a470123d2a6c8$var$CONFIG.image.off();
+            $374a470123d2a6c8$var$CONFIG.progress.this.classList.remove('hidden');
         },
         off: ()=>{
-            $0dc1423bff6be5a6$var$CONFIG.image.on();
-            $0dc1423bff6be5a6$var$CONFIG.progress.this.classList.add('hidden');
+            $374a470123d2a6c8$var$CONFIG.image.on();
+            $374a470123d2a6c8$var$CONFIG.progress.this.classList.add('hidden');
         }
     },
     template: {
         files: document.querySelector('#main__data_files_fs')
     }
-};
-let $0dc1423bff6be5a6$var$action = async (memory)=>{
-    console.log('🔎 init action');
-    await memory.db.save();
-    $0dc1423bff6be5a6$var$CONFIG.submit.addEventListener('click', async (e)=>{
-        e.preventDefault();
-        if ($0dc1423bff6be5a6$var$CONFIG.select.value) {
-            $0dc1423bff6be5a6$var$CONFIG.progress.on();
-            let arrays = [];
-            await memory.fs.stream.img($0dc1423bff6be5a6$var$CONFIG.select.value, $ce3a3801e6b1c02c$export$923f96dd5afa9ce6(async (done, value, progress)=>{
-                if (done) {
-                    $0dc1423bff6be5a6$var$CONFIG.progress.this.value = progress;
-                    arrays.push(value);
-                    let blob = new Blob([
-                        await $360e29a3b6f34308$export$2e2bcd8739ae039.concat(arrays)
-                    ], {
-                        'type': 'image/png'
-                    });
-                    let url = URL.createObjectURL(blob);
-                    $0dc1423bff6be5a6$var$CONFIG.image.this.src = '';
-                    $0dc1423bff6be5a6$var$CONFIG.image.this.src = `${url}`;
-                    $0dc1423bff6be5a6$var$CONFIG.progress.off();
-                } else {
-                    $0dc1423bff6be5a6$var$CONFIG.progress.this.value = progress;
-                    arrays.push(value);
-                }
-            }));
-        }
-    });
-    $0dc1423bff6be5a6$var$CONFIG.upload.addEventListener('change', async (e)=>{
-        await memory.fs.write.files(e.target.files);
-        console.log('files loaded');
-        const list = await memory.fs.list.files();
-        console.log('list loaded', list);
-        $0dc1423bff6be5a6$var$CONFIG.img.innerHTML = '';
-        list.forEach((item)=>{
-            const template = $0dc1423bff6be5a6$var$CONFIG.template.files.content.cloneNode(true);
-            const option = template.querySelector('option');
-            option.textContent = item;
-            option.value = `${item}`;
-            $0dc1423bff6be5a6$var$CONFIG.img.appendChild(template);
-        });
-    });
-    $0dc1423bff6be5a6$var$CONFIG.list.addEventListener('click', async (e)=>{
-        const list = await memory.fs.list.files();
-    });
-};
-let $0dc1423bff6be5a6$var$serviceListener = ()=>{
-    return new Promise(async (resolve)=>{
-        navigator.serviceWorker.oncontrollerchange = async (event1)=>{
-            console.log('🌼 service worker oncontrollerchange');
-            if (event1.currentTarget.controller.state === 'activate') console.log('🌼 activate', event1);
-            else event1.currentTarget.controller.addEventListener('statechange', (event)=>{
-                console.log('🌼 statechange', event.currentTarget.state);
-                if (event.currentTarget.state === 'activated') console.log('🌼 activate', event);
-            });
-        };
-    });
-};
-// devTool().then(async devTool => {
-$6de6a409e427de1e$export$2e2bcd8739ae039({
-    isProxy: 'serviceWorker' in navigator,
-    scope: '/newkind-service/'
-}, (status)=>{
-    console.log('🌞 init proxy');
-    $0dc1423bff6be5a6$var$serviceListener().then(()=>{
-    });
-// navigator.serviceWorker.getRegistrations()
-//     .then(async Registrations => {
-// console.log('registration', Registrations[0])
-// if(Registrations[0]) {
-//     Registrations[0].addEventListener('updatefound', async () => {
-//         await serviceListener()
-//     })
-// } else {
-//     await serviceListener()
-// }
-// })
-}, (memory)=>{
-    console.log('🌞 init memory');
-    $0dc1423bff6be5a6$var$action(memory);
-}).then((status)=>{
-    console.log('🌞 resolve service', status);
-}).catch((e)=>{
-    console.log('service error:', e);
-}) // }).catch(e => {console.log('error devtool', e)})
+}; // let action = async (memory) => {
+ //     console.log('🔎 init action')
+ //     await memory.db.save()
+ //     CONFIG.submit.addEventListener('click', async (e) => {
+ //         e.preventDefault()
+ //         if(CONFIG.select.value) {
+ //             CONFIG.progress.on()
+ //             let arrays = [];
+ //             await memory.fs.stream.img(CONFIG.select.value, Comlink.proxy(async (done, value, progress) => {
+ //                 if(done) {
+ //                     CONFIG.progress.this.value = progress
+ //                     arrays.push(value);
+ //                     let blob = new Blob([await utils.concat(arrays)], {'type': 'image/png'});
+ //                     let url = URL.createObjectURL(blob);
+ //                     CONFIG.image.this.src = ''
+ //                     CONFIG.image.this.src = `${url}`
+ //                     CONFIG.progress.off()
+ //                 } else {
+ //                     CONFIG.progress.this.value = progress
+ //                     arrays.push(value);
+ //                 }
+ //             }))
+ //         }
+ //     })
+ //
+ //     CONFIG.upload.addEventListener('change', async (e) => {
+ //         await memory.fs.write.files(e.target.files)
+ //         console.log('files loaded')
+ //         const list = await memory.fs.list.files()
+ //         console.log('list loaded', list)
+ //         CONFIG.img.innerHTML = ''
+ //         list.forEach(item => {
+ //             const template  = CONFIG.template.files.content.cloneNode(true)
+ //             const option = template.querySelector('option')
+ //             option.textContent = item
+ //             option.value = `${item}`
+ //             CONFIG.img.appendChild(template)
+ //         })
+ //     })
+ //
+ //     CONFIG.list.addEventListener('click', async (e) => {
+ //         const list = await memory.fs.list.files()
+ //     })
+ // }
+ //
+ // let serviceListener = () => {
+ //     return new Promise(async resolve => {
+ //         navigator.serviceWorker.oncontrollerchange = async (event) => {
+ //             console.log('🌼 service worker oncontrollerchange');
+ //             if( event.currentTarget.controller.state === 'activate') {
+ //                 console.log('🌼 activate', event)
+ //             } else {
+ //                 event.currentTarget.controller.addEventListener('statechange', (event) => {
+ //                     console.log('🌼 statechange',  event.currentTarget.state)
+ //                     if(event.currentTarget.state === 'activated') {
+ //                         console.log('🌼 activate', event)
+ //                     }
+ //                 });
+ //             }
+ //         };
+ //     })
+ // }
+ //
+ // devTool().then(async devTool => {
+ //     service({
+ //         isProxy: ('serviceWorker' in navigator),
+ //         scope:'/newkind-service/'
+ //     }, (status) => {
+ //         console.log('🌞 init proxy')
+ //         serviceListener().then(() => {})
+ // navigator.serviceWorker.getRegistrations()
+ //     .then(async Registrations => {
+ // console.log('registration', Registrations[0])
+ // if(Registrations[0]) {
+ //     Registrations[0].addEventListener('updatefound', async () => {
+ //         await serviceListener()
+ //     })
+ // } else {
+ //     await serviceListener()
+ // }
+ // })
+ // },(memory) => {
+ //     console.log('🌞 init memory')
+ //     action(memory)
+ // })
+ // .then(status => {console.log('🌞 resolve service', status)})
+ // .catch(e => {console.log('service error:', e)})
+ // }).catch(e => {console.log('error devtool', e)})
  // });
-;
 
 
 </script>
