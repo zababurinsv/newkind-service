@@ -8,7 +8,7 @@
 ## Functions
 
 <dl>
-<dt><a href="#memory">memory()</a></dt>
+<dt><a href="#proxy">proxy()</a></dt>
 <dd><p>If updatefound is fired, it means that there's<br>
 a new service worker being installed.<br>
 You can listen for changes to the installing service worker's<br>
@@ -40,9 +40,9 @@ replaced by a newer version</p></dd>
 | chunkName | <code>string</code> | <p>The name of the chunk to calculate the CRC for.</p> |
 | chunkData | <code>ArrayBuffer</code> | <p>The data to calculate the CRC for.</p> |
 
-<a name="memory"></a>
+<a name="proxy"></a>
 
-## memory()
+## proxy()
 <p>If updatefound is fired, it means that there's<br>
 a new service worker being installed.<br>
 You can listen for changes to the installing service worker's<br>

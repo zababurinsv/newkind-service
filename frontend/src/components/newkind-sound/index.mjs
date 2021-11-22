@@ -1,4 +1,3 @@
-import modules from './modules/radio/index.mjs'
 import preset from './template/index.mjs'
 
 const template = (self) => {
@@ -23,21 +22,25 @@ const template = (self) => {
   })
 }
 
-const lacertaRadio =  class extends HTMLElement {
+const index =  class extends HTMLElement {
   constructor () {
     super()
     template(this)
-      .then(async component => {
-        new (await modules())(component)
-      })
-      .catch(error => {
-        console.warn('error', error)
-      })
+        .then(async component => {
+
+
+        })
+        .catch(error => {
+          console.warn('error', error)
+        })
   }
 }
 
-try { customElements.define('lacerta-radio', lacertaRadio ) }
-catch (e) { console.error('error',e) }
+try {
+  customElements.define('newkind-sound', index );
+} catch (e) {
+  console.error('error',e)
+}
 
 
-export { lacertaRadio }
+export { index }

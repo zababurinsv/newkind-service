@@ -23,7 +23,7 @@ const template = (self) => {
   })
 }
 
-const lacertaRadio =  class extends HTMLElement {
+const NewkindImages =  class extends HTMLElement {
   constructor () {
     super()
     template(this)
@@ -36,8 +36,11 @@ const lacertaRadio =  class extends HTMLElement {
   }
 }
 
-try { customElements.define('lacerta-radio', lacertaRadio ) }
-catch (e) { console.error('error',e) }
+try {
+  customElements.define('newkind-images', NewkindImages );
+} catch (e) {
+  console.error('error',e)
+}
 
 
-export { lacertaRadio }
+export { NewkindImages }

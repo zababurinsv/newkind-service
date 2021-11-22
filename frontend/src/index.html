@@ -85,6 +85,11 @@
         </div>
     </div>
 </newkind-alarm>
+<newkind-sound>
+    <div class="newkind-sound">
+        <div class="container was-page-wrap"></div>
+    </div>
+</newkind-sound>
 <button class="logs__measureMemory">Measure Memory</button>
 <style>
     @import "index.scss";
@@ -98,14 +103,16 @@
 </template>
 <script type="module">
     import service from './index.mjs'
-    import {lacertaRadio} from './components/lacerta-radio/index.mjs'
+
+    import { lacertaRadio } from './components/lacerta-radio/index.mjs'
     import { newkindAlarm } from './components/newkind-alarm/index.mjs'
+    import { newkindSound } from './components/newkind-sound/index.mjs'
+
     import { devTool, tests } from '@newkind/tests'
     import * as Comlink from "comlink";
     import utils from './modules/utils/index.mjs'
 
-
-    tests('/tests/service.tests.mjs', true).catch(e => {console.log('error devtool', e)})
+    tests('./tests/service.tests.mjs', true).catch(e => {console.log('error devtool', e)})
     let CONFIG = {
         logs: {
             measureMemory: document.querySelector('.logs__measureMemory'),
@@ -204,7 +211,7 @@
         })
     }
 
-    // devTool().then(async devTool => {
+    devTool().then(async devTool => {
         service({
             isProxy: ('serviceWorker' in navigator),
             scope:'/newkind-service/'
@@ -228,6 +235,6 @@
         })
         .then(status => {console.log('🌞 resolve service', status)})
         .catch(e => {console.log('service error:', e)})
-    // }).catch(e => {console.log('error devtool', e)})
+    }).catch(e => {console.log('error devtool', e)})
 </script>
 </html>

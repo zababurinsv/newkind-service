@@ -1,9 +1,12 @@
 # @newkind/Service
 
 ## TEST FOR SERVICE WORKERS
-[testing-service-workers](https://medium.com/dev-channel/testing-service-workers-318d7b016b19)
-
-
+[testing-service-workers](https://medium.com/dev-channel/testing-service-workers-318d7b016b19)  
+[code for pages](https://github.com/googlearchive/web-testing-examples/blob/master/test/in-page/register.js)  
+[service-workers](https://github.com/zackargyle/service-workers)  
+[opensource google](https://opensource.google)  
+[testing-service-worker workbox](https://medium.com/ynap-tech/testing-service-worker-2f9ede60bae)  
+[audio-worklet](https://googlechromelabs.github.io/web-audio-samples/audio-worklet/)
 ## maskable-icon
 https://web.dev/maskable-icon/?utm_source=devtools
 

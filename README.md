@@ -1,5 +1,9 @@
 # @newkind/Service
 
+## TEST FOR SERVICE WORKERS
+[testing-service-workers](https://medium.com/dev-channel/testing-service-workers-318d7b016b19)
+
+
 ## maskable-icon
 https://web.dev/maskable-icon/?utm_source=devtools
 
@@ -33,6 +37,27 @@ document.addEventListener('visibilitychange', function() {
     //     navigator.sendBeacon("/log.php", analyticsData);
     // }
 });
+window.onpagehide = event => {
+    if (event.persisted) {
+        alert('sdsds')
+    }
+    alert('sdsds')
+}
+window.addEventListener('beforeunload', function(event) {
+    alert('sdsds')
+    console.assert(false)
+    console.log('I am the 1st one.');
+});
+window.addEventListener('unload', function(event) {
+    alert('sdsds')
+    console.assert(false)
+    console.log('I am the 3rd one.');
+});
+const beforeUnloadListener = (event) => {
+    event.preventDefault();
+    return event.returnValue = "Are you sure you want to exit?";
+};
+document.body.addEventListener("beforeunload", beforeUnloadListener, {capture: true});
 ```
 [tera ide](https://terawallet.org/dapp-edit.html)## Members
 
@@ -44,7 +69,7 @@ document.addEventListener('visibilitychange', function() {
 ## Functions
 
 <dl>
-<dt><a href="#memory">memory()</a></dt>
+<dt><a href="#proxy">proxy()</a></dt>
 <dd><p>If updatefound is fired, it means that there's<br>
 a new service worker being installed.<br>
 You can listen for changes to the installing service worker's<br>
@@ -76,9 +101,9 @@ replaced by a newer version</p></dd>
 | chunkName | <code>string</code> | <p>The name of the chunk to calculate the CRC for.</p> |
 | chunkData | <code>ArrayBuffer</code> | <p>The data to calculate the CRC for.</p> |
 
-<a name="memory"></a>
+<a name="proxy"></a>
 
-## memory()
+## proxy()
 <p>If updatefound is fired, it means that there's<br>
 a new service worker being installed.<br>
 You can listen for changes to the installing service worker's<br>
