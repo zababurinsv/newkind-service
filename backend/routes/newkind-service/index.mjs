@@ -10,7 +10,7 @@ import corsOptions from '../../corsOptions.mjs'
 const pkg = require("../../../package.json");
 
 app.use((req, res, next) => {
-    console.log('localhost://port/router',req.path);
+    console.log('~~~~',req.path);
     next();
 });
 
@@ -36,7 +36,13 @@ app.get(`/tests/:source`, async (req, res) => {
     res.status(200).sendFile(`${req.params.source}`, { root: path.join(__dirname, `../service/${pkg.config.service}/tests`) });
 })
 
-// app.use(`/newkind-service/public`,express.static(path.join(__dirname, '../../../service/public')));
+app.options(`/public/:source`, await cors(corsOptions))
+app.get(`/public/:source`, async (req, res) => {
+    console.log(`${pkg.config.service}/public/:source`,req.params.source)
+    res.status(200).sendFile(`${req.params.source}`, { root: path.join(__dirname, `../service/${pkg.config.service}/public`) });
+})
+
+// app.use(`/public`,express.static(path.join(__dirname, '../../../service/public')));
 // app.use('/',express.static(path.join(__dirname, '../../../service')));
 // app.use(express.static(path.join(__dirname, '../../../service')));
 export default app;

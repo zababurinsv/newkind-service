@@ -6,7 +6,8 @@
 [service-workers](https://github.com/zackargyle/service-workers)  
 [opensource google](https://opensource.google)  
 [testing-service-worker workbox](https://medium.com/ynap-tech/testing-service-worker-2f9ede60bae)  
-[audio-worklet](https://googlechromelabs.github.io/web-audio-samples/audio-worklet/)
+[audio-worklet](https://googlechromelabs.github.io/web-audio-samples/audio-worklet/)  
+[web-speech](https://github.com/mdn/web-speech-api)
 ## maskable-icon
 https://web.dev/maskable-icon/?utm_source=devtools
 

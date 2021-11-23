@@ -9,14 +9,8 @@
   "targets": {
     "main": false,
     "dev": {
-      "includeNodeModules": true,
       "optimize": true,
-      "sourceMap": false,
-      "publicUrl": "/newkind-service",
-      "scopeHoist": true,
-      "isLibrary": false,
-      "distDir": "./service",
-      "context": "browser",
+      "sourceMap": true,
       "source": "./frontend/src/index.html"
     },
     "module": {
@@ -37,9 +31,9 @@
     }
   },
   "staticFiles": {
-    "staticPath": "frontend/src/public",
+    "staticPath": "frontend/src/static",
     "distDir": "./service/newkind-service",
-    "staticOutPath": "public"
+    "staticOutPath": ""
   },
   "config": {
     "html": "./frontend/src/index.html",
@@ -57,7 +51,7 @@
   },
   "scripts": {
     "dev": "rimraf ./service/* && parcel --cache-dir ./.parcel-cache --no-hmr --port $npm_package_config_port_dev --dist-dir service/newkind-service --public-url /newkind-service --target dev",
-    "build": "rimraf ./dist/* && parcel build --target module",
+    "module": "rimraf ./dist/* && parcel build --target module",
     "sevice": "rimraf ./service/* && rimraf .parcel-cache && parcel build --target service",
     "server": "nodemon ./backend/index.mjs",
     "docs": "rimraf ./docs/* && jsdoc -c jsdoc.json",
@@ -81,7 +75,7 @@
     "web-streams-polyfill": "^3.2.0"
   },
   "devDependencies": {
-    "@newkind/tests": "^0.2.2",
+    "@newkind/tests": "^0.2.4",
     "@parcel/packager-raw-url": "^2.0.1",
     "@parcel/transformer-sass": "^2.0.1",
     "@parcel/transformer-webmanifest": "^2.0.1",

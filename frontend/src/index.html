@@ -31,6 +31,25 @@
         <meta name="msapplication-TileColor" content="#FFFFFF">
     </head>
 <body>
+<newkind-upload>
+    <div class="skeleton-box newkind-upload">
+        <style>
+            @import "components/newkind-upload/template/default/index.scss";
+        </style>
+        <div id="drop-area">
+            <form class="my-form">
+                <p>Загрузите файл с помощью диалогового окна или перетащите изображения в пунктирную область.</p>
+                <div>
+                    <input type="file" id="fileElem" multiple  accept="application/msword, image" onchange="handleFiles(this.files)">
+                    <label class="button" for="fileElem">Выберете файл</label>
+                </div>
+            </form>
+            <progress id="progress-bar" max=100 value=0></progress>
+            <div id="gallery" /></div>
+        </div>
+    </div>
+    <p><slot name="varan-pictures"></slot></p>
+</newkind-upload>
 <div class="fs">
     <div class="service">
 <!--        <button class="service__fs">Get Dir</button>-->
@@ -55,7 +74,7 @@
     <lacerta-radio>
         <div class="skeleton-box audio-newkind">
             <style>
-                    @import "components/lacerta-radio/template/default/index.scss";
+                 @import "components/lacerta-radio/template/default/index.scss";
             </style>
             <h1 class="audio-newkind__title">NewKind Radio</h1>
             <form class="audio-newkind__form">
@@ -206,6 +225,7 @@
 <script type="module">
     import service from './index.mjs'
 
+    import newkindUpload   from './components/newkind-upload/index.mjs'
     import lacertaRadio   from './components/lacerta-radio/index.mjs'
     import newkindAlarm   from './components/newkind-alarm/index.mjs'
     import newkindSound   from './components/newkind-sound/index.mjs'
@@ -216,6 +236,7 @@
     import utils from './modules/utils/index.mjs'
 
     tests('./tests/service.tests.mjs', true).catch(e => {console.log('error devtool', e)})
+
     let CONFIG = {
         logs: {
             measureMemory: document.querySelector('.logs__measureMemory'),
