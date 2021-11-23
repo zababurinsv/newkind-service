@@ -43,8 +43,158 @@ if (parcelRequire == null) {
   $parcel$global["parcelRequirec3cc"] = parcelRequire;
 }
 var $e5511fd9265a52a2$exports = {};
-var $5e4ac42ec3a646b4$var$__filename = "frontend/src/modules/fs/main.mjs";
 var $5e4ac42ec3a646b4$var$__dirname = "frontend/src/modules/fs";
+var $5e4ac42ec3a646b4$var$__filename = "frontend/src/modules/fs/main.mjs";
+var $a506278517dc5c33$exports = {};
+// shim for using process in browser
+var $a506278517dc5c33$var$process = $a506278517dc5c33$exports = {
+};
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+var $a506278517dc5c33$var$cachedSetTimeout;
+var $a506278517dc5c33$var$cachedClearTimeout;
+function $a506278517dc5c33$var$defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function $a506278517dc5c33$var$defaultClearTimeout() {
+    throw new Error('clearTimeout has not been defined');
+}
+(function() {
+    try {
+        if (typeof setTimeout === 'function') $a506278517dc5c33$var$cachedSetTimeout = setTimeout;
+        else $a506278517dc5c33$var$cachedSetTimeout = $a506278517dc5c33$var$defaultSetTimout;
+    } catch (e) {
+        $a506278517dc5c33$var$cachedSetTimeout = $a506278517dc5c33$var$defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') $a506278517dc5c33$var$cachedClearTimeout = clearTimeout;
+        else $a506278517dc5c33$var$cachedClearTimeout = $a506278517dc5c33$var$defaultClearTimeout;
+    } catch (e1) {
+        $a506278517dc5c33$var$cachedClearTimeout = $a506278517dc5c33$var$defaultClearTimeout;
+    }
+})();
+function $a506278517dc5c33$var$runTimeout(fun) {
+    if ($a506278517dc5c33$var$cachedSetTimeout === setTimeout) //normal enviroments in sane situations
+    return setTimeout(fun, 0);
+    // if setTimeout wasn't available but was latter defined
+    if (($a506278517dc5c33$var$cachedSetTimeout === $a506278517dc5c33$var$defaultSetTimout || !$a506278517dc5c33$var$cachedSetTimeout) && setTimeout) {
+        $a506278517dc5c33$var$cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return $a506278517dc5c33$var$cachedSetTimeout(fun, 0);
+    } catch (e) {
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return $a506278517dc5c33$var$cachedSetTimeout.call(null, fun, 0);
+        } catch (e) {
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return $a506278517dc5c33$var$cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+}
+function $a506278517dc5c33$var$runClearTimeout(marker) {
+    if ($a506278517dc5c33$var$cachedClearTimeout === clearTimeout) //normal enviroments in sane situations
+    return clearTimeout(marker);
+    // if clearTimeout wasn't available but was latter defined
+    if (($a506278517dc5c33$var$cachedClearTimeout === $a506278517dc5c33$var$defaultClearTimeout || !$a506278517dc5c33$var$cachedClearTimeout) && clearTimeout) {
+        $a506278517dc5c33$var$cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return $a506278517dc5c33$var$cachedClearTimeout(marker);
+    } catch (e) {
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return $a506278517dc5c33$var$cachedClearTimeout.call(null, marker);
+        } catch (e) {
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return $a506278517dc5c33$var$cachedClearTimeout.call(this, marker);
+        }
+    }
+}
+var $a506278517dc5c33$var$queue = [];
+var $a506278517dc5c33$var$draining = false;
+var $a506278517dc5c33$var$currentQueue;
+var $a506278517dc5c33$var$queueIndex = -1;
+function $a506278517dc5c33$var$cleanUpNextTick() {
+    if (!$a506278517dc5c33$var$draining || !$a506278517dc5c33$var$currentQueue) return;
+    $a506278517dc5c33$var$draining = false;
+    if ($a506278517dc5c33$var$currentQueue.length) $a506278517dc5c33$var$queue = $a506278517dc5c33$var$currentQueue.concat($a506278517dc5c33$var$queue);
+    else $a506278517dc5c33$var$queueIndex = -1;
+    if ($a506278517dc5c33$var$queue.length) $a506278517dc5c33$var$drainQueue();
+}
+function $a506278517dc5c33$var$drainQueue() {
+    if ($a506278517dc5c33$var$draining) return;
+    var timeout = $a506278517dc5c33$var$runTimeout($a506278517dc5c33$var$cleanUpNextTick);
+    $a506278517dc5c33$var$draining = true;
+    var len = $a506278517dc5c33$var$queue.length;
+    while(len){
+        $a506278517dc5c33$var$currentQueue = $a506278517dc5c33$var$queue;
+        $a506278517dc5c33$var$queue = [];
+        while(++$a506278517dc5c33$var$queueIndex < len)if ($a506278517dc5c33$var$currentQueue) $a506278517dc5c33$var$currentQueue[$a506278517dc5c33$var$queueIndex].run();
+        $a506278517dc5c33$var$queueIndex = -1;
+        len = $a506278517dc5c33$var$queue.length;
+    }
+    $a506278517dc5c33$var$currentQueue = null;
+    $a506278517dc5c33$var$draining = false;
+    $a506278517dc5c33$var$runClearTimeout(timeout);
+}
+$a506278517dc5c33$var$process.nextTick = function(fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) for(var i = 1; i < arguments.length; i++)args[i - 1] = arguments[i];
+    $a506278517dc5c33$var$queue.push(new $a506278517dc5c33$var$Item(fun, args));
+    if ($a506278517dc5c33$var$queue.length === 1 && !$a506278517dc5c33$var$draining) $a506278517dc5c33$var$runTimeout($a506278517dc5c33$var$drainQueue);
+};
+// v8 likes predictible objects
+function $a506278517dc5c33$var$Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+$a506278517dc5c33$var$Item.prototype.run = function() {
+    this.fun.apply(null, this.array);
+};
+$a506278517dc5c33$var$process.title = 'browser';
+$a506278517dc5c33$var$process.browser = true;
+$a506278517dc5c33$var$process.env = {
+};
+$a506278517dc5c33$var$process.argv = [];
+$a506278517dc5c33$var$process.version = ''; // empty string to avoid regexp issues
+$a506278517dc5c33$var$process.versions = {
+};
+function $a506278517dc5c33$var$noop() {
+}
+$a506278517dc5c33$var$process.on = $a506278517dc5c33$var$noop;
+$a506278517dc5c33$var$process.addListener = $a506278517dc5c33$var$noop;
+$a506278517dc5c33$var$process.once = $a506278517dc5c33$var$noop;
+$a506278517dc5c33$var$process.off = $a506278517dc5c33$var$noop;
+$a506278517dc5c33$var$process.removeListener = $a506278517dc5c33$var$noop;
+$a506278517dc5c33$var$process.removeAllListeners = $a506278517dc5c33$var$noop;
+$a506278517dc5c33$var$process.emit = $a506278517dc5c33$var$noop;
+$a506278517dc5c33$var$process.prependListener = $a506278517dc5c33$var$noop;
+$a506278517dc5c33$var$process.prependOnceListener = $a506278517dc5c33$var$noop;
+$a506278517dc5c33$var$process.listeners = function(name) {
+    return [];
+};
+$a506278517dc5c33$var$process.binding = function(name) {
+    throw new Error('process.binding is not supported');
+};
+$a506278517dc5c33$var$process.cwd = function() {
+    return '/';
+};
+$a506278517dc5c33$var$process.chdir = function(dir) {
+    throw new Error('process.chdir is not supported');
+};
+$a506278517dc5c33$var$process.umask = function() {
+    return 0;
+};
+
+
 var $464bcea887784ce5$exports = {};
 
 $parcel$export($464bcea887784ce5$exports, "Buffer", () => $464bcea887784ce5$export$a143d493d941bafc, (v) => $464bcea887784ce5$export$a143d493d941bafc = v);
@@ -1458,157 +1608,7 @@ var $464bcea887784ce5$var$hexSliceLookupTable = function() {
 
 
 var $5e4ac42ec3a646b4$require$Buffer = $464bcea887784ce5$export$a143d493d941bafc;
-var $a506278517dc5c33$exports = {};
-// shim for using process in browser
-var $a506278517dc5c33$var$process = $a506278517dc5c33$exports = {
-};
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-var $a506278517dc5c33$var$cachedSetTimeout;
-var $a506278517dc5c33$var$cachedClearTimeout;
-function $a506278517dc5c33$var$defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function $a506278517dc5c33$var$defaultClearTimeout() {
-    throw new Error('clearTimeout has not been defined');
-}
-(function() {
-    try {
-        if (typeof setTimeout === 'function') $a506278517dc5c33$var$cachedSetTimeout = setTimeout;
-        else $a506278517dc5c33$var$cachedSetTimeout = $a506278517dc5c33$var$defaultSetTimout;
-    } catch (e) {
-        $a506278517dc5c33$var$cachedSetTimeout = $a506278517dc5c33$var$defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') $a506278517dc5c33$var$cachedClearTimeout = clearTimeout;
-        else $a506278517dc5c33$var$cachedClearTimeout = $a506278517dc5c33$var$defaultClearTimeout;
-    } catch (e1) {
-        $a506278517dc5c33$var$cachedClearTimeout = $a506278517dc5c33$var$defaultClearTimeout;
-    }
-})();
-function $a506278517dc5c33$var$runTimeout(fun) {
-    if ($a506278517dc5c33$var$cachedSetTimeout === setTimeout) //normal enviroments in sane situations
-    return setTimeout(fun, 0);
-    // if setTimeout wasn't available but was latter defined
-    if (($a506278517dc5c33$var$cachedSetTimeout === $a506278517dc5c33$var$defaultSetTimout || !$a506278517dc5c33$var$cachedSetTimeout) && setTimeout) {
-        $a506278517dc5c33$var$cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return $a506278517dc5c33$var$cachedSetTimeout(fun, 0);
-    } catch (e) {
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return $a506278517dc5c33$var$cachedSetTimeout.call(null, fun, 0);
-        } catch (e) {
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return $a506278517dc5c33$var$cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-}
-function $a506278517dc5c33$var$runClearTimeout(marker) {
-    if ($a506278517dc5c33$var$cachedClearTimeout === clearTimeout) //normal enviroments in sane situations
-    return clearTimeout(marker);
-    // if clearTimeout wasn't available but was latter defined
-    if (($a506278517dc5c33$var$cachedClearTimeout === $a506278517dc5c33$var$defaultClearTimeout || !$a506278517dc5c33$var$cachedClearTimeout) && clearTimeout) {
-        $a506278517dc5c33$var$cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return $a506278517dc5c33$var$cachedClearTimeout(marker);
-    } catch (e) {
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return $a506278517dc5c33$var$cachedClearTimeout.call(null, marker);
-        } catch (e) {
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return $a506278517dc5c33$var$cachedClearTimeout.call(this, marker);
-        }
-    }
-}
-var $a506278517dc5c33$var$queue = [];
-var $a506278517dc5c33$var$draining = false;
-var $a506278517dc5c33$var$currentQueue;
-var $a506278517dc5c33$var$queueIndex = -1;
-function $a506278517dc5c33$var$cleanUpNextTick() {
-    if (!$a506278517dc5c33$var$draining || !$a506278517dc5c33$var$currentQueue) return;
-    $a506278517dc5c33$var$draining = false;
-    if ($a506278517dc5c33$var$currentQueue.length) $a506278517dc5c33$var$queue = $a506278517dc5c33$var$currentQueue.concat($a506278517dc5c33$var$queue);
-    else $a506278517dc5c33$var$queueIndex = -1;
-    if ($a506278517dc5c33$var$queue.length) $a506278517dc5c33$var$drainQueue();
-}
-function $a506278517dc5c33$var$drainQueue() {
-    if ($a506278517dc5c33$var$draining) return;
-    var timeout = $a506278517dc5c33$var$runTimeout($a506278517dc5c33$var$cleanUpNextTick);
-    $a506278517dc5c33$var$draining = true;
-    var len = $a506278517dc5c33$var$queue.length;
-    while(len){
-        $a506278517dc5c33$var$currentQueue = $a506278517dc5c33$var$queue;
-        $a506278517dc5c33$var$queue = [];
-        while(++$a506278517dc5c33$var$queueIndex < len)if ($a506278517dc5c33$var$currentQueue) $a506278517dc5c33$var$currentQueue[$a506278517dc5c33$var$queueIndex].run();
-        $a506278517dc5c33$var$queueIndex = -1;
-        len = $a506278517dc5c33$var$queue.length;
-    }
-    $a506278517dc5c33$var$currentQueue = null;
-    $a506278517dc5c33$var$draining = false;
-    $a506278517dc5c33$var$runClearTimeout(timeout);
-}
-$a506278517dc5c33$var$process.nextTick = function(fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) for(var i = 1; i < arguments.length; i++)args[i - 1] = arguments[i];
-    $a506278517dc5c33$var$queue.push(new $a506278517dc5c33$var$Item(fun, args));
-    if ($a506278517dc5c33$var$queue.length === 1 && !$a506278517dc5c33$var$draining) $a506278517dc5c33$var$runTimeout($a506278517dc5c33$var$drainQueue);
-};
-// v8 likes predictible objects
-function $a506278517dc5c33$var$Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-$a506278517dc5c33$var$Item.prototype.run = function() {
-    this.fun.apply(null, this.array);
-};
-$a506278517dc5c33$var$process.title = 'browser';
-$a506278517dc5c33$var$process.browser = true;
-$a506278517dc5c33$var$process.env = {
-};
-$a506278517dc5c33$var$process.argv = [];
-$a506278517dc5c33$var$process.version = ''; // empty string to avoid regexp issues
-$a506278517dc5c33$var$process.versions = {
-};
-function $a506278517dc5c33$var$noop() {
-}
-$a506278517dc5c33$var$process.on = $a506278517dc5c33$var$noop;
-$a506278517dc5c33$var$process.addListener = $a506278517dc5c33$var$noop;
-$a506278517dc5c33$var$process.once = $a506278517dc5c33$var$noop;
-$a506278517dc5c33$var$process.off = $a506278517dc5c33$var$noop;
-$a506278517dc5c33$var$process.removeListener = $a506278517dc5c33$var$noop;
-$a506278517dc5c33$var$process.removeAllListeners = $a506278517dc5c33$var$noop;
-$a506278517dc5c33$var$process.emit = $a506278517dc5c33$var$noop;
-$a506278517dc5c33$var$process.prependListener = $a506278517dc5c33$var$noop;
-$a506278517dc5c33$var$process.prependOnceListener = $a506278517dc5c33$var$noop;
-$a506278517dc5c33$var$process.listeners = function(name) {
-    return [];
-};
-$a506278517dc5c33$var$process.binding = function(name) {
-    throw new Error('process.binding is not supported');
-};
-$a506278517dc5c33$var$process.cwd = function() {
-    return '/';
-};
-$a506278517dc5c33$var$process.chdir = function(dir) {
-    throw new Error('process.chdir is not supported');
-};
-$a506278517dc5c33$var$process.umask = function() {
-    return 0;
-};
-
-
-parcelRequire.register("9fScv", function(module, exports) {
+parcelRequire.register("fjzMn", function(module, exports) {
 
 // 'path' module extracted from Node.js v8.11.1 (only the posix part)
 // transplited with Babel
@@ -1633,11 +1633,11 @@ parcelRequire.register("9fScv", function(module, exports) {
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
 'use strict';
-function $6bcf8ee9be690032$var$assertPath(path) {
+function $b264626742bb0798$var$assertPath(path) {
     if (typeof path !== 'string') throw new TypeError('Path must be a string. Received ' + JSON.stringify(path));
 }
 // Resolves . and .. elements in a path with directory names
-function $6bcf8ee9be690032$var$normalizeStringPosix(path, allowAboveRoot) {
+function $b264626742bb0798$var$normalizeStringPosix(path, allowAboveRoot) {
     var res = '';
     var lastSegmentLength = 0;
     var lastSlash = -1;
@@ -1690,14 +1690,14 @@ function $6bcf8ee9be690032$var$normalizeStringPosix(path, allowAboveRoot) {
     }
     return res;
 }
-function $6bcf8ee9be690032$var$_format(sep, pathObject) {
+function $b264626742bb0798$var$_format(sep, pathObject) {
     var dir = pathObject.dir || pathObject.root;
     var base = pathObject.base || (pathObject.name || '') + (pathObject.ext || '');
     if (!dir) return base;
     if (dir === pathObject.root) return dir + base;
     return dir + sep + base;
 }
-var $6bcf8ee9be690032$var$posix = {
+var $b264626742bb0798$var$posix = {
     // path.resolve([from ...], to)
     resolve: function resolve() {
         var resolvedPath = '';
@@ -1710,7 +1710,7 @@ var $6bcf8ee9be690032$var$posix = {
                 if (cwd === undefined) cwd = $a506278517dc5c33$exports.cwd();
                 path = cwd;
             }
-            $6bcf8ee9be690032$var$assertPath(path);
+            $b264626742bb0798$var$assertPath(path);
             // Skip empty entries
             if (path.length === 0) continue;
             resolvedPath = path + '/' + resolvedPath;
@@ -1719,7 +1719,7 @@ var $6bcf8ee9be690032$var$posix = {
         // At this point the path should be resolved to a full absolute path, but
         // handle relative paths to be safe (might happen when process.cwd() fails)
         // Normalize the path
-        resolvedPath = $6bcf8ee9be690032$var$normalizeStringPosix(resolvedPath, !resolvedAbsolute);
+        resolvedPath = $b264626742bb0798$var$normalizeStringPosix(resolvedPath, !resolvedAbsolute);
         if (resolvedAbsolute) {
             if (resolvedPath.length > 0) return '/' + resolvedPath;
             else return '/';
@@ -1727,19 +1727,19 @@ var $6bcf8ee9be690032$var$posix = {
         else return '.';
     },
     normalize: function normalize(path) {
-        $6bcf8ee9be690032$var$assertPath(path);
+        $b264626742bb0798$var$assertPath(path);
         if (path.length === 0) return '.';
         var isAbsolute = path.charCodeAt(0) === 47 /*/*/ ;
         var trailingSeparator = path.charCodeAt(path.length - 1) === 47 /*/*/ ;
         // Normalize the path
-        path = $6bcf8ee9be690032$var$normalizeStringPosix(path, !isAbsolute);
+        path = $b264626742bb0798$var$normalizeStringPosix(path, !isAbsolute);
         if (path.length === 0 && !isAbsolute) path = '.';
         if (path.length > 0 && trailingSeparator) path += '/';
         if (isAbsolute) return '/' + path;
         return path;
     },
     isAbsolute: function isAbsolute(path) {
-        $6bcf8ee9be690032$var$assertPath(path);
+        $b264626742bb0798$var$assertPath(path);
         return path.length > 0 && path.charCodeAt(0) === 47 /*/*/ ;
     },
     join: function join() {
@@ -1747,21 +1747,21 @@ var $6bcf8ee9be690032$var$posix = {
         var joined;
         for(var i = 0; i < arguments.length; ++i){
             var arg = arguments[i];
-            $6bcf8ee9be690032$var$assertPath(arg);
+            $b264626742bb0798$var$assertPath(arg);
             if (arg.length > 0) {
                 if (joined === undefined) joined = arg;
                 else joined += '/' + arg;
             }
         }
         if (joined === undefined) return '.';
-        return $6bcf8ee9be690032$var$posix.normalize(joined);
+        return $b264626742bb0798$var$posix.normalize(joined);
     },
     relative: function relative(from, to) {
-        $6bcf8ee9be690032$var$assertPath(from);
-        $6bcf8ee9be690032$var$assertPath(to);
+        $b264626742bb0798$var$assertPath(from);
+        $b264626742bb0798$var$assertPath(to);
         if (from === to) return '';
-        from = $6bcf8ee9be690032$var$posix.resolve(from);
-        to = $6bcf8ee9be690032$var$posix.resolve(to);
+        from = $b264626742bb0798$var$posix.resolve(from);
+        to = $b264626742bb0798$var$posix.resolve(to);
         if (from === to) return '';
         // Trim any leading backslashes
         var fromStart = 1;
@@ -1825,7 +1825,7 @@ var $6bcf8ee9be690032$var$posix = {
         return path;
     },
     dirname: function dirname(path) {
-        $6bcf8ee9be690032$var$assertPath(path);
+        $b264626742bb0798$var$assertPath(path);
         if (path.length === 0) return '.';
         var code = path.charCodeAt(0);
         var hasRoot = code === 47 /*/*/ ;
@@ -1847,7 +1847,7 @@ var $6bcf8ee9be690032$var$posix = {
     },
     basename: function basename(path, ext) {
         if (ext !== undefined && typeof ext !== 'string') throw new TypeError('"ext" argument must be a string');
-        $6bcf8ee9be690032$var$assertPath(path);
+        $b264626742bb0798$var$assertPath(path);
         var start = 0;
         var end = -1;
         var matchedSlash = true;
@@ -1911,7 +1911,7 @@ var $6bcf8ee9be690032$var$posix = {
         }
     },
     extname: function extname(path) {
-        $6bcf8ee9be690032$var$assertPath(path);
+        $b264626742bb0798$var$assertPath(path);
         var startDot = -1;
         var startPart = 0;
         var end = -1;
@@ -1951,10 +1951,10 @@ var $6bcf8ee9be690032$var$posix = {
     },
     format: function format(pathObject) {
         if (pathObject === null || typeof pathObject !== 'object') throw new TypeError('The "pathObject" argument must be of type Object. Received type ' + typeof pathObject);
-        return $6bcf8ee9be690032$var$_format('/', pathObject);
+        return $b264626742bb0798$var$_format('/', pathObject);
     },
     parse: function parse(path) {
-        $6bcf8ee9be690032$var$assertPath(path);
+        $b264626742bb0798$var$assertPath(path);
         var ret = {
             root: '',
             dir: '',
@@ -2030,8 +2030,8 @@ var $6bcf8ee9be690032$var$posix = {
     win32: null,
     posix: null
 };
-$6bcf8ee9be690032$var$posix.posix = $6bcf8ee9be690032$var$posix;
-module.exports = $6bcf8ee9be690032$var$posix;
+$b264626742bb0798$var$posix.posix = $b264626742bb0798$var$posix;
+module.exports = $b264626742bb0798$var$posix;
 
 });
 
@@ -2493,8 +2493,8 @@ parcelRequire.register("joSc5", function(module, exports) {
 var $g1NWN = parcelRequire("g1NWN");
 var $e1fa4bfaf168085f$require$Buffer = $g1NWN.Buffer;
 
-var $7OWFn = parcelRequire("7OWFn");
-var $e1fa4bfaf168085f$require$Transform = $7OWFn.Transform;
+var $3rpij = parcelRequire("3rpij");
+var $e1fa4bfaf168085f$require$Transform = $3rpij.Transform;
 
 var $4xKNh = parcelRequire("4xKNh");
 function $e1fa4bfaf168085f$var$throwIfNotStringOrBuffer(val, prefix) {
@@ -2573,26 +2573,26 @@ $e1fa4bfaf168085f$var$HashBase.prototype._digest = function() {
 module.exports = $e1fa4bfaf168085f$var$HashBase;
 
 });
-parcelRequire.register("7OWFn", function(module, exports) {
+parcelRequire.register("3rpij", function(module, exports) {
 
-exports = module.exports = (parcelRequire("eO0w5"));
+exports = module.exports = (parcelRequire("gJk0V"));
 exports.Stream = exports;
 exports.Readable = exports;
 
-exports.Writable = (parcelRequire("4x2i6"));
+exports.Writable = (parcelRequire("f9udy"));
 
-exports.Duplex = (parcelRequire("64Msz"));
+exports.Duplex = (parcelRequire("ihTGZ"));
 
-exports.Transform = (parcelRequire("huRvx"));
+exports.Transform = (parcelRequire("c252p"));
 
-exports.PassThrough = (parcelRequire("aCOkc"));
+exports.PassThrough = (parcelRequire("3er8F"));
 
-exports.finished = (parcelRequire("eP2sK"));
+exports.finished = (parcelRequire("exPcx"));
 
-exports.pipeline = (parcelRequire("dnFmk"));
+exports.pipeline = (parcelRequire("8lrYp"));
 
 });
-parcelRequire.register("eO0w5", function(module, exports) {
+parcelRequire.register("gJk0V", function(module, exports) {
 
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -2615,58 +2615,58 @@ parcelRequire.register("eO0w5", function(module, exports) {
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
 'use strict';
-module.exports = $ac7622c192f90f71$var$Readable;
-/*<replacement>*/ var $ac7622c192f90f71$var$Duplex;
-/*</replacement>*/ $ac7622c192f90f71$var$Readable.ReadableState = $ac7622c192f90f71$var$ReadableState;
+module.exports = $c2e05fa9becfb7c8$var$Readable;
+/*<replacement>*/ var $c2e05fa9becfb7c8$var$Duplex;
+/*</replacement>*/ $c2e05fa9becfb7c8$var$Readable.ReadableState = $c2e05fa9becfb7c8$var$ReadableState;
 
 var $97MzU = parcelRequire("97MzU");
-var $ac7622c192f90f71$require$EE = $97MzU.EventEmitter;
-var $ac7622c192f90f71$var$EElistenerCount = function EElistenerCount(emitter, type) {
+var $c2e05fa9becfb7c8$require$EE = $97MzU.EventEmitter;
+var $c2e05fa9becfb7c8$var$EElistenerCount = function EElistenerCount(emitter, type) {
     return emitter.listeners(type).length;
 };
 
-var $3smTB = parcelRequire("3smTB");
+var $bEMAk = parcelRequire("bEMAk");
 
-var $ac7622c192f90f71$require$Buffer = $464bcea887784ce5$export$a143d493d941bafc;
-var $ac7622c192f90f71$var$OurUint8Array = $parcel$global.Uint8Array || function() {
+var $c2e05fa9becfb7c8$require$Buffer = $464bcea887784ce5$export$a143d493d941bafc;
+var $c2e05fa9becfb7c8$var$OurUint8Array = $parcel$global.Uint8Array || function() {
 };
-function $ac7622c192f90f71$var$_uint8ArrayToBuffer(chunk) {
-    return $ac7622c192f90f71$require$Buffer.from(chunk);
+function $c2e05fa9becfb7c8$var$_uint8ArrayToBuffer(chunk) {
+    return $c2e05fa9becfb7c8$require$Buffer.from(chunk);
 }
-function $ac7622c192f90f71$var$_isUint8Array(obj) {
-    return $ac7622c192f90f71$require$Buffer.isBuffer(obj) || obj instanceof $ac7622c192f90f71$var$OurUint8Array;
+function $c2e05fa9becfb7c8$var$_isUint8Array(obj) {
+    return $c2e05fa9becfb7c8$require$Buffer.isBuffer(obj) || obj instanceof $c2e05fa9becfb7c8$var$OurUint8Array;
 }
 
 var $lA1sm = parcelRequire("lA1sm");
-var $ac7622c192f90f71$var$debug;
-if ($lA1sm && $lA1sm.debuglog) $ac7622c192f90f71$var$debug = $lA1sm.debuglog('stream');
-else $ac7622c192f90f71$var$debug = function debug() {
+var $c2e05fa9becfb7c8$var$debug;
+if ($lA1sm && $lA1sm.debuglog) $c2e05fa9becfb7c8$var$debug = $lA1sm.debuglog('stream');
+else $c2e05fa9becfb7c8$var$debug = function debug() {
 };
 
-var $dvsGp = parcelRequire("dvsGp");
+var $gfn3A = parcelRequire("gfn3A");
 
-var $3Y67T = parcelRequire("3Y67T");
+var $jI0yy = parcelRequire("jI0yy");
 
-var $69eBa = parcelRequire("69eBa");
-var $ac7622c192f90f71$var$getHighWaterMark = $69eBa.getHighWaterMark;
+var $drRuG = parcelRequire("drRuG");
+var $c2e05fa9becfb7c8$var$getHighWaterMark = $drRuG.getHighWaterMark;
 
-var $lEIWw = parcelRequire("lEIWw");
-var $ac7622c192f90f71$require$_require$codes = $lEIWw.codes;
-var $ac7622c192f90f71$var$ERR_INVALID_ARG_TYPE = $ac7622c192f90f71$require$_require$codes.ERR_INVALID_ARG_TYPE, $ac7622c192f90f71$var$ERR_STREAM_PUSH_AFTER_EOF = $ac7622c192f90f71$require$_require$codes.ERR_STREAM_PUSH_AFTER_EOF, $ac7622c192f90f71$var$ERR_METHOD_NOT_IMPLEMENTED = $ac7622c192f90f71$require$_require$codes.ERR_METHOD_NOT_IMPLEMENTED, $ac7622c192f90f71$var$ERR_STREAM_UNSHIFT_AFTER_END_EVENT = $ac7622c192f90f71$require$_require$codes.ERR_STREAM_UNSHIFT_AFTER_END_EVENT; // Lazy loaded to improve the startup performance.
-var $ac7622c192f90f71$var$StringDecoder;
-var $ac7622c192f90f71$var$createReadableStreamAsyncIterator;
-var $ac7622c192f90f71$var$from;
+var $12HIq = parcelRequire("12HIq");
+var $c2e05fa9becfb7c8$require$_require$codes = $12HIq.codes;
+var $c2e05fa9becfb7c8$var$ERR_INVALID_ARG_TYPE = $c2e05fa9becfb7c8$require$_require$codes.ERR_INVALID_ARG_TYPE, $c2e05fa9becfb7c8$var$ERR_STREAM_PUSH_AFTER_EOF = $c2e05fa9becfb7c8$require$_require$codes.ERR_STREAM_PUSH_AFTER_EOF, $c2e05fa9becfb7c8$var$ERR_METHOD_NOT_IMPLEMENTED = $c2e05fa9becfb7c8$require$_require$codes.ERR_METHOD_NOT_IMPLEMENTED, $c2e05fa9becfb7c8$var$ERR_STREAM_UNSHIFT_AFTER_END_EVENT = $c2e05fa9becfb7c8$require$_require$codes.ERR_STREAM_UNSHIFT_AFTER_END_EVENT; // Lazy loaded to improve the startup performance.
+var $c2e05fa9becfb7c8$var$StringDecoder;
+var $c2e05fa9becfb7c8$var$createReadableStreamAsyncIterator;
+var $c2e05fa9becfb7c8$var$from;
 
-(parcelRequire("4xKNh"))($ac7622c192f90f71$var$Readable, $3smTB);
-var $ac7622c192f90f71$var$errorOrDestroy = $3Y67T.errorOrDestroy;
-var $ac7622c192f90f71$var$kProxyEvents = [
+(parcelRequire("4xKNh"))($c2e05fa9becfb7c8$var$Readable, $bEMAk);
+var $c2e05fa9becfb7c8$var$errorOrDestroy = $jI0yy.errorOrDestroy;
+var $c2e05fa9becfb7c8$var$kProxyEvents = [
     'error',
     'close',
     'destroy',
     'pause',
     'resume'
 ];
-function $ac7622c192f90f71$var$prependListener(emitter, event, fn) {
+function $c2e05fa9becfb7c8$var$prependListener(emitter, event, fn) {
     // Sadly this is not cacheable as some libraries bundle their own
     // event emitter implementation with them.
     if (typeof emitter.prependListener === 'function') return emitter.prependListener(event, fn); // This is a hack to make sure that our error handler is attached before any
@@ -2682,23 +2682,23 @@ function $ac7622c192f90f71$var$prependListener(emitter, event, fn) {
 }
 
 
-function $ac7622c192f90f71$var$ReadableState(options, stream, isDuplex) {
-    $ac7622c192f90f71$var$Duplex = $ac7622c192f90f71$var$Duplex || (parcelRequire("64Msz"));
+function $c2e05fa9becfb7c8$var$ReadableState(options, stream, isDuplex) {
+    $c2e05fa9becfb7c8$var$Duplex = $c2e05fa9becfb7c8$var$Duplex || (parcelRequire("ihTGZ"));
     options = options || {
     }; // Duplex streams are both readable and writable, but share
     // the same options object.
     // However, some cases require setting options to different
     // values for the readable and the writable sides of the duplex stream.
     // These options can be provided separately as readableXXX and writableXXX.
-    if (typeof isDuplex !== 'boolean') isDuplex = stream instanceof $ac7622c192f90f71$var$Duplex; // object stream flag. Used to make read(n) ignore n and to
+    if (typeof isDuplex !== 'boolean') isDuplex = stream instanceof $c2e05fa9becfb7c8$var$Duplex; // object stream flag. Used to make read(n) ignore n and to
     // make all the buffer merging and length checks go away
     this.objectMode = !!options.objectMode;
     if (isDuplex) this.objectMode = this.objectMode || !!options.readableObjectMode; // the point at which it stops calling _read() to fill the buffer
     // Note: 0 is a valid value, means "don't call _read preemptively ever"
-    this.highWaterMark = $ac7622c192f90f71$var$getHighWaterMark(this, options, 'readableHighWaterMark', isDuplex); // A linked list is used to store data chunks instead of an array because the
+    this.highWaterMark = $c2e05fa9becfb7c8$var$getHighWaterMark(this, options, 'readableHighWaterMark', isDuplex); // A linked list is used to store data chunks instead of an array because the
     // linked list can remove elements from the beginning faster than
     // array.shift()
-    this.buffer = new $dvsGp();
+    this.buffer = new $gfn3A();
     this.length = 0;
     this.pipes = null;
     this.pipesCount = 0;
@@ -2727,26 +2727,26 @@ function $ac7622c192f90f71$var$ReadableState(options, stream, isDuplex) {
     this.decoder = null;
     this.encoding = null;
     if (options.encoding) {
-        if (!$ac7622c192f90f71$var$StringDecoder) $ac7622c192f90f71$var$StringDecoder = (parcelRequire("j6xXU")).StringDecoder;
-        this.decoder = new $ac7622c192f90f71$var$StringDecoder(options.encoding);
+        if (!$c2e05fa9becfb7c8$var$StringDecoder) $c2e05fa9becfb7c8$var$StringDecoder = (parcelRequire("j6xXU")).StringDecoder;
+        this.decoder = new $c2e05fa9becfb7c8$var$StringDecoder(options.encoding);
         this.encoding = options.encoding;
     }
 }
 
-function $ac7622c192f90f71$var$Readable(options) {
-    $ac7622c192f90f71$var$Duplex = $ac7622c192f90f71$var$Duplex || (parcelRequire("64Msz"));
-    if (!(this instanceof $ac7622c192f90f71$var$Readable)) return new $ac7622c192f90f71$var$Readable(options); // Checking for a Stream.Duplex instance is faster here instead of inside
+function $c2e05fa9becfb7c8$var$Readable(options) {
+    $c2e05fa9becfb7c8$var$Duplex = $c2e05fa9becfb7c8$var$Duplex || (parcelRequire("ihTGZ"));
+    if (!(this instanceof $c2e05fa9becfb7c8$var$Readable)) return new $c2e05fa9becfb7c8$var$Readable(options); // Checking for a Stream.Duplex instance is faster here instead of inside
     // the ReadableState constructor, at least with V8 6.5
-    var isDuplex = this instanceof $ac7622c192f90f71$var$Duplex;
-    this._readableState = new $ac7622c192f90f71$var$ReadableState(options, this, isDuplex); // legacy
+    var isDuplex = this instanceof $c2e05fa9becfb7c8$var$Duplex;
+    this._readableState = new $c2e05fa9becfb7c8$var$ReadableState(options, this, isDuplex); // legacy
     this.readable = true;
     if (options) {
         if (typeof options.read === 'function') this._read = options.read;
         if (typeof options.destroy === 'function') this._destroy = options.destroy;
     }
-    $3smTB.call(this);
+    $bEMAk.call(this);
 }
-Object.defineProperty($ac7622c192f90f71$var$Readable.prototype, 'destroyed', {
+Object.defineProperty($c2e05fa9becfb7c8$var$Readable.prototype, 'destroyed', {
     // making it explicit this property is not enumerable
     // because otherwise some prototype manipulation in
     // userland will fail
@@ -2764,67 +2764,67 @@ Object.defineProperty($ac7622c192f90f71$var$Readable.prototype, 'destroyed', {
         this._readableState.destroyed = value;
     }
 });
-$ac7622c192f90f71$var$Readable.prototype.destroy = $3Y67T.destroy;
-$ac7622c192f90f71$var$Readable.prototype._undestroy = $3Y67T.undestroy;
-$ac7622c192f90f71$var$Readable.prototype._destroy = function(err, cb) {
+$c2e05fa9becfb7c8$var$Readable.prototype.destroy = $jI0yy.destroy;
+$c2e05fa9becfb7c8$var$Readable.prototype._undestroy = $jI0yy.undestroy;
+$c2e05fa9becfb7c8$var$Readable.prototype._destroy = function(err, cb) {
     cb(err);
 }; // Manually shove something into the read() buffer.
 // This returns true if the highWaterMark has not been hit yet,
 // similar to how Writable.write() returns true if you should
 // write() some more.
-$ac7622c192f90f71$var$Readable.prototype.push = function(chunk, encoding) {
+$c2e05fa9becfb7c8$var$Readable.prototype.push = function(chunk, encoding) {
     var state = this._readableState;
     var skipChunkCheck;
     if (!state.objectMode) {
         if (typeof chunk === 'string') {
             encoding = encoding || state.defaultEncoding;
             if (encoding !== state.encoding) {
-                chunk = $ac7622c192f90f71$require$Buffer.from(chunk, encoding);
+                chunk = $c2e05fa9becfb7c8$require$Buffer.from(chunk, encoding);
                 encoding = '';
             }
             skipChunkCheck = true;
         }
     } else skipChunkCheck = true;
-    return $ac7622c192f90f71$var$readableAddChunk(this, chunk, encoding, false, skipChunkCheck);
+    return $c2e05fa9becfb7c8$var$readableAddChunk(this, chunk, encoding, false, skipChunkCheck);
 }; // Unshift should *always* be something directly out of read()
-$ac7622c192f90f71$var$Readable.prototype.unshift = function(chunk) {
-    return $ac7622c192f90f71$var$readableAddChunk(this, chunk, null, true, false);
+$c2e05fa9becfb7c8$var$Readable.prototype.unshift = function(chunk) {
+    return $c2e05fa9becfb7c8$var$readableAddChunk(this, chunk, null, true, false);
 };
-function $ac7622c192f90f71$var$readableAddChunk(stream, chunk, encoding, addToFront, skipChunkCheck) {
-    $ac7622c192f90f71$var$debug('readableAddChunk', chunk);
+function $c2e05fa9becfb7c8$var$readableAddChunk(stream, chunk, encoding, addToFront, skipChunkCheck) {
+    $c2e05fa9becfb7c8$var$debug('readableAddChunk', chunk);
     var state = stream._readableState;
     if (chunk === null) {
         state.reading = false;
-        $ac7622c192f90f71$var$onEofChunk(stream, state);
+        $c2e05fa9becfb7c8$var$onEofChunk(stream, state);
     } else {
         var er;
-        if (!skipChunkCheck) er = $ac7622c192f90f71$var$chunkInvalid(state, chunk);
-        if (er) $ac7622c192f90f71$var$errorOrDestroy(stream, er);
+        if (!skipChunkCheck) er = $c2e05fa9becfb7c8$var$chunkInvalid(state, chunk);
+        if (er) $c2e05fa9becfb7c8$var$errorOrDestroy(stream, er);
         else if (state.objectMode || chunk && chunk.length > 0) {
-            if (typeof chunk !== 'string' && !state.objectMode && Object.getPrototypeOf(chunk) !== $ac7622c192f90f71$require$Buffer.prototype) chunk = $ac7622c192f90f71$var$_uint8ArrayToBuffer(chunk);
+            if (typeof chunk !== 'string' && !state.objectMode && Object.getPrototypeOf(chunk) !== $c2e05fa9becfb7c8$require$Buffer.prototype) chunk = $c2e05fa9becfb7c8$var$_uint8ArrayToBuffer(chunk);
             if (addToFront) {
-                if (state.endEmitted) $ac7622c192f90f71$var$errorOrDestroy(stream, new $ac7622c192f90f71$var$ERR_STREAM_UNSHIFT_AFTER_END_EVENT());
-                else $ac7622c192f90f71$var$addChunk(stream, state, chunk, true);
-            } else if (state.ended) $ac7622c192f90f71$var$errorOrDestroy(stream, new $ac7622c192f90f71$var$ERR_STREAM_PUSH_AFTER_EOF());
+                if (state.endEmitted) $c2e05fa9becfb7c8$var$errorOrDestroy(stream, new $c2e05fa9becfb7c8$var$ERR_STREAM_UNSHIFT_AFTER_END_EVENT());
+                else $c2e05fa9becfb7c8$var$addChunk(stream, state, chunk, true);
+            } else if (state.ended) $c2e05fa9becfb7c8$var$errorOrDestroy(stream, new $c2e05fa9becfb7c8$var$ERR_STREAM_PUSH_AFTER_EOF());
             else if (state.destroyed) return false;
             else {
                 state.reading = false;
                 if (state.decoder && !encoding) {
                     chunk = state.decoder.write(chunk);
-                    if (state.objectMode || chunk.length !== 0) $ac7622c192f90f71$var$addChunk(stream, state, chunk, false);
-                    else $ac7622c192f90f71$var$maybeReadMore(stream, state);
-                } else $ac7622c192f90f71$var$addChunk(stream, state, chunk, false);
+                    if (state.objectMode || chunk.length !== 0) $c2e05fa9becfb7c8$var$addChunk(stream, state, chunk, false);
+                    else $c2e05fa9becfb7c8$var$maybeReadMore(stream, state);
+                } else $c2e05fa9becfb7c8$var$addChunk(stream, state, chunk, false);
             }
         } else if (!addToFront) {
             state.reading = false;
-            $ac7622c192f90f71$var$maybeReadMore(stream, state);
+            $c2e05fa9becfb7c8$var$maybeReadMore(stream, state);
         }
     } // We can push more data if we are below the highWaterMark.
     // Also, if we have no data yet, we can stand some more bytes.
     // This is to work around cases where hwm=0, such as the repl.
     return !state.ended && (state.length < state.highWaterMark || state.length === 0);
 }
-function $ac7622c192f90f71$var$addChunk(stream, state, chunk, addToFront) {
+function $c2e05fa9becfb7c8$var$addChunk(stream, state, chunk, addToFront) {
     if (state.flowing && state.length === 0 && !state.sync) {
         state.awaitDrain = 0;
         stream.emit('data', chunk);
@@ -2833,26 +2833,26 @@ function $ac7622c192f90f71$var$addChunk(stream, state, chunk, addToFront) {
         state.length += state.objectMode ? 1 : chunk.length;
         if (addToFront) state.buffer.unshift(chunk);
         else state.buffer.push(chunk);
-        if (state.needReadable) $ac7622c192f90f71$var$emitReadable(stream);
+        if (state.needReadable) $c2e05fa9becfb7c8$var$emitReadable(stream);
     }
-    $ac7622c192f90f71$var$maybeReadMore(stream, state);
+    $c2e05fa9becfb7c8$var$maybeReadMore(stream, state);
 }
-function $ac7622c192f90f71$var$chunkInvalid(state, chunk) {
+function $c2e05fa9becfb7c8$var$chunkInvalid(state, chunk) {
     var er;
-    if (!$ac7622c192f90f71$var$_isUint8Array(chunk) && typeof chunk !== 'string' && chunk !== undefined && !state.objectMode) er = new $ac7622c192f90f71$var$ERR_INVALID_ARG_TYPE('chunk', [
+    if (!$c2e05fa9becfb7c8$var$_isUint8Array(chunk) && typeof chunk !== 'string' && chunk !== undefined && !state.objectMode) er = new $c2e05fa9becfb7c8$var$ERR_INVALID_ARG_TYPE('chunk', [
         'string',
         'Buffer',
         'Uint8Array'
     ], chunk);
     return er;
 }
-$ac7622c192f90f71$var$Readable.prototype.isPaused = function() {
+$c2e05fa9becfb7c8$var$Readable.prototype.isPaused = function() {
     return this._readableState.flowing === false;
 }; // backwards compatibility.
 
-$ac7622c192f90f71$var$Readable.prototype.setEncoding = function(enc) {
-    if (!$ac7622c192f90f71$var$StringDecoder) $ac7622c192f90f71$var$StringDecoder = (parcelRequire("j6xXU")).StringDecoder;
-    var decoder = new $ac7622c192f90f71$var$StringDecoder(enc);
+$c2e05fa9becfb7c8$var$Readable.prototype.setEncoding = function(enc) {
+    if (!$c2e05fa9becfb7c8$var$StringDecoder) $c2e05fa9becfb7c8$var$StringDecoder = (parcelRequire("j6xXU")).StringDecoder;
+    var decoder = new $c2e05fa9becfb7c8$var$StringDecoder(enc);
     this._readableState.decoder = decoder; // If setEncoding(null), decoder.encoding equals utf8
     this._readableState.encoding = this._readableState.decoder.encoding; // Iterate over current buffer to convert already stored Buffers:
     var p = this._readableState.buffer.head;
@@ -2866,10 +2866,10 @@ $ac7622c192f90f71$var$Readable.prototype.setEncoding = function(enc) {
     this._readableState.length = content.length;
     return this;
 }; // Don't raise the hwm > 1GB
-var $ac7622c192f90f71$var$MAX_HWM = 1073741824;
-function $ac7622c192f90f71$var$computeNewHighWaterMark(n) {
-    if (n >= $ac7622c192f90f71$var$MAX_HWM) // TODO(ronag): Throw ERR_VALUE_OUT_OF_RANGE.
-    n = $ac7622c192f90f71$var$MAX_HWM;
+var $c2e05fa9becfb7c8$var$MAX_HWM = 1073741824;
+function $c2e05fa9becfb7c8$var$computeNewHighWaterMark(n) {
+    if (n >= $c2e05fa9becfb7c8$var$MAX_HWM) // TODO(ronag): Throw ERR_VALUE_OUT_OF_RANGE.
+    n = $c2e05fa9becfb7c8$var$MAX_HWM;
     else {
         // Get the next highest power of 2 to prevent increasing hwm excessively in
         // tiny amounts
@@ -2884,7 +2884,7 @@ function $ac7622c192f90f71$var$computeNewHighWaterMark(n) {
     return n;
 } // This function is designed to be inlinable, so please take care when making
 // changes to the function body.
-function $ac7622c192f90f71$var$howMuchToRead(n, state) {
+function $c2e05fa9becfb7c8$var$howMuchToRead(n, state) {
     if (n <= 0 || state.length === 0 && state.ended) return 0;
     if (state.objectMode) return 1;
     if (n !== n) {
@@ -2892,7 +2892,7 @@ function $ac7622c192f90f71$var$howMuchToRead(n, state) {
         if (state.flowing && state.length) return state.buffer.head.data.length;
         else return state.length;
     } // If we're asking for more than the current hwm, then raise the hwm.
-    if (n > state.highWaterMark) state.highWaterMark = $ac7622c192f90f71$var$computeNewHighWaterMark(n);
+    if (n > state.highWaterMark) state.highWaterMark = $c2e05fa9becfb7c8$var$computeNewHighWaterMark(n);
     if (n <= state.length) return n; // Don't have enough
     if (!state.ended) {
         state.needReadable = true;
@@ -2900,8 +2900,8 @@ function $ac7622c192f90f71$var$howMuchToRead(n, state) {
     }
     return state.length;
 } // you can override either this method, or the async _read(n) below.
-$ac7622c192f90f71$var$Readable.prototype.read = function(n) {
-    $ac7622c192f90f71$var$debug('read', n);
+$c2e05fa9becfb7c8$var$Readable.prototype.read = function(n) {
+    $c2e05fa9becfb7c8$var$debug('read', n);
     n = parseInt(n, 10);
     var state = this._readableState;
     var nOrig = n;
@@ -2909,14 +2909,14 @@ $ac7622c192f90f71$var$Readable.prototype.read = function(n) {
     // already have a bunch of data in the buffer, then just trigger
     // the 'readable' event and move on.
     if (n === 0 && state.needReadable && ((state.highWaterMark !== 0 ? state.length >= state.highWaterMark : state.length > 0) || state.ended)) {
-        $ac7622c192f90f71$var$debug('read: emitReadable', state.length, state.ended);
-        if (state.length === 0 && state.ended) $ac7622c192f90f71$var$endReadable(this);
-        else $ac7622c192f90f71$var$emitReadable(this);
+        $c2e05fa9becfb7c8$var$debug('read: emitReadable', state.length, state.ended);
+        if (state.length === 0 && state.ended) $c2e05fa9becfb7c8$var$endReadable(this);
+        else $c2e05fa9becfb7c8$var$emitReadable(this);
         return null;
     }
-    n = $ac7622c192f90f71$var$howMuchToRead(n, state); // if we've ended, and we're now clear, then finish it up.
+    n = $c2e05fa9becfb7c8$var$howMuchToRead(n, state); // if we've ended, and we're now clear, then finish it up.
     if (n === 0 && state.ended) {
-        if (state.length === 0) $ac7622c192f90f71$var$endReadable(this);
+        if (state.length === 0) $c2e05fa9becfb7c8$var$endReadable(this);
         return null;
     } // All the actual chunk generation logic needs to be
     // *below* the call to _read.  The reason is that in certain
@@ -2941,27 +2941,27 @@ $ac7622c192f90f71$var$Readable.prototype.read = function(n) {
     // 3. Actually pull the requested chunks out of the buffer and return.
     // if we need a readable event, then we need to do some reading.
     var doRead = state.needReadable;
-    $ac7622c192f90f71$var$debug('need readable', doRead); // if we currently have less than the highWaterMark, then also read some
+    $c2e05fa9becfb7c8$var$debug('need readable', doRead); // if we currently have less than the highWaterMark, then also read some
     if (state.length === 0 || state.length - n < state.highWaterMark) {
         doRead = true;
-        $ac7622c192f90f71$var$debug('length less than watermark', doRead);
+        $c2e05fa9becfb7c8$var$debug('length less than watermark', doRead);
     } // however, if we've ended, then there's no point, and if we're already
     // reading, then it's unnecessary.
     if (state.ended || state.reading) {
         doRead = false;
-        $ac7622c192f90f71$var$debug('reading or ended', doRead);
+        $c2e05fa9becfb7c8$var$debug('reading or ended', doRead);
     } else if (doRead) {
-        $ac7622c192f90f71$var$debug('do read');
+        $c2e05fa9becfb7c8$var$debug('do read');
         state.reading = true;
         state.sync = true; // if the length is currently zero, then we *need* a readable event.
         if (state.length === 0) state.needReadable = true; // call internal read method
         this._read(state.highWaterMark);
         state.sync = false; // If _read pushed data synchronously, then `reading` will be false,
         // and we need to re-evaluate how much data we can return to the user.
-        if (!state.reading) n = $ac7622c192f90f71$var$howMuchToRead(nOrig, state);
+        if (!state.reading) n = $c2e05fa9becfb7c8$var$howMuchToRead(nOrig, state);
     }
     var ret;
-    if (n > 0) ret = $ac7622c192f90f71$var$fromList(n, state);
+    if (n > 0) ret = $c2e05fa9becfb7c8$var$fromList(n, state);
     else ret = null;
     if (ret === null) {
         state.needReadable = state.length <= state.highWaterMark;
@@ -2974,13 +2974,13 @@ $ac7622c192f90f71$var$Readable.prototype.read = function(n) {
         // If we have nothing in the buffer, then we want to know
         // as soon as we *do* get something into the buffer.
         if (!state.ended) state.needReadable = true; // If we tried to read() past the EOF, then emit end on the next tick.
-        if (nOrig !== n && state.ended) $ac7622c192f90f71$var$endReadable(this);
+        if (nOrig !== n && state.ended) $c2e05fa9becfb7c8$var$endReadable(this);
     }
     if (ret !== null) this.emit('data', ret);
     return ret;
 };
-function $ac7622c192f90f71$var$onEofChunk(stream, state) {
-    $ac7622c192f90f71$var$debug('onEofChunk');
+function $c2e05fa9becfb7c8$var$onEofChunk(stream, state) {
+    $c2e05fa9becfb7c8$var$debug('onEofChunk');
     if (state.ended) return;
     if (state.decoder) {
         var chunk = state.decoder.end();
@@ -2993,31 +2993,31 @@ function $ac7622c192f90f71$var$onEofChunk(stream, state) {
     if (state.sync) // if we are sync, wait until next tick to emit the data.
     // Otherwise we risk emitting data in the flow()
     // the readable code triggers during a read() call
-    $ac7622c192f90f71$var$emitReadable(stream);
+    $c2e05fa9becfb7c8$var$emitReadable(stream);
     else {
         // emit 'readable' now to make sure it gets picked up.
         state.needReadable = false;
         if (!state.emittedReadable) {
             state.emittedReadable = true;
-            $ac7622c192f90f71$var$emitReadable_(stream);
+            $c2e05fa9becfb7c8$var$emitReadable_(stream);
         }
     }
 } // Don't emit readable right away in sync mode, because this can trigger
 // another read() call => stack overflow.  This way, it might trigger
 // a nextTick recursion warning, but that's not so bad.
-function $ac7622c192f90f71$var$emitReadable(stream) {
+function $c2e05fa9becfb7c8$var$emitReadable(stream) {
     var state = stream._readableState;
-    $ac7622c192f90f71$var$debug('emitReadable', state.needReadable, state.emittedReadable);
+    $c2e05fa9becfb7c8$var$debug('emitReadable', state.needReadable, state.emittedReadable);
     state.needReadable = false;
     if (!state.emittedReadable) {
-        $ac7622c192f90f71$var$debug('emitReadable', state.flowing);
+        $c2e05fa9becfb7c8$var$debug('emitReadable', state.flowing);
         state.emittedReadable = true;
-        $a506278517dc5c33$exports.nextTick($ac7622c192f90f71$var$emitReadable_, stream);
+        $a506278517dc5c33$exports.nextTick($c2e05fa9becfb7c8$var$emitReadable_, stream);
     }
 }
-function $ac7622c192f90f71$var$emitReadable_(stream) {
+function $c2e05fa9becfb7c8$var$emitReadable_(stream) {
     var state = stream._readableState;
-    $ac7622c192f90f71$var$debug('emitReadable_', state.destroyed, state.length, state.ended);
+    $c2e05fa9becfb7c8$var$debug('emitReadable_', state.destroyed, state.length, state.ended);
     if (!state.destroyed && (state.length || state.ended)) {
         stream.emit('readable');
         state.emittedReadable = false;
@@ -3028,20 +3028,20 @@ function $ac7622c192f90f71$var$emitReadable_(stream) {
     // 3. It is below the highWaterMark, so we can schedule
     //    another readable later.
     state.needReadable = !state.flowing && !state.ended && state.length <= state.highWaterMark;
-    $ac7622c192f90f71$var$flow(stream);
+    $c2e05fa9becfb7c8$var$flow(stream);
 } // at this point, the user has presumably seen the 'readable' event,
 // and called read() to consume some data.  that may have triggered
 // in turn another _read(n) call, in which case reading = true if
 // it's in progress.
 // However, if we're not ended, or reading, and the length < hwm,
 // then go ahead and try to read some more preemptively.
-function $ac7622c192f90f71$var$maybeReadMore(stream, state) {
+function $c2e05fa9becfb7c8$var$maybeReadMore(stream, state) {
     if (!state.readingMore) {
         state.readingMore = true;
-        $a506278517dc5c33$exports.nextTick($ac7622c192f90f71$var$maybeReadMore_, stream, state);
+        $a506278517dc5c33$exports.nextTick($c2e05fa9becfb7c8$var$maybeReadMore_, stream, state);
     }
 }
-function $ac7622c192f90f71$var$maybeReadMore_(stream, state) {
+function $c2e05fa9becfb7c8$var$maybeReadMore_(stream, state) {
     // Attempt to read more data if we should.
     //
     // The conditions for reading more data are (one of):
@@ -3067,7 +3067,7 @@ function $ac7622c192f90f71$var$maybeReadMore_(stream, state) {
     //   up calling push() with more data.
     while(!state.reading && !state.ended && (state.length < state.highWaterMark || state.flowing && state.length === 0)){
         var len = state.length;
-        $ac7622c192f90f71$var$debug('maybeReadMore read 0');
+        $c2e05fa9becfb7c8$var$debug('maybeReadMore read 0');
         stream.read(0);
         if (len === state.length) break;
     }
@@ -3076,10 +3076,10 @@ function $ac7622c192f90f71$var$maybeReadMore_(stream, state) {
 // call cb(er, data) where data is <= n in length.
 // for virtual (non-string, non-buffer) streams, "length" is somewhat
 // arbitrary, and perhaps not very meaningful.
-$ac7622c192f90f71$var$Readable.prototype._read = function(n) {
-    $ac7622c192f90f71$var$errorOrDestroy(this, new $ac7622c192f90f71$var$ERR_METHOD_NOT_IMPLEMENTED('_read()'));
+$c2e05fa9becfb7c8$var$Readable.prototype._read = function(n) {
+    $c2e05fa9becfb7c8$var$errorOrDestroy(this, new $c2e05fa9becfb7c8$var$ERR_METHOD_NOT_IMPLEMENTED('_read()'));
 };
-$ac7622c192f90f71$var$Readable.prototype.pipe = function(dest, pipeOpts) {
+$c2e05fa9becfb7c8$var$Readable.prototype.pipe = function(dest, pipeOpts) {
     var src = this;
     var state = this._readableState;
     switch(state.pipesCount){
@@ -3097,14 +3097,14 @@ $ac7622c192f90f71$var$Readable.prototype.pipe = function(dest, pipeOpts) {
             break;
     }
     state.pipesCount += 1;
-    $ac7622c192f90f71$var$debug('pipe count=%d opts=%j', state.pipesCount, pipeOpts);
+    $c2e05fa9becfb7c8$var$debug('pipe count=%d opts=%j', state.pipesCount, pipeOpts);
     var doEnd = (!pipeOpts || pipeOpts.end !== false) && dest !== $a506278517dc5c33$exports.stdout && dest !== $a506278517dc5c33$exports.stderr;
     var endFn = doEnd ? onend : unpipe;
     if (state.endEmitted) $a506278517dc5c33$exports.nextTick(endFn);
     else src.once('end', endFn);
     dest.on('unpipe', onunpipe);
     function onunpipe(readable, unpipeInfo) {
-        $ac7622c192f90f71$var$debug('onunpipe');
+        $c2e05fa9becfb7c8$var$debug('onunpipe');
         if (readable === src) {
             if (unpipeInfo && unpipeInfo.hasUnpiped === false) {
                 unpipeInfo.hasUnpiped = true;
@@ -3113,17 +3113,17 @@ $ac7622c192f90f71$var$Readable.prototype.pipe = function(dest, pipeOpts) {
         }
     }
     function onend() {
-        $ac7622c192f90f71$var$debug('onend');
+        $c2e05fa9becfb7c8$var$debug('onend');
         dest.end();
     } // when the dest drains, it reduces the awaitDrain counter
     // on the source.  This would be more elegant with a .once()
     // handler in flow(), but adding and removing repeatedly is
     // too slow.
-    var ondrain = $ac7622c192f90f71$var$pipeOnDrain(src);
+    var ondrain = $c2e05fa9becfb7c8$var$pipeOnDrain(src);
     dest.on('drain', ondrain);
     var cleanedUp = false;
     function cleanup() {
-        $ac7622c192f90f71$var$debug('cleanup'); // cleanup event handlers once the pipe is broken
+        $c2e05fa9becfb7c8$var$debug('cleanup'); // cleanup event handlers once the pipe is broken
         dest.removeListener('close', onclose);
         dest.removeListener('finish', onfinish);
         dest.removeListener('drain', ondrain);
@@ -3141,16 +3141,16 @@ $ac7622c192f90f71$var$Readable.prototype.pipe = function(dest, pipeOpts) {
     }
     src.on('data', ondata);
     function ondata(chunk) {
-        $ac7622c192f90f71$var$debug('ondata');
+        $c2e05fa9becfb7c8$var$debug('ondata');
         var ret = dest.write(chunk);
-        $ac7622c192f90f71$var$debug('dest.write', ret);
+        $c2e05fa9becfb7c8$var$debug('dest.write', ret);
         if (ret === false) {
             // If the user unpiped during `dest.write()`, it is possible
             // to get stuck in a permanently paused state if that write
             // also returned false.
             // => Check whether `dest` is still a piping destination.
-            if ((state.pipesCount === 1 && state.pipes === dest || state.pipesCount > 1 && $ac7622c192f90f71$var$indexOf(state.pipes, dest) !== -1) && !cleanedUp) {
-                $ac7622c192f90f71$var$debug('false write response, pause', state.awaitDrain);
+            if ((state.pipesCount === 1 && state.pipes === dest || state.pipesCount > 1 && $c2e05fa9becfb7c8$var$indexOf(state.pipes, dest) !== -1) && !cleanedUp) {
+                $c2e05fa9becfb7c8$var$debug('false write response, pause', state.awaitDrain);
                 state.awaitDrain++;
             }
             src.pause();
@@ -3158,46 +3158,46 @@ $ac7622c192f90f71$var$Readable.prototype.pipe = function(dest, pipeOpts) {
     } // if the dest has an error, then stop piping into it.
     // however, don't suppress the throwing behavior for this.
     function onerror(er) {
-        $ac7622c192f90f71$var$debug('onerror', er);
+        $c2e05fa9becfb7c8$var$debug('onerror', er);
         unpipe();
         dest.removeListener('error', onerror);
-        if ($ac7622c192f90f71$var$EElistenerCount(dest, 'error') === 0) $ac7622c192f90f71$var$errorOrDestroy(dest, er);
+        if ($c2e05fa9becfb7c8$var$EElistenerCount(dest, 'error') === 0) $c2e05fa9becfb7c8$var$errorOrDestroy(dest, er);
     } // Make sure our error handler is attached before userland ones.
-    $ac7622c192f90f71$var$prependListener(dest, 'error', onerror); // Both close and finish should trigger unpipe, but only once.
+    $c2e05fa9becfb7c8$var$prependListener(dest, 'error', onerror); // Both close and finish should trigger unpipe, but only once.
     function onclose() {
         dest.removeListener('finish', onfinish);
         unpipe();
     }
     dest.once('close', onclose);
     function onfinish() {
-        $ac7622c192f90f71$var$debug('onfinish');
+        $c2e05fa9becfb7c8$var$debug('onfinish');
         dest.removeListener('close', onclose);
         unpipe();
     }
     dest.once('finish', onfinish);
     function unpipe() {
-        $ac7622c192f90f71$var$debug('unpipe');
+        $c2e05fa9becfb7c8$var$debug('unpipe');
         src.unpipe(dest);
     } // tell the dest that it's being piped to
     dest.emit('pipe', src); // start the flow if it hasn't been started already.
     if (!state.flowing) {
-        $ac7622c192f90f71$var$debug('pipe resume');
+        $c2e05fa9becfb7c8$var$debug('pipe resume');
         src.resume();
     }
     return dest;
 };
-function $ac7622c192f90f71$var$pipeOnDrain(src) {
+function $c2e05fa9becfb7c8$var$pipeOnDrain(src) {
     return function pipeOnDrainFunctionResult() {
         var state = src._readableState;
-        $ac7622c192f90f71$var$debug('pipeOnDrain', state.awaitDrain);
+        $c2e05fa9becfb7c8$var$debug('pipeOnDrain', state.awaitDrain);
         if (state.awaitDrain) state.awaitDrain--;
-        if (state.awaitDrain === 0 && $ac7622c192f90f71$var$EElistenerCount(src, 'data')) {
+        if (state.awaitDrain === 0 && $c2e05fa9becfb7c8$var$EElistenerCount(src, 'data')) {
             state.flowing = true;
-            $ac7622c192f90f71$var$flow(src);
+            $c2e05fa9becfb7c8$var$flow(src);
         }
     };
 }
-$ac7622c192f90f71$var$Readable.prototype.unpipe = function(dest) {
+$c2e05fa9becfb7c8$var$Readable.prototype.unpipe = function(dest) {
     var state = this._readableState;
     var unpipeInfo = {
         hasUnpiped: false
@@ -3225,7 +3225,7 @@ $ac7622c192f90f71$var$Readable.prototype.unpipe = function(dest) {
         });
         return this;
     } // try to find the right one.
-    var index = $ac7622c192f90f71$var$indexOf(state.pipes, dest);
+    var index = $c2e05fa9becfb7c8$var$indexOf(state.pipes, dest);
     if (index === -1) return this;
     state.pipes.splice(index, 1);
     state.pipesCount -= 1;
@@ -3234,8 +3234,8 @@ $ac7622c192f90f71$var$Readable.prototype.unpipe = function(dest) {
     return this;
 }; // set up data events if they are asked for
 // Ensure readable listeners eventually get something
-$ac7622c192f90f71$var$Readable.prototype.on = function(ev, fn) {
-    var res = $3smTB.prototype.on.call(this, ev, fn);
+$c2e05fa9becfb7c8$var$Readable.prototype.on = function(ev, fn) {
+    var res = $bEMAk.prototype.on.call(this, ev, fn);
     var state = this._readableState;
     if (ev === 'data') {
         // update readableListening so that resume() may be a no-op
@@ -3247,37 +3247,37 @@ $ac7622c192f90f71$var$Readable.prototype.on = function(ev, fn) {
             state.readableListening = state.needReadable = true;
             state.flowing = false;
             state.emittedReadable = false;
-            $ac7622c192f90f71$var$debug('on readable', state.length, state.reading);
-            if (state.length) $ac7622c192f90f71$var$emitReadable(this);
-            else if (!state.reading) $a506278517dc5c33$exports.nextTick($ac7622c192f90f71$var$nReadingNextTick, this);
+            $c2e05fa9becfb7c8$var$debug('on readable', state.length, state.reading);
+            if (state.length) $c2e05fa9becfb7c8$var$emitReadable(this);
+            else if (!state.reading) $a506278517dc5c33$exports.nextTick($c2e05fa9becfb7c8$var$nReadingNextTick, this);
         }
     }
     return res;
 };
-$ac7622c192f90f71$var$Readable.prototype.addListener = $ac7622c192f90f71$var$Readable.prototype.on;
-$ac7622c192f90f71$var$Readable.prototype.removeListener = function(ev, fn) {
-    var res = $3smTB.prototype.removeListener.call(this, ev, fn);
+$c2e05fa9becfb7c8$var$Readable.prototype.addListener = $c2e05fa9becfb7c8$var$Readable.prototype.on;
+$c2e05fa9becfb7c8$var$Readable.prototype.removeListener = function(ev, fn) {
+    var res = $bEMAk.prototype.removeListener.call(this, ev, fn);
     if (ev === 'readable') // We need to check if there is someone still listening to
     // readable and reset the state. However this needs to happen
     // after readable has been emitted but before I/O (nextTick) to
     // support once('readable', fn) cycles. This means that calling
     // resume within the same tick will have no
     // effect.
-    $a506278517dc5c33$exports.nextTick($ac7622c192f90f71$var$updateReadableListening, this);
+    $a506278517dc5c33$exports.nextTick($c2e05fa9becfb7c8$var$updateReadableListening, this);
     return res;
 };
-$ac7622c192f90f71$var$Readable.prototype.removeAllListeners = function(ev) {
-    var res = $3smTB.prototype.removeAllListeners.apply(this, arguments);
+$c2e05fa9becfb7c8$var$Readable.prototype.removeAllListeners = function(ev) {
+    var res = $bEMAk.prototype.removeAllListeners.apply(this, arguments);
     if (ev === 'readable' || ev === undefined) // We need to check if there is someone still listening to
     // readable and reset the state. However this needs to happen
     // after readable has been emitted but before I/O (nextTick) to
     // support once('readable', fn) cycles. This means that calling
     // resume within the same tick will have no
     // effect.
-    $a506278517dc5c33$exports.nextTick($ac7622c192f90f71$var$updateReadableListening, this);
+    $a506278517dc5c33$exports.nextTick($c2e05fa9becfb7c8$var$updateReadableListening, this);
     return res;
 };
-function $ac7622c192f90f71$var$updateReadableListening(self) {
+function $c2e05fa9becfb7c8$var$updateReadableListening(self) {
     var state = self._readableState;
     state.readableListening = self.listenerCount('readable') > 0;
     if (state.resumeScheduled && !state.paused) // flowing needs to be set to true now, otherwise
@@ -3285,60 +3285,60 @@ function $ac7622c192f90f71$var$updateReadableListening(self) {
     state.flowing = true; // crude way to check if we should resume
     else if (self.listenerCount('data') > 0) self.resume();
 }
-function $ac7622c192f90f71$var$nReadingNextTick(self) {
-    $ac7622c192f90f71$var$debug('readable nexttick read 0');
+function $c2e05fa9becfb7c8$var$nReadingNextTick(self) {
+    $c2e05fa9becfb7c8$var$debug('readable nexttick read 0');
     self.read(0);
 } // pause() and resume() are remnants of the legacy readable stream API
 // If the user uses them, then switch into old mode.
-$ac7622c192f90f71$var$Readable.prototype.resume = function() {
+$c2e05fa9becfb7c8$var$Readable.prototype.resume = function() {
     var state = this._readableState;
     if (!state.flowing) {
-        $ac7622c192f90f71$var$debug('resume'); // we flow only if there is no one listening
+        $c2e05fa9becfb7c8$var$debug('resume'); // we flow only if there is no one listening
         // for readable, but we still have to call
         // resume()
         state.flowing = !state.readableListening;
-        $ac7622c192f90f71$var$resume(this, state);
+        $c2e05fa9becfb7c8$var$resume(this, state);
     }
     state.paused = false;
     return this;
 };
-function $ac7622c192f90f71$var$resume(stream, state) {
+function $c2e05fa9becfb7c8$var$resume(stream, state) {
     if (!state.resumeScheduled) {
         state.resumeScheduled = true;
-        $a506278517dc5c33$exports.nextTick($ac7622c192f90f71$var$resume_, stream, state);
+        $a506278517dc5c33$exports.nextTick($c2e05fa9becfb7c8$var$resume_, stream, state);
     }
 }
-function $ac7622c192f90f71$var$resume_(stream, state) {
-    $ac7622c192f90f71$var$debug('resume', state.reading);
+function $c2e05fa9becfb7c8$var$resume_(stream, state) {
+    $c2e05fa9becfb7c8$var$debug('resume', state.reading);
     if (!state.reading) stream.read(0);
     state.resumeScheduled = false;
     stream.emit('resume');
-    $ac7622c192f90f71$var$flow(stream);
+    $c2e05fa9becfb7c8$var$flow(stream);
     if (state.flowing && !state.reading) stream.read(0);
 }
-$ac7622c192f90f71$var$Readable.prototype.pause = function() {
-    $ac7622c192f90f71$var$debug('call pause flowing=%j', this._readableState.flowing);
+$c2e05fa9becfb7c8$var$Readable.prototype.pause = function() {
+    $c2e05fa9becfb7c8$var$debug('call pause flowing=%j', this._readableState.flowing);
     if (this._readableState.flowing !== false) {
-        $ac7622c192f90f71$var$debug('pause');
+        $c2e05fa9becfb7c8$var$debug('pause');
         this._readableState.flowing = false;
         this.emit('pause');
     }
     this._readableState.paused = true;
     return this;
 };
-function $ac7622c192f90f71$var$flow(stream) {
+function $c2e05fa9becfb7c8$var$flow(stream) {
     var state = stream._readableState;
-    $ac7622c192f90f71$var$debug('flow', state.flowing);
+    $c2e05fa9becfb7c8$var$debug('flow', state.flowing);
     while(state.flowing && stream.read() !== null);
 } // wrap an old-style stream as the async data source.
 // This is *not* part of the readable stream interface.
 // It is an ugly unfortunate mess of history.
-$ac7622c192f90f71$var$Readable.prototype.wrap = function(stream) {
+$c2e05fa9becfb7c8$var$Readable.prototype.wrap = function(stream) {
     var _this = this;
     var state = this._readableState;
     var paused = false;
     stream.on('end', function() {
-        $ac7622c192f90f71$var$debug('wrapped end');
+        $c2e05fa9becfb7c8$var$debug('wrapped end');
         if (state.decoder && !state.ended) {
             var chunk = state.decoder.end();
             if (chunk && chunk.length) _this.push(chunk);
@@ -3346,7 +3346,7 @@ $ac7622c192f90f71$var$Readable.prototype.wrap = function(stream) {
         _this.push(null);
     });
     stream.on('data', function(chunk) {
-        $ac7622c192f90f71$var$debug('wrapped data');
+        $c2e05fa9becfb7c8$var$debug('wrapped data');
         if (state.decoder) chunk = state.decoder.write(chunk); // don't skip over falsy values in objectMode
         if (state.objectMode && (chunk === null || chunk === undefined)) return;
         else if (!state.objectMode && (!chunk || !chunk.length)) return;
@@ -3363,11 +3363,11 @@ $ac7622c192f90f71$var$Readable.prototype.wrap = function(stream) {
         };
     })(i);
      // proxy certain important events.
-    for(var n1 = 0; n1 < $ac7622c192f90f71$var$kProxyEvents.length; n1++)stream.on($ac7622c192f90f71$var$kProxyEvents[n1], this.emit.bind(this, $ac7622c192f90f71$var$kProxyEvents[n1]));
+    for(var n1 = 0; n1 < $c2e05fa9becfb7c8$var$kProxyEvents.length; n1++)stream.on($c2e05fa9becfb7c8$var$kProxyEvents[n1], this.emit.bind(this, $c2e05fa9becfb7c8$var$kProxyEvents[n1]));
      // when we try to consume some more bytes, simply unpause the
     // underlying stream.
     this._read = function(n) {
-        $ac7622c192f90f71$var$debug('wrapped _read', n);
+        $c2e05fa9becfb7c8$var$debug('wrapped _read', n);
         if (paused) {
             paused = false;
             stream.resume();
@@ -3376,11 +3376,11 @@ $ac7622c192f90f71$var$Readable.prototype.wrap = function(stream) {
     return this;
 };
 
-if (typeof Symbol === 'function') $ac7622c192f90f71$var$Readable.prototype[Symbol.asyncIterator] = function() {
-    if ($ac7622c192f90f71$var$createReadableStreamAsyncIterator === undefined) $ac7622c192f90f71$var$createReadableStreamAsyncIterator = (parcelRequire("bqvb7"));
-    return $ac7622c192f90f71$var$createReadableStreamAsyncIterator(this);
+if (typeof Symbol === 'function') $c2e05fa9becfb7c8$var$Readable.prototype[Symbol.asyncIterator] = function() {
+    if ($c2e05fa9becfb7c8$var$createReadableStreamAsyncIterator === undefined) $c2e05fa9becfb7c8$var$createReadableStreamAsyncIterator = (parcelRequire("g2TW4"));
+    return $c2e05fa9becfb7c8$var$createReadableStreamAsyncIterator(this);
 };
-Object.defineProperty($ac7622c192f90f71$var$Readable.prototype, 'readableHighWaterMark', {
+Object.defineProperty($c2e05fa9becfb7c8$var$Readable.prototype, 'readableHighWaterMark', {
     // making it explicit this property is not enumerable
     // because otherwise some prototype manipulation in
     // userland will fail
@@ -3389,7 +3389,7 @@ Object.defineProperty($ac7622c192f90f71$var$Readable.prototype, 'readableHighWat
         return this._readableState.highWaterMark;
     }
 });
-Object.defineProperty($ac7622c192f90f71$var$Readable.prototype, 'readableBuffer', {
+Object.defineProperty($c2e05fa9becfb7c8$var$Readable.prototype, 'readableBuffer', {
     // making it explicit this property is not enumerable
     // because otherwise some prototype manipulation in
     // userland will fail
@@ -3398,7 +3398,7 @@ Object.defineProperty($ac7622c192f90f71$var$Readable.prototype, 'readableBuffer'
         return this._readableState && this._readableState.buffer;
     }
 });
-Object.defineProperty($ac7622c192f90f71$var$Readable.prototype, 'readableFlowing', {
+Object.defineProperty($c2e05fa9becfb7c8$var$Readable.prototype, 'readableFlowing', {
     // making it explicit this property is not enumerable
     // because otherwise some prototype manipulation in
     // userland will fail
@@ -3410,8 +3410,8 @@ Object.defineProperty($ac7622c192f90f71$var$Readable.prototype, 'readableFlowing
         if (this._readableState) this._readableState.flowing = state;
     }
 }); // exposed for testing purposes only.
-$ac7622c192f90f71$var$Readable._fromList = $ac7622c192f90f71$var$fromList;
-Object.defineProperty($ac7622c192f90f71$var$Readable.prototype, 'readableLength', {
+$c2e05fa9becfb7c8$var$Readable._fromList = $c2e05fa9becfb7c8$var$fromList;
+Object.defineProperty($c2e05fa9becfb7c8$var$Readable.prototype, 'readableLength', {
     // making it explicit this property is not enumerable
     // because otherwise some prototype manipulation in
     // userland will fail
@@ -3423,7 +3423,7 @@ Object.defineProperty($ac7622c192f90f71$var$Readable.prototype, 'readableLength'
 // Length is the combined lengths of all the buffers in the list.
 // This function is designed to be inlinable, so please take care when making
 // changes to the function body.
-function $ac7622c192f90f71$var$fromList(n, state) {
+function $c2e05fa9becfb7c8$var$fromList(n, state) {
     // nothing buffered
     if (state.length === 0) return null;
     var ret;
@@ -3438,16 +3438,16 @@ function $ac7622c192f90f71$var$fromList(n, state) {
     ret = state.buffer.consume(n, state.decoder);
     return ret;
 }
-function $ac7622c192f90f71$var$endReadable(stream) {
+function $c2e05fa9becfb7c8$var$endReadable(stream) {
     var state = stream._readableState;
-    $ac7622c192f90f71$var$debug('endReadable', state.endEmitted);
+    $c2e05fa9becfb7c8$var$debug('endReadable', state.endEmitted);
     if (!state.endEmitted) {
         state.ended = true;
-        $a506278517dc5c33$exports.nextTick($ac7622c192f90f71$var$endReadableNT, state, stream);
+        $a506278517dc5c33$exports.nextTick($c2e05fa9becfb7c8$var$endReadableNT, state, stream);
     }
 }
-function $ac7622c192f90f71$var$endReadableNT(state, stream) {
-    $ac7622c192f90f71$var$debug('endReadableNT', state.endEmitted, state.length); // Check that we didn't get one last unshift.
+function $c2e05fa9becfb7c8$var$endReadableNT(state, stream) {
+    $c2e05fa9becfb7c8$var$debug('endReadableNT', state.endEmitted, state.length); // Check that we didn't get one last unshift.
     if (!state.endEmitted && state.length === 0) {
         state.endEmitted = true;
         stream.readable = false;
@@ -3461,11 +3461,11 @@ function $ac7622c192f90f71$var$endReadableNT(state, stream) {
     }
 }
 
-if (typeof Symbol === 'function') $ac7622c192f90f71$var$Readable.from = function(iterable, opts) {
-    if ($ac7622c192f90f71$var$from === undefined) $ac7622c192f90f71$var$from = (parcelRequire("4jngN"));
-    return $ac7622c192f90f71$var$from($ac7622c192f90f71$var$Readable, iterable, opts);
+if (typeof Symbol === 'function') $c2e05fa9becfb7c8$var$Readable.from = function(iterable, opts) {
+    if ($c2e05fa9becfb7c8$var$from === undefined) $c2e05fa9becfb7c8$var$from = (parcelRequire("gJGP4"));
+    return $c2e05fa9becfb7c8$var$from($c2e05fa9becfb7c8$var$Readable, iterable, opts);
 };
-function $ac7622c192f90f71$var$indexOf(xs, x) {
+function $c2e05fa9becfb7c8$var$indexOf(xs, x) {
     for(var i = 0, l = xs.length; i < l; i++){
         if (xs[i] === x) return i;
     }
@@ -3830,15 +3830,15 @@ function $6a4a731e0127a253$var$eventTargetAgnosticAddListener(emitter, name, lis
 
 });
 
-parcelRequire.register("3smTB", function(module, exports) {
+parcelRequire.register("bEMAk", function(module, exports) {
 
 module.exports = (parcelRequire("97MzU")).EventEmitter;
 
 });
 
-parcelRequire.register("dvsGp", function(module, exports) {
+parcelRequire.register("gfn3A", function(module, exports) {
 'use strict';
-function $9d546b7284ac17eb$var$ownKeys(object, enumerableOnly) {
+function $bd3feeafbb47110d$var$ownKeys(object, enumerableOnly) {
     var keys = Object.keys(object);
     if (Object.getOwnPropertySymbols) {
         var symbols = Object.getOwnPropertySymbols(object);
@@ -3849,21 +3849,21 @@ function $9d546b7284ac17eb$var$ownKeys(object, enumerableOnly) {
     }
     return keys;
 }
-function $9d546b7284ac17eb$var$_objectSpread(target) {
+function $bd3feeafbb47110d$var$_objectSpread(target) {
     for(var i = 1; i < arguments.length; i++){
         var source = arguments[i] != null ? arguments[i] : {
         };
-        if (i % 2) $9d546b7284ac17eb$var$ownKeys(Object(source), true).forEach(function(key) {
-            $9d546b7284ac17eb$var$_defineProperty(target, key, source[key]);
+        if (i % 2) $bd3feeafbb47110d$var$ownKeys(Object(source), true).forEach(function(key) {
+            $bd3feeafbb47110d$var$_defineProperty(target, key, source[key]);
         });
         else if (Object.getOwnPropertyDescriptors) Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-        else $9d546b7284ac17eb$var$ownKeys(Object(source)).forEach(function(key) {
+        else $bd3feeafbb47110d$var$ownKeys(Object(source)).forEach(function(key) {
             Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
         });
     }
     return target;
 }
-function $9d546b7284ac17eb$var$_defineProperty(obj, key, value) {
+function $bd3feeafbb47110d$var$_defineProperty(obj, key, value) {
     if (key in obj) Object.defineProperty(obj, key, {
         value: value,
         enumerable: true,
@@ -3873,10 +3873,10 @@ function $9d546b7284ac17eb$var$_defineProperty(obj, key, value) {
     else obj[key] = value;
     return obj;
 }
-function $9d546b7284ac17eb$var$_classCallCheck(instance, Constructor) {
+function $bd3feeafbb47110d$var$_classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
-function $9d546b7284ac17eb$var$_defineProperties(target, props) {
+function $bd3feeafbb47110d$var$_defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
         var descriptor = props[i];
         descriptor.enumerable = descriptor.enumerable || false;
@@ -3885,28 +3885,28 @@ function $9d546b7284ac17eb$var$_defineProperties(target, props) {
         Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-function $9d546b7284ac17eb$var$_createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) $9d546b7284ac17eb$var$_defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) $9d546b7284ac17eb$var$_defineProperties(Constructor, staticProps);
+function $bd3feeafbb47110d$var$_createClass(Constructor, protoProps, staticProps) {
+    if (protoProps) $bd3feeafbb47110d$var$_defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) $bd3feeafbb47110d$var$_defineProperties(Constructor, staticProps);
     return Constructor;
 }
 
-var $9d546b7284ac17eb$var$Buffer = $464bcea887784ce5$export$a143d493d941bafc;
+var $bd3feeafbb47110d$var$Buffer = $464bcea887784ce5$export$a143d493d941bafc;
 
 var $lA1sm = parcelRequire("lA1sm");
-var $9d546b7284ac17eb$var$inspect = $lA1sm.inspect;
-var $9d546b7284ac17eb$var$custom = $9d546b7284ac17eb$var$inspect && $9d546b7284ac17eb$var$inspect.custom || 'inspect';
-function $9d546b7284ac17eb$var$copyBuffer(src, target, offset) {
-    $9d546b7284ac17eb$var$Buffer.prototype.copy.call(src, target, offset);
+var $bd3feeafbb47110d$var$inspect = $lA1sm.inspect;
+var $bd3feeafbb47110d$var$custom = $bd3feeafbb47110d$var$inspect && $bd3feeafbb47110d$var$inspect.custom || 'inspect';
+function $bd3feeafbb47110d$var$copyBuffer(src, target, offset) {
+    $bd3feeafbb47110d$var$Buffer.prototype.copy.call(src, target, offset);
 }
 module.exports = /*#__PURE__*/ (function() {
     function BufferList() {
-        $9d546b7284ac17eb$var$_classCallCheck(this, BufferList);
+        $bd3feeafbb47110d$var$_classCallCheck(this, BufferList);
         this.head = null;
         this.tail = null;
         this.length = 0;
     }
-    $9d546b7284ac17eb$var$_createClass(BufferList, [
+    $bd3feeafbb47110d$var$_createClass(BufferList, [
         {
             key: "push",
             value: function push(v) {
@@ -3963,12 +3963,12 @@ module.exports = /*#__PURE__*/ (function() {
         {
             key: "concat",
             value: function concat(n) {
-                if (this.length === 0) return $9d546b7284ac17eb$var$Buffer.alloc(0);
-                var ret = $9d546b7284ac17eb$var$Buffer.allocUnsafe(n >>> 0);
+                if (this.length === 0) return $bd3feeafbb47110d$var$Buffer.alloc(0);
+                var ret = $bd3feeafbb47110d$var$Buffer.allocUnsafe(n >>> 0);
                 var p = this.head;
                 var i = 0;
                 while(p){
-                    $9d546b7284ac17eb$var$copyBuffer(p.data, ret, i);
+                    $bd3feeafbb47110d$var$copyBuffer(p.data, ret, i);
                     i += p.data.length;
                     p = p.next;
                 }
@@ -4029,7 +4029,7 @@ module.exports = /*#__PURE__*/ (function() {
         {
             key: "_getBuffer",
             value: function _getBuffer(n) {
-                var ret = $9d546b7284ac17eb$var$Buffer.allocUnsafe(n);
+                var ret = $bd3feeafbb47110d$var$Buffer.allocUnsafe(n);
                 var p = this.head;
                 var c = 1;
                 p.data.copy(ret);
@@ -4057,9 +4057,9 @@ module.exports = /*#__PURE__*/ (function() {
             } // Make sure the linked list only shows the minimal necessary information.
         },
         {
-            key: $9d546b7284ac17eb$var$custom,
+            key: $bd3feeafbb47110d$var$custom,
             value: function value(_, options) {
-                return $9d546b7284ac17eb$var$inspect(this, $9d546b7284ac17eb$var$_objectSpread({
+                return $bd3feeafbb47110d$var$inspect(this, $bd3feeafbb47110d$var$_objectSpread({
                 }, options, {
                     // Only inspect one level.
                     depth: 0,
@@ -4074,20 +4074,20 @@ module.exports = /*#__PURE__*/ (function() {
 
 });
 
-parcelRequire.register("3Y67T", function(module, exports) {
+parcelRequire.register("jI0yy", function(module, exports) {
 
 'use strict'; // undocumented cb() API, needed for core, not for public API
-function $2e3bba467a75a300$var$destroy(err1, cb) {
+function $e5928edfc4964db3$var$destroy(err1, cb) {
     var _this = this;
     var readableDestroyed = this._readableState && this._readableState.destroyed;
     var writableDestroyed = this._writableState && this._writableState.destroyed;
     if (readableDestroyed || writableDestroyed) {
         if (cb) cb(err1);
         else if (err1) {
-            if (!this._writableState) $a506278517dc5c33$exports.nextTick($2e3bba467a75a300$var$emitErrorNT, this, err1);
+            if (!this._writableState) $a506278517dc5c33$exports.nextTick($e5928edfc4964db3$var$emitErrorNT, this, err1);
             else if (!this._writableState.errorEmitted) {
                 this._writableState.errorEmitted = true;
-                $a506278517dc5c33$exports.nextTick($2e3bba467a75a300$var$emitErrorNT, this, err1);
+                $a506278517dc5c33$exports.nextTick($e5928edfc4964db3$var$emitErrorNT, this, err1);
             }
         }
         return this;
@@ -4098,28 +4098,28 @@ function $2e3bba467a75a300$var$destroy(err1, cb) {
     if (this._writableState) this._writableState.destroyed = true;
     this._destroy(err1 || null, function(err) {
         if (!cb && err) {
-            if (!_this._writableState) $a506278517dc5c33$exports.nextTick($2e3bba467a75a300$var$emitErrorAndCloseNT, _this, err);
+            if (!_this._writableState) $a506278517dc5c33$exports.nextTick($e5928edfc4964db3$var$emitErrorAndCloseNT, _this, err);
             else if (!_this._writableState.errorEmitted) {
                 _this._writableState.errorEmitted = true;
-                $a506278517dc5c33$exports.nextTick($2e3bba467a75a300$var$emitErrorAndCloseNT, _this, err);
-            } else $a506278517dc5c33$exports.nextTick($2e3bba467a75a300$var$emitCloseNT, _this);
+                $a506278517dc5c33$exports.nextTick($e5928edfc4964db3$var$emitErrorAndCloseNT, _this, err);
+            } else $a506278517dc5c33$exports.nextTick($e5928edfc4964db3$var$emitCloseNT, _this);
         } else if (cb) {
-            $a506278517dc5c33$exports.nextTick($2e3bba467a75a300$var$emitCloseNT, _this);
+            $a506278517dc5c33$exports.nextTick($e5928edfc4964db3$var$emitCloseNT, _this);
             cb(err);
-        } else $a506278517dc5c33$exports.nextTick($2e3bba467a75a300$var$emitCloseNT, _this);
+        } else $a506278517dc5c33$exports.nextTick($e5928edfc4964db3$var$emitCloseNT, _this);
     });
     return this;
 }
-function $2e3bba467a75a300$var$emitErrorAndCloseNT(self, err) {
-    $2e3bba467a75a300$var$emitErrorNT(self, err);
-    $2e3bba467a75a300$var$emitCloseNT(self);
+function $e5928edfc4964db3$var$emitErrorAndCloseNT(self, err) {
+    $e5928edfc4964db3$var$emitErrorNT(self, err);
+    $e5928edfc4964db3$var$emitCloseNT(self);
 }
-function $2e3bba467a75a300$var$emitCloseNT(self) {
+function $e5928edfc4964db3$var$emitCloseNT(self) {
     if (self._writableState && !self._writableState.emitClose) return;
     if (self._readableState && !self._readableState.emitClose) return;
     self.emit('close');
 }
-function $2e3bba467a75a300$var$undestroy() {
+function $e5928edfc4964db3$var$undestroy() {
     if (this._readableState) {
         this._readableState.destroyed = false;
         this._readableState.reading = false;
@@ -4136,10 +4136,10 @@ function $2e3bba467a75a300$var$undestroy() {
         this._writableState.errorEmitted = false;
     }
 }
-function $2e3bba467a75a300$var$emitErrorNT(self, err) {
+function $e5928edfc4964db3$var$emitErrorNT(self, err) {
     self.emit('error', err);
 }
-function $2e3bba467a75a300$var$errorOrDestroy(stream, err) {
+function $e5928edfc4964db3$var$errorOrDestroy(stream, err) {
     // We have tests that rely on errors being emitted
     // in the same tick, so changing this is semver major.
     // For now when you opt-in to autoDestroy we allow
@@ -4151,57 +4151,57 @@ function $2e3bba467a75a300$var$errorOrDestroy(stream, err) {
     else stream.emit('error', err);
 }
 module.exports = {
-    destroy: $2e3bba467a75a300$var$destroy,
-    undestroy: $2e3bba467a75a300$var$undestroy,
-    errorOrDestroy: $2e3bba467a75a300$var$errorOrDestroy
+    destroy: $e5928edfc4964db3$var$destroy,
+    undestroy: $e5928edfc4964db3$var$undestroy,
+    errorOrDestroy: $e5928edfc4964db3$var$errorOrDestroy
 };
 
 });
 
-parcelRequire.register("69eBa", function(module, exports) {
+parcelRequire.register("drRuG", function(module, exports) {
 'use strict';
 
-var $lEIWw = parcelRequire("lEIWw");
-var $479ee84eb59e3344$var$ERR_INVALID_OPT_VALUE = $lEIWw.codes.ERR_INVALID_OPT_VALUE;
-function $479ee84eb59e3344$var$highWaterMarkFrom(options, isDuplex, duplexKey) {
+var $12HIq = parcelRequire("12HIq");
+var $9ca74abfee0964a9$var$ERR_INVALID_OPT_VALUE = $12HIq.codes.ERR_INVALID_OPT_VALUE;
+function $9ca74abfee0964a9$var$highWaterMarkFrom(options, isDuplex, duplexKey) {
     return options.highWaterMark != null ? options.highWaterMark : isDuplex ? options[duplexKey] : null;
 }
-function $479ee84eb59e3344$var$getHighWaterMark(state, options, duplexKey, isDuplex) {
-    var hwm = $479ee84eb59e3344$var$highWaterMarkFrom(options, isDuplex, duplexKey);
+function $9ca74abfee0964a9$var$getHighWaterMark(state, options, duplexKey, isDuplex) {
+    var hwm = $9ca74abfee0964a9$var$highWaterMarkFrom(options, isDuplex, duplexKey);
     if (hwm != null) {
         if (!(isFinite(hwm) && Math.floor(hwm) === hwm) || hwm < 0) {
             var name = isDuplex ? duplexKey : 'highWaterMark';
-            throw new $479ee84eb59e3344$var$ERR_INVALID_OPT_VALUE(name, hwm);
+            throw new $9ca74abfee0964a9$var$ERR_INVALID_OPT_VALUE(name, hwm);
         }
         return Math.floor(hwm);
     } // Default value
     return state.objectMode ? 16 : 16384;
 }
 module.exports = {
-    getHighWaterMark: $479ee84eb59e3344$var$getHighWaterMark
+    getHighWaterMark: $9ca74abfee0964a9$var$getHighWaterMark
 };
 
 });
-parcelRequire.register("lEIWw", function(module, exports) {
+parcelRequire.register("12HIq", function(module, exports) {
 
-$parcel$export(module.exports, "codes", () => $fc4032204607009a$export$e45cb6485273080e, (v) => $fc4032204607009a$export$e45cb6485273080e = v);
-var $fc4032204607009a$export$e45cb6485273080e;
+$parcel$export(module.exports, "codes", () => $0c27e3525f4235db$export$e45cb6485273080e, (v) => $0c27e3525f4235db$export$e45cb6485273080e = v);
+var $0c27e3525f4235db$export$e45cb6485273080e;
 'use strict';
-function $fc4032204607009a$var$_inheritsLoose(subClass, superClass) {
+function $0c27e3525f4235db$var$_inheritsLoose(subClass, superClass) {
     subClass.prototype = Object.create(superClass.prototype);
     subClass.prototype.constructor = subClass;
     subClass.__proto__ = superClass;
 }
-var $fc4032204607009a$var$codes = {
+var $0c27e3525f4235db$var$codes = {
 };
-function $fc4032204607009a$var$createErrorType(code, message, Base) {
+function $0c27e3525f4235db$var$createErrorType(code, message, Base) {
     if (!Base) Base = Error;
     function getMessage(arg1, arg2, arg3) {
         if (typeof message === 'string') return message;
         else return message(arg1, arg2, arg3);
     }
     var NodeError1 = /*#__PURE__*/ function(_Base) {
-        $fc4032204607009a$var$_inheritsLoose(NodeError, _Base);
+        $0c27e3525f4235db$var$_inheritsLoose(NodeError, _Base);
         function NodeError(arg1, arg2, arg3) {
             return _Base.call(this, getMessage(arg1, arg2, arg3)) || this;
         }
@@ -4209,9 +4209,9 @@ function $fc4032204607009a$var$createErrorType(code, message, Base) {
     }(Base);
     NodeError1.prototype.name = Base.name;
     NodeError1.prototype.code = code;
-    $fc4032204607009a$var$codes[code] = NodeError1;
+    $0c27e3525f4235db$var$codes[code] = NodeError1;
 } // https://github.com/nodejs/node/blob/v10.8.0/lib/internal/errors.js
-function $fc4032204607009a$var$oneOf(expected, thing) {
+function $0c27e3525f4235db$var$oneOf(expected, thing) {
     if (Array.isArray(expected)) {
         var len = expected.length;
         expected = expected.map(function(i) {
@@ -4222,60 +4222,60 @@ function $fc4032204607009a$var$oneOf(expected, thing) {
         else return "of ".concat(thing, " ").concat(expected[0]);
     } else return "of ".concat(thing, " ").concat(String(expected));
 } // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith
-function $fc4032204607009a$var$startsWith(str, search, pos) {
+function $0c27e3525f4235db$var$startsWith(str, search, pos) {
     return str.substr(!pos || pos < 0 ? 0 : +pos, search.length) === search;
 } // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/endsWith
-function $fc4032204607009a$var$endsWith(str, search, this_len) {
+function $0c27e3525f4235db$var$endsWith(str, search, this_len) {
     if (this_len === undefined || this_len > str.length) this_len = str.length;
     return str.substring(this_len - search.length, this_len) === search;
 } // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/includes
-function $fc4032204607009a$var$includes(str, search, start) {
+function $0c27e3525f4235db$var$includes(str, search, start) {
     if (typeof start !== 'number') start = 0;
     if (start + search.length > str.length) return false;
     else return str.indexOf(search, start) !== -1;
 }
-$fc4032204607009a$var$createErrorType('ERR_INVALID_OPT_VALUE', function(name, value) {
+$0c27e3525f4235db$var$createErrorType('ERR_INVALID_OPT_VALUE', function(name, value) {
     return 'The value "' + value + '" is invalid for option "' + name + '"';
 }, TypeError);
-$fc4032204607009a$var$createErrorType('ERR_INVALID_ARG_TYPE', function(name, expected, actual) {
+$0c27e3525f4235db$var$createErrorType('ERR_INVALID_ARG_TYPE', function(name, expected, actual) {
     // determiner: 'must be' or 'must not be'
     var determiner;
-    if (typeof expected === 'string' && $fc4032204607009a$var$startsWith(expected, 'not ')) {
+    if (typeof expected === 'string' && $0c27e3525f4235db$var$startsWith(expected, 'not ')) {
         determiner = 'must not be';
         expected = expected.replace(/^not /, '');
     } else determiner = 'must be';
     var msg;
-    if ($fc4032204607009a$var$endsWith(name, ' argument')) // For cases like 'first argument'
-    msg = "The ".concat(name, " ").concat(determiner, " ").concat($fc4032204607009a$var$oneOf(expected, 'type'));
+    if ($0c27e3525f4235db$var$endsWith(name, ' argument')) // For cases like 'first argument'
+    msg = "The ".concat(name, " ").concat(determiner, " ").concat($0c27e3525f4235db$var$oneOf(expected, 'type'));
     else {
-        var type = $fc4032204607009a$var$includes(name, '.') ? 'property' : 'argument';
-        msg = "The \"".concat(name, "\" ").concat(type, " ").concat(determiner, " ").concat($fc4032204607009a$var$oneOf(expected, 'type'));
+        var type = $0c27e3525f4235db$var$includes(name, '.') ? 'property' : 'argument';
+        msg = "The \"".concat(name, "\" ").concat(type, " ").concat(determiner, " ").concat($0c27e3525f4235db$var$oneOf(expected, 'type'));
     }
     msg += ". Received type ".concat(typeof actual);
     return msg;
 }, TypeError);
-$fc4032204607009a$var$createErrorType('ERR_STREAM_PUSH_AFTER_EOF', 'stream.push() after EOF');
-$fc4032204607009a$var$createErrorType('ERR_METHOD_NOT_IMPLEMENTED', function(name) {
+$0c27e3525f4235db$var$createErrorType('ERR_STREAM_PUSH_AFTER_EOF', 'stream.push() after EOF');
+$0c27e3525f4235db$var$createErrorType('ERR_METHOD_NOT_IMPLEMENTED', function(name) {
     return 'The ' + name + ' method is not implemented';
 });
-$fc4032204607009a$var$createErrorType('ERR_STREAM_PREMATURE_CLOSE', 'Premature close');
-$fc4032204607009a$var$createErrorType('ERR_STREAM_DESTROYED', function(name) {
+$0c27e3525f4235db$var$createErrorType('ERR_STREAM_PREMATURE_CLOSE', 'Premature close');
+$0c27e3525f4235db$var$createErrorType('ERR_STREAM_DESTROYED', function(name) {
     return 'Cannot call ' + name + ' after a stream was destroyed';
 });
-$fc4032204607009a$var$createErrorType('ERR_MULTIPLE_CALLBACK', 'Callback called multiple times');
-$fc4032204607009a$var$createErrorType('ERR_STREAM_CANNOT_PIPE', 'Cannot pipe, not readable');
-$fc4032204607009a$var$createErrorType('ERR_STREAM_WRITE_AFTER_END', 'write after end');
-$fc4032204607009a$var$createErrorType('ERR_STREAM_NULL_VALUES', 'May not write null values to stream', TypeError);
-$fc4032204607009a$var$createErrorType('ERR_UNKNOWN_ENCODING', function(arg) {
+$0c27e3525f4235db$var$createErrorType('ERR_MULTIPLE_CALLBACK', 'Callback called multiple times');
+$0c27e3525f4235db$var$createErrorType('ERR_STREAM_CANNOT_PIPE', 'Cannot pipe, not readable');
+$0c27e3525f4235db$var$createErrorType('ERR_STREAM_WRITE_AFTER_END', 'write after end');
+$0c27e3525f4235db$var$createErrorType('ERR_STREAM_NULL_VALUES', 'May not write null values to stream', TypeError);
+$0c27e3525f4235db$var$createErrorType('ERR_UNKNOWN_ENCODING', function(arg) {
     return 'Unknown encoding: ' + arg;
 }, TypeError);
-$fc4032204607009a$var$createErrorType('ERR_STREAM_UNSHIFT_AFTER_END_EVENT', 'stream.unshift() after end event');
-$fc4032204607009a$export$e45cb6485273080e = $fc4032204607009a$var$codes;
+$0c27e3525f4235db$var$createErrorType('ERR_STREAM_UNSHIFT_AFTER_END_EVENT', 'stream.unshift() after end event');
+$0c27e3525f4235db$export$e45cb6485273080e = $0c27e3525f4235db$var$codes;
 
 });
 
 
-parcelRequire.register("64Msz", function(module, exports) {
+parcelRequire.register("ihTGZ", function(module, exports) {
 
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -4302,39 +4302,39 @@ parcelRequire.register("64Msz", function(module, exports) {
 // prototypally inherits from Readable, and then parasitically from
 // Writable.
 'use strict';
-/*<replacement>*/ var $46c8b4e8d0333d9e$var$objectKeys = Object.keys || function(obj) {
+/*<replacement>*/ var $d50503db0e5fee20$var$objectKeys = Object.keys || function(obj) {
     var keys = [];
     for(var key in obj)keys.push(key);
     return keys;
 };
-/*</replacement>*/ module.exports = $46c8b4e8d0333d9e$var$Duplex;
+/*</replacement>*/ module.exports = $d50503db0e5fee20$var$Duplex;
 
-var $eO0w5 = parcelRequire("eO0w5");
+var $gJk0V = parcelRequire("gJk0V");
 
-var $4x2i6 = parcelRequire("4x2i6");
+var $f9udy = parcelRequire("f9udy");
 
-(parcelRequire("4xKNh"))($46c8b4e8d0333d9e$var$Duplex, $eO0w5);
+(parcelRequire("4xKNh"))($d50503db0e5fee20$var$Duplex, $gJk0V);
 // Allow the keys array to be GC'ed.
-var $46c8b4e8d0333d9e$var$keys = $46c8b4e8d0333d9e$var$objectKeys($4x2i6.prototype);
-for(var $46c8b4e8d0333d9e$var$v = 0; $46c8b4e8d0333d9e$var$v < $46c8b4e8d0333d9e$var$keys.length; $46c8b4e8d0333d9e$var$v++){
-    var $46c8b4e8d0333d9e$var$method = $46c8b4e8d0333d9e$var$keys[$46c8b4e8d0333d9e$var$v];
-    if (!$46c8b4e8d0333d9e$var$Duplex.prototype[$46c8b4e8d0333d9e$var$method]) $46c8b4e8d0333d9e$var$Duplex.prototype[$46c8b4e8d0333d9e$var$method] = $4x2i6.prototype[$46c8b4e8d0333d9e$var$method];
+var $d50503db0e5fee20$var$keys = $d50503db0e5fee20$var$objectKeys($f9udy.prototype);
+for(var $d50503db0e5fee20$var$v = 0; $d50503db0e5fee20$var$v < $d50503db0e5fee20$var$keys.length; $d50503db0e5fee20$var$v++){
+    var $d50503db0e5fee20$var$method = $d50503db0e5fee20$var$keys[$d50503db0e5fee20$var$v];
+    if (!$d50503db0e5fee20$var$Duplex.prototype[$d50503db0e5fee20$var$method]) $d50503db0e5fee20$var$Duplex.prototype[$d50503db0e5fee20$var$method] = $f9udy.prototype[$d50503db0e5fee20$var$method];
 }
-function $46c8b4e8d0333d9e$var$Duplex(options) {
-    if (!(this instanceof $46c8b4e8d0333d9e$var$Duplex)) return new $46c8b4e8d0333d9e$var$Duplex(options);
-    $eO0w5.call(this, options);
-    $4x2i6.call(this, options);
+function $d50503db0e5fee20$var$Duplex(options) {
+    if (!(this instanceof $d50503db0e5fee20$var$Duplex)) return new $d50503db0e5fee20$var$Duplex(options);
+    $gJk0V.call(this, options);
+    $f9udy.call(this, options);
     this.allowHalfOpen = true;
     if (options) {
         if (options.readable === false) this.readable = false;
         if (options.writable === false) this.writable = false;
         if (options.allowHalfOpen === false) {
             this.allowHalfOpen = false;
-            this.once('end', $46c8b4e8d0333d9e$var$onend);
+            this.once('end', $d50503db0e5fee20$var$onend);
         }
     }
 }
-Object.defineProperty($46c8b4e8d0333d9e$var$Duplex.prototype, 'writableHighWaterMark', {
+Object.defineProperty($d50503db0e5fee20$var$Duplex.prototype, 'writableHighWaterMark', {
     // making it explicit this property is not enumerable
     // because otherwise some prototype manipulation in
     // userland will fail
@@ -4343,7 +4343,7 @@ Object.defineProperty($46c8b4e8d0333d9e$var$Duplex.prototype, 'writableHighWater
         return this._writableState.highWaterMark;
     }
 });
-Object.defineProperty($46c8b4e8d0333d9e$var$Duplex.prototype, 'writableBuffer', {
+Object.defineProperty($d50503db0e5fee20$var$Duplex.prototype, 'writableBuffer', {
     // making it explicit this property is not enumerable
     // because otherwise some prototype manipulation in
     // userland will fail
@@ -4352,7 +4352,7 @@ Object.defineProperty($46c8b4e8d0333d9e$var$Duplex.prototype, 'writableBuffer', 
         return this._writableState && this._writableState.getBuffer();
     }
 });
-Object.defineProperty($46c8b4e8d0333d9e$var$Duplex.prototype, 'writableLength', {
+Object.defineProperty($d50503db0e5fee20$var$Duplex.prototype, 'writableLength', {
     // making it explicit this property is not enumerable
     // because otherwise some prototype manipulation in
     // userland will fail
@@ -4361,16 +4361,16 @@ Object.defineProperty($46c8b4e8d0333d9e$var$Duplex.prototype, 'writableLength', 
         return this._writableState.length;
     }
 }); // the no-half-open enforcer
-function $46c8b4e8d0333d9e$var$onend() {
+function $d50503db0e5fee20$var$onend() {
     // If the writable side ended, then we're ok.
     if (this._writableState.ended) return; // no more data can be written.
     // But allow more writes to happen in this tick.
-    $a506278517dc5c33$exports.nextTick($46c8b4e8d0333d9e$var$onEndNT, this);
+    $a506278517dc5c33$exports.nextTick($d50503db0e5fee20$var$onEndNT, this);
 }
-function $46c8b4e8d0333d9e$var$onEndNT(self) {
+function $d50503db0e5fee20$var$onEndNT(self) {
     self.end();
 }
-Object.defineProperty($46c8b4e8d0333d9e$var$Duplex.prototype, 'destroyed', {
+Object.defineProperty($d50503db0e5fee20$var$Duplex.prototype, 'destroyed', {
     // making it explicit this property is not enumerable
     // because otherwise some prototype manipulation in
     // userland will fail
@@ -4391,7 +4391,7 @@ Object.defineProperty($46c8b4e8d0333d9e$var$Duplex.prototype, 'destroyed', {
 });
 
 });
-parcelRequire.register("4x2i6", function(module, exports) {
+parcelRequire.register("f9udy", function(module, exports) {
 
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -4417,70 +4417,70 @@ parcelRequire.register("4x2i6", function(module, exports) {
 // Implement an async ._write(chunk, encoding, cb), and it'll handle all
 // the drain event emission and buffering.
 'use strict';
-module.exports = $34cc056c8b2e9f38$var$Writable;
-/* <replacement> */ function $34cc056c8b2e9f38$var$WriteReq(chunk, encoding, cb) {
+module.exports = $b07f22e488980a0d$var$Writable;
+/* <replacement> */ function $b07f22e488980a0d$var$WriteReq(chunk, encoding, cb) {
     this.chunk = chunk;
     this.encoding = encoding;
     this.callback = cb;
     this.next = null;
 } // It seems a linked list but it is not
 // there will be only 2 of these for each stream
-function $34cc056c8b2e9f38$var$CorkedRequest(state) {
+function $b07f22e488980a0d$var$CorkedRequest(state) {
     var _this = this;
     this.next = null;
     this.entry = null;
     this.finish = function() {
-        $34cc056c8b2e9f38$var$onCorkedFinish(_this, state);
+        $b07f22e488980a0d$var$onCorkedFinish(_this, state);
     };
 }
-/* </replacement> */ /*<replacement>*/ var $34cc056c8b2e9f38$var$Duplex;
-/*</replacement>*/ $34cc056c8b2e9f38$var$Writable.WritableState = $34cc056c8b2e9f38$var$WritableState;
+/* </replacement> */ /*<replacement>*/ var $b07f22e488980a0d$var$Duplex;
+/*</replacement>*/ $b07f22e488980a0d$var$Writable.WritableState = $b07f22e488980a0d$var$WritableState;
 
-/*<replacement>*/ var $34cc056c8b2e9f38$var$internalUtil = {
+/*<replacement>*/ var $b07f22e488980a0d$var$internalUtil = {
     deprecate: (parcelRequire("iSzh0"))
 };
 
-var $3smTB = parcelRequire("3smTB");
+var $bEMAk = parcelRequire("bEMAk");
 
-var $34cc056c8b2e9f38$require$Buffer = $464bcea887784ce5$export$a143d493d941bafc;
-var $34cc056c8b2e9f38$var$OurUint8Array = $parcel$global.Uint8Array || function() {
+var $b07f22e488980a0d$require$Buffer = $464bcea887784ce5$export$a143d493d941bafc;
+var $b07f22e488980a0d$var$OurUint8Array = $parcel$global.Uint8Array || function() {
 };
-function $34cc056c8b2e9f38$var$_uint8ArrayToBuffer(chunk) {
-    return $34cc056c8b2e9f38$require$Buffer.from(chunk);
+function $b07f22e488980a0d$var$_uint8ArrayToBuffer(chunk) {
+    return $b07f22e488980a0d$require$Buffer.from(chunk);
 }
-function $34cc056c8b2e9f38$var$_isUint8Array(obj) {
-    return $34cc056c8b2e9f38$require$Buffer.isBuffer(obj) || obj instanceof $34cc056c8b2e9f38$var$OurUint8Array;
-}
-
-var $3Y67T = parcelRequire("3Y67T");
-
-var $69eBa = parcelRequire("69eBa");
-var $34cc056c8b2e9f38$var$getHighWaterMark = $69eBa.getHighWaterMark;
-
-var $lEIWw = parcelRequire("lEIWw");
-var $34cc056c8b2e9f38$require$_require$codes = $lEIWw.codes;
-var $34cc056c8b2e9f38$var$ERR_INVALID_ARG_TYPE = $34cc056c8b2e9f38$require$_require$codes.ERR_INVALID_ARG_TYPE, $34cc056c8b2e9f38$var$ERR_METHOD_NOT_IMPLEMENTED = $34cc056c8b2e9f38$require$_require$codes.ERR_METHOD_NOT_IMPLEMENTED, $34cc056c8b2e9f38$var$ERR_MULTIPLE_CALLBACK = $34cc056c8b2e9f38$require$_require$codes.ERR_MULTIPLE_CALLBACK, $34cc056c8b2e9f38$var$ERR_STREAM_CANNOT_PIPE = $34cc056c8b2e9f38$require$_require$codes.ERR_STREAM_CANNOT_PIPE, $34cc056c8b2e9f38$var$ERR_STREAM_DESTROYED = $34cc056c8b2e9f38$require$_require$codes.ERR_STREAM_DESTROYED, $34cc056c8b2e9f38$var$ERR_STREAM_NULL_VALUES = $34cc056c8b2e9f38$require$_require$codes.ERR_STREAM_NULL_VALUES, $34cc056c8b2e9f38$var$ERR_STREAM_WRITE_AFTER_END = $34cc056c8b2e9f38$require$_require$codes.ERR_STREAM_WRITE_AFTER_END, $34cc056c8b2e9f38$var$ERR_UNKNOWN_ENCODING = $34cc056c8b2e9f38$require$_require$codes.ERR_UNKNOWN_ENCODING;
-var $34cc056c8b2e9f38$var$errorOrDestroy = $3Y67T.errorOrDestroy;
-
-(parcelRequire("4xKNh"))($34cc056c8b2e9f38$var$Writable, $3smTB);
-function $34cc056c8b2e9f38$var$nop() {
+function $b07f22e488980a0d$var$_isUint8Array(obj) {
+    return $b07f22e488980a0d$require$Buffer.isBuffer(obj) || obj instanceof $b07f22e488980a0d$var$OurUint8Array;
 }
 
-function $34cc056c8b2e9f38$var$WritableState(options, stream, isDuplex) {
-    $34cc056c8b2e9f38$var$Duplex = $34cc056c8b2e9f38$var$Duplex || (parcelRequire("64Msz"));
+var $jI0yy = parcelRequire("jI0yy");
+
+var $drRuG = parcelRequire("drRuG");
+var $b07f22e488980a0d$var$getHighWaterMark = $drRuG.getHighWaterMark;
+
+var $12HIq = parcelRequire("12HIq");
+var $b07f22e488980a0d$require$_require$codes = $12HIq.codes;
+var $b07f22e488980a0d$var$ERR_INVALID_ARG_TYPE = $b07f22e488980a0d$require$_require$codes.ERR_INVALID_ARG_TYPE, $b07f22e488980a0d$var$ERR_METHOD_NOT_IMPLEMENTED = $b07f22e488980a0d$require$_require$codes.ERR_METHOD_NOT_IMPLEMENTED, $b07f22e488980a0d$var$ERR_MULTIPLE_CALLBACK = $b07f22e488980a0d$require$_require$codes.ERR_MULTIPLE_CALLBACK, $b07f22e488980a0d$var$ERR_STREAM_CANNOT_PIPE = $b07f22e488980a0d$require$_require$codes.ERR_STREAM_CANNOT_PIPE, $b07f22e488980a0d$var$ERR_STREAM_DESTROYED = $b07f22e488980a0d$require$_require$codes.ERR_STREAM_DESTROYED, $b07f22e488980a0d$var$ERR_STREAM_NULL_VALUES = $b07f22e488980a0d$require$_require$codes.ERR_STREAM_NULL_VALUES, $b07f22e488980a0d$var$ERR_STREAM_WRITE_AFTER_END = $b07f22e488980a0d$require$_require$codes.ERR_STREAM_WRITE_AFTER_END, $b07f22e488980a0d$var$ERR_UNKNOWN_ENCODING = $b07f22e488980a0d$require$_require$codes.ERR_UNKNOWN_ENCODING;
+var $b07f22e488980a0d$var$errorOrDestroy = $jI0yy.errorOrDestroy;
+
+(parcelRequire("4xKNh"))($b07f22e488980a0d$var$Writable, $bEMAk);
+function $b07f22e488980a0d$var$nop() {
+}
+
+function $b07f22e488980a0d$var$WritableState(options, stream, isDuplex) {
+    $b07f22e488980a0d$var$Duplex = $b07f22e488980a0d$var$Duplex || (parcelRequire("ihTGZ"));
     options = options || {
     }; // Duplex streams are both readable and writable, but share
     // the same options object.
     // However, some cases require setting options to different
     // values for the readable and the writable sides of the duplex stream,
     // e.g. options.readableObjectMode vs. options.writableObjectMode, etc.
-    if (typeof isDuplex !== 'boolean') isDuplex = stream instanceof $34cc056c8b2e9f38$var$Duplex; // object stream flag to indicate whether or not this stream
+    if (typeof isDuplex !== 'boolean') isDuplex = stream instanceof $b07f22e488980a0d$var$Duplex; // object stream flag to indicate whether or not this stream
     // contains buffers or objects.
     this.objectMode = !!options.objectMode;
     if (isDuplex) this.objectMode = this.objectMode || !!options.writableObjectMode; // the point at which write() starts returning false
     // Note: 0 is a valid value, means that we always return false if
     // the entire buffer is not flushed immediately on write()
-    this.highWaterMark = $34cc056c8b2e9f38$var$getHighWaterMark(this, options, 'writableHighWaterMark', isDuplex); // if _final has been called
+    this.highWaterMark = $b07f22e488980a0d$var$getHighWaterMark(this, options, 'writableHighWaterMark', isDuplex); // if _final has been called
     this.finalCalled = false; // drain event flag.
     this.needDrain = false; // at the start of calling end()
     this.ending = false; // when end() has been called, and returned
@@ -4507,7 +4507,7 @@ function $34cc056c8b2e9f38$var$WritableState(options, stream, isDuplex) {
     // end up in an overlapped onwrite situation.
     this.bufferProcessing = false; // the callback that's passed to _write(chunk,cb)
     this.onwrite = function(er) {
-        $34cc056c8b2e9f38$var$onwrite(stream, er);
+        $b07f22e488980a0d$var$onwrite(stream, er);
     }; // the callback that the user supplies to write(chunk,encoding,cb)
     this.writecb = null; // the amount that is being written when _write is called.
     this.writelen = 0;
@@ -4522,9 +4522,9 @@ function $34cc056c8b2e9f38$var$WritableState(options, stream, isDuplex) {
     this.autoDestroy = !!options.autoDestroy; // count buffered requests
     this.bufferedRequestCount = 0; // allocate the first CorkedRequest, there is always
     // one allocated and free to use, and we maintain at most two
-    this.corkedRequestsFree = new $34cc056c8b2e9f38$var$CorkedRequest(this);
+    this.corkedRequestsFree = new $b07f22e488980a0d$var$CorkedRequest(this);
 }
-$34cc056c8b2e9f38$var$WritableState.prototype.getBuffer = function getBuffer() {
+$b07f22e488980a0d$var$WritableState.prototype.getBuffer = function getBuffer() {
     var current = this.bufferedRequest;
     var out = [];
     while(current){
@@ -4535,8 +4535,8 @@ $34cc056c8b2e9f38$var$WritableState.prototype.getBuffer = function getBuffer() {
 };
 (function() {
     try {
-        Object.defineProperty($34cc056c8b2e9f38$var$WritableState.prototype, 'buffer', {
-            get: $34cc056c8b2e9f38$var$internalUtil.deprecate(function writableStateBufferGetter() {
+        Object.defineProperty($b07f22e488980a0d$var$WritableState.prototype, 'buffer', {
+            get: $b07f22e488980a0d$var$internalUtil.deprecate(function writableStateBufferGetter() {
                 return this.getBuffer();
             }, "_writableState.buffer is deprecated. Use _writableState.getBuffer instead.", 'DEP0003')
         });
@@ -4544,22 +4544,22 @@ $34cc056c8b2e9f38$var$WritableState.prototype.getBuffer = function getBuffer() {
     }
 })(); // Test _writableState for inheritance to account for Duplex streams,
 // whose prototype chain only points to Readable.
-var $34cc056c8b2e9f38$var$realHasInstance;
+var $b07f22e488980a0d$var$realHasInstance;
 if (typeof Symbol === 'function' && Symbol.hasInstance && typeof Function.prototype[Symbol.hasInstance] === 'function') {
-    $34cc056c8b2e9f38$var$realHasInstance = Function.prototype[Symbol.hasInstance];
-    Object.defineProperty($34cc056c8b2e9f38$var$Writable, Symbol.hasInstance, {
+    $b07f22e488980a0d$var$realHasInstance = Function.prototype[Symbol.hasInstance];
+    Object.defineProperty($b07f22e488980a0d$var$Writable, Symbol.hasInstance, {
         value: function value(object) {
-            if ($34cc056c8b2e9f38$var$realHasInstance.call(this, object)) return true;
-            if (this !== $34cc056c8b2e9f38$var$Writable) return false;
-            return object && object._writableState instanceof $34cc056c8b2e9f38$var$WritableState;
+            if ($b07f22e488980a0d$var$realHasInstance.call(this, object)) return true;
+            if (this !== $b07f22e488980a0d$var$Writable) return false;
+            return object && object._writableState instanceof $b07f22e488980a0d$var$WritableState;
         }
     });
-} else $34cc056c8b2e9f38$var$realHasInstance = function realHasInstance(object) {
+} else $b07f22e488980a0d$var$realHasInstance = function realHasInstance(object) {
     return object instanceof this;
 };
 
-function $34cc056c8b2e9f38$var$Writable(options) {
-    $34cc056c8b2e9f38$var$Duplex = $34cc056c8b2e9f38$var$Duplex || (parcelRequire("64Msz")); // Writable ctor is applied to Duplexes, too.
+function $b07f22e488980a0d$var$Writable(options) {
+    $b07f22e488980a0d$var$Duplex = $b07f22e488980a0d$var$Duplex || (parcelRequire("ihTGZ")); // Writable ctor is applied to Duplexes, too.
     // `realHasInstance` is necessary because using plain `instanceof`
     // would return false, as no `_writableState` property is attached.
     // Trying to use the custom `instanceof` for Writable here will also break the
@@ -4567,9 +4567,9 @@ function $34cc056c8b2e9f38$var$Writable(options) {
     // `_writableState` that would lead to infinite recursion.
     // Checking for a Stream.Duplex instance is faster here instead of inside
     // the WritableState constructor, at least with V8 6.5
-    var isDuplex = this instanceof $34cc056c8b2e9f38$var$Duplex;
-    if (!isDuplex && !$34cc056c8b2e9f38$var$realHasInstance.call($34cc056c8b2e9f38$var$Writable, this)) return new $34cc056c8b2e9f38$var$Writable(options);
-    this._writableState = new $34cc056c8b2e9f38$var$WritableState(options, this, isDuplex); // legacy.
+    var isDuplex = this instanceof $b07f22e488980a0d$var$Duplex;
+    if (!isDuplex && !$b07f22e488980a0d$var$realHasInstance.call($b07f22e488980a0d$var$Writable, this)) return new $b07f22e488980a0d$var$Writable(options);
+    this._writableState = new $b07f22e488980a0d$var$WritableState(options, this, isDuplex); // legacy.
     this.writable = true;
     if (options) {
         if (typeof options.write === 'function') this._write = options.write;
@@ -4577,62 +4577,62 @@ function $34cc056c8b2e9f38$var$Writable(options) {
         if (typeof options.destroy === 'function') this._destroy = options.destroy;
         if (typeof options.final === 'function') this._final = options.final;
     }
-    $3smTB.call(this);
+    $bEMAk.call(this);
 } // Otherwise people can pipe Writable streams, which is just wrong.
-$34cc056c8b2e9f38$var$Writable.prototype.pipe = function() {
-    $34cc056c8b2e9f38$var$errorOrDestroy(this, new $34cc056c8b2e9f38$var$ERR_STREAM_CANNOT_PIPE());
+$b07f22e488980a0d$var$Writable.prototype.pipe = function() {
+    $b07f22e488980a0d$var$errorOrDestroy(this, new $b07f22e488980a0d$var$ERR_STREAM_CANNOT_PIPE());
 };
-function $34cc056c8b2e9f38$var$writeAfterEnd(stream, cb) {
-    var er = new $34cc056c8b2e9f38$var$ERR_STREAM_WRITE_AFTER_END(); // TODO: defer error events consistently everywhere, not just the cb
-    $34cc056c8b2e9f38$var$errorOrDestroy(stream, er);
+function $b07f22e488980a0d$var$writeAfterEnd(stream, cb) {
+    var er = new $b07f22e488980a0d$var$ERR_STREAM_WRITE_AFTER_END(); // TODO: defer error events consistently everywhere, not just the cb
+    $b07f22e488980a0d$var$errorOrDestroy(stream, er);
     $a506278517dc5c33$exports.nextTick(cb, er);
 } // Checks that a user-supplied chunk is valid, especially for the particular
 // mode the stream is in. Currently this means that `null` is never accepted
 // and undefined/non-string values are only allowed in object mode.
-function $34cc056c8b2e9f38$var$validChunk(stream, state, chunk, cb) {
+function $b07f22e488980a0d$var$validChunk(stream, state, chunk, cb) {
     var er;
-    if (chunk === null) er = new $34cc056c8b2e9f38$var$ERR_STREAM_NULL_VALUES();
-    else if (typeof chunk !== 'string' && !state.objectMode) er = new $34cc056c8b2e9f38$var$ERR_INVALID_ARG_TYPE('chunk', [
+    if (chunk === null) er = new $b07f22e488980a0d$var$ERR_STREAM_NULL_VALUES();
+    else if (typeof chunk !== 'string' && !state.objectMode) er = new $b07f22e488980a0d$var$ERR_INVALID_ARG_TYPE('chunk', [
         'string',
         'Buffer'
     ], chunk);
     if (er) {
-        $34cc056c8b2e9f38$var$errorOrDestroy(stream, er);
+        $b07f22e488980a0d$var$errorOrDestroy(stream, er);
         $a506278517dc5c33$exports.nextTick(cb, er);
         return false;
     }
     return true;
 }
-$34cc056c8b2e9f38$var$Writable.prototype.write = function(chunk, encoding, cb) {
+$b07f22e488980a0d$var$Writable.prototype.write = function(chunk, encoding, cb) {
     var state = this._writableState;
     var ret = false;
-    var isBuf = !state.objectMode && $34cc056c8b2e9f38$var$_isUint8Array(chunk);
-    if (isBuf && !$34cc056c8b2e9f38$require$Buffer.isBuffer(chunk)) chunk = $34cc056c8b2e9f38$var$_uint8ArrayToBuffer(chunk);
+    var isBuf = !state.objectMode && $b07f22e488980a0d$var$_isUint8Array(chunk);
+    if (isBuf && !$b07f22e488980a0d$require$Buffer.isBuffer(chunk)) chunk = $b07f22e488980a0d$var$_uint8ArrayToBuffer(chunk);
     if (typeof encoding === 'function') {
         cb = encoding;
         encoding = null;
     }
     if (isBuf) encoding = 'buffer';
     else if (!encoding) encoding = state.defaultEncoding;
-    if (typeof cb !== 'function') cb = $34cc056c8b2e9f38$var$nop;
-    if (state.ending) $34cc056c8b2e9f38$var$writeAfterEnd(this, cb);
-    else if (isBuf || $34cc056c8b2e9f38$var$validChunk(this, state, chunk, cb)) {
+    if (typeof cb !== 'function') cb = $b07f22e488980a0d$var$nop;
+    if (state.ending) $b07f22e488980a0d$var$writeAfterEnd(this, cb);
+    else if (isBuf || $b07f22e488980a0d$var$validChunk(this, state, chunk, cb)) {
         state.pendingcb++;
-        ret = $34cc056c8b2e9f38$var$writeOrBuffer(this, state, isBuf, chunk, encoding, cb);
+        ret = $b07f22e488980a0d$var$writeOrBuffer(this, state, isBuf, chunk, encoding, cb);
     }
     return ret;
 };
-$34cc056c8b2e9f38$var$Writable.prototype.cork = function() {
+$b07f22e488980a0d$var$Writable.prototype.cork = function() {
     this._writableState.corked++;
 };
-$34cc056c8b2e9f38$var$Writable.prototype.uncork = function() {
+$b07f22e488980a0d$var$Writable.prototype.uncork = function() {
     var state = this._writableState;
     if (state.corked) {
         state.corked--;
-        if (!state.writing && !state.corked && !state.bufferProcessing && state.bufferedRequest) $34cc056c8b2e9f38$var$clearBuffer(this, state);
+        if (!state.writing && !state.corked && !state.bufferProcessing && state.bufferedRequest) $b07f22e488980a0d$var$clearBuffer(this, state);
     }
 };
-$34cc056c8b2e9f38$var$Writable.prototype.setDefaultEncoding = function setDefaultEncoding(encoding) {
+$b07f22e488980a0d$var$Writable.prototype.setDefaultEncoding = function setDefaultEncoding(encoding) {
     // node::ParseEncoding() requires lower case.
     if (typeof encoding === 'string') encoding = encoding.toLowerCase();
     if (!([
@@ -4647,11 +4647,11 @@ $34cc056c8b2e9f38$var$Writable.prototype.setDefaultEncoding = function setDefaul
         'utf16le',
         'utf-16le',
         'raw'
-    ].indexOf((encoding + '').toLowerCase()) > -1)) throw new $34cc056c8b2e9f38$var$ERR_UNKNOWN_ENCODING(encoding);
+    ].indexOf((encoding + '').toLowerCase()) > -1)) throw new $b07f22e488980a0d$var$ERR_UNKNOWN_ENCODING(encoding);
     this._writableState.defaultEncoding = encoding;
     return this;
 };
-Object.defineProperty($34cc056c8b2e9f38$var$Writable.prototype, 'writableBuffer', {
+Object.defineProperty($b07f22e488980a0d$var$Writable.prototype, 'writableBuffer', {
     // making it explicit this property is not enumerable
     // because otherwise some prototype manipulation in
     // userland will fail
@@ -4660,11 +4660,11 @@ Object.defineProperty($34cc056c8b2e9f38$var$Writable.prototype, 'writableBuffer'
         return this._writableState && this._writableState.getBuffer();
     }
 });
-function $34cc056c8b2e9f38$var$decodeChunk(state, chunk, encoding) {
-    if (!state.objectMode && state.decodeStrings !== false && typeof chunk === 'string') chunk = $34cc056c8b2e9f38$require$Buffer.from(chunk, encoding);
+function $b07f22e488980a0d$var$decodeChunk(state, chunk, encoding) {
+    if (!state.objectMode && state.decodeStrings !== false && typeof chunk === 'string') chunk = $b07f22e488980a0d$require$Buffer.from(chunk, encoding);
     return chunk;
 }
-Object.defineProperty($34cc056c8b2e9f38$var$Writable.prototype, 'writableHighWaterMark', {
+Object.defineProperty($b07f22e488980a0d$var$Writable.prototype, 'writableHighWaterMark', {
     // making it explicit this property is not enumerable
     // because otherwise some prototype manipulation in
     // userland will fail
@@ -4675,9 +4675,9 @@ Object.defineProperty($34cc056c8b2e9f38$var$Writable.prototype, 'writableHighWat
 }); // if we're already writing something, then just put this
 // in the queue, and wait our turn.  Otherwise, call _write
 // If we return false, then we need a drain event, so set that flag.
-function $34cc056c8b2e9f38$var$writeOrBuffer(stream, state, isBuf, chunk, encoding, cb) {
+function $b07f22e488980a0d$var$writeOrBuffer(stream, state, isBuf, chunk, encoding, cb) {
     if (!isBuf) {
-        var newChunk = $34cc056c8b2e9f38$var$decodeChunk(state, chunk, encoding);
+        var newChunk = $b07f22e488980a0d$var$decodeChunk(state, chunk, encoding);
         if (chunk !== newChunk) {
             isBuf = true;
             encoding = 'buffer';
@@ -4700,75 +4700,75 @@ function $34cc056c8b2e9f38$var$writeOrBuffer(stream, state, isBuf, chunk, encodi
         if (last) last.next = state.lastBufferedRequest;
         else state.bufferedRequest = state.lastBufferedRequest;
         state.bufferedRequestCount += 1;
-    } else $34cc056c8b2e9f38$var$doWrite(stream, state, false, len, chunk, encoding, cb);
+    } else $b07f22e488980a0d$var$doWrite(stream, state, false, len, chunk, encoding, cb);
     return ret;
 }
-function $34cc056c8b2e9f38$var$doWrite(stream, state, writev, len, chunk, encoding, cb) {
+function $b07f22e488980a0d$var$doWrite(stream, state, writev, len, chunk, encoding, cb) {
     state.writelen = len;
     state.writecb = cb;
     state.writing = true;
     state.sync = true;
-    if (state.destroyed) state.onwrite(new $34cc056c8b2e9f38$var$ERR_STREAM_DESTROYED('write'));
+    if (state.destroyed) state.onwrite(new $b07f22e488980a0d$var$ERR_STREAM_DESTROYED('write'));
     else if (writev) stream._writev(chunk, state.onwrite);
     else stream._write(chunk, encoding, state.onwrite);
     state.sync = false;
 }
-function $34cc056c8b2e9f38$var$onwriteError(stream, state, sync, er, cb) {
+function $b07f22e488980a0d$var$onwriteError(stream, state, sync, er, cb) {
     --state.pendingcb;
     if (sync) {
         // defer the callback if we are being called synchronously
         // to avoid piling up things on the stack
         $a506278517dc5c33$exports.nextTick(cb, er); // this can emit finish, and it will always happen
         // after error
-        $a506278517dc5c33$exports.nextTick($34cc056c8b2e9f38$var$finishMaybe, stream, state);
+        $a506278517dc5c33$exports.nextTick($b07f22e488980a0d$var$finishMaybe, stream, state);
         stream._writableState.errorEmitted = true;
-        $34cc056c8b2e9f38$var$errorOrDestroy(stream, er);
+        $b07f22e488980a0d$var$errorOrDestroy(stream, er);
     } else {
         // the caller expect this to happen before if
         // it is async
         cb(er);
         stream._writableState.errorEmitted = true;
-        $34cc056c8b2e9f38$var$errorOrDestroy(stream, er); // this can emit finish, but finish must
+        $b07f22e488980a0d$var$errorOrDestroy(stream, er); // this can emit finish, but finish must
         // always follow error
-        $34cc056c8b2e9f38$var$finishMaybe(stream, state);
+        $b07f22e488980a0d$var$finishMaybe(stream, state);
     }
 }
-function $34cc056c8b2e9f38$var$onwriteStateUpdate(state) {
+function $b07f22e488980a0d$var$onwriteStateUpdate(state) {
     state.writing = false;
     state.writecb = null;
     state.length -= state.writelen;
     state.writelen = 0;
 }
-function $34cc056c8b2e9f38$var$onwrite(stream, er) {
+function $b07f22e488980a0d$var$onwrite(stream, er) {
     var state = stream._writableState;
     var sync = state.sync;
     var cb = state.writecb;
-    if (typeof cb !== 'function') throw new $34cc056c8b2e9f38$var$ERR_MULTIPLE_CALLBACK();
-    $34cc056c8b2e9f38$var$onwriteStateUpdate(state);
-    if (er) $34cc056c8b2e9f38$var$onwriteError(stream, state, sync, er, cb);
+    if (typeof cb !== 'function') throw new $b07f22e488980a0d$var$ERR_MULTIPLE_CALLBACK();
+    $b07f22e488980a0d$var$onwriteStateUpdate(state);
+    if (er) $b07f22e488980a0d$var$onwriteError(stream, state, sync, er, cb);
     else {
         // Check if we're actually ready to finish, but don't emit yet
-        var finished = $34cc056c8b2e9f38$var$needFinish(state) || stream.destroyed;
-        if (!finished && !state.corked && !state.bufferProcessing && state.bufferedRequest) $34cc056c8b2e9f38$var$clearBuffer(stream, state);
-        if (sync) $a506278517dc5c33$exports.nextTick($34cc056c8b2e9f38$var$afterWrite, stream, state, finished, cb);
-        else $34cc056c8b2e9f38$var$afterWrite(stream, state, finished, cb);
+        var finished = $b07f22e488980a0d$var$needFinish(state) || stream.destroyed;
+        if (!finished && !state.corked && !state.bufferProcessing && state.bufferedRequest) $b07f22e488980a0d$var$clearBuffer(stream, state);
+        if (sync) $a506278517dc5c33$exports.nextTick($b07f22e488980a0d$var$afterWrite, stream, state, finished, cb);
+        else $b07f22e488980a0d$var$afterWrite(stream, state, finished, cb);
     }
 }
-function $34cc056c8b2e9f38$var$afterWrite(stream, state, finished, cb) {
-    if (!finished) $34cc056c8b2e9f38$var$onwriteDrain(stream, state);
+function $b07f22e488980a0d$var$afterWrite(stream, state, finished, cb) {
+    if (!finished) $b07f22e488980a0d$var$onwriteDrain(stream, state);
     state.pendingcb--;
     cb();
-    $34cc056c8b2e9f38$var$finishMaybe(stream, state);
+    $b07f22e488980a0d$var$finishMaybe(stream, state);
 } // Must force callback to be called on nextTick, so that we don't
 // emit 'drain' before the write() consumer gets the 'false' return
 // value, and has a chance to attach a 'drain' listener.
-function $34cc056c8b2e9f38$var$onwriteDrain(stream, state) {
+function $b07f22e488980a0d$var$onwriteDrain(stream, state) {
     if (state.length === 0 && state.needDrain) {
         state.needDrain = false;
         stream.emit('drain');
     }
 } // if there's something in the buffer waiting, then process it
-function $34cc056c8b2e9f38$var$clearBuffer(stream, state) {
+function $b07f22e488980a0d$var$clearBuffer(stream, state) {
     state.bufferProcessing = true;
     var entry = state.bufferedRequest;
     if (stream._writev && entry && entry.next) {
@@ -4786,14 +4786,14 @@ function $34cc056c8b2e9f38$var$clearBuffer(stream, state) {
             count += 1;
         }
         buffer.allBuffers = allBuffers;
-        $34cc056c8b2e9f38$var$doWrite(stream, state, true, state.length, buffer, '', holder.finish); // doWrite is almost always async, defer these to save a bit of time
+        $b07f22e488980a0d$var$doWrite(stream, state, true, state.length, buffer, '', holder.finish); // doWrite is almost always async, defer these to save a bit of time
         // as the hot path ends with doWrite
         state.pendingcb++;
         state.lastBufferedRequest = null;
         if (holder.next) {
             state.corkedRequestsFree = holder.next;
             holder.next = null;
-        } else state.corkedRequestsFree = new $34cc056c8b2e9f38$var$CorkedRequest(state);
+        } else state.corkedRequestsFree = new $b07f22e488980a0d$var$CorkedRequest(state);
         state.bufferedRequestCount = 0;
     } else {
         // Slow case, write chunks one-by-one
@@ -4802,7 +4802,7 @@ function $34cc056c8b2e9f38$var$clearBuffer(stream, state) {
             var encoding = entry.encoding;
             var cb = entry.callback;
             var len = state.objectMode ? 1 : chunk.length;
-            $34cc056c8b2e9f38$var$doWrite(stream, state, false, len, chunk, encoding, cb);
+            $b07f22e488980a0d$var$doWrite(stream, state, false, len, chunk, encoding, cb);
             entry = entry.next;
             state.bufferedRequestCount--; // if we didn't call the onwrite immediately, then
             // it means that we need to wait until it does.
@@ -4815,11 +4815,11 @@ function $34cc056c8b2e9f38$var$clearBuffer(stream, state) {
     state.bufferedRequest = entry;
     state.bufferProcessing = false;
 }
-$34cc056c8b2e9f38$var$Writable.prototype._write = function(chunk, encoding, cb) {
-    cb(new $34cc056c8b2e9f38$var$ERR_METHOD_NOT_IMPLEMENTED('_write()'));
+$b07f22e488980a0d$var$Writable.prototype._write = function(chunk, encoding, cb) {
+    cb(new $b07f22e488980a0d$var$ERR_METHOD_NOT_IMPLEMENTED('_write()'));
 };
-$34cc056c8b2e9f38$var$Writable.prototype._writev = null;
-$34cc056c8b2e9f38$var$Writable.prototype.end = function(chunk, encoding, cb) {
+$b07f22e488980a0d$var$Writable.prototype._writev = null;
+$b07f22e488980a0d$var$Writable.prototype.end = function(chunk, encoding, cb) {
     var state = this._writableState;
     if (typeof chunk === 'function') {
         cb = chunk;
@@ -4834,10 +4834,10 @@ $34cc056c8b2e9f38$var$Writable.prototype.end = function(chunk, encoding, cb) {
         state.corked = 1;
         this.uncork();
     } // ignore unnecessary end() calls.
-    if (!state.ending) $34cc056c8b2e9f38$var$endWritable(this, state, cb);
+    if (!state.ending) $b07f22e488980a0d$var$endWritable(this, state, cb);
     return this;
 };
-Object.defineProperty($34cc056c8b2e9f38$var$Writable.prototype, 'writableLength', {
+Object.defineProperty($b07f22e488980a0d$var$Writable.prototype, 'writableLength', {
     // making it explicit this property is not enumerable
     // because otherwise some prototype manipulation in
     // userland will fail
@@ -4846,34 +4846,34 @@ Object.defineProperty($34cc056c8b2e9f38$var$Writable.prototype, 'writableLength'
         return this._writableState.length;
     }
 });
-function $34cc056c8b2e9f38$var$needFinish(state) {
+function $b07f22e488980a0d$var$needFinish(state) {
     return state.ending && state.length === 0 && state.bufferedRequest === null && !state.finished && !state.writing;
 }
-function $34cc056c8b2e9f38$var$callFinal(stream, state) {
+function $b07f22e488980a0d$var$callFinal(stream, state) {
     stream._final(function(err) {
         state.pendingcb--;
-        if (err) $34cc056c8b2e9f38$var$errorOrDestroy(stream, err);
+        if (err) $b07f22e488980a0d$var$errorOrDestroy(stream, err);
         state.prefinished = true;
         stream.emit('prefinish');
-        $34cc056c8b2e9f38$var$finishMaybe(stream, state);
+        $b07f22e488980a0d$var$finishMaybe(stream, state);
     });
 }
-function $34cc056c8b2e9f38$var$prefinish(stream, state) {
+function $b07f22e488980a0d$var$prefinish(stream, state) {
     if (!state.prefinished && !state.finalCalled) {
         if (typeof stream._final === 'function' && !state.destroyed) {
             state.pendingcb++;
             state.finalCalled = true;
-            $a506278517dc5c33$exports.nextTick($34cc056c8b2e9f38$var$callFinal, stream, state);
+            $a506278517dc5c33$exports.nextTick($b07f22e488980a0d$var$callFinal, stream, state);
         } else {
             state.prefinished = true;
             stream.emit('prefinish');
         }
     }
 }
-function $34cc056c8b2e9f38$var$finishMaybe(stream, state) {
-    var need = $34cc056c8b2e9f38$var$needFinish(state);
+function $b07f22e488980a0d$var$finishMaybe(stream, state) {
+    var need = $b07f22e488980a0d$var$needFinish(state);
     if (need) {
-        $34cc056c8b2e9f38$var$prefinish(stream, state);
+        $b07f22e488980a0d$var$prefinish(stream, state);
         if (state.pendingcb === 0) {
             state.finished = true;
             stream.emit('finish');
@@ -4887,9 +4887,9 @@ function $34cc056c8b2e9f38$var$finishMaybe(stream, state) {
     }
     return need;
 }
-function $34cc056c8b2e9f38$var$endWritable(stream, state, cb) {
+function $b07f22e488980a0d$var$endWritable(stream, state, cb) {
     state.ending = true;
-    $34cc056c8b2e9f38$var$finishMaybe(stream, state);
+    $b07f22e488980a0d$var$finishMaybe(stream, state);
     if (cb) {
         if (state.finished) $a506278517dc5c33$exports.nextTick(cb);
         else stream.once('finish', cb);
@@ -4897,7 +4897,7 @@ function $34cc056c8b2e9f38$var$endWritable(stream, state, cb) {
     state.ended = true;
     stream.writable = false;
 }
-function $34cc056c8b2e9f38$var$onCorkedFinish(corkReq, state, err) {
+function $b07f22e488980a0d$var$onCorkedFinish(corkReq, state, err) {
     var entry = corkReq.entry;
     corkReq.entry = null;
     while(entry){
@@ -4908,7 +4908,7 @@ function $34cc056c8b2e9f38$var$onCorkedFinish(corkReq, state, err) {
     } // reuse the free corkReq.
     state.corkedRequestsFree.next = corkReq;
 }
-Object.defineProperty($34cc056c8b2e9f38$var$Writable.prototype, 'destroyed', {
+Object.defineProperty($b07f22e488980a0d$var$Writable.prototype, 'destroyed', {
     // making it explicit this property is not enumerable
     // because otherwise some prototype manipulation in
     // userland will fail
@@ -4926,9 +4926,9 @@ Object.defineProperty($34cc056c8b2e9f38$var$Writable.prototype, 'destroyed', {
         this._writableState.destroyed = value;
     }
 });
-$34cc056c8b2e9f38$var$Writable.prototype.destroy = $3Y67T.destroy;
-$34cc056c8b2e9f38$var$Writable.prototype._undestroy = $3Y67T.undestroy;
-$34cc056c8b2e9f38$var$Writable.prototype._destroy = function(err, cb) {
+$b07f22e488980a0d$var$Writable.prototype.destroy = $jI0yy.destroy;
+$b07f22e488980a0d$var$Writable.prototype._undestroy = $jI0yy.undestroy;
+$b07f22e488980a0d$var$Writable.prototype._destroy = function(err, cb) {
     cb(err);
 };
 
@@ -5278,11 +5278,11 @@ function $de88ecad0127d352$var$simpleEnd(buf) {
 
 });
 
-parcelRequire.register("bqvb7", function(module, exports) {
+parcelRequire.register("g2TW4", function(module, exports) {
 
 'use strict';
-var $851a4ec985f6db0a$var$_Object$setPrototypeO;
-function $851a4ec985f6db0a$var$_defineProperty(obj, key, value) {
+var $bae838e377fb1d74$var$_Object$setPrototypeO;
+function $bae838e377fb1d74$var$_defineProperty(obj, key, value) {
     if (key in obj) Object.defineProperty(obj, key, {
         value: value,
         enumerable: true,
@@ -5293,177 +5293,177 @@ function $851a4ec985f6db0a$var$_defineProperty(obj, key, value) {
     return obj;
 }
 
-var $eP2sK = parcelRequire("eP2sK");
-var $851a4ec985f6db0a$var$kLastResolve = Symbol('lastResolve');
-var $851a4ec985f6db0a$var$kLastReject = Symbol('lastReject');
-var $851a4ec985f6db0a$var$kError = Symbol('error');
-var $851a4ec985f6db0a$var$kEnded = Symbol('ended');
-var $851a4ec985f6db0a$var$kLastPromise = Symbol('lastPromise');
-var $851a4ec985f6db0a$var$kHandlePromise = Symbol('handlePromise');
-var $851a4ec985f6db0a$var$kStream = Symbol('stream');
-function $851a4ec985f6db0a$var$createIterResult(value, done) {
+var $exPcx = parcelRequire("exPcx");
+var $bae838e377fb1d74$var$kLastResolve = Symbol('lastResolve');
+var $bae838e377fb1d74$var$kLastReject = Symbol('lastReject');
+var $bae838e377fb1d74$var$kError = Symbol('error');
+var $bae838e377fb1d74$var$kEnded = Symbol('ended');
+var $bae838e377fb1d74$var$kLastPromise = Symbol('lastPromise');
+var $bae838e377fb1d74$var$kHandlePromise = Symbol('handlePromise');
+var $bae838e377fb1d74$var$kStream = Symbol('stream');
+function $bae838e377fb1d74$var$createIterResult(value, done) {
     return {
         value: value,
         done: done
     };
 }
-function $851a4ec985f6db0a$var$readAndResolve(iter) {
-    var resolve = iter[$851a4ec985f6db0a$var$kLastResolve];
+function $bae838e377fb1d74$var$readAndResolve(iter) {
+    var resolve = iter[$bae838e377fb1d74$var$kLastResolve];
     if (resolve !== null) {
-        var data = iter[$851a4ec985f6db0a$var$kStream].read(); // we defer if data is null
+        var data = iter[$bae838e377fb1d74$var$kStream].read(); // we defer if data is null
         // we can be expecting either 'end' or
         // 'error'
         if (data !== null) {
-            iter[$851a4ec985f6db0a$var$kLastPromise] = null;
-            iter[$851a4ec985f6db0a$var$kLastResolve] = null;
-            iter[$851a4ec985f6db0a$var$kLastReject] = null;
-            resolve($851a4ec985f6db0a$var$createIterResult(data, false));
+            iter[$bae838e377fb1d74$var$kLastPromise] = null;
+            iter[$bae838e377fb1d74$var$kLastResolve] = null;
+            iter[$bae838e377fb1d74$var$kLastReject] = null;
+            resolve($bae838e377fb1d74$var$createIterResult(data, false));
         }
     }
 }
-function $851a4ec985f6db0a$var$onReadable(iter) {
+function $bae838e377fb1d74$var$onReadable(iter) {
     // we wait for the next tick, because it might
     // emit an error with process.nextTick
-    $a506278517dc5c33$exports.nextTick($851a4ec985f6db0a$var$readAndResolve, iter);
+    $a506278517dc5c33$exports.nextTick($bae838e377fb1d74$var$readAndResolve, iter);
 }
-function $851a4ec985f6db0a$var$wrapForNext(lastPromise, iter) {
+function $bae838e377fb1d74$var$wrapForNext(lastPromise, iter) {
     return function(resolve, reject) {
         lastPromise.then(function() {
-            if (iter[$851a4ec985f6db0a$var$kEnded]) {
-                resolve($851a4ec985f6db0a$var$createIterResult(undefined, true));
+            if (iter[$bae838e377fb1d74$var$kEnded]) {
+                resolve($bae838e377fb1d74$var$createIterResult(undefined, true));
                 return;
             }
-            iter[$851a4ec985f6db0a$var$kHandlePromise](resolve, reject);
+            iter[$bae838e377fb1d74$var$kHandlePromise](resolve, reject);
         }, reject);
     };
 }
-var $851a4ec985f6db0a$var$AsyncIteratorPrototype = Object.getPrototypeOf(function() {
+var $bae838e377fb1d74$var$AsyncIteratorPrototype = Object.getPrototypeOf(function() {
 });
-var $851a4ec985f6db0a$var$ReadableStreamAsyncIteratorPrototype = Object.setPrototypeOf(($851a4ec985f6db0a$var$_Object$setPrototypeO = {
+var $bae838e377fb1d74$var$ReadableStreamAsyncIteratorPrototype = Object.setPrototypeOf(($bae838e377fb1d74$var$_Object$setPrototypeO = {
     get stream () {
-        return this[$851a4ec985f6db0a$var$kStream];
+        return this[$bae838e377fb1d74$var$kStream];
     },
     next: function next() {
         var _this = this;
         // if we have detected an error in the meanwhile
         // reject straight away
-        var error = this[$851a4ec985f6db0a$var$kError];
+        var error = this[$bae838e377fb1d74$var$kError];
         if (error !== null) return Promise.reject(error);
-        if (this[$851a4ec985f6db0a$var$kEnded]) return Promise.resolve($851a4ec985f6db0a$var$createIterResult(undefined, true));
-        if (this[$851a4ec985f6db0a$var$kStream].destroyed) // We need to defer via nextTick because if .destroy(err) is
+        if (this[$bae838e377fb1d74$var$kEnded]) return Promise.resolve($bae838e377fb1d74$var$createIterResult(undefined, true));
+        if (this[$bae838e377fb1d74$var$kStream].destroyed) // We need to defer via nextTick because if .destroy(err) is
         // called, the error will be emitted via nextTick, and
         // we cannot guarantee that there is no error lingering around
         // waiting to be emitted.
         return new Promise(function(resolve, reject) {
             $a506278517dc5c33$exports.nextTick(function() {
-                if (_this[$851a4ec985f6db0a$var$kError]) reject(_this[$851a4ec985f6db0a$var$kError]);
-                else resolve($851a4ec985f6db0a$var$createIterResult(undefined, true));
+                if (_this[$bae838e377fb1d74$var$kError]) reject(_this[$bae838e377fb1d74$var$kError]);
+                else resolve($bae838e377fb1d74$var$createIterResult(undefined, true));
             });
         });
          // if we have multiple next() calls
         // we will wait for the previous Promise to finish
         // this logic is optimized to support for await loops,
         // where next() is only called once at a time
-        var lastPromise = this[$851a4ec985f6db0a$var$kLastPromise];
+        var lastPromise = this[$bae838e377fb1d74$var$kLastPromise];
         var promise;
-        if (lastPromise) promise = new Promise($851a4ec985f6db0a$var$wrapForNext(lastPromise, this));
+        if (lastPromise) promise = new Promise($bae838e377fb1d74$var$wrapForNext(lastPromise, this));
         else {
             // fast path needed to support multiple this.push()
             // without triggering the next() queue
-            var data = this[$851a4ec985f6db0a$var$kStream].read();
-            if (data !== null) return Promise.resolve($851a4ec985f6db0a$var$createIterResult(data, false));
-            promise = new Promise(this[$851a4ec985f6db0a$var$kHandlePromise]);
+            var data = this[$bae838e377fb1d74$var$kStream].read();
+            if (data !== null) return Promise.resolve($bae838e377fb1d74$var$createIterResult(data, false));
+            promise = new Promise(this[$bae838e377fb1d74$var$kHandlePromise]);
         }
-        this[$851a4ec985f6db0a$var$kLastPromise] = promise;
+        this[$bae838e377fb1d74$var$kLastPromise] = promise;
         return promise;
     }
-}, $851a4ec985f6db0a$var$_defineProperty($851a4ec985f6db0a$var$_Object$setPrototypeO, Symbol.asyncIterator, function() {
+}, $bae838e377fb1d74$var$_defineProperty($bae838e377fb1d74$var$_Object$setPrototypeO, Symbol.asyncIterator, function() {
     return this;
-}), $851a4ec985f6db0a$var$_defineProperty($851a4ec985f6db0a$var$_Object$setPrototypeO, "return", function _return() {
+}), $bae838e377fb1d74$var$_defineProperty($bae838e377fb1d74$var$_Object$setPrototypeO, "return", function _return() {
     var _this2 = this;
     // destroy(err, cb) is a private API
     // we can guarantee we have that here, because we control the
     // Readable class this is attached to
     return new Promise(function(resolve, reject) {
-        _this2[$851a4ec985f6db0a$var$kStream].destroy(null, function(err) {
+        _this2[$bae838e377fb1d74$var$kStream].destroy(null, function(err) {
             if (err) {
                 reject(err);
                 return;
             }
-            resolve($851a4ec985f6db0a$var$createIterResult(undefined, true));
+            resolve($bae838e377fb1d74$var$createIterResult(undefined, true));
         });
     });
-}), $851a4ec985f6db0a$var$_Object$setPrototypeO), $851a4ec985f6db0a$var$AsyncIteratorPrototype);
-var $851a4ec985f6db0a$var$createReadableStreamAsyncIterator = function createReadableStreamAsyncIterator(stream) {
+}), $bae838e377fb1d74$var$_Object$setPrototypeO), $bae838e377fb1d74$var$AsyncIteratorPrototype);
+var $bae838e377fb1d74$var$createReadableStreamAsyncIterator = function createReadableStreamAsyncIterator(stream) {
     var _Object$create;
-    var iterator = Object.create($851a4ec985f6db0a$var$ReadableStreamAsyncIteratorPrototype, (_Object$create = {
-    }, $851a4ec985f6db0a$var$_defineProperty(_Object$create, $851a4ec985f6db0a$var$kStream, {
+    var iterator = Object.create($bae838e377fb1d74$var$ReadableStreamAsyncIteratorPrototype, (_Object$create = {
+    }, $bae838e377fb1d74$var$_defineProperty(_Object$create, $bae838e377fb1d74$var$kStream, {
         value: stream,
         writable: true
-    }), $851a4ec985f6db0a$var$_defineProperty(_Object$create, $851a4ec985f6db0a$var$kLastResolve, {
+    }), $bae838e377fb1d74$var$_defineProperty(_Object$create, $bae838e377fb1d74$var$kLastResolve, {
         value: null,
         writable: true
-    }), $851a4ec985f6db0a$var$_defineProperty(_Object$create, $851a4ec985f6db0a$var$kLastReject, {
+    }), $bae838e377fb1d74$var$_defineProperty(_Object$create, $bae838e377fb1d74$var$kLastReject, {
         value: null,
         writable: true
-    }), $851a4ec985f6db0a$var$_defineProperty(_Object$create, $851a4ec985f6db0a$var$kError, {
+    }), $bae838e377fb1d74$var$_defineProperty(_Object$create, $bae838e377fb1d74$var$kError, {
         value: null,
         writable: true
-    }), $851a4ec985f6db0a$var$_defineProperty(_Object$create, $851a4ec985f6db0a$var$kEnded, {
+    }), $bae838e377fb1d74$var$_defineProperty(_Object$create, $bae838e377fb1d74$var$kEnded, {
         value: stream._readableState.endEmitted,
         writable: true
-    }), $851a4ec985f6db0a$var$_defineProperty(_Object$create, $851a4ec985f6db0a$var$kHandlePromise, {
+    }), $bae838e377fb1d74$var$_defineProperty(_Object$create, $bae838e377fb1d74$var$kHandlePromise, {
         value: function value(resolve, reject) {
-            var data = iterator[$851a4ec985f6db0a$var$kStream].read();
+            var data = iterator[$bae838e377fb1d74$var$kStream].read();
             if (data) {
-                iterator[$851a4ec985f6db0a$var$kLastPromise] = null;
-                iterator[$851a4ec985f6db0a$var$kLastResolve] = null;
-                iterator[$851a4ec985f6db0a$var$kLastReject] = null;
-                resolve($851a4ec985f6db0a$var$createIterResult(data, false));
+                iterator[$bae838e377fb1d74$var$kLastPromise] = null;
+                iterator[$bae838e377fb1d74$var$kLastResolve] = null;
+                iterator[$bae838e377fb1d74$var$kLastReject] = null;
+                resolve($bae838e377fb1d74$var$createIterResult(data, false));
             } else {
-                iterator[$851a4ec985f6db0a$var$kLastResolve] = resolve;
-                iterator[$851a4ec985f6db0a$var$kLastReject] = reject;
+                iterator[$bae838e377fb1d74$var$kLastResolve] = resolve;
+                iterator[$bae838e377fb1d74$var$kLastReject] = reject;
             }
         },
         writable: true
     }), _Object$create));
-    iterator[$851a4ec985f6db0a$var$kLastPromise] = null;
-    $eP2sK(stream, function(err) {
+    iterator[$bae838e377fb1d74$var$kLastPromise] = null;
+    $exPcx(stream, function(err) {
         if (err && err.code !== 'ERR_STREAM_PREMATURE_CLOSE') {
-            var reject = iterator[$851a4ec985f6db0a$var$kLastReject]; // reject if we are waiting for data in the Promise
+            var reject = iterator[$bae838e377fb1d74$var$kLastReject]; // reject if we are waiting for data in the Promise
             // returned by next() and store the error
             if (reject !== null) {
-                iterator[$851a4ec985f6db0a$var$kLastPromise] = null;
-                iterator[$851a4ec985f6db0a$var$kLastResolve] = null;
-                iterator[$851a4ec985f6db0a$var$kLastReject] = null;
+                iterator[$bae838e377fb1d74$var$kLastPromise] = null;
+                iterator[$bae838e377fb1d74$var$kLastResolve] = null;
+                iterator[$bae838e377fb1d74$var$kLastReject] = null;
                 reject(err);
             }
-            iterator[$851a4ec985f6db0a$var$kError] = err;
+            iterator[$bae838e377fb1d74$var$kError] = err;
             return;
         }
-        var resolve = iterator[$851a4ec985f6db0a$var$kLastResolve];
+        var resolve = iterator[$bae838e377fb1d74$var$kLastResolve];
         if (resolve !== null) {
-            iterator[$851a4ec985f6db0a$var$kLastPromise] = null;
-            iterator[$851a4ec985f6db0a$var$kLastResolve] = null;
-            iterator[$851a4ec985f6db0a$var$kLastReject] = null;
-            resolve($851a4ec985f6db0a$var$createIterResult(undefined, true));
+            iterator[$bae838e377fb1d74$var$kLastPromise] = null;
+            iterator[$bae838e377fb1d74$var$kLastResolve] = null;
+            iterator[$bae838e377fb1d74$var$kLastReject] = null;
+            resolve($bae838e377fb1d74$var$createIterResult(undefined, true));
         }
-        iterator[$851a4ec985f6db0a$var$kEnded] = true;
+        iterator[$bae838e377fb1d74$var$kEnded] = true;
     });
-    stream.on('readable', $851a4ec985f6db0a$var$onReadable.bind(null, iterator));
+    stream.on('readable', $bae838e377fb1d74$var$onReadable.bind(null, iterator));
     return iterator;
 };
-module.exports = $851a4ec985f6db0a$var$createReadableStreamAsyncIterator;
+module.exports = $bae838e377fb1d74$var$createReadableStreamAsyncIterator;
 
 });
-parcelRequire.register("eP2sK", function(module, exports) {
+parcelRequire.register("exPcx", function(module, exports) {
 // Ported from https://github.com/mafintosh/end-of-stream with
 // permission from the author, Mathias Buus (@mafintosh).
 'use strict';
 
-var $lEIWw = parcelRequire("lEIWw");
-var $aca7bd285d14fa05$var$ERR_STREAM_PREMATURE_CLOSE = $lEIWw.codes.ERR_STREAM_PREMATURE_CLOSE;
-function $aca7bd285d14fa05$var$once(callback) {
+var $12HIq = parcelRequire("12HIq");
+var $a96bdd3c0690d0cd$var$ERR_STREAM_PREMATURE_CLOSE = $12HIq.codes.ERR_STREAM_PREMATURE_CLOSE;
+function $a96bdd3c0690d0cd$var$once(callback) {
     var called = false;
     return function() {
         if (called) return;
@@ -5472,16 +5472,16 @@ function $aca7bd285d14fa05$var$once(callback) {
         callback.apply(this, args);
     };
 }
-function $aca7bd285d14fa05$var$noop() {
+function $a96bdd3c0690d0cd$var$noop() {
 }
-function $aca7bd285d14fa05$var$isRequest(stream) {
+function $a96bdd3c0690d0cd$var$isRequest(stream) {
     return stream.setHeader && typeof stream.abort === 'function';
 }
-function $aca7bd285d14fa05$var$eos(stream, opts, callback) {
-    if (typeof opts === 'function') return $aca7bd285d14fa05$var$eos(stream, null, opts);
+function $a96bdd3c0690d0cd$var$eos(stream, opts, callback) {
+    if (typeof opts === 'function') return $a96bdd3c0690d0cd$var$eos(stream, null, opts);
     if (!opts) opts = {
     };
-    callback = $aca7bd285d14fa05$var$once(callback || $aca7bd285d14fa05$var$noop);
+    callback = $a96bdd3c0690d0cd$var$once(callback || $a96bdd3c0690d0cd$var$noop);
     var readable = opts.readable || opts.readable !== false && stream.readable;
     var writable = opts.writable || opts.writable !== false && stream.writable;
     var onlegacyfinish = function onlegacyfinish() {
@@ -5505,18 +5505,18 @@ function $aca7bd285d14fa05$var$eos(stream, opts, callback) {
     var onclose = function onclose() {
         var err;
         if (readable && !readableEnded) {
-            if (!stream._readableState || !stream._readableState.ended) err = new $aca7bd285d14fa05$var$ERR_STREAM_PREMATURE_CLOSE();
+            if (!stream._readableState || !stream._readableState.ended) err = new $a96bdd3c0690d0cd$var$ERR_STREAM_PREMATURE_CLOSE();
             return callback.call(stream, err);
         }
         if (writable && !writableEnded) {
-            if (!stream._writableState || !stream._writableState.ended) err = new $aca7bd285d14fa05$var$ERR_STREAM_PREMATURE_CLOSE();
+            if (!stream._writableState || !stream._writableState.ended) err = new $a96bdd3c0690d0cd$var$ERR_STREAM_PREMATURE_CLOSE();
             return callback.call(stream, err);
         }
     };
     var onrequest = function onrequest() {
         stream.req.on('finish', onfinish);
     };
-    if ($aca7bd285d14fa05$var$isRequest(stream)) {
+    if ($a96bdd3c0690d0cd$var$isRequest(stream)) {
         stream.on('complete', onfinish);
         stream.on('abort', onclose);
         if (stream.req) onrequest();
@@ -5543,12 +5543,12 @@ function $aca7bd285d14fa05$var$eos(stream, opts, callback) {
         stream.removeListener('close', onclose);
     };
 }
-module.exports = $aca7bd285d14fa05$var$eos;
+module.exports = $a96bdd3c0690d0cd$var$eos;
 
 });
 
 
-parcelRequire.register("4jngN", function(module, exports) {
+parcelRequire.register("gJGP4", function(module, exports) {
 module.exports = function() {
     throw new Error('Readable.from is not available in the browser');
 };
@@ -5556,7 +5556,7 @@ module.exports = function() {
 });
 
 
-parcelRequire.register("huRvx", function(module, exports) {
+parcelRequire.register("c252p", function(module, exports) {
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -5619,20 +5619,20 @@ parcelRequire.register("huRvx", function(module, exports) {
 // would be consumed, and then the rest would wait (un-transformed) until
 // the results of the previous transformed chunk were consumed.
 'use strict';
-module.exports = $cbcebe887611a375$var$Transform;
+module.exports = $8c29945a75c9791e$var$Transform;
 
-var $lEIWw = parcelRequire("lEIWw");
-var $cbcebe887611a375$require$_require$codes = $lEIWw.codes;
-var $cbcebe887611a375$var$ERR_METHOD_NOT_IMPLEMENTED = $cbcebe887611a375$require$_require$codes.ERR_METHOD_NOT_IMPLEMENTED, $cbcebe887611a375$var$ERR_MULTIPLE_CALLBACK = $cbcebe887611a375$require$_require$codes.ERR_MULTIPLE_CALLBACK, $cbcebe887611a375$var$ERR_TRANSFORM_ALREADY_TRANSFORMING = $cbcebe887611a375$require$_require$codes.ERR_TRANSFORM_ALREADY_TRANSFORMING, $cbcebe887611a375$var$ERR_TRANSFORM_WITH_LENGTH_0 = $cbcebe887611a375$require$_require$codes.ERR_TRANSFORM_WITH_LENGTH_0;
+var $12HIq = parcelRequire("12HIq");
+var $8c29945a75c9791e$require$_require$codes = $12HIq.codes;
+var $8c29945a75c9791e$var$ERR_METHOD_NOT_IMPLEMENTED = $8c29945a75c9791e$require$_require$codes.ERR_METHOD_NOT_IMPLEMENTED, $8c29945a75c9791e$var$ERR_MULTIPLE_CALLBACK = $8c29945a75c9791e$require$_require$codes.ERR_MULTIPLE_CALLBACK, $8c29945a75c9791e$var$ERR_TRANSFORM_ALREADY_TRANSFORMING = $8c29945a75c9791e$require$_require$codes.ERR_TRANSFORM_ALREADY_TRANSFORMING, $8c29945a75c9791e$var$ERR_TRANSFORM_WITH_LENGTH_0 = $8c29945a75c9791e$require$_require$codes.ERR_TRANSFORM_WITH_LENGTH_0;
 
-var $64Msz = parcelRequire("64Msz");
+var $ihTGZ = parcelRequire("ihTGZ");
 
-(parcelRequire("4xKNh"))($cbcebe887611a375$var$Transform, $64Msz);
-function $cbcebe887611a375$var$afterTransform(er, data) {
+(parcelRequire("4xKNh"))($8c29945a75c9791e$var$Transform, $ihTGZ);
+function $8c29945a75c9791e$var$afterTransform(er, data) {
     var ts = this._transformState;
     ts.transforming = false;
     var cb = ts.writecb;
-    if (cb === null) return this.emit('error', new $cbcebe887611a375$var$ERR_MULTIPLE_CALLBACK());
+    if (cb === null) return this.emit('error', new $8c29945a75c9791e$var$ERR_MULTIPLE_CALLBACK());
     ts.writechunk = null;
     ts.writecb = null;
     if (data != null) this.push(data);
@@ -5641,11 +5641,11 @@ function $cbcebe887611a375$var$afterTransform(er, data) {
     rs.reading = false;
     if (rs.needReadable || rs.length < rs.highWaterMark) this._read(rs.highWaterMark);
 }
-function $cbcebe887611a375$var$Transform(options) {
-    if (!(this instanceof $cbcebe887611a375$var$Transform)) return new $cbcebe887611a375$var$Transform(options);
-    $64Msz.call(this, options);
+function $8c29945a75c9791e$var$Transform(options) {
+    if (!(this instanceof $8c29945a75c9791e$var$Transform)) return new $8c29945a75c9791e$var$Transform(options);
+    $ihTGZ.call(this, options);
     this._transformState = {
-        afterTransform: $cbcebe887611a375$var$afterTransform.bind(this),
+        afterTransform: $8c29945a75c9791e$var$afterTransform.bind(this),
         needTransform: false,
         transforming: false,
         writecb: null,
@@ -5660,18 +5660,18 @@ function $cbcebe887611a375$var$Transform(options) {
         if (typeof options.transform === 'function') this._transform = options.transform;
         if (typeof options.flush === 'function') this._flush = options.flush;
     } // When the writable side finishes, then flush out anything remaining.
-    this.on('prefinish', $cbcebe887611a375$var$prefinish);
+    this.on('prefinish', $8c29945a75c9791e$var$prefinish);
 }
-function $cbcebe887611a375$var$prefinish() {
+function $8c29945a75c9791e$var$prefinish() {
     var _this = this;
     if (typeof this._flush === 'function' && !this._readableState.destroyed) this._flush(function(er, data) {
-        $cbcebe887611a375$var$done(_this, er, data);
+        $8c29945a75c9791e$var$done(_this, er, data);
     });
-    else $cbcebe887611a375$var$done(this, null, null);
+    else $8c29945a75c9791e$var$done(this, null, null);
 }
-$cbcebe887611a375$var$Transform.prototype.push = function(chunk, encoding) {
+$8c29945a75c9791e$var$Transform.prototype.push = function(chunk, encoding) {
     this._transformState.needTransform = false;
-    return $64Msz.prototype.push.call(this, chunk, encoding);
+    return $ihTGZ.prototype.push.call(this, chunk, encoding);
 }; // This is the part where you do stuff!
 // override this function in implementation classes.
 // 'chunk' is an input chunk.
@@ -5682,10 +5682,10 @@ $cbcebe887611a375$var$Transform.prototype.push = function(chunk, encoding) {
 // Call `cb(err)` when you are done with this chunk.  If you pass
 // an error, then that'll put the hurt on the whole operation.  If you
 // never call cb(), then you'll never get another chunk.
-$cbcebe887611a375$var$Transform.prototype._transform = function(chunk, encoding, cb) {
-    cb(new $cbcebe887611a375$var$ERR_METHOD_NOT_IMPLEMENTED('_transform()'));
+$8c29945a75c9791e$var$Transform.prototype._transform = function(chunk, encoding, cb) {
+    cb(new $8c29945a75c9791e$var$ERR_METHOD_NOT_IMPLEMENTED('_transform()'));
 };
-$cbcebe887611a375$var$Transform.prototype._write = function(chunk, encoding, cb) {
+$8c29945a75c9791e$var$Transform.prototype._write = function(chunk, encoding, cb) {
     var ts = this._transformState;
     ts.writecb = cb;
     ts.writechunk = chunk;
@@ -5697,7 +5697,7 @@ $cbcebe887611a375$var$Transform.prototype._write = function(chunk, encoding, cb)
 }; // Doesn't matter what the args are here.
 // _transform does all the work.
 // That we got here means that the readable side wants more data.
-$cbcebe887611a375$var$Transform.prototype._read = function(n) {
+$8c29945a75c9791e$var$Transform.prototype._read = function(n) {
     var ts = this._transformState;
     if (ts.writechunk !== null && !ts.transforming) {
         ts.transforming = true;
@@ -5706,24 +5706,24 @@ $cbcebe887611a375$var$Transform.prototype._read = function(n) {
     // will get processed, now that we've asked for it.
     ts.needTransform = true;
 };
-$cbcebe887611a375$var$Transform.prototype._destroy = function(err, cb) {
-    $64Msz.prototype._destroy.call(this, err, function(err2) {
+$8c29945a75c9791e$var$Transform.prototype._destroy = function(err, cb) {
+    $ihTGZ.prototype._destroy.call(this, err, function(err2) {
         cb(err2);
     });
 };
-function $cbcebe887611a375$var$done(stream, er, data) {
+function $8c29945a75c9791e$var$done(stream, er, data) {
     if (er) return stream.emit('error', er);
     if (data != null) stream.push(data); // TODO(BridgeAR): Write a test for these two error cases
     // if there's nothing in the write buffer, then that means
     // that nothing more will ever be provided
-    if (stream._writableState.length) throw new $cbcebe887611a375$var$ERR_TRANSFORM_WITH_LENGTH_0();
-    if (stream._transformState.transforming) throw new $cbcebe887611a375$var$ERR_TRANSFORM_ALREADY_TRANSFORMING();
+    if (stream._writableState.length) throw new $8c29945a75c9791e$var$ERR_TRANSFORM_WITH_LENGTH_0();
+    if (stream._transformState.transforming) throw new $8c29945a75c9791e$var$ERR_TRANSFORM_ALREADY_TRANSFORMING();
     return stream.push(null);
 }
 
 });
 
-parcelRequire.register("aCOkc", function(module, exports) {
+parcelRequire.register("3er8F", function(module, exports) {
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -5748,27 +5748,27 @@ parcelRequire.register("aCOkc", function(module, exports) {
 // basically just the most minimal sort of Transform stream.
 // Every written chunk gets output as-is.
 'use strict';
-module.exports = $7bc47d7957cbf0d9$var$PassThrough;
+module.exports = $25a7bb17dd6c99c2$var$PassThrough;
 
-var $huRvx = parcelRequire("huRvx");
+var $c252p = parcelRequire("c252p");
 
-(parcelRequire("4xKNh"))($7bc47d7957cbf0d9$var$PassThrough, $huRvx);
-function $7bc47d7957cbf0d9$var$PassThrough(options) {
-    if (!(this instanceof $7bc47d7957cbf0d9$var$PassThrough)) return new $7bc47d7957cbf0d9$var$PassThrough(options);
-    $huRvx.call(this, options);
+(parcelRequire("4xKNh"))($25a7bb17dd6c99c2$var$PassThrough, $c252p);
+function $25a7bb17dd6c99c2$var$PassThrough(options) {
+    if (!(this instanceof $25a7bb17dd6c99c2$var$PassThrough)) return new $25a7bb17dd6c99c2$var$PassThrough(options);
+    $c252p.call(this, options);
 }
-$7bc47d7957cbf0d9$var$PassThrough.prototype._transform = function(chunk, encoding, cb) {
+$25a7bb17dd6c99c2$var$PassThrough.prototype._transform = function(chunk, encoding, cb) {
     cb(null, chunk);
 };
 
 });
 
-parcelRequire.register("dnFmk", function(module, exports) {
+parcelRequire.register("8lrYp", function(module, exports) {
 // Ported from https://github.com/mafintosh/pump with
 // permission from the author, Mathias Buus (@mafintosh).
 'use strict';
-var $9bdd8166c8f80448$var$eos;
-function $9bdd8166c8f80448$var$once(callback) {
+var $6135fbce244ce859$var$eos;
+function $6135fbce244ce859$var$once(callback) {
     var called = false;
     return function() {
         if (called) return;
@@ -5777,25 +5777,25 @@ function $9bdd8166c8f80448$var$once(callback) {
     };
 }
 
-var $lEIWw = parcelRequire("lEIWw");
-var $9bdd8166c8f80448$require$_require$codes = $lEIWw.codes;
-var $9bdd8166c8f80448$var$ERR_MISSING_ARGS = $9bdd8166c8f80448$require$_require$codes.ERR_MISSING_ARGS, $9bdd8166c8f80448$var$ERR_STREAM_DESTROYED = $9bdd8166c8f80448$require$_require$codes.ERR_STREAM_DESTROYED;
-function $9bdd8166c8f80448$var$noop(err) {
+var $12HIq = parcelRequire("12HIq");
+var $6135fbce244ce859$require$_require$codes = $12HIq.codes;
+var $6135fbce244ce859$var$ERR_MISSING_ARGS = $6135fbce244ce859$require$_require$codes.ERR_MISSING_ARGS, $6135fbce244ce859$var$ERR_STREAM_DESTROYED = $6135fbce244ce859$require$_require$codes.ERR_STREAM_DESTROYED;
+function $6135fbce244ce859$var$noop(err) {
     // Rethrow the error if it exists to avoid swallowing it
     if (err) throw err;
 }
-function $9bdd8166c8f80448$var$isRequest(stream) {
+function $6135fbce244ce859$var$isRequest(stream) {
     return stream.setHeader && typeof stream.abort === 'function';
 }
 
-function $9bdd8166c8f80448$var$destroyer(stream, reading, writing, callback) {
-    callback = $9bdd8166c8f80448$var$once(callback);
+function $6135fbce244ce859$var$destroyer(stream, reading, writing, callback) {
+    callback = $6135fbce244ce859$var$once(callback);
     var closed = false;
     stream.on('close', function() {
         closed = true;
     });
-    if ($9bdd8166c8f80448$var$eos === undefined) $9bdd8166c8f80448$var$eos = (parcelRequire("eP2sK"));
-    $9bdd8166c8f80448$var$eos(stream, {
+    if ($6135fbce244ce859$var$eos === undefined) $6135fbce244ce859$var$eos = (parcelRequire("exPcx"));
+    $6135fbce244ce859$var$eos(stream, {
         readable: reading,
         writable: writing
     }, function(err) {
@@ -5808,42 +5808,42 @@ function $9bdd8166c8f80448$var$destroyer(stream, reading, writing, callback) {
         if (closed) return;
         if (destroyed) return;
         destroyed = true; // request.destroy just do .end - .abort is what we want
-        if ($9bdd8166c8f80448$var$isRequest(stream)) return stream.abort();
+        if ($6135fbce244ce859$var$isRequest(stream)) return stream.abort();
         if (typeof stream.destroy === 'function') return stream.destroy();
-        callback(err || new $9bdd8166c8f80448$var$ERR_STREAM_DESTROYED('pipe'));
+        callback(err || new $6135fbce244ce859$var$ERR_STREAM_DESTROYED('pipe'));
     };
 }
-function $9bdd8166c8f80448$var$call(fn) {
+function $6135fbce244ce859$var$call(fn) {
     fn();
 }
-function $9bdd8166c8f80448$var$pipe(from, to) {
+function $6135fbce244ce859$var$pipe(from, to) {
     return from.pipe(to);
 }
-function $9bdd8166c8f80448$var$popCallback(streams) {
-    if (!streams.length) return $9bdd8166c8f80448$var$noop;
-    if (typeof streams[streams.length - 1] !== 'function') return $9bdd8166c8f80448$var$noop;
+function $6135fbce244ce859$var$popCallback(streams) {
+    if (!streams.length) return $6135fbce244ce859$var$noop;
+    if (typeof streams[streams.length - 1] !== 'function') return $6135fbce244ce859$var$noop;
     return streams.pop();
 }
-function $9bdd8166c8f80448$var$pipeline() {
+function $6135fbce244ce859$var$pipeline() {
     for(var _len = arguments.length, streams = new Array(_len), _key = 0; _key < _len; _key++)streams[_key] = arguments[_key];
-    var callback = $9bdd8166c8f80448$var$popCallback(streams);
+    var callback = $6135fbce244ce859$var$popCallback(streams);
     if (Array.isArray(streams[0])) streams = streams[0];
-    if (streams.length < 2) throw new $9bdd8166c8f80448$var$ERR_MISSING_ARGS('streams');
+    if (streams.length < 2) throw new $6135fbce244ce859$var$ERR_MISSING_ARGS('streams');
     var error;
     var destroys = streams.map(function(stream, i) {
         var reading = i < streams.length - 1;
         var writing = i > 0;
-        return $9bdd8166c8f80448$var$destroyer(stream, reading, writing, function(err) {
+        return $6135fbce244ce859$var$destroyer(stream, reading, writing, function(err) {
             if (!error) error = err;
-            if (err) destroys.forEach($9bdd8166c8f80448$var$call);
+            if (err) destroys.forEach($6135fbce244ce859$var$call);
             if (reading) return;
-            destroys.forEach($9bdd8166c8f80448$var$call);
+            destroys.forEach($6135fbce244ce859$var$call);
             callback(error);
         });
     });
-    return streams.reduce($9bdd8166c8f80448$var$pipe);
+    return streams.reduce($6135fbce244ce859$var$pipe);
 }
-module.exports = $9bdd8166c8f80448$var$pipeline;
+module.exports = $6135fbce244ce859$var$pipeline;
 
 });
 
@@ -7156,8 +7156,8 @@ parcelRequire.register("eAN6P", function(module, exports) {
 var $g1NWN = parcelRequire("g1NWN");
 var $a9fa8589e84e02f5$require$Buffer = $g1NWN.Buffer;
 
-var $2Ug6E = parcelRequire("2Ug6E");
-var $a9fa8589e84e02f5$require$Transform = $2Ug6E.Transform;
+var $fR5Wd = parcelRequire("fR5Wd");
+var $a9fa8589e84e02f5$require$Transform = $fR5Wd.Transform;
 
 var $j6xXU = parcelRequire("j6xXU");
 var $a9fa8589e84e02f5$require$StringDecoder = $j6xXU.StringDecoder;
@@ -7232,7 +7232,7 @@ $a9fa8589e84e02f5$var$CipherBase.prototype._toString = function(value, enc, fin)
 module.exports = $a9fa8589e84e02f5$var$CipherBase;
 
 });
-parcelRequire.register("2Ug6E", function(module, exports) {
+parcelRequire.register("fR5Wd", function(module, exports) {
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -7253,35 +7253,35 @@ parcelRequire.register("2Ug6E", function(module, exports) {
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
-module.exports = $21dd4e17223beb55$var$Stream;
+module.exports = $b8b0696971b26e54$var$Stream;
 
 var $97MzU = parcelRequire("97MzU");
-var $21dd4e17223beb55$require$EE = $97MzU.EventEmitter;
+var $b8b0696971b26e54$require$EE = $97MzU.EventEmitter;
 
 var $4xKNh = parcelRequire("4xKNh");
-$4xKNh($21dd4e17223beb55$var$Stream, $21dd4e17223beb55$require$EE);
+$4xKNh($b8b0696971b26e54$var$Stream, $b8b0696971b26e54$require$EE);
 
-$21dd4e17223beb55$var$Stream.Readable = (parcelRequire("eO0w5"));
+$b8b0696971b26e54$var$Stream.Readable = (parcelRequire("l3Ygu"));
 
-$21dd4e17223beb55$var$Stream.Writable = (parcelRequire("4x2i6"));
+$b8b0696971b26e54$var$Stream.Writable = (parcelRequire("gmpQ7"));
 
-$21dd4e17223beb55$var$Stream.Duplex = (parcelRequire("64Msz"));
+$b8b0696971b26e54$var$Stream.Duplex = (parcelRequire("9IgbJ"));
 
-$21dd4e17223beb55$var$Stream.Transform = (parcelRequire("huRvx"));
+$b8b0696971b26e54$var$Stream.Transform = (parcelRequire("76bEk"));
 
-$21dd4e17223beb55$var$Stream.PassThrough = (parcelRequire("aCOkc"));
+$b8b0696971b26e54$var$Stream.PassThrough = (parcelRequire("kENgH"));
 
-$21dd4e17223beb55$var$Stream.finished = (parcelRequire("eP2sK"));
+$b8b0696971b26e54$var$Stream.finished = (parcelRequire("cnd3U"));
 
-$21dd4e17223beb55$var$Stream.pipeline = (parcelRequire("dnFmk"));
+$b8b0696971b26e54$var$Stream.pipeline = (parcelRequire("4MRiP"));
 // Backwards-compat with node 0.4.x
-$21dd4e17223beb55$var$Stream.Stream = $21dd4e17223beb55$var$Stream;
+$b8b0696971b26e54$var$Stream.Stream = $b8b0696971b26e54$var$Stream;
 // old-style streams.  Note that the pipe method (the only relevant
 // part of this class) is overridden in the Readable class.
-function $21dd4e17223beb55$var$Stream() {
-    $21dd4e17223beb55$require$EE.call(this);
+function $b8b0696971b26e54$var$Stream() {
+    $b8b0696971b26e54$require$EE.call(this);
 }
-$21dd4e17223beb55$var$Stream.prototype.pipe = function(dest, options) {
+$b8b0696971b26e54$var$Stream.prototype.pipe = function(dest, options) {
     var source = this;
     function ondata(chunk) {
         if (dest.writable) {
@@ -7313,7 +7313,7 @@ $21dd4e17223beb55$var$Stream.prototype.pipe = function(dest, options) {
     // don't leave dangling pipes when there are errors.
     function onerror(er) {
         cleanup();
-        if ($21dd4e17223beb55$require$EE.listenerCount(this, 'error') === 0) throw er; // Unhandled stream error in pipe.
+        if ($b8b0696971b26e54$require$EE.listenerCount(this, 'error') === 0) throw er; // Unhandled stream error in pipe.
     }
     source.on('error', onerror);
     dest.on('error', onerror);
@@ -7338,6 +7338,2561 @@ $21dd4e17223beb55$var$Stream.prototype.pipe = function(dest, options) {
 };
 
 });
+parcelRequire.register("l3Ygu", function(module, exports) {
+
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+'use strict';
+module.exports = $f558a02d4b00a5ad$var$Readable;
+/*<replacement>*/ var $f558a02d4b00a5ad$var$Duplex;
+/*</replacement>*/ $f558a02d4b00a5ad$var$Readable.ReadableState = $f558a02d4b00a5ad$var$ReadableState;
+
+var $97MzU = parcelRequire("97MzU");
+var $f558a02d4b00a5ad$require$EE = $97MzU.EventEmitter;
+var $f558a02d4b00a5ad$var$EElistenerCount = function EElistenerCount(emitter, type) {
+    return emitter.listeners(type).length;
+};
+
+var $l1yNc = parcelRequire("l1yNc");
+
+var $f558a02d4b00a5ad$require$Buffer = $464bcea887784ce5$export$a143d493d941bafc;
+var $f558a02d4b00a5ad$var$OurUint8Array = $parcel$global.Uint8Array || function() {
+};
+function $f558a02d4b00a5ad$var$_uint8ArrayToBuffer(chunk) {
+    return $f558a02d4b00a5ad$require$Buffer.from(chunk);
+}
+function $f558a02d4b00a5ad$var$_isUint8Array(obj) {
+    return $f558a02d4b00a5ad$require$Buffer.isBuffer(obj) || obj instanceof $f558a02d4b00a5ad$var$OurUint8Array;
+}
+
+var $lA1sm = parcelRequire("lA1sm");
+var $f558a02d4b00a5ad$var$debug;
+if ($lA1sm && $lA1sm.debuglog) $f558a02d4b00a5ad$var$debug = $lA1sm.debuglog('stream');
+else $f558a02d4b00a5ad$var$debug = function debug() {
+};
+
+var $uSTaf = parcelRequire("uSTaf");
+
+var $kNsyz = parcelRequire("kNsyz");
+
+var $ayxrf = parcelRequire("ayxrf");
+var $f558a02d4b00a5ad$var$getHighWaterMark = $ayxrf.getHighWaterMark;
+
+var $61Usz = parcelRequire("61Usz");
+var $f558a02d4b00a5ad$require$_require$codes = $61Usz.codes;
+var $f558a02d4b00a5ad$var$ERR_INVALID_ARG_TYPE = $f558a02d4b00a5ad$require$_require$codes.ERR_INVALID_ARG_TYPE, $f558a02d4b00a5ad$var$ERR_STREAM_PUSH_AFTER_EOF = $f558a02d4b00a5ad$require$_require$codes.ERR_STREAM_PUSH_AFTER_EOF, $f558a02d4b00a5ad$var$ERR_METHOD_NOT_IMPLEMENTED = $f558a02d4b00a5ad$require$_require$codes.ERR_METHOD_NOT_IMPLEMENTED, $f558a02d4b00a5ad$var$ERR_STREAM_UNSHIFT_AFTER_END_EVENT = $f558a02d4b00a5ad$require$_require$codes.ERR_STREAM_UNSHIFT_AFTER_END_EVENT; // Lazy loaded to improve the startup performance.
+var $f558a02d4b00a5ad$var$StringDecoder;
+var $f558a02d4b00a5ad$var$createReadableStreamAsyncIterator;
+var $f558a02d4b00a5ad$var$from;
+
+(parcelRequire("4xKNh"))($f558a02d4b00a5ad$var$Readable, $l1yNc);
+var $f558a02d4b00a5ad$var$errorOrDestroy = $kNsyz.errorOrDestroy;
+var $f558a02d4b00a5ad$var$kProxyEvents = [
+    'error',
+    'close',
+    'destroy',
+    'pause',
+    'resume'
+];
+function $f558a02d4b00a5ad$var$prependListener(emitter, event, fn) {
+    // Sadly this is not cacheable as some libraries bundle their own
+    // event emitter implementation with them.
+    if (typeof emitter.prependListener === 'function') return emitter.prependListener(event, fn); // This is a hack to make sure that our error handler is attached before any
+    // userland ones.  NEVER DO THIS. This is here only because this code needs
+    // to continue to work with older versions of Node.js that do not include
+    // the prependListener() method. The goal is to eventually remove this hack.
+    if (!emitter._events || !emitter._events[event]) emitter.on(event, fn);
+    else if (Array.isArray(emitter._events[event])) emitter._events[event].unshift(fn);
+    else emitter._events[event] = [
+        fn,
+        emitter._events[event]
+    ];
+}
+
+
+function $f558a02d4b00a5ad$var$ReadableState(options, stream, isDuplex) {
+    $f558a02d4b00a5ad$var$Duplex = $f558a02d4b00a5ad$var$Duplex || (parcelRequire("9IgbJ"));
+    options = options || {
+    }; // Duplex streams are both readable and writable, but share
+    // the same options object.
+    // However, some cases require setting options to different
+    // values for the readable and the writable sides of the duplex stream.
+    // These options can be provided separately as readableXXX and writableXXX.
+    if (typeof isDuplex !== 'boolean') isDuplex = stream instanceof $f558a02d4b00a5ad$var$Duplex; // object stream flag. Used to make read(n) ignore n and to
+    // make all the buffer merging and length checks go away
+    this.objectMode = !!options.objectMode;
+    if (isDuplex) this.objectMode = this.objectMode || !!options.readableObjectMode; // the point at which it stops calling _read() to fill the buffer
+    // Note: 0 is a valid value, means "don't call _read preemptively ever"
+    this.highWaterMark = $f558a02d4b00a5ad$var$getHighWaterMark(this, options, 'readableHighWaterMark', isDuplex); // A linked list is used to store data chunks instead of an array because the
+    // linked list can remove elements from the beginning faster than
+    // array.shift()
+    this.buffer = new $uSTaf();
+    this.length = 0;
+    this.pipes = null;
+    this.pipesCount = 0;
+    this.flowing = null;
+    this.ended = false;
+    this.endEmitted = false;
+    this.reading = false; // a flag to be able to tell if the event 'readable'/'data' is emitted
+    // immediately, or on a later tick.  We set this to true at first, because
+    // any actions that shouldn't happen until "later" should generally also
+    // not happen before the first read call.
+    this.sync = true; // whenever we return null, then we set a flag to say
+    // that we're awaiting a 'readable' event emission.
+    this.needReadable = false;
+    this.emittedReadable = false;
+    this.readableListening = false;
+    this.resumeScheduled = false;
+    this.paused = true; // Should close be emitted on destroy. Defaults to true.
+    this.emitClose = options.emitClose !== false; // Should .destroy() be called after 'end' (and potentially 'finish')
+    this.autoDestroy = !!options.autoDestroy; // has it been destroyed
+    this.destroyed = false; // Crypto is kind of old and crusty.  Historically, its default string
+    // encoding is 'binary' so we have to make this configurable.
+    // Everything else in the universe uses 'utf8', though.
+    this.defaultEncoding = options.defaultEncoding || 'utf8'; // the number of writers that are awaiting a drain event in .pipe()s
+    this.awaitDrain = 0; // if true, a maybeReadMore has been scheduled
+    this.readingMore = false;
+    this.decoder = null;
+    this.encoding = null;
+    if (options.encoding) {
+        if (!$f558a02d4b00a5ad$var$StringDecoder) $f558a02d4b00a5ad$var$StringDecoder = (parcelRequire("j6xXU")).StringDecoder;
+        this.decoder = new $f558a02d4b00a5ad$var$StringDecoder(options.encoding);
+        this.encoding = options.encoding;
+    }
+}
+
+function $f558a02d4b00a5ad$var$Readable(options) {
+    $f558a02d4b00a5ad$var$Duplex = $f558a02d4b00a5ad$var$Duplex || (parcelRequire("9IgbJ"));
+    if (!(this instanceof $f558a02d4b00a5ad$var$Readable)) return new $f558a02d4b00a5ad$var$Readable(options); // Checking for a Stream.Duplex instance is faster here instead of inside
+    // the ReadableState constructor, at least with V8 6.5
+    var isDuplex = this instanceof $f558a02d4b00a5ad$var$Duplex;
+    this._readableState = new $f558a02d4b00a5ad$var$ReadableState(options, this, isDuplex); // legacy
+    this.readable = true;
+    if (options) {
+        if (typeof options.read === 'function') this._read = options.read;
+        if (typeof options.destroy === 'function') this._destroy = options.destroy;
+    }
+    $l1yNc.call(this);
+}
+Object.defineProperty($f558a02d4b00a5ad$var$Readable.prototype, 'destroyed', {
+    // making it explicit this property is not enumerable
+    // because otherwise some prototype manipulation in
+    // userland will fail
+    enumerable: false,
+    get: function get() {
+        if (this._readableState === undefined) return false;
+        return this._readableState.destroyed;
+    },
+    set: function set(value) {
+        // we ignore the value if the stream
+        // has not been initialized yet
+        if (!this._readableState) return;
+         // backward compatibility, the user is explicitly
+        // managing destroyed
+        this._readableState.destroyed = value;
+    }
+});
+$f558a02d4b00a5ad$var$Readable.prototype.destroy = $kNsyz.destroy;
+$f558a02d4b00a5ad$var$Readable.prototype._undestroy = $kNsyz.undestroy;
+$f558a02d4b00a5ad$var$Readable.prototype._destroy = function(err, cb) {
+    cb(err);
+}; // Manually shove something into the read() buffer.
+// This returns true if the highWaterMark has not been hit yet,
+// similar to how Writable.write() returns true if you should
+// write() some more.
+$f558a02d4b00a5ad$var$Readable.prototype.push = function(chunk, encoding) {
+    var state = this._readableState;
+    var skipChunkCheck;
+    if (!state.objectMode) {
+        if (typeof chunk === 'string') {
+            encoding = encoding || state.defaultEncoding;
+            if (encoding !== state.encoding) {
+                chunk = $f558a02d4b00a5ad$require$Buffer.from(chunk, encoding);
+                encoding = '';
+            }
+            skipChunkCheck = true;
+        }
+    } else skipChunkCheck = true;
+    return $f558a02d4b00a5ad$var$readableAddChunk(this, chunk, encoding, false, skipChunkCheck);
+}; // Unshift should *always* be something directly out of read()
+$f558a02d4b00a5ad$var$Readable.prototype.unshift = function(chunk) {
+    return $f558a02d4b00a5ad$var$readableAddChunk(this, chunk, null, true, false);
+};
+function $f558a02d4b00a5ad$var$readableAddChunk(stream, chunk, encoding, addToFront, skipChunkCheck) {
+    $f558a02d4b00a5ad$var$debug('readableAddChunk', chunk);
+    var state = stream._readableState;
+    if (chunk === null) {
+        state.reading = false;
+        $f558a02d4b00a5ad$var$onEofChunk(stream, state);
+    } else {
+        var er;
+        if (!skipChunkCheck) er = $f558a02d4b00a5ad$var$chunkInvalid(state, chunk);
+        if (er) $f558a02d4b00a5ad$var$errorOrDestroy(stream, er);
+        else if (state.objectMode || chunk && chunk.length > 0) {
+            if (typeof chunk !== 'string' && !state.objectMode && Object.getPrototypeOf(chunk) !== $f558a02d4b00a5ad$require$Buffer.prototype) chunk = $f558a02d4b00a5ad$var$_uint8ArrayToBuffer(chunk);
+            if (addToFront) {
+                if (state.endEmitted) $f558a02d4b00a5ad$var$errorOrDestroy(stream, new $f558a02d4b00a5ad$var$ERR_STREAM_UNSHIFT_AFTER_END_EVENT());
+                else $f558a02d4b00a5ad$var$addChunk(stream, state, chunk, true);
+            } else if (state.ended) $f558a02d4b00a5ad$var$errorOrDestroy(stream, new $f558a02d4b00a5ad$var$ERR_STREAM_PUSH_AFTER_EOF());
+            else if (state.destroyed) return false;
+            else {
+                state.reading = false;
+                if (state.decoder && !encoding) {
+                    chunk = state.decoder.write(chunk);
+                    if (state.objectMode || chunk.length !== 0) $f558a02d4b00a5ad$var$addChunk(stream, state, chunk, false);
+                    else $f558a02d4b00a5ad$var$maybeReadMore(stream, state);
+                } else $f558a02d4b00a5ad$var$addChunk(stream, state, chunk, false);
+            }
+        } else if (!addToFront) {
+            state.reading = false;
+            $f558a02d4b00a5ad$var$maybeReadMore(stream, state);
+        }
+    } // We can push more data if we are below the highWaterMark.
+    // Also, if we have no data yet, we can stand some more bytes.
+    // This is to work around cases where hwm=0, such as the repl.
+    return !state.ended && (state.length < state.highWaterMark || state.length === 0);
+}
+function $f558a02d4b00a5ad$var$addChunk(stream, state, chunk, addToFront) {
+    if (state.flowing && state.length === 0 && !state.sync) {
+        state.awaitDrain = 0;
+        stream.emit('data', chunk);
+    } else {
+        // update the buffer info.
+        state.length += state.objectMode ? 1 : chunk.length;
+        if (addToFront) state.buffer.unshift(chunk);
+        else state.buffer.push(chunk);
+        if (state.needReadable) $f558a02d4b00a5ad$var$emitReadable(stream);
+    }
+    $f558a02d4b00a5ad$var$maybeReadMore(stream, state);
+}
+function $f558a02d4b00a5ad$var$chunkInvalid(state, chunk) {
+    var er;
+    if (!$f558a02d4b00a5ad$var$_isUint8Array(chunk) && typeof chunk !== 'string' && chunk !== undefined && !state.objectMode) er = new $f558a02d4b00a5ad$var$ERR_INVALID_ARG_TYPE('chunk', [
+        'string',
+        'Buffer',
+        'Uint8Array'
+    ], chunk);
+    return er;
+}
+$f558a02d4b00a5ad$var$Readable.prototype.isPaused = function() {
+    return this._readableState.flowing === false;
+}; // backwards compatibility.
+
+$f558a02d4b00a5ad$var$Readable.prototype.setEncoding = function(enc) {
+    if (!$f558a02d4b00a5ad$var$StringDecoder) $f558a02d4b00a5ad$var$StringDecoder = (parcelRequire("j6xXU")).StringDecoder;
+    var decoder = new $f558a02d4b00a5ad$var$StringDecoder(enc);
+    this._readableState.decoder = decoder; // If setEncoding(null), decoder.encoding equals utf8
+    this._readableState.encoding = this._readableState.decoder.encoding; // Iterate over current buffer to convert already stored Buffers:
+    var p = this._readableState.buffer.head;
+    var content = '';
+    while(p !== null){
+        content += decoder.write(p.data);
+        p = p.next;
+    }
+    this._readableState.buffer.clear();
+    if (content !== '') this._readableState.buffer.push(content);
+    this._readableState.length = content.length;
+    return this;
+}; // Don't raise the hwm > 1GB
+var $f558a02d4b00a5ad$var$MAX_HWM = 1073741824;
+function $f558a02d4b00a5ad$var$computeNewHighWaterMark(n) {
+    if (n >= $f558a02d4b00a5ad$var$MAX_HWM) // TODO(ronag): Throw ERR_VALUE_OUT_OF_RANGE.
+    n = $f558a02d4b00a5ad$var$MAX_HWM;
+    else {
+        // Get the next highest power of 2 to prevent increasing hwm excessively in
+        // tiny amounts
+        n--;
+        n |= n >>> 1;
+        n |= n >>> 2;
+        n |= n >>> 4;
+        n |= n >>> 8;
+        n |= n >>> 16;
+        n++;
+    }
+    return n;
+} // This function is designed to be inlinable, so please take care when making
+// changes to the function body.
+function $f558a02d4b00a5ad$var$howMuchToRead(n, state) {
+    if (n <= 0 || state.length === 0 && state.ended) return 0;
+    if (state.objectMode) return 1;
+    if (n !== n) {
+        // Only flow one buffer at a time
+        if (state.flowing && state.length) return state.buffer.head.data.length;
+        else return state.length;
+    } // If we're asking for more than the current hwm, then raise the hwm.
+    if (n > state.highWaterMark) state.highWaterMark = $f558a02d4b00a5ad$var$computeNewHighWaterMark(n);
+    if (n <= state.length) return n; // Don't have enough
+    if (!state.ended) {
+        state.needReadable = true;
+        return 0;
+    }
+    return state.length;
+} // you can override either this method, or the async _read(n) below.
+$f558a02d4b00a5ad$var$Readable.prototype.read = function(n) {
+    $f558a02d4b00a5ad$var$debug('read', n);
+    n = parseInt(n, 10);
+    var state = this._readableState;
+    var nOrig = n;
+    if (n !== 0) state.emittedReadable = false; // if we're doing read(0) to trigger a readable event, but we
+    // already have a bunch of data in the buffer, then just trigger
+    // the 'readable' event and move on.
+    if (n === 0 && state.needReadable && ((state.highWaterMark !== 0 ? state.length >= state.highWaterMark : state.length > 0) || state.ended)) {
+        $f558a02d4b00a5ad$var$debug('read: emitReadable', state.length, state.ended);
+        if (state.length === 0 && state.ended) $f558a02d4b00a5ad$var$endReadable(this);
+        else $f558a02d4b00a5ad$var$emitReadable(this);
+        return null;
+    }
+    n = $f558a02d4b00a5ad$var$howMuchToRead(n, state); // if we've ended, and we're now clear, then finish it up.
+    if (n === 0 && state.ended) {
+        if (state.length === 0) $f558a02d4b00a5ad$var$endReadable(this);
+        return null;
+    } // All the actual chunk generation logic needs to be
+    // *below* the call to _read.  The reason is that in certain
+    // synthetic stream cases, such as passthrough streams, _read
+    // may be a completely synchronous operation which may change
+    // the state of the read buffer, providing enough data when
+    // before there was *not* enough.
+    //
+    // So, the steps are:
+    // 1. Figure out what the state of things will be after we do
+    // a read from the buffer.
+    //
+    // 2. If that resulting state will trigger a _read, then call _read.
+    // Note that this may be asynchronous, or synchronous.  Yes, it is
+    // deeply ugly to write APIs this way, but that still doesn't mean
+    // that the Readable class should behave improperly, as streams are
+    // designed to be sync/async agnostic.
+    // Take note if the _read call is sync or async (ie, if the read call
+    // has returned yet), so that we know whether or not it's safe to emit
+    // 'readable' etc.
+    //
+    // 3. Actually pull the requested chunks out of the buffer and return.
+    // if we need a readable event, then we need to do some reading.
+    var doRead = state.needReadable;
+    $f558a02d4b00a5ad$var$debug('need readable', doRead); // if we currently have less than the highWaterMark, then also read some
+    if (state.length === 0 || state.length - n < state.highWaterMark) {
+        doRead = true;
+        $f558a02d4b00a5ad$var$debug('length less than watermark', doRead);
+    } // however, if we've ended, then there's no point, and if we're already
+    // reading, then it's unnecessary.
+    if (state.ended || state.reading) {
+        doRead = false;
+        $f558a02d4b00a5ad$var$debug('reading or ended', doRead);
+    } else if (doRead) {
+        $f558a02d4b00a5ad$var$debug('do read');
+        state.reading = true;
+        state.sync = true; // if the length is currently zero, then we *need* a readable event.
+        if (state.length === 0) state.needReadable = true; // call internal read method
+        this._read(state.highWaterMark);
+        state.sync = false; // If _read pushed data synchronously, then `reading` will be false,
+        // and we need to re-evaluate how much data we can return to the user.
+        if (!state.reading) n = $f558a02d4b00a5ad$var$howMuchToRead(nOrig, state);
+    }
+    var ret;
+    if (n > 0) ret = $f558a02d4b00a5ad$var$fromList(n, state);
+    else ret = null;
+    if (ret === null) {
+        state.needReadable = state.length <= state.highWaterMark;
+        n = 0;
+    } else {
+        state.length -= n;
+        state.awaitDrain = 0;
+    }
+    if (state.length === 0) {
+        // If we have nothing in the buffer, then we want to know
+        // as soon as we *do* get something into the buffer.
+        if (!state.ended) state.needReadable = true; // If we tried to read() past the EOF, then emit end on the next tick.
+        if (nOrig !== n && state.ended) $f558a02d4b00a5ad$var$endReadable(this);
+    }
+    if (ret !== null) this.emit('data', ret);
+    return ret;
+};
+function $f558a02d4b00a5ad$var$onEofChunk(stream, state) {
+    $f558a02d4b00a5ad$var$debug('onEofChunk');
+    if (state.ended) return;
+    if (state.decoder) {
+        var chunk = state.decoder.end();
+        if (chunk && chunk.length) {
+            state.buffer.push(chunk);
+            state.length += state.objectMode ? 1 : chunk.length;
+        }
+    }
+    state.ended = true;
+    if (state.sync) // if we are sync, wait until next tick to emit the data.
+    // Otherwise we risk emitting data in the flow()
+    // the readable code triggers during a read() call
+    $f558a02d4b00a5ad$var$emitReadable(stream);
+    else {
+        // emit 'readable' now to make sure it gets picked up.
+        state.needReadable = false;
+        if (!state.emittedReadable) {
+            state.emittedReadable = true;
+            $f558a02d4b00a5ad$var$emitReadable_(stream);
+        }
+    }
+} // Don't emit readable right away in sync mode, because this can trigger
+// another read() call => stack overflow.  This way, it might trigger
+// a nextTick recursion warning, but that's not so bad.
+function $f558a02d4b00a5ad$var$emitReadable(stream) {
+    var state = stream._readableState;
+    $f558a02d4b00a5ad$var$debug('emitReadable', state.needReadable, state.emittedReadable);
+    state.needReadable = false;
+    if (!state.emittedReadable) {
+        $f558a02d4b00a5ad$var$debug('emitReadable', state.flowing);
+        state.emittedReadable = true;
+        $a506278517dc5c33$exports.nextTick($f558a02d4b00a5ad$var$emitReadable_, stream);
+    }
+}
+function $f558a02d4b00a5ad$var$emitReadable_(stream) {
+    var state = stream._readableState;
+    $f558a02d4b00a5ad$var$debug('emitReadable_', state.destroyed, state.length, state.ended);
+    if (!state.destroyed && (state.length || state.ended)) {
+        stream.emit('readable');
+        state.emittedReadable = false;
+    } // The stream needs another readable event if
+    // 1. It is not flowing, as the flow mechanism will take
+    //    care of it.
+    // 2. It is not ended.
+    // 3. It is below the highWaterMark, so we can schedule
+    //    another readable later.
+    state.needReadable = !state.flowing && !state.ended && state.length <= state.highWaterMark;
+    $f558a02d4b00a5ad$var$flow(stream);
+} // at this point, the user has presumably seen the 'readable' event,
+// and called read() to consume some data.  that may have triggered
+// in turn another _read(n) call, in which case reading = true if
+// it's in progress.
+// However, if we're not ended, or reading, and the length < hwm,
+// then go ahead and try to read some more preemptively.
+function $f558a02d4b00a5ad$var$maybeReadMore(stream, state) {
+    if (!state.readingMore) {
+        state.readingMore = true;
+        $a506278517dc5c33$exports.nextTick($f558a02d4b00a5ad$var$maybeReadMore_, stream, state);
+    }
+}
+function $f558a02d4b00a5ad$var$maybeReadMore_(stream, state) {
+    // Attempt to read more data if we should.
+    //
+    // The conditions for reading more data are (one of):
+    // - Not enough data buffered (state.length < state.highWaterMark). The loop
+    //   is responsible for filling the buffer with enough data if such data
+    //   is available. If highWaterMark is 0 and we are not in the flowing mode
+    //   we should _not_ attempt to buffer any extra data. We'll get more data
+    //   when the stream consumer calls read() instead.
+    // - No data in the buffer, and the stream is in flowing mode. In this mode
+    //   the loop below is responsible for ensuring read() is called. Failing to
+    //   call read here would abort the flow and there's no other mechanism for
+    //   continuing the flow if the stream consumer has just subscribed to the
+    //   'data' event.
+    //
+    // In addition to the above conditions to keep reading data, the following
+    // conditions prevent the data from being read:
+    // - The stream has ended (state.ended).
+    // - There is already a pending 'read' operation (state.reading). This is a
+    //   case where the the stream has called the implementation defined _read()
+    //   method, but they are processing the call asynchronously and have _not_
+    //   called push() with new data. In this case we skip performing more
+    //   read()s. The execution ends in this method again after the _read() ends
+    //   up calling push() with more data.
+    while(!state.reading && !state.ended && (state.length < state.highWaterMark || state.flowing && state.length === 0)){
+        var len = state.length;
+        $f558a02d4b00a5ad$var$debug('maybeReadMore read 0');
+        stream.read(0);
+        if (len === state.length) break;
+    }
+    state.readingMore = false;
+} // abstract method.  to be overridden in specific implementation classes.
+// call cb(er, data) where data is <= n in length.
+// for virtual (non-string, non-buffer) streams, "length" is somewhat
+// arbitrary, and perhaps not very meaningful.
+$f558a02d4b00a5ad$var$Readable.prototype._read = function(n) {
+    $f558a02d4b00a5ad$var$errorOrDestroy(this, new $f558a02d4b00a5ad$var$ERR_METHOD_NOT_IMPLEMENTED('_read()'));
+};
+$f558a02d4b00a5ad$var$Readable.prototype.pipe = function(dest, pipeOpts) {
+    var src = this;
+    var state = this._readableState;
+    switch(state.pipesCount){
+        case 0:
+            state.pipes = dest;
+            break;
+        case 1:
+            state.pipes = [
+                state.pipes,
+                dest
+            ];
+            break;
+        default:
+            state.pipes.push(dest);
+            break;
+    }
+    state.pipesCount += 1;
+    $f558a02d4b00a5ad$var$debug('pipe count=%d opts=%j', state.pipesCount, pipeOpts);
+    var doEnd = (!pipeOpts || pipeOpts.end !== false) && dest !== $a506278517dc5c33$exports.stdout && dest !== $a506278517dc5c33$exports.stderr;
+    var endFn = doEnd ? onend : unpipe;
+    if (state.endEmitted) $a506278517dc5c33$exports.nextTick(endFn);
+    else src.once('end', endFn);
+    dest.on('unpipe', onunpipe);
+    function onunpipe(readable, unpipeInfo) {
+        $f558a02d4b00a5ad$var$debug('onunpipe');
+        if (readable === src) {
+            if (unpipeInfo && unpipeInfo.hasUnpiped === false) {
+                unpipeInfo.hasUnpiped = true;
+                cleanup();
+            }
+        }
+    }
+    function onend() {
+        $f558a02d4b00a5ad$var$debug('onend');
+        dest.end();
+    } // when the dest drains, it reduces the awaitDrain counter
+    // on the source.  This would be more elegant with a .once()
+    // handler in flow(), but adding and removing repeatedly is
+    // too slow.
+    var ondrain = $f558a02d4b00a5ad$var$pipeOnDrain(src);
+    dest.on('drain', ondrain);
+    var cleanedUp = false;
+    function cleanup() {
+        $f558a02d4b00a5ad$var$debug('cleanup'); // cleanup event handlers once the pipe is broken
+        dest.removeListener('close', onclose);
+        dest.removeListener('finish', onfinish);
+        dest.removeListener('drain', ondrain);
+        dest.removeListener('error', onerror);
+        dest.removeListener('unpipe', onunpipe);
+        src.removeListener('end', onend);
+        src.removeListener('end', unpipe);
+        src.removeListener('data', ondata);
+        cleanedUp = true; // if the reader is waiting for a drain event from this
+        // specific writer, then it would cause it to never start
+        // flowing again.
+        // So, if this is awaiting a drain, then we just call it now.
+        // If we don't know, then assume that we are waiting for one.
+        if (state.awaitDrain && (!dest._writableState || dest._writableState.needDrain)) ondrain();
+    }
+    src.on('data', ondata);
+    function ondata(chunk) {
+        $f558a02d4b00a5ad$var$debug('ondata');
+        var ret = dest.write(chunk);
+        $f558a02d4b00a5ad$var$debug('dest.write', ret);
+        if (ret === false) {
+            // If the user unpiped during `dest.write()`, it is possible
+            // to get stuck in a permanently paused state if that write
+            // also returned false.
+            // => Check whether `dest` is still a piping destination.
+            if ((state.pipesCount === 1 && state.pipes === dest || state.pipesCount > 1 && $f558a02d4b00a5ad$var$indexOf(state.pipes, dest) !== -1) && !cleanedUp) {
+                $f558a02d4b00a5ad$var$debug('false write response, pause', state.awaitDrain);
+                state.awaitDrain++;
+            }
+            src.pause();
+        }
+    } // if the dest has an error, then stop piping into it.
+    // however, don't suppress the throwing behavior for this.
+    function onerror(er) {
+        $f558a02d4b00a5ad$var$debug('onerror', er);
+        unpipe();
+        dest.removeListener('error', onerror);
+        if ($f558a02d4b00a5ad$var$EElistenerCount(dest, 'error') === 0) $f558a02d4b00a5ad$var$errorOrDestroy(dest, er);
+    } // Make sure our error handler is attached before userland ones.
+    $f558a02d4b00a5ad$var$prependListener(dest, 'error', onerror); // Both close and finish should trigger unpipe, but only once.
+    function onclose() {
+        dest.removeListener('finish', onfinish);
+        unpipe();
+    }
+    dest.once('close', onclose);
+    function onfinish() {
+        $f558a02d4b00a5ad$var$debug('onfinish');
+        dest.removeListener('close', onclose);
+        unpipe();
+    }
+    dest.once('finish', onfinish);
+    function unpipe() {
+        $f558a02d4b00a5ad$var$debug('unpipe');
+        src.unpipe(dest);
+    } // tell the dest that it's being piped to
+    dest.emit('pipe', src); // start the flow if it hasn't been started already.
+    if (!state.flowing) {
+        $f558a02d4b00a5ad$var$debug('pipe resume');
+        src.resume();
+    }
+    return dest;
+};
+function $f558a02d4b00a5ad$var$pipeOnDrain(src) {
+    return function pipeOnDrainFunctionResult() {
+        var state = src._readableState;
+        $f558a02d4b00a5ad$var$debug('pipeOnDrain', state.awaitDrain);
+        if (state.awaitDrain) state.awaitDrain--;
+        if (state.awaitDrain === 0 && $f558a02d4b00a5ad$var$EElistenerCount(src, 'data')) {
+            state.flowing = true;
+            $f558a02d4b00a5ad$var$flow(src);
+        }
+    };
+}
+$f558a02d4b00a5ad$var$Readable.prototype.unpipe = function(dest) {
+    var state = this._readableState;
+    var unpipeInfo = {
+        hasUnpiped: false
+    }; // if we're not piping anywhere, then do nothing.
+    if (state.pipesCount === 0) return this; // just one destination.  most common case.
+    if (state.pipesCount === 1) {
+        // passed in one, but it's not the right one.
+        if (dest && dest !== state.pipes) return this;
+        if (!dest) dest = state.pipes; // got a match.
+        state.pipes = null;
+        state.pipesCount = 0;
+        state.flowing = false;
+        if (dest) dest.emit('unpipe', this, unpipeInfo);
+        return this;
+    } // slow case. multiple pipe destinations.
+    if (!dest) {
+        // remove all.
+        var dests = state.pipes;
+        var len = state.pipesCount;
+        state.pipes = null;
+        state.pipesCount = 0;
+        state.flowing = false;
+        for(var i = 0; i < len; i++)dests[i].emit('unpipe', this, {
+            hasUnpiped: false
+        });
+        return this;
+    } // try to find the right one.
+    var index = $f558a02d4b00a5ad$var$indexOf(state.pipes, dest);
+    if (index === -1) return this;
+    state.pipes.splice(index, 1);
+    state.pipesCount -= 1;
+    if (state.pipesCount === 1) state.pipes = state.pipes[0];
+    dest.emit('unpipe', this, unpipeInfo);
+    return this;
+}; // set up data events if they are asked for
+// Ensure readable listeners eventually get something
+$f558a02d4b00a5ad$var$Readable.prototype.on = function(ev, fn) {
+    var res = $l1yNc.prototype.on.call(this, ev, fn);
+    var state = this._readableState;
+    if (ev === 'data') {
+        // update readableListening so that resume() may be a no-op
+        // a few lines down. This is needed to support once('readable').
+        state.readableListening = this.listenerCount('readable') > 0; // Try start flowing on next tick if stream isn't explicitly paused
+        if (state.flowing !== false) this.resume();
+    } else if (ev === 'readable') {
+        if (!state.endEmitted && !state.readableListening) {
+            state.readableListening = state.needReadable = true;
+            state.flowing = false;
+            state.emittedReadable = false;
+            $f558a02d4b00a5ad$var$debug('on readable', state.length, state.reading);
+            if (state.length) $f558a02d4b00a5ad$var$emitReadable(this);
+            else if (!state.reading) $a506278517dc5c33$exports.nextTick($f558a02d4b00a5ad$var$nReadingNextTick, this);
+        }
+    }
+    return res;
+};
+$f558a02d4b00a5ad$var$Readable.prototype.addListener = $f558a02d4b00a5ad$var$Readable.prototype.on;
+$f558a02d4b00a5ad$var$Readable.prototype.removeListener = function(ev, fn) {
+    var res = $l1yNc.prototype.removeListener.call(this, ev, fn);
+    if (ev === 'readable') // We need to check if there is someone still listening to
+    // readable and reset the state. However this needs to happen
+    // after readable has been emitted but before I/O (nextTick) to
+    // support once('readable', fn) cycles. This means that calling
+    // resume within the same tick will have no
+    // effect.
+    $a506278517dc5c33$exports.nextTick($f558a02d4b00a5ad$var$updateReadableListening, this);
+    return res;
+};
+$f558a02d4b00a5ad$var$Readable.prototype.removeAllListeners = function(ev) {
+    var res = $l1yNc.prototype.removeAllListeners.apply(this, arguments);
+    if (ev === 'readable' || ev === undefined) // We need to check if there is someone still listening to
+    // readable and reset the state. However this needs to happen
+    // after readable has been emitted but before I/O (nextTick) to
+    // support once('readable', fn) cycles. This means that calling
+    // resume within the same tick will have no
+    // effect.
+    $a506278517dc5c33$exports.nextTick($f558a02d4b00a5ad$var$updateReadableListening, this);
+    return res;
+};
+function $f558a02d4b00a5ad$var$updateReadableListening(self) {
+    var state = self._readableState;
+    state.readableListening = self.listenerCount('readable') > 0;
+    if (state.resumeScheduled && !state.paused) // flowing needs to be set to true now, otherwise
+    // the upcoming resume will not flow.
+    state.flowing = true; // crude way to check if we should resume
+    else if (self.listenerCount('data') > 0) self.resume();
+}
+function $f558a02d4b00a5ad$var$nReadingNextTick(self) {
+    $f558a02d4b00a5ad$var$debug('readable nexttick read 0');
+    self.read(0);
+} // pause() and resume() are remnants of the legacy readable stream API
+// If the user uses them, then switch into old mode.
+$f558a02d4b00a5ad$var$Readable.prototype.resume = function() {
+    var state = this._readableState;
+    if (!state.flowing) {
+        $f558a02d4b00a5ad$var$debug('resume'); // we flow only if there is no one listening
+        // for readable, but we still have to call
+        // resume()
+        state.flowing = !state.readableListening;
+        $f558a02d4b00a5ad$var$resume(this, state);
+    }
+    state.paused = false;
+    return this;
+};
+function $f558a02d4b00a5ad$var$resume(stream, state) {
+    if (!state.resumeScheduled) {
+        state.resumeScheduled = true;
+        $a506278517dc5c33$exports.nextTick($f558a02d4b00a5ad$var$resume_, stream, state);
+    }
+}
+function $f558a02d4b00a5ad$var$resume_(stream, state) {
+    $f558a02d4b00a5ad$var$debug('resume', state.reading);
+    if (!state.reading) stream.read(0);
+    state.resumeScheduled = false;
+    stream.emit('resume');
+    $f558a02d4b00a5ad$var$flow(stream);
+    if (state.flowing && !state.reading) stream.read(0);
+}
+$f558a02d4b00a5ad$var$Readable.prototype.pause = function() {
+    $f558a02d4b00a5ad$var$debug('call pause flowing=%j', this._readableState.flowing);
+    if (this._readableState.flowing !== false) {
+        $f558a02d4b00a5ad$var$debug('pause');
+        this._readableState.flowing = false;
+        this.emit('pause');
+    }
+    this._readableState.paused = true;
+    return this;
+};
+function $f558a02d4b00a5ad$var$flow(stream) {
+    var state = stream._readableState;
+    $f558a02d4b00a5ad$var$debug('flow', state.flowing);
+    while(state.flowing && stream.read() !== null);
+} // wrap an old-style stream as the async data source.
+// This is *not* part of the readable stream interface.
+// It is an ugly unfortunate mess of history.
+$f558a02d4b00a5ad$var$Readable.prototype.wrap = function(stream) {
+    var _this = this;
+    var state = this._readableState;
+    var paused = false;
+    stream.on('end', function() {
+        $f558a02d4b00a5ad$var$debug('wrapped end');
+        if (state.decoder && !state.ended) {
+            var chunk = state.decoder.end();
+            if (chunk && chunk.length) _this.push(chunk);
+        }
+        _this.push(null);
+    });
+    stream.on('data', function(chunk) {
+        $f558a02d4b00a5ad$var$debug('wrapped data');
+        if (state.decoder) chunk = state.decoder.write(chunk); // don't skip over falsy values in objectMode
+        if (state.objectMode && (chunk === null || chunk === undefined)) return;
+        else if (!state.objectMode && (!chunk || !chunk.length)) return;
+        var ret = _this.push(chunk);
+        if (!ret) {
+            paused = true;
+            stream.pause();
+        }
+    }); // proxy all the other methods.
+    // important when wrapping filters and duplexes.
+    for(var i in stream)if (this[i] === undefined && typeof stream[i] === 'function') this[i] = (function methodWrap(method) {
+        return function methodWrapReturnFunction() {
+            return stream[method].apply(stream, arguments);
+        };
+    })(i);
+     // proxy certain important events.
+    for(var n1 = 0; n1 < $f558a02d4b00a5ad$var$kProxyEvents.length; n1++)stream.on($f558a02d4b00a5ad$var$kProxyEvents[n1], this.emit.bind(this, $f558a02d4b00a5ad$var$kProxyEvents[n1]));
+     // when we try to consume some more bytes, simply unpause the
+    // underlying stream.
+    this._read = function(n) {
+        $f558a02d4b00a5ad$var$debug('wrapped _read', n);
+        if (paused) {
+            paused = false;
+            stream.resume();
+        }
+    };
+    return this;
+};
+
+if (typeof Symbol === 'function') $f558a02d4b00a5ad$var$Readable.prototype[Symbol.asyncIterator] = function() {
+    if ($f558a02d4b00a5ad$var$createReadableStreamAsyncIterator === undefined) $f558a02d4b00a5ad$var$createReadableStreamAsyncIterator = (parcelRequire("aMt7b"));
+    return $f558a02d4b00a5ad$var$createReadableStreamAsyncIterator(this);
+};
+Object.defineProperty($f558a02d4b00a5ad$var$Readable.prototype, 'readableHighWaterMark', {
+    // making it explicit this property is not enumerable
+    // because otherwise some prototype manipulation in
+    // userland will fail
+    enumerable: false,
+    get: function get() {
+        return this._readableState.highWaterMark;
+    }
+});
+Object.defineProperty($f558a02d4b00a5ad$var$Readable.prototype, 'readableBuffer', {
+    // making it explicit this property is not enumerable
+    // because otherwise some prototype manipulation in
+    // userland will fail
+    enumerable: false,
+    get: function get() {
+        return this._readableState && this._readableState.buffer;
+    }
+});
+Object.defineProperty($f558a02d4b00a5ad$var$Readable.prototype, 'readableFlowing', {
+    // making it explicit this property is not enumerable
+    // because otherwise some prototype manipulation in
+    // userland will fail
+    enumerable: false,
+    get: function get() {
+        return this._readableState.flowing;
+    },
+    set: function set(state) {
+        if (this._readableState) this._readableState.flowing = state;
+    }
+}); // exposed for testing purposes only.
+$f558a02d4b00a5ad$var$Readable._fromList = $f558a02d4b00a5ad$var$fromList;
+Object.defineProperty($f558a02d4b00a5ad$var$Readable.prototype, 'readableLength', {
+    // making it explicit this property is not enumerable
+    // because otherwise some prototype manipulation in
+    // userland will fail
+    enumerable: false,
+    get: function get() {
+        return this._readableState.length;
+    }
+}); // Pluck off n bytes from an array of buffers.
+// Length is the combined lengths of all the buffers in the list.
+// This function is designed to be inlinable, so please take care when making
+// changes to the function body.
+function $f558a02d4b00a5ad$var$fromList(n, state) {
+    // nothing buffered
+    if (state.length === 0) return null;
+    var ret;
+    if (state.objectMode) ret = state.buffer.shift();
+    else if (!n || n >= state.length) {
+        // read it all, truncate the list
+        if (state.decoder) ret = state.buffer.join('');
+        else if (state.buffer.length === 1) ret = state.buffer.first();
+        else ret = state.buffer.concat(state.length);
+        state.buffer.clear();
+    } else // read part of list
+    ret = state.buffer.consume(n, state.decoder);
+    return ret;
+}
+function $f558a02d4b00a5ad$var$endReadable(stream) {
+    var state = stream._readableState;
+    $f558a02d4b00a5ad$var$debug('endReadable', state.endEmitted);
+    if (!state.endEmitted) {
+        state.ended = true;
+        $a506278517dc5c33$exports.nextTick($f558a02d4b00a5ad$var$endReadableNT, state, stream);
+    }
+}
+function $f558a02d4b00a5ad$var$endReadableNT(state, stream) {
+    $f558a02d4b00a5ad$var$debug('endReadableNT', state.endEmitted, state.length); // Check that we didn't get one last unshift.
+    if (!state.endEmitted && state.length === 0) {
+        state.endEmitted = true;
+        stream.readable = false;
+        stream.emit('end');
+        if (state.autoDestroy) {
+            // In case of duplex streams we need a way to detect
+            // if the writable side is ready for autoDestroy as well
+            var wState = stream._writableState;
+            if (!wState || wState.autoDestroy && wState.finished) stream.destroy();
+        }
+    }
+}
+
+if (typeof Symbol === 'function') $f558a02d4b00a5ad$var$Readable.from = function(iterable, opts) {
+    if ($f558a02d4b00a5ad$var$from === undefined) $f558a02d4b00a5ad$var$from = (parcelRequire("4kQJA"));
+    return $f558a02d4b00a5ad$var$from($f558a02d4b00a5ad$var$Readable, iterable, opts);
+};
+function $f558a02d4b00a5ad$var$indexOf(xs, x) {
+    for(var i = 0, l = xs.length; i < l; i++){
+        if (xs[i] === x) return i;
+    }
+    return -1;
+}
+
+});
+parcelRequire.register("l1yNc", function(module, exports) {
+
+module.exports = (parcelRequire("97MzU")).EventEmitter;
+
+});
+
+parcelRequire.register("uSTaf", function(module, exports) {
+'use strict';
+function $05cd6137da80dc43$var$ownKeys(object, enumerableOnly) {
+    var keys = Object.keys(object);
+    if (Object.getOwnPropertySymbols) {
+        var symbols = Object.getOwnPropertySymbols(object);
+        if (enumerableOnly) symbols = symbols.filter(function(sym) {
+            return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+        });
+        keys.push.apply(keys, symbols);
+    }
+    return keys;
+}
+function $05cd6137da80dc43$var$_objectSpread(target) {
+    for(var i = 1; i < arguments.length; i++){
+        var source = arguments[i] != null ? arguments[i] : {
+        };
+        if (i % 2) $05cd6137da80dc43$var$ownKeys(Object(source), true).forEach(function(key) {
+            $05cd6137da80dc43$var$_defineProperty(target, key, source[key]);
+        });
+        else if (Object.getOwnPropertyDescriptors) Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+        else $05cd6137da80dc43$var$ownKeys(Object(source)).forEach(function(key) {
+            Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+        });
+    }
+    return target;
+}
+function $05cd6137da80dc43$var$_defineProperty(obj, key, value) {
+    if (key in obj) Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+    });
+    else obj[key] = value;
+    return obj;
+}
+function $05cd6137da80dc43$var$_classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
+}
+function $05cd6137da80dc43$var$_defineProperties(target, props) {
+    for(var i = 0; i < props.length; i++){
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+    }
+}
+function $05cd6137da80dc43$var$_createClass(Constructor, protoProps, staticProps) {
+    if (protoProps) $05cd6137da80dc43$var$_defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) $05cd6137da80dc43$var$_defineProperties(Constructor, staticProps);
+    return Constructor;
+}
+
+var $05cd6137da80dc43$var$Buffer = $464bcea887784ce5$export$a143d493d941bafc;
+
+var $lA1sm = parcelRequire("lA1sm");
+var $05cd6137da80dc43$var$inspect = $lA1sm.inspect;
+var $05cd6137da80dc43$var$custom = $05cd6137da80dc43$var$inspect && $05cd6137da80dc43$var$inspect.custom || 'inspect';
+function $05cd6137da80dc43$var$copyBuffer(src, target, offset) {
+    $05cd6137da80dc43$var$Buffer.prototype.copy.call(src, target, offset);
+}
+module.exports = /*#__PURE__*/ (function() {
+    function BufferList() {
+        $05cd6137da80dc43$var$_classCallCheck(this, BufferList);
+        this.head = null;
+        this.tail = null;
+        this.length = 0;
+    }
+    $05cd6137da80dc43$var$_createClass(BufferList, [
+        {
+            key: "push",
+            value: function push(v) {
+                var entry = {
+                    data: v,
+                    next: null
+                };
+                if (this.length > 0) this.tail.next = entry;
+                else this.head = entry;
+                this.tail = entry;
+                ++this.length;
+            }
+        },
+        {
+            key: "unshift",
+            value: function unshift(v) {
+                var entry = {
+                    data: v,
+                    next: this.head
+                };
+                if (this.length === 0) this.tail = entry;
+                this.head = entry;
+                ++this.length;
+            }
+        },
+        {
+            key: "shift",
+            value: function shift() {
+                if (this.length === 0) return;
+                var ret = this.head.data;
+                if (this.length === 1) this.head = this.tail = null;
+                else this.head = this.head.next;
+                --this.length;
+                return ret;
+            }
+        },
+        {
+            key: "clear",
+            value: function clear() {
+                this.head = this.tail = null;
+                this.length = 0;
+            }
+        },
+        {
+            key: "join",
+            value: function join(s) {
+                if (this.length === 0) return '';
+                var p = this.head;
+                var ret = '' + p.data;
+                while(p = p.next)ret += s + p.data;
+                return ret;
+            }
+        },
+        {
+            key: "concat",
+            value: function concat(n) {
+                if (this.length === 0) return $05cd6137da80dc43$var$Buffer.alloc(0);
+                var ret = $05cd6137da80dc43$var$Buffer.allocUnsafe(n >>> 0);
+                var p = this.head;
+                var i = 0;
+                while(p){
+                    $05cd6137da80dc43$var$copyBuffer(p.data, ret, i);
+                    i += p.data.length;
+                    p = p.next;
+                }
+                return ret;
+            } // Consumes a specified amount of bytes or characters from the buffered data.
+        },
+        {
+            key: "consume",
+            value: function consume(n, hasStrings) {
+                var ret;
+                if (n < this.head.data.length) {
+                    // `slice` is the same for buffers and strings.
+                    ret = this.head.data.slice(0, n);
+                    this.head.data = this.head.data.slice(n);
+                } else if (n === this.head.data.length) // First chunk is a perfect match.
+                ret = this.shift();
+                else // Result spans more than one buffer.
+                ret = hasStrings ? this._getString(n) : this._getBuffer(n);
+                return ret;
+            }
+        },
+        {
+            key: "first",
+            value: function first() {
+                return this.head.data;
+            } // Consumes a specified amount of characters from the buffered data.
+        },
+        {
+            key: "_getString",
+            value: function _getString(n) {
+                var p = this.head;
+                var c = 1;
+                var ret = p.data;
+                n -= ret.length;
+                while(p = p.next){
+                    var str = p.data;
+                    var nb = n > str.length ? str.length : n;
+                    if (nb === str.length) ret += str;
+                    else ret += str.slice(0, n);
+                    n -= nb;
+                    if (n === 0) {
+                        if (nb === str.length) {
+                            ++c;
+                            if (p.next) this.head = p.next;
+                            else this.head = this.tail = null;
+                        } else {
+                            this.head = p;
+                            p.data = str.slice(nb);
+                        }
+                        break;
+                    }
+                    ++c;
+                }
+                this.length -= c;
+                return ret;
+            } // Consumes a specified amount of bytes from the buffered data.
+        },
+        {
+            key: "_getBuffer",
+            value: function _getBuffer(n) {
+                var ret = $05cd6137da80dc43$var$Buffer.allocUnsafe(n);
+                var p = this.head;
+                var c = 1;
+                p.data.copy(ret);
+                n -= p.data.length;
+                while(p = p.next){
+                    var buf = p.data;
+                    var nb = n > buf.length ? buf.length : n;
+                    buf.copy(ret, ret.length - n, 0, nb);
+                    n -= nb;
+                    if (n === 0) {
+                        if (nb === buf.length) {
+                            ++c;
+                            if (p.next) this.head = p.next;
+                            else this.head = this.tail = null;
+                        } else {
+                            this.head = p;
+                            p.data = buf.slice(nb);
+                        }
+                        break;
+                    }
+                    ++c;
+                }
+                this.length -= c;
+                return ret;
+            } // Make sure the linked list only shows the minimal necessary information.
+        },
+        {
+            key: $05cd6137da80dc43$var$custom,
+            value: function value(_, options) {
+                return $05cd6137da80dc43$var$inspect(this, $05cd6137da80dc43$var$_objectSpread({
+                }, options, {
+                    // Only inspect one level.
+                    depth: 0,
+                    // It should not recurse.
+                    customInspect: false
+                }));
+            }
+        }
+    ]);
+    return BufferList;
+})();
+
+});
+
+parcelRequire.register("kNsyz", function(module, exports) {
+
+'use strict'; // undocumented cb() API, needed for core, not for public API
+function $f23e88fbb1cc2bf1$var$destroy(err1, cb) {
+    var _this = this;
+    var readableDestroyed = this._readableState && this._readableState.destroyed;
+    var writableDestroyed = this._writableState && this._writableState.destroyed;
+    if (readableDestroyed || writableDestroyed) {
+        if (cb) cb(err1);
+        else if (err1) {
+            if (!this._writableState) $a506278517dc5c33$exports.nextTick($f23e88fbb1cc2bf1$var$emitErrorNT, this, err1);
+            else if (!this._writableState.errorEmitted) {
+                this._writableState.errorEmitted = true;
+                $a506278517dc5c33$exports.nextTick($f23e88fbb1cc2bf1$var$emitErrorNT, this, err1);
+            }
+        }
+        return this;
+    } // we set destroyed to true before firing error callbacks in order
+    // to make it re-entrance safe in case destroy() is called within callbacks
+    if (this._readableState) this._readableState.destroyed = true;
+     // if this is a duplex stream mark the writable part as destroyed as well
+    if (this._writableState) this._writableState.destroyed = true;
+    this._destroy(err1 || null, function(err) {
+        if (!cb && err) {
+            if (!_this._writableState) $a506278517dc5c33$exports.nextTick($f23e88fbb1cc2bf1$var$emitErrorAndCloseNT, _this, err);
+            else if (!_this._writableState.errorEmitted) {
+                _this._writableState.errorEmitted = true;
+                $a506278517dc5c33$exports.nextTick($f23e88fbb1cc2bf1$var$emitErrorAndCloseNT, _this, err);
+            } else $a506278517dc5c33$exports.nextTick($f23e88fbb1cc2bf1$var$emitCloseNT, _this);
+        } else if (cb) {
+            $a506278517dc5c33$exports.nextTick($f23e88fbb1cc2bf1$var$emitCloseNT, _this);
+            cb(err);
+        } else $a506278517dc5c33$exports.nextTick($f23e88fbb1cc2bf1$var$emitCloseNT, _this);
+    });
+    return this;
+}
+function $f23e88fbb1cc2bf1$var$emitErrorAndCloseNT(self, err) {
+    $f23e88fbb1cc2bf1$var$emitErrorNT(self, err);
+    $f23e88fbb1cc2bf1$var$emitCloseNT(self);
+}
+function $f23e88fbb1cc2bf1$var$emitCloseNT(self) {
+    if (self._writableState && !self._writableState.emitClose) return;
+    if (self._readableState && !self._readableState.emitClose) return;
+    self.emit('close');
+}
+function $f23e88fbb1cc2bf1$var$undestroy() {
+    if (this._readableState) {
+        this._readableState.destroyed = false;
+        this._readableState.reading = false;
+        this._readableState.ended = false;
+        this._readableState.endEmitted = false;
+    }
+    if (this._writableState) {
+        this._writableState.destroyed = false;
+        this._writableState.ended = false;
+        this._writableState.ending = false;
+        this._writableState.finalCalled = false;
+        this._writableState.prefinished = false;
+        this._writableState.finished = false;
+        this._writableState.errorEmitted = false;
+    }
+}
+function $f23e88fbb1cc2bf1$var$emitErrorNT(self, err) {
+    self.emit('error', err);
+}
+function $f23e88fbb1cc2bf1$var$errorOrDestroy(stream, err) {
+    // We have tests that rely on errors being emitted
+    // in the same tick, so changing this is semver major.
+    // For now when you opt-in to autoDestroy we allow
+    // the error to be emitted nextTick. In a future
+    // semver major update we should change the default to this.
+    var rState = stream._readableState;
+    var wState = stream._writableState;
+    if (rState && rState.autoDestroy || wState && wState.autoDestroy) stream.destroy(err);
+    else stream.emit('error', err);
+}
+module.exports = {
+    destroy: $f23e88fbb1cc2bf1$var$destroy,
+    undestroy: $f23e88fbb1cc2bf1$var$undestroy,
+    errorOrDestroy: $f23e88fbb1cc2bf1$var$errorOrDestroy
+};
+
+});
+
+parcelRequire.register("ayxrf", function(module, exports) {
+'use strict';
+
+var $61Usz = parcelRequire("61Usz");
+var $7af70490d08cf9f5$var$ERR_INVALID_OPT_VALUE = $61Usz.codes.ERR_INVALID_OPT_VALUE;
+function $7af70490d08cf9f5$var$highWaterMarkFrom(options, isDuplex, duplexKey) {
+    return options.highWaterMark != null ? options.highWaterMark : isDuplex ? options[duplexKey] : null;
+}
+function $7af70490d08cf9f5$var$getHighWaterMark(state, options, duplexKey, isDuplex) {
+    var hwm = $7af70490d08cf9f5$var$highWaterMarkFrom(options, isDuplex, duplexKey);
+    if (hwm != null) {
+        if (!(isFinite(hwm) && Math.floor(hwm) === hwm) || hwm < 0) {
+            var name = isDuplex ? duplexKey : 'highWaterMark';
+            throw new $7af70490d08cf9f5$var$ERR_INVALID_OPT_VALUE(name, hwm);
+        }
+        return Math.floor(hwm);
+    } // Default value
+    return state.objectMode ? 16 : 16384;
+}
+module.exports = {
+    getHighWaterMark: $7af70490d08cf9f5$var$getHighWaterMark
+};
+
+});
+parcelRequire.register("61Usz", function(module, exports) {
+
+$parcel$export(module.exports, "codes", () => $463ea1d590f93219$export$e45cb6485273080e, (v) => $463ea1d590f93219$export$e45cb6485273080e = v);
+var $463ea1d590f93219$export$e45cb6485273080e;
+'use strict';
+function $463ea1d590f93219$var$_inheritsLoose(subClass, superClass) {
+    subClass.prototype = Object.create(superClass.prototype);
+    subClass.prototype.constructor = subClass;
+    subClass.__proto__ = superClass;
+}
+var $463ea1d590f93219$var$codes = {
+};
+function $463ea1d590f93219$var$createErrorType(code, message, Base) {
+    if (!Base) Base = Error;
+    function getMessage(arg1, arg2, arg3) {
+        if (typeof message === 'string') return message;
+        else return message(arg1, arg2, arg3);
+    }
+    var NodeError1 = /*#__PURE__*/ function(_Base) {
+        $463ea1d590f93219$var$_inheritsLoose(NodeError, _Base);
+        function NodeError(arg1, arg2, arg3) {
+            return _Base.call(this, getMessage(arg1, arg2, arg3)) || this;
+        }
+        return NodeError;
+    }(Base);
+    NodeError1.prototype.name = Base.name;
+    NodeError1.prototype.code = code;
+    $463ea1d590f93219$var$codes[code] = NodeError1;
+} // https://github.com/nodejs/node/blob/v10.8.0/lib/internal/errors.js
+function $463ea1d590f93219$var$oneOf(expected, thing) {
+    if (Array.isArray(expected)) {
+        var len = expected.length;
+        expected = expected.map(function(i) {
+            return String(i);
+        });
+        if (len > 2) return "one of ".concat(thing, " ").concat(expected.slice(0, len - 1).join(', '), ", or ") + expected[len - 1];
+        else if (len === 2) return "one of ".concat(thing, " ").concat(expected[0], " or ").concat(expected[1]);
+        else return "of ".concat(thing, " ").concat(expected[0]);
+    } else return "of ".concat(thing, " ").concat(String(expected));
+} // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith
+function $463ea1d590f93219$var$startsWith(str, search, pos) {
+    return str.substr(!pos || pos < 0 ? 0 : +pos, search.length) === search;
+} // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/endsWith
+function $463ea1d590f93219$var$endsWith(str, search, this_len) {
+    if (this_len === undefined || this_len > str.length) this_len = str.length;
+    return str.substring(this_len - search.length, this_len) === search;
+} // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/includes
+function $463ea1d590f93219$var$includes(str, search, start) {
+    if (typeof start !== 'number') start = 0;
+    if (start + search.length > str.length) return false;
+    else return str.indexOf(search, start) !== -1;
+}
+$463ea1d590f93219$var$createErrorType('ERR_INVALID_OPT_VALUE', function(name, value) {
+    return 'The value "' + value + '" is invalid for option "' + name + '"';
+}, TypeError);
+$463ea1d590f93219$var$createErrorType('ERR_INVALID_ARG_TYPE', function(name, expected, actual) {
+    // determiner: 'must be' or 'must not be'
+    var determiner;
+    if (typeof expected === 'string' && $463ea1d590f93219$var$startsWith(expected, 'not ')) {
+        determiner = 'must not be';
+        expected = expected.replace(/^not /, '');
+    } else determiner = 'must be';
+    var msg;
+    if ($463ea1d590f93219$var$endsWith(name, ' argument')) // For cases like 'first argument'
+    msg = "The ".concat(name, " ").concat(determiner, " ").concat($463ea1d590f93219$var$oneOf(expected, 'type'));
+    else {
+        var type = $463ea1d590f93219$var$includes(name, '.') ? 'property' : 'argument';
+        msg = "The \"".concat(name, "\" ").concat(type, " ").concat(determiner, " ").concat($463ea1d590f93219$var$oneOf(expected, 'type'));
+    }
+    msg += ". Received type ".concat(typeof actual);
+    return msg;
+}, TypeError);
+$463ea1d590f93219$var$createErrorType('ERR_STREAM_PUSH_AFTER_EOF', 'stream.push() after EOF');
+$463ea1d590f93219$var$createErrorType('ERR_METHOD_NOT_IMPLEMENTED', function(name) {
+    return 'The ' + name + ' method is not implemented';
+});
+$463ea1d590f93219$var$createErrorType('ERR_STREAM_PREMATURE_CLOSE', 'Premature close');
+$463ea1d590f93219$var$createErrorType('ERR_STREAM_DESTROYED', function(name) {
+    return 'Cannot call ' + name + ' after a stream was destroyed';
+});
+$463ea1d590f93219$var$createErrorType('ERR_MULTIPLE_CALLBACK', 'Callback called multiple times');
+$463ea1d590f93219$var$createErrorType('ERR_STREAM_CANNOT_PIPE', 'Cannot pipe, not readable');
+$463ea1d590f93219$var$createErrorType('ERR_STREAM_WRITE_AFTER_END', 'write after end');
+$463ea1d590f93219$var$createErrorType('ERR_STREAM_NULL_VALUES', 'May not write null values to stream', TypeError);
+$463ea1d590f93219$var$createErrorType('ERR_UNKNOWN_ENCODING', function(arg) {
+    return 'Unknown encoding: ' + arg;
+}, TypeError);
+$463ea1d590f93219$var$createErrorType('ERR_STREAM_UNSHIFT_AFTER_END_EVENT', 'stream.unshift() after end event');
+$463ea1d590f93219$export$e45cb6485273080e = $463ea1d590f93219$var$codes;
+
+});
+
+
+parcelRequire.register("9IgbJ", function(module, exports) {
+
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+// a duplex stream is just a stream that is both readable and writable.
+// Since JS doesn't have multiple prototypal inheritance, this class
+// prototypally inherits from Readable, and then parasitically from
+// Writable.
+'use strict';
+/*<replacement>*/ var $7124c7c5fade832c$var$objectKeys = Object.keys || function(obj) {
+    var keys = [];
+    for(var key in obj)keys.push(key);
+    return keys;
+};
+/*</replacement>*/ module.exports = $7124c7c5fade832c$var$Duplex;
+
+var $l3Ygu = parcelRequire("l3Ygu");
+
+var $gmpQ7 = parcelRequire("gmpQ7");
+
+(parcelRequire("4xKNh"))($7124c7c5fade832c$var$Duplex, $l3Ygu);
+// Allow the keys array to be GC'ed.
+var $7124c7c5fade832c$var$keys = $7124c7c5fade832c$var$objectKeys($gmpQ7.prototype);
+for(var $7124c7c5fade832c$var$v = 0; $7124c7c5fade832c$var$v < $7124c7c5fade832c$var$keys.length; $7124c7c5fade832c$var$v++){
+    var $7124c7c5fade832c$var$method = $7124c7c5fade832c$var$keys[$7124c7c5fade832c$var$v];
+    if (!$7124c7c5fade832c$var$Duplex.prototype[$7124c7c5fade832c$var$method]) $7124c7c5fade832c$var$Duplex.prototype[$7124c7c5fade832c$var$method] = $gmpQ7.prototype[$7124c7c5fade832c$var$method];
+}
+function $7124c7c5fade832c$var$Duplex(options) {
+    if (!(this instanceof $7124c7c5fade832c$var$Duplex)) return new $7124c7c5fade832c$var$Duplex(options);
+    $l3Ygu.call(this, options);
+    $gmpQ7.call(this, options);
+    this.allowHalfOpen = true;
+    if (options) {
+        if (options.readable === false) this.readable = false;
+        if (options.writable === false) this.writable = false;
+        if (options.allowHalfOpen === false) {
+            this.allowHalfOpen = false;
+            this.once('end', $7124c7c5fade832c$var$onend);
+        }
+    }
+}
+Object.defineProperty($7124c7c5fade832c$var$Duplex.prototype, 'writableHighWaterMark', {
+    // making it explicit this property is not enumerable
+    // because otherwise some prototype manipulation in
+    // userland will fail
+    enumerable: false,
+    get: function get() {
+        return this._writableState.highWaterMark;
+    }
+});
+Object.defineProperty($7124c7c5fade832c$var$Duplex.prototype, 'writableBuffer', {
+    // making it explicit this property is not enumerable
+    // because otherwise some prototype manipulation in
+    // userland will fail
+    enumerable: false,
+    get: function get() {
+        return this._writableState && this._writableState.getBuffer();
+    }
+});
+Object.defineProperty($7124c7c5fade832c$var$Duplex.prototype, 'writableLength', {
+    // making it explicit this property is not enumerable
+    // because otherwise some prototype manipulation in
+    // userland will fail
+    enumerable: false,
+    get: function get() {
+        return this._writableState.length;
+    }
+}); // the no-half-open enforcer
+function $7124c7c5fade832c$var$onend() {
+    // If the writable side ended, then we're ok.
+    if (this._writableState.ended) return; // no more data can be written.
+    // But allow more writes to happen in this tick.
+    $a506278517dc5c33$exports.nextTick($7124c7c5fade832c$var$onEndNT, this);
+}
+function $7124c7c5fade832c$var$onEndNT(self) {
+    self.end();
+}
+Object.defineProperty($7124c7c5fade832c$var$Duplex.prototype, 'destroyed', {
+    // making it explicit this property is not enumerable
+    // because otherwise some prototype manipulation in
+    // userland will fail
+    enumerable: false,
+    get: function get() {
+        if (this._readableState === undefined || this._writableState === undefined) return false;
+        return this._readableState.destroyed && this._writableState.destroyed;
+    },
+    set: function set(value) {
+        // we ignore the value if the stream
+        // has not been initialized yet
+        if (this._readableState === undefined || this._writableState === undefined) return;
+         // backward compatibility, the user is explicitly
+        // managing destroyed
+        this._readableState.destroyed = value;
+        this._writableState.destroyed = value;
+    }
+});
+
+});
+parcelRequire.register("gmpQ7", function(module, exports) {
+
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+// A bit simpler than readable streams.
+// Implement an async ._write(chunk, encoding, cb), and it'll handle all
+// the drain event emission and buffering.
+'use strict';
+module.exports = $be92be9ff93804cc$var$Writable;
+/* <replacement> */ function $be92be9ff93804cc$var$WriteReq(chunk, encoding, cb) {
+    this.chunk = chunk;
+    this.encoding = encoding;
+    this.callback = cb;
+    this.next = null;
+} // It seems a linked list but it is not
+// there will be only 2 of these for each stream
+function $be92be9ff93804cc$var$CorkedRequest(state) {
+    var _this = this;
+    this.next = null;
+    this.entry = null;
+    this.finish = function() {
+        $be92be9ff93804cc$var$onCorkedFinish(_this, state);
+    };
+}
+/* </replacement> */ /*<replacement>*/ var $be92be9ff93804cc$var$Duplex;
+/*</replacement>*/ $be92be9ff93804cc$var$Writable.WritableState = $be92be9ff93804cc$var$WritableState;
+
+/*<replacement>*/ var $be92be9ff93804cc$var$internalUtil = {
+    deprecate: (parcelRequire("iSzh0"))
+};
+
+var $l1yNc = parcelRequire("l1yNc");
+
+var $be92be9ff93804cc$require$Buffer = $464bcea887784ce5$export$a143d493d941bafc;
+var $be92be9ff93804cc$var$OurUint8Array = $parcel$global.Uint8Array || function() {
+};
+function $be92be9ff93804cc$var$_uint8ArrayToBuffer(chunk) {
+    return $be92be9ff93804cc$require$Buffer.from(chunk);
+}
+function $be92be9ff93804cc$var$_isUint8Array(obj) {
+    return $be92be9ff93804cc$require$Buffer.isBuffer(obj) || obj instanceof $be92be9ff93804cc$var$OurUint8Array;
+}
+
+var $kNsyz = parcelRequire("kNsyz");
+
+var $ayxrf = parcelRequire("ayxrf");
+var $be92be9ff93804cc$var$getHighWaterMark = $ayxrf.getHighWaterMark;
+
+var $61Usz = parcelRequire("61Usz");
+var $be92be9ff93804cc$require$_require$codes = $61Usz.codes;
+var $be92be9ff93804cc$var$ERR_INVALID_ARG_TYPE = $be92be9ff93804cc$require$_require$codes.ERR_INVALID_ARG_TYPE, $be92be9ff93804cc$var$ERR_METHOD_NOT_IMPLEMENTED = $be92be9ff93804cc$require$_require$codes.ERR_METHOD_NOT_IMPLEMENTED, $be92be9ff93804cc$var$ERR_MULTIPLE_CALLBACK = $be92be9ff93804cc$require$_require$codes.ERR_MULTIPLE_CALLBACK, $be92be9ff93804cc$var$ERR_STREAM_CANNOT_PIPE = $be92be9ff93804cc$require$_require$codes.ERR_STREAM_CANNOT_PIPE, $be92be9ff93804cc$var$ERR_STREAM_DESTROYED = $be92be9ff93804cc$require$_require$codes.ERR_STREAM_DESTROYED, $be92be9ff93804cc$var$ERR_STREAM_NULL_VALUES = $be92be9ff93804cc$require$_require$codes.ERR_STREAM_NULL_VALUES, $be92be9ff93804cc$var$ERR_STREAM_WRITE_AFTER_END = $be92be9ff93804cc$require$_require$codes.ERR_STREAM_WRITE_AFTER_END, $be92be9ff93804cc$var$ERR_UNKNOWN_ENCODING = $be92be9ff93804cc$require$_require$codes.ERR_UNKNOWN_ENCODING;
+var $be92be9ff93804cc$var$errorOrDestroy = $kNsyz.errorOrDestroy;
+
+(parcelRequire("4xKNh"))($be92be9ff93804cc$var$Writable, $l1yNc);
+function $be92be9ff93804cc$var$nop() {
+}
+
+function $be92be9ff93804cc$var$WritableState(options, stream, isDuplex) {
+    $be92be9ff93804cc$var$Duplex = $be92be9ff93804cc$var$Duplex || (parcelRequire("9IgbJ"));
+    options = options || {
+    }; // Duplex streams are both readable and writable, but share
+    // the same options object.
+    // However, some cases require setting options to different
+    // values for the readable and the writable sides of the duplex stream,
+    // e.g. options.readableObjectMode vs. options.writableObjectMode, etc.
+    if (typeof isDuplex !== 'boolean') isDuplex = stream instanceof $be92be9ff93804cc$var$Duplex; // object stream flag to indicate whether or not this stream
+    // contains buffers or objects.
+    this.objectMode = !!options.objectMode;
+    if (isDuplex) this.objectMode = this.objectMode || !!options.writableObjectMode; // the point at which write() starts returning false
+    // Note: 0 is a valid value, means that we always return false if
+    // the entire buffer is not flushed immediately on write()
+    this.highWaterMark = $be92be9ff93804cc$var$getHighWaterMark(this, options, 'writableHighWaterMark', isDuplex); // if _final has been called
+    this.finalCalled = false; // drain event flag.
+    this.needDrain = false; // at the start of calling end()
+    this.ending = false; // when end() has been called, and returned
+    this.ended = false; // when 'finish' is emitted
+    this.finished = false; // has it been destroyed
+    this.destroyed = false; // should we decode strings into buffers before passing to _write?
+    // this is here so that some node-core streams can optimize string
+    // handling at a lower level.
+    var noDecode = options.decodeStrings === false;
+    this.decodeStrings = !noDecode; // Crypto is kind of old and crusty.  Historically, its default string
+    // encoding is 'binary' so we have to make this configurable.
+    // Everything else in the universe uses 'utf8', though.
+    this.defaultEncoding = options.defaultEncoding || 'utf8'; // not an actual buffer we keep track of, but a measurement
+    // of how much we're waiting to get pushed to some underlying
+    // socket or file.
+    this.length = 0; // a flag to see when we're in the middle of a write.
+    this.writing = false; // when true all writes will be buffered until .uncork() call
+    this.corked = 0; // a flag to be able to tell if the onwrite cb is called immediately,
+    // or on a later tick.  We set this to true at first, because any
+    // actions that shouldn't happen until "later" should generally also
+    // not happen before the first write call.
+    this.sync = true; // a flag to know if we're processing previously buffered items, which
+    // may call the _write() callback in the same tick, so that we don't
+    // end up in an overlapped onwrite situation.
+    this.bufferProcessing = false; // the callback that's passed to _write(chunk,cb)
+    this.onwrite = function(er) {
+        $be92be9ff93804cc$var$onwrite(stream, er);
+    }; // the callback that the user supplies to write(chunk,encoding,cb)
+    this.writecb = null; // the amount that is being written when _write is called.
+    this.writelen = 0;
+    this.bufferedRequest = null;
+    this.lastBufferedRequest = null; // number of pending user-supplied write callbacks
+    // this must be 0 before 'finish' can be emitted
+    this.pendingcb = 0; // emit prefinish if the only thing we're waiting for is _write cbs
+    // This is relevant for synchronous Transform streams
+    this.prefinished = false; // True if the error was already emitted and should not be thrown again
+    this.errorEmitted = false; // Should close be emitted on destroy. Defaults to true.
+    this.emitClose = options.emitClose !== false; // Should .destroy() be called after 'finish' (and potentially 'end')
+    this.autoDestroy = !!options.autoDestroy; // count buffered requests
+    this.bufferedRequestCount = 0; // allocate the first CorkedRequest, there is always
+    // one allocated and free to use, and we maintain at most two
+    this.corkedRequestsFree = new $be92be9ff93804cc$var$CorkedRequest(this);
+}
+$be92be9ff93804cc$var$WritableState.prototype.getBuffer = function getBuffer() {
+    var current = this.bufferedRequest;
+    var out = [];
+    while(current){
+        out.push(current);
+        current = current.next;
+    }
+    return out;
+};
+(function() {
+    try {
+        Object.defineProperty($be92be9ff93804cc$var$WritableState.prototype, 'buffer', {
+            get: $be92be9ff93804cc$var$internalUtil.deprecate(function writableStateBufferGetter() {
+                return this.getBuffer();
+            }, "_writableState.buffer is deprecated. Use _writableState.getBuffer instead.", 'DEP0003')
+        });
+    } catch (_) {
+    }
+})(); // Test _writableState for inheritance to account for Duplex streams,
+// whose prototype chain only points to Readable.
+var $be92be9ff93804cc$var$realHasInstance;
+if (typeof Symbol === 'function' && Symbol.hasInstance && typeof Function.prototype[Symbol.hasInstance] === 'function') {
+    $be92be9ff93804cc$var$realHasInstance = Function.prototype[Symbol.hasInstance];
+    Object.defineProperty($be92be9ff93804cc$var$Writable, Symbol.hasInstance, {
+        value: function value(object) {
+            if ($be92be9ff93804cc$var$realHasInstance.call(this, object)) return true;
+            if (this !== $be92be9ff93804cc$var$Writable) return false;
+            return object && object._writableState instanceof $be92be9ff93804cc$var$WritableState;
+        }
+    });
+} else $be92be9ff93804cc$var$realHasInstance = function realHasInstance(object) {
+    return object instanceof this;
+};
+
+function $be92be9ff93804cc$var$Writable(options) {
+    $be92be9ff93804cc$var$Duplex = $be92be9ff93804cc$var$Duplex || (parcelRequire("9IgbJ")); // Writable ctor is applied to Duplexes, too.
+    // `realHasInstance` is necessary because using plain `instanceof`
+    // would return false, as no `_writableState` property is attached.
+    // Trying to use the custom `instanceof` for Writable here will also break the
+    // Node.js LazyTransform implementation, which has a non-trivial getter for
+    // `_writableState` that would lead to infinite recursion.
+    // Checking for a Stream.Duplex instance is faster here instead of inside
+    // the WritableState constructor, at least with V8 6.5
+    var isDuplex = this instanceof $be92be9ff93804cc$var$Duplex;
+    if (!isDuplex && !$be92be9ff93804cc$var$realHasInstance.call($be92be9ff93804cc$var$Writable, this)) return new $be92be9ff93804cc$var$Writable(options);
+    this._writableState = new $be92be9ff93804cc$var$WritableState(options, this, isDuplex); // legacy.
+    this.writable = true;
+    if (options) {
+        if (typeof options.write === 'function') this._write = options.write;
+        if (typeof options.writev === 'function') this._writev = options.writev;
+        if (typeof options.destroy === 'function') this._destroy = options.destroy;
+        if (typeof options.final === 'function') this._final = options.final;
+    }
+    $l1yNc.call(this);
+} // Otherwise people can pipe Writable streams, which is just wrong.
+$be92be9ff93804cc$var$Writable.prototype.pipe = function() {
+    $be92be9ff93804cc$var$errorOrDestroy(this, new $be92be9ff93804cc$var$ERR_STREAM_CANNOT_PIPE());
+};
+function $be92be9ff93804cc$var$writeAfterEnd(stream, cb) {
+    var er = new $be92be9ff93804cc$var$ERR_STREAM_WRITE_AFTER_END(); // TODO: defer error events consistently everywhere, not just the cb
+    $be92be9ff93804cc$var$errorOrDestroy(stream, er);
+    $a506278517dc5c33$exports.nextTick(cb, er);
+} // Checks that a user-supplied chunk is valid, especially for the particular
+// mode the stream is in. Currently this means that `null` is never accepted
+// and undefined/non-string values are only allowed in object mode.
+function $be92be9ff93804cc$var$validChunk(stream, state, chunk, cb) {
+    var er;
+    if (chunk === null) er = new $be92be9ff93804cc$var$ERR_STREAM_NULL_VALUES();
+    else if (typeof chunk !== 'string' && !state.objectMode) er = new $be92be9ff93804cc$var$ERR_INVALID_ARG_TYPE('chunk', [
+        'string',
+        'Buffer'
+    ], chunk);
+    if (er) {
+        $be92be9ff93804cc$var$errorOrDestroy(stream, er);
+        $a506278517dc5c33$exports.nextTick(cb, er);
+        return false;
+    }
+    return true;
+}
+$be92be9ff93804cc$var$Writable.prototype.write = function(chunk, encoding, cb) {
+    var state = this._writableState;
+    var ret = false;
+    var isBuf = !state.objectMode && $be92be9ff93804cc$var$_isUint8Array(chunk);
+    if (isBuf && !$be92be9ff93804cc$require$Buffer.isBuffer(chunk)) chunk = $be92be9ff93804cc$var$_uint8ArrayToBuffer(chunk);
+    if (typeof encoding === 'function') {
+        cb = encoding;
+        encoding = null;
+    }
+    if (isBuf) encoding = 'buffer';
+    else if (!encoding) encoding = state.defaultEncoding;
+    if (typeof cb !== 'function') cb = $be92be9ff93804cc$var$nop;
+    if (state.ending) $be92be9ff93804cc$var$writeAfterEnd(this, cb);
+    else if (isBuf || $be92be9ff93804cc$var$validChunk(this, state, chunk, cb)) {
+        state.pendingcb++;
+        ret = $be92be9ff93804cc$var$writeOrBuffer(this, state, isBuf, chunk, encoding, cb);
+    }
+    return ret;
+};
+$be92be9ff93804cc$var$Writable.prototype.cork = function() {
+    this._writableState.corked++;
+};
+$be92be9ff93804cc$var$Writable.prototype.uncork = function() {
+    var state = this._writableState;
+    if (state.corked) {
+        state.corked--;
+        if (!state.writing && !state.corked && !state.bufferProcessing && state.bufferedRequest) $be92be9ff93804cc$var$clearBuffer(this, state);
+    }
+};
+$be92be9ff93804cc$var$Writable.prototype.setDefaultEncoding = function setDefaultEncoding(encoding) {
+    // node::ParseEncoding() requires lower case.
+    if (typeof encoding === 'string') encoding = encoding.toLowerCase();
+    if (!([
+        'hex',
+        'utf8',
+        'utf-8',
+        'ascii',
+        'binary',
+        'base64',
+        'ucs2',
+        'ucs-2',
+        'utf16le',
+        'utf-16le',
+        'raw'
+    ].indexOf((encoding + '').toLowerCase()) > -1)) throw new $be92be9ff93804cc$var$ERR_UNKNOWN_ENCODING(encoding);
+    this._writableState.defaultEncoding = encoding;
+    return this;
+};
+Object.defineProperty($be92be9ff93804cc$var$Writable.prototype, 'writableBuffer', {
+    // making it explicit this property is not enumerable
+    // because otherwise some prototype manipulation in
+    // userland will fail
+    enumerable: false,
+    get: function get() {
+        return this._writableState && this._writableState.getBuffer();
+    }
+});
+function $be92be9ff93804cc$var$decodeChunk(state, chunk, encoding) {
+    if (!state.objectMode && state.decodeStrings !== false && typeof chunk === 'string') chunk = $be92be9ff93804cc$require$Buffer.from(chunk, encoding);
+    return chunk;
+}
+Object.defineProperty($be92be9ff93804cc$var$Writable.prototype, 'writableHighWaterMark', {
+    // making it explicit this property is not enumerable
+    // because otherwise some prototype manipulation in
+    // userland will fail
+    enumerable: false,
+    get: function get() {
+        return this._writableState.highWaterMark;
+    }
+}); // if we're already writing something, then just put this
+// in the queue, and wait our turn.  Otherwise, call _write
+// If we return false, then we need a drain event, so set that flag.
+function $be92be9ff93804cc$var$writeOrBuffer(stream, state, isBuf, chunk, encoding, cb) {
+    if (!isBuf) {
+        var newChunk = $be92be9ff93804cc$var$decodeChunk(state, chunk, encoding);
+        if (chunk !== newChunk) {
+            isBuf = true;
+            encoding = 'buffer';
+            chunk = newChunk;
+        }
+    }
+    var len = state.objectMode ? 1 : chunk.length;
+    state.length += len;
+    var ret = state.length < state.highWaterMark; // we must ensure that previous needDrain will not be reset to false.
+    if (!ret) state.needDrain = true;
+    if (state.writing || state.corked) {
+        var last = state.lastBufferedRequest;
+        state.lastBufferedRequest = {
+            chunk: chunk,
+            encoding: encoding,
+            isBuf: isBuf,
+            callback: cb,
+            next: null
+        };
+        if (last) last.next = state.lastBufferedRequest;
+        else state.bufferedRequest = state.lastBufferedRequest;
+        state.bufferedRequestCount += 1;
+    } else $be92be9ff93804cc$var$doWrite(stream, state, false, len, chunk, encoding, cb);
+    return ret;
+}
+function $be92be9ff93804cc$var$doWrite(stream, state, writev, len, chunk, encoding, cb) {
+    state.writelen = len;
+    state.writecb = cb;
+    state.writing = true;
+    state.sync = true;
+    if (state.destroyed) state.onwrite(new $be92be9ff93804cc$var$ERR_STREAM_DESTROYED('write'));
+    else if (writev) stream._writev(chunk, state.onwrite);
+    else stream._write(chunk, encoding, state.onwrite);
+    state.sync = false;
+}
+function $be92be9ff93804cc$var$onwriteError(stream, state, sync, er, cb) {
+    --state.pendingcb;
+    if (sync) {
+        // defer the callback if we are being called synchronously
+        // to avoid piling up things on the stack
+        $a506278517dc5c33$exports.nextTick(cb, er); // this can emit finish, and it will always happen
+        // after error
+        $a506278517dc5c33$exports.nextTick($be92be9ff93804cc$var$finishMaybe, stream, state);
+        stream._writableState.errorEmitted = true;
+        $be92be9ff93804cc$var$errorOrDestroy(stream, er);
+    } else {
+        // the caller expect this to happen before if
+        // it is async
+        cb(er);
+        stream._writableState.errorEmitted = true;
+        $be92be9ff93804cc$var$errorOrDestroy(stream, er); // this can emit finish, but finish must
+        // always follow error
+        $be92be9ff93804cc$var$finishMaybe(stream, state);
+    }
+}
+function $be92be9ff93804cc$var$onwriteStateUpdate(state) {
+    state.writing = false;
+    state.writecb = null;
+    state.length -= state.writelen;
+    state.writelen = 0;
+}
+function $be92be9ff93804cc$var$onwrite(stream, er) {
+    var state = stream._writableState;
+    var sync = state.sync;
+    var cb = state.writecb;
+    if (typeof cb !== 'function') throw new $be92be9ff93804cc$var$ERR_MULTIPLE_CALLBACK();
+    $be92be9ff93804cc$var$onwriteStateUpdate(state);
+    if (er) $be92be9ff93804cc$var$onwriteError(stream, state, sync, er, cb);
+    else {
+        // Check if we're actually ready to finish, but don't emit yet
+        var finished = $be92be9ff93804cc$var$needFinish(state) || stream.destroyed;
+        if (!finished && !state.corked && !state.bufferProcessing && state.bufferedRequest) $be92be9ff93804cc$var$clearBuffer(stream, state);
+        if (sync) $a506278517dc5c33$exports.nextTick($be92be9ff93804cc$var$afterWrite, stream, state, finished, cb);
+        else $be92be9ff93804cc$var$afterWrite(stream, state, finished, cb);
+    }
+}
+function $be92be9ff93804cc$var$afterWrite(stream, state, finished, cb) {
+    if (!finished) $be92be9ff93804cc$var$onwriteDrain(stream, state);
+    state.pendingcb--;
+    cb();
+    $be92be9ff93804cc$var$finishMaybe(stream, state);
+} // Must force callback to be called on nextTick, so that we don't
+// emit 'drain' before the write() consumer gets the 'false' return
+// value, and has a chance to attach a 'drain' listener.
+function $be92be9ff93804cc$var$onwriteDrain(stream, state) {
+    if (state.length === 0 && state.needDrain) {
+        state.needDrain = false;
+        stream.emit('drain');
+    }
+} // if there's something in the buffer waiting, then process it
+function $be92be9ff93804cc$var$clearBuffer(stream, state) {
+    state.bufferProcessing = true;
+    var entry = state.bufferedRequest;
+    if (stream._writev && entry && entry.next) {
+        // Fast case, write everything using _writev()
+        var l = state.bufferedRequestCount;
+        var buffer = new Array(l);
+        var holder = state.corkedRequestsFree;
+        holder.entry = entry;
+        var count = 0;
+        var allBuffers = true;
+        while(entry){
+            buffer[count] = entry;
+            if (!entry.isBuf) allBuffers = false;
+            entry = entry.next;
+            count += 1;
+        }
+        buffer.allBuffers = allBuffers;
+        $be92be9ff93804cc$var$doWrite(stream, state, true, state.length, buffer, '', holder.finish); // doWrite is almost always async, defer these to save a bit of time
+        // as the hot path ends with doWrite
+        state.pendingcb++;
+        state.lastBufferedRequest = null;
+        if (holder.next) {
+            state.corkedRequestsFree = holder.next;
+            holder.next = null;
+        } else state.corkedRequestsFree = new $be92be9ff93804cc$var$CorkedRequest(state);
+        state.bufferedRequestCount = 0;
+    } else {
+        // Slow case, write chunks one-by-one
+        while(entry){
+            var chunk = entry.chunk;
+            var encoding = entry.encoding;
+            var cb = entry.callback;
+            var len = state.objectMode ? 1 : chunk.length;
+            $be92be9ff93804cc$var$doWrite(stream, state, false, len, chunk, encoding, cb);
+            entry = entry.next;
+            state.bufferedRequestCount--; // if we didn't call the onwrite immediately, then
+            // it means that we need to wait until it does.
+            // also, that means that the chunk and cb are currently
+            // being processed, so move the buffer counter past them.
+            if (state.writing) break;
+        }
+        if (entry === null) state.lastBufferedRequest = null;
+    }
+    state.bufferedRequest = entry;
+    state.bufferProcessing = false;
+}
+$be92be9ff93804cc$var$Writable.prototype._write = function(chunk, encoding, cb) {
+    cb(new $be92be9ff93804cc$var$ERR_METHOD_NOT_IMPLEMENTED('_write()'));
+};
+$be92be9ff93804cc$var$Writable.prototype._writev = null;
+$be92be9ff93804cc$var$Writable.prototype.end = function(chunk, encoding, cb) {
+    var state = this._writableState;
+    if (typeof chunk === 'function') {
+        cb = chunk;
+        chunk = null;
+        encoding = null;
+    } else if (typeof encoding === 'function') {
+        cb = encoding;
+        encoding = null;
+    }
+    if (chunk !== null && chunk !== undefined) this.write(chunk, encoding); // .end() fully uncorks
+    if (state.corked) {
+        state.corked = 1;
+        this.uncork();
+    } // ignore unnecessary end() calls.
+    if (!state.ending) $be92be9ff93804cc$var$endWritable(this, state, cb);
+    return this;
+};
+Object.defineProperty($be92be9ff93804cc$var$Writable.prototype, 'writableLength', {
+    // making it explicit this property is not enumerable
+    // because otherwise some prototype manipulation in
+    // userland will fail
+    enumerable: false,
+    get: function get() {
+        return this._writableState.length;
+    }
+});
+function $be92be9ff93804cc$var$needFinish(state) {
+    return state.ending && state.length === 0 && state.bufferedRequest === null && !state.finished && !state.writing;
+}
+function $be92be9ff93804cc$var$callFinal(stream, state) {
+    stream._final(function(err) {
+        state.pendingcb--;
+        if (err) $be92be9ff93804cc$var$errorOrDestroy(stream, err);
+        state.prefinished = true;
+        stream.emit('prefinish');
+        $be92be9ff93804cc$var$finishMaybe(stream, state);
+    });
+}
+function $be92be9ff93804cc$var$prefinish(stream, state) {
+    if (!state.prefinished && !state.finalCalled) {
+        if (typeof stream._final === 'function' && !state.destroyed) {
+            state.pendingcb++;
+            state.finalCalled = true;
+            $a506278517dc5c33$exports.nextTick($be92be9ff93804cc$var$callFinal, stream, state);
+        } else {
+            state.prefinished = true;
+            stream.emit('prefinish');
+        }
+    }
+}
+function $be92be9ff93804cc$var$finishMaybe(stream, state) {
+    var need = $be92be9ff93804cc$var$needFinish(state);
+    if (need) {
+        $be92be9ff93804cc$var$prefinish(stream, state);
+        if (state.pendingcb === 0) {
+            state.finished = true;
+            stream.emit('finish');
+            if (state.autoDestroy) {
+                // In case of duplex streams we need a way to detect
+                // if the readable side is ready for autoDestroy as well
+                var rState = stream._readableState;
+                if (!rState || rState.autoDestroy && rState.endEmitted) stream.destroy();
+            }
+        }
+    }
+    return need;
+}
+function $be92be9ff93804cc$var$endWritable(stream, state, cb) {
+    state.ending = true;
+    $be92be9ff93804cc$var$finishMaybe(stream, state);
+    if (cb) {
+        if (state.finished) $a506278517dc5c33$exports.nextTick(cb);
+        else stream.once('finish', cb);
+    }
+    state.ended = true;
+    stream.writable = false;
+}
+function $be92be9ff93804cc$var$onCorkedFinish(corkReq, state, err) {
+    var entry = corkReq.entry;
+    corkReq.entry = null;
+    while(entry){
+        var cb = entry.callback;
+        state.pendingcb--;
+        cb(err);
+        entry = entry.next;
+    } // reuse the free corkReq.
+    state.corkedRequestsFree.next = corkReq;
+}
+Object.defineProperty($be92be9ff93804cc$var$Writable.prototype, 'destroyed', {
+    // making it explicit this property is not enumerable
+    // because otherwise some prototype manipulation in
+    // userland will fail
+    enumerable: false,
+    get: function get() {
+        if (this._writableState === undefined) return false;
+        return this._writableState.destroyed;
+    },
+    set: function set(value) {
+        // we ignore the value if the stream
+        // has not been initialized yet
+        if (!this._writableState) return;
+         // backward compatibility, the user is explicitly
+        // managing destroyed
+        this._writableState.destroyed = value;
+    }
+});
+$be92be9ff93804cc$var$Writable.prototype.destroy = $kNsyz.destroy;
+$be92be9ff93804cc$var$Writable.prototype._undestroy = $kNsyz.undestroy;
+$be92be9ff93804cc$var$Writable.prototype._destroy = function(err, cb) {
+    cb(err);
+};
+
+});
+
+
+parcelRequire.register("aMt7b", function(module, exports) {
+
+'use strict';
+var $7d94f8b11bd29f37$var$_Object$setPrototypeO;
+function $7d94f8b11bd29f37$var$_defineProperty(obj, key, value) {
+    if (key in obj) Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+    });
+    else obj[key] = value;
+    return obj;
+}
+
+var $cnd3U = parcelRequire("cnd3U");
+var $7d94f8b11bd29f37$var$kLastResolve = Symbol('lastResolve');
+var $7d94f8b11bd29f37$var$kLastReject = Symbol('lastReject');
+var $7d94f8b11bd29f37$var$kError = Symbol('error');
+var $7d94f8b11bd29f37$var$kEnded = Symbol('ended');
+var $7d94f8b11bd29f37$var$kLastPromise = Symbol('lastPromise');
+var $7d94f8b11bd29f37$var$kHandlePromise = Symbol('handlePromise');
+var $7d94f8b11bd29f37$var$kStream = Symbol('stream');
+function $7d94f8b11bd29f37$var$createIterResult(value, done) {
+    return {
+        value: value,
+        done: done
+    };
+}
+function $7d94f8b11bd29f37$var$readAndResolve(iter) {
+    var resolve = iter[$7d94f8b11bd29f37$var$kLastResolve];
+    if (resolve !== null) {
+        var data = iter[$7d94f8b11bd29f37$var$kStream].read(); // we defer if data is null
+        // we can be expecting either 'end' or
+        // 'error'
+        if (data !== null) {
+            iter[$7d94f8b11bd29f37$var$kLastPromise] = null;
+            iter[$7d94f8b11bd29f37$var$kLastResolve] = null;
+            iter[$7d94f8b11bd29f37$var$kLastReject] = null;
+            resolve($7d94f8b11bd29f37$var$createIterResult(data, false));
+        }
+    }
+}
+function $7d94f8b11bd29f37$var$onReadable(iter) {
+    // we wait for the next tick, because it might
+    // emit an error with process.nextTick
+    $a506278517dc5c33$exports.nextTick($7d94f8b11bd29f37$var$readAndResolve, iter);
+}
+function $7d94f8b11bd29f37$var$wrapForNext(lastPromise, iter) {
+    return function(resolve, reject) {
+        lastPromise.then(function() {
+            if (iter[$7d94f8b11bd29f37$var$kEnded]) {
+                resolve($7d94f8b11bd29f37$var$createIterResult(undefined, true));
+                return;
+            }
+            iter[$7d94f8b11bd29f37$var$kHandlePromise](resolve, reject);
+        }, reject);
+    };
+}
+var $7d94f8b11bd29f37$var$AsyncIteratorPrototype = Object.getPrototypeOf(function() {
+});
+var $7d94f8b11bd29f37$var$ReadableStreamAsyncIteratorPrototype = Object.setPrototypeOf(($7d94f8b11bd29f37$var$_Object$setPrototypeO = {
+    get stream () {
+        return this[$7d94f8b11bd29f37$var$kStream];
+    },
+    next: function next() {
+        var _this = this;
+        // if we have detected an error in the meanwhile
+        // reject straight away
+        var error = this[$7d94f8b11bd29f37$var$kError];
+        if (error !== null) return Promise.reject(error);
+        if (this[$7d94f8b11bd29f37$var$kEnded]) return Promise.resolve($7d94f8b11bd29f37$var$createIterResult(undefined, true));
+        if (this[$7d94f8b11bd29f37$var$kStream].destroyed) // We need to defer via nextTick because if .destroy(err) is
+        // called, the error will be emitted via nextTick, and
+        // we cannot guarantee that there is no error lingering around
+        // waiting to be emitted.
+        return new Promise(function(resolve, reject) {
+            $a506278517dc5c33$exports.nextTick(function() {
+                if (_this[$7d94f8b11bd29f37$var$kError]) reject(_this[$7d94f8b11bd29f37$var$kError]);
+                else resolve($7d94f8b11bd29f37$var$createIterResult(undefined, true));
+            });
+        });
+         // if we have multiple next() calls
+        // we will wait for the previous Promise to finish
+        // this logic is optimized to support for await loops,
+        // where next() is only called once at a time
+        var lastPromise = this[$7d94f8b11bd29f37$var$kLastPromise];
+        var promise;
+        if (lastPromise) promise = new Promise($7d94f8b11bd29f37$var$wrapForNext(lastPromise, this));
+        else {
+            // fast path needed to support multiple this.push()
+            // without triggering the next() queue
+            var data = this[$7d94f8b11bd29f37$var$kStream].read();
+            if (data !== null) return Promise.resolve($7d94f8b11bd29f37$var$createIterResult(data, false));
+            promise = new Promise(this[$7d94f8b11bd29f37$var$kHandlePromise]);
+        }
+        this[$7d94f8b11bd29f37$var$kLastPromise] = promise;
+        return promise;
+    }
+}, $7d94f8b11bd29f37$var$_defineProperty($7d94f8b11bd29f37$var$_Object$setPrototypeO, Symbol.asyncIterator, function() {
+    return this;
+}), $7d94f8b11bd29f37$var$_defineProperty($7d94f8b11bd29f37$var$_Object$setPrototypeO, "return", function _return() {
+    var _this2 = this;
+    // destroy(err, cb) is a private API
+    // we can guarantee we have that here, because we control the
+    // Readable class this is attached to
+    return new Promise(function(resolve, reject) {
+        _this2[$7d94f8b11bd29f37$var$kStream].destroy(null, function(err) {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve($7d94f8b11bd29f37$var$createIterResult(undefined, true));
+        });
+    });
+}), $7d94f8b11bd29f37$var$_Object$setPrototypeO), $7d94f8b11bd29f37$var$AsyncIteratorPrototype);
+var $7d94f8b11bd29f37$var$createReadableStreamAsyncIterator = function createReadableStreamAsyncIterator(stream) {
+    var _Object$create;
+    var iterator = Object.create($7d94f8b11bd29f37$var$ReadableStreamAsyncIteratorPrototype, (_Object$create = {
+    }, $7d94f8b11bd29f37$var$_defineProperty(_Object$create, $7d94f8b11bd29f37$var$kStream, {
+        value: stream,
+        writable: true
+    }), $7d94f8b11bd29f37$var$_defineProperty(_Object$create, $7d94f8b11bd29f37$var$kLastResolve, {
+        value: null,
+        writable: true
+    }), $7d94f8b11bd29f37$var$_defineProperty(_Object$create, $7d94f8b11bd29f37$var$kLastReject, {
+        value: null,
+        writable: true
+    }), $7d94f8b11bd29f37$var$_defineProperty(_Object$create, $7d94f8b11bd29f37$var$kError, {
+        value: null,
+        writable: true
+    }), $7d94f8b11bd29f37$var$_defineProperty(_Object$create, $7d94f8b11bd29f37$var$kEnded, {
+        value: stream._readableState.endEmitted,
+        writable: true
+    }), $7d94f8b11bd29f37$var$_defineProperty(_Object$create, $7d94f8b11bd29f37$var$kHandlePromise, {
+        value: function value(resolve, reject) {
+            var data = iterator[$7d94f8b11bd29f37$var$kStream].read();
+            if (data) {
+                iterator[$7d94f8b11bd29f37$var$kLastPromise] = null;
+                iterator[$7d94f8b11bd29f37$var$kLastResolve] = null;
+                iterator[$7d94f8b11bd29f37$var$kLastReject] = null;
+                resolve($7d94f8b11bd29f37$var$createIterResult(data, false));
+            } else {
+                iterator[$7d94f8b11bd29f37$var$kLastResolve] = resolve;
+                iterator[$7d94f8b11bd29f37$var$kLastReject] = reject;
+            }
+        },
+        writable: true
+    }), _Object$create));
+    iterator[$7d94f8b11bd29f37$var$kLastPromise] = null;
+    $cnd3U(stream, function(err) {
+        if (err && err.code !== 'ERR_STREAM_PREMATURE_CLOSE') {
+            var reject = iterator[$7d94f8b11bd29f37$var$kLastReject]; // reject if we are waiting for data in the Promise
+            // returned by next() and store the error
+            if (reject !== null) {
+                iterator[$7d94f8b11bd29f37$var$kLastPromise] = null;
+                iterator[$7d94f8b11bd29f37$var$kLastResolve] = null;
+                iterator[$7d94f8b11bd29f37$var$kLastReject] = null;
+                reject(err);
+            }
+            iterator[$7d94f8b11bd29f37$var$kError] = err;
+            return;
+        }
+        var resolve = iterator[$7d94f8b11bd29f37$var$kLastResolve];
+        if (resolve !== null) {
+            iterator[$7d94f8b11bd29f37$var$kLastPromise] = null;
+            iterator[$7d94f8b11bd29f37$var$kLastResolve] = null;
+            iterator[$7d94f8b11bd29f37$var$kLastReject] = null;
+            resolve($7d94f8b11bd29f37$var$createIterResult(undefined, true));
+        }
+        iterator[$7d94f8b11bd29f37$var$kEnded] = true;
+    });
+    stream.on('readable', $7d94f8b11bd29f37$var$onReadable.bind(null, iterator));
+    return iterator;
+};
+module.exports = $7d94f8b11bd29f37$var$createReadableStreamAsyncIterator;
+
+});
+parcelRequire.register("cnd3U", function(module, exports) {
+// Ported from https://github.com/mafintosh/end-of-stream with
+// permission from the author, Mathias Buus (@mafintosh).
+'use strict';
+
+var $61Usz = parcelRequire("61Usz");
+var $9021c3dd08e10083$var$ERR_STREAM_PREMATURE_CLOSE = $61Usz.codes.ERR_STREAM_PREMATURE_CLOSE;
+function $9021c3dd08e10083$var$once(callback) {
+    var called = false;
+    return function() {
+        if (called) return;
+        called = true;
+        for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+        callback.apply(this, args);
+    };
+}
+function $9021c3dd08e10083$var$noop() {
+}
+function $9021c3dd08e10083$var$isRequest(stream) {
+    return stream.setHeader && typeof stream.abort === 'function';
+}
+function $9021c3dd08e10083$var$eos(stream, opts, callback) {
+    if (typeof opts === 'function') return $9021c3dd08e10083$var$eos(stream, null, opts);
+    if (!opts) opts = {
+    };
+    callback = $9021c3dd08e10083$var$once(callback || $9021c3dd08e10083$var$noop);
+    var readable = opts.readable || opts.readable !== false && stream.readable;
+    var writable = opts.writable || opts.writable !== false && stream.writable;
+    var onlegacyfinish = function onlegacyfinish() {
+        if (!stream.writable) onfinish();
+    };
+    var writableEnded = stream._writableState && stream._writableState.finished;
+    var onfinish = function onfinish() {
+        writable = false;
+        writableEnded = true;
+        if (!readable) callback.call(stream);
+    };
+    var readableEnded = stream._readableState && stream._readableState.endEmitted;
+    var onend = function onend() {
+        readable = false;
+        readableEnded = true;
+        if (!writable) callback.call(stream);
+    };
+    var onerror = function onerror(err) {
+        callback.call(stream, err);
+    };
+    var onclose = function onclose() {
+        var err;
+        if (readable && !readableEnded) {
+            if (!stream._readableState || !stream._readableState.ended) err = new $9021c3dd08e10083$var$ERR_STREAM_PREMATURE_CLOSE();
+            return callback.call(stream, err);
+        }
+        if (writable && !writableEnded) {
+            if (!stream._writableState || !stream._writableState.ended) err = new $9021c3dd08e10083$var$ERR_STREAM_PREMATURE_CLOSE();
+            return callback.call(stream, err);
+        }
+    };
+    var onrequest = function onrequest() {
+        stream.req.on('finish', onfinish);
+    };
+    if ($9021c3dd08e10083$var$isRequest(stream)) {
+        stream.on('complete', onfinish);
+        stream.on('abort', onclose);
+        if (stream.req) onrequest();
+        else stream.on('request', onrequest);
+    } else if (writable && !stream._writableState) {
+        // legacy streams
+        stream.on('end', onlegacyfinish);
+        stream.on('close', onlegacyfinish);
+    }
+    stream.on('end', onend);
+    stream.on('finish', onfinish);
+    if (opts.error !== false) stream.on('error', onerror);
+    stream.on('close', onclose);
+    return function() {
+        stream.removeListener('complete', onfinish);
+        stream.removeListener('abort', onclose);
+        stream.removeListener('request', onrequest);
+        if (stream.req) stream.req.removeListener('finish', onfinish);
+        stream.removeListener('end', onlegacyfinish);
+        stream.removeListener('close', onlegacyfinish);
+        stream.removeListener('finish', onfinish);
+        stream.removeListener('end', onend);
+        stream.removeListener('error', onerror);
+        stream.removeListener('close', onclose);
+    };
+}
+module.exports = $9021c3dd08e10083$var$eos;
+
+});
+
+
+parcelRequire.register("4kQJA", function(module, exports) {
+module.exports = function() {
+    throw new Error('Readable.from is not available in the browser');
+};
+
+});
+
+
+parcelRequire.register("76bEk", function(module, exports) {
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+// a transform stream is a readable/writable stream where you do
+// something with the data.  Sometimes it's called a "filter",
+// but that's not a great name for it, since that implies a thing where
+// some bits pass through, and others are simply ignored.  (That would
+// be a valid example of a transform, of course.)
+//
+// While the output is causally related to the input, it's not a
+// necessarily symmetric or synchronous transformation.  For example,
+// a zlib stream might take multiple plain-text writes(), and then
+// emit a single compressed chunk some time in the future.
+//
+// Here's how this works:
+//
+// The Transform stream has all the aspects of the readable and writable
+// stream classes.  When you write(chunk), that calls _write(chunk,cb)
+// internally, and returns false if there's a lot of pending writes
+// buffered up.  When you call read(), that calls _read(n) until
+// there's enough pending readable data buffered up.
+//
+// In a transform stream, the written data is placed in a buffer.  When
+// _read(n) is called, it transforms the queued up data, calling the
+// buffered _write cb's as it consumes chunks.  If consuming a single
+// written chunk would result in multiple output chunks, then the first
+// outputted bit calls the readcb, and subsequent chunks just go into
+// the read buffer, and will cause it to emit 'readable' if necessary.
+//
+// This way, back-pressure is actually determined by the reading side,
+// since _read has to be called to start processing a new chunk.  However,
+// a pathological inflate type of transform can cause excessive buffering
+// here.  For example, imagine a stream where every byte of input is
+// interpreted as an integer from 0-255, and then results in that many
+// bytes of output.  Writing the 4 bytes {ff,ff,ff,ff} would result in
+// 1kb of data being output.  In this case, you could write a very small
+// amount of input, and end up with a very large amount of output.  In
+// such a pathological inflating mechanism, there'd be no way to tell
+// the system to stop doing the transform.  A single 4MB write could
+// cause the system to run out of memory.
+//
+// However, even in such a pathological case, only a single written chunk
+// would be consumed, and then the rest would wait (un-transformed) until
+// the results of the previous transformed chunk were consumed.
+'use strict';
+module.exports = $52b2214a0aa16a63$var$Transform;
+
+var $61Usz = parcelRequire("61Usz");
+var $52b2214a0aa16a63$require$_require$codes = $61Usz.codes;
+var $52b2214a0aa16a63$var$ERR_METHOD_NOT_IMPLEMENTED = $52b2214a0aa16a63$require$_require$codes.ERR_METHOD_NOT_IMPLEMENTED, $52b2214a0aa16a63$var$ERR_MULTIPLE_CALLBACK = $52b2214a0aa16a63$require$_require$codes.ERR_MULTIPLE_CALLBACK, $52b2214a0aa16a63$var$ERR_TRANSFORM_ALREADY_TRANSFORMING = $52b2214a0aa16a63$require$_require$codes.ERR_TRANSFORM_ALREADY_TRANSFORMING, $52b2214a0aa16a63$var$ERR_TRANSFORM_WITH_LENGTH_0 = $52b2214a0aa16a63$require$_require$codes.ERR_TRANSFORM_WITH_LENGTH_0;
+
+var $9IgbJ = parcelRequire("9IgbJ");
+
+(parcelRequire("4xKNh"))($52b2214a0aa16a63$var$Transform, $9IgbJ);
+function $52b2214a0aa16a63$var$afterTransform(er, data) {
+    var ts = this._transformState;
+    ts.transforming = false;
+    var cb = ts.writecb;
+    if (cb === null) return this.emit('error', new $52b2214a0aa16a63$var$ERR_MULTIPLE_CALLBACK());
+    ts.writechunk = null;
+    ts.writecb = null;
+    if (data != null) this.push(data);
+    cb(er);
+    var rs = this._readableState;
+    rs.reading = false;
+    if (rs.needReadable || rs.length < rs.highWaterMark) this._read(rs.highWaterMark);
+}
+function $52b2214a0aa16a63$var$Transform(options) {
+    if (!(this instanceof $52b2214a0aa16a63$var$Transform)) return new $52b2214a0aa16a63$var$Transform(options);
+    $9IgbJ.call(this, options);
+    this._transformState = {
+        afterTransform: $52b2214a0aa16a63$var$afterTransform.bind(this),
+        needTransform: false,
+        transforming: false,
+        writecb: null,
+        writechunk: null,
+        writeencoding: null
+    }; // start out asking for a readable event once data is transformed.
+    this._readableState.needReadable = true; // we have implemented the _read method, and done the other things
+    // that Readable wants before the first _read call, so unset the
+    // sync guard flag.
+    this._readableState.sync = false;
+    if (options) {
+        if (typeof options.transform === 'function') this._transform = options.transform;
+        if (typeof options.flush === 'function') this._flush = options.flush;
+    } // When the writable side finishes, then flush out anything remaining.
+    this.on('prefinish', $52b2214a0aa16a63$var$prefinish);
+}
+function $52b2214a0aa16a63$var$prefinish() {
+    var _this = this;
+    if (typeof this._flush === 'function' && !this._readableState.destroyed) this._flush(function(er, data) {
+        $52b2214a0aa16a63$var$done(_this, er, data);
+    });
+    else $52b2214a0aa16a63$var$done(this, null, null);
+}
+$52b2214a0aa16a63$var$Transform.prototype.push = function(chunk, encoding) {
+    this._transformState.needTransform = false;
+    return $9IgbJ.prototype.push.call(this, chunk, encoding);
+}; // This is the part where you do stuff!
+// override this function in implementation classes.
+// 'chunk' is an input chunk.
+//
+// Call `push(newChunk)` to pass along transformed output
+// to the readable side.  You may call 'push' zero or more times.
+//
+// Call `cb(err)` when you are done with this chunk.  If you pass
+// an error, then that'll put the hurt on the whole operation.  If you
+// never call cb(), then you'll never get another chunk.
+$52b2214a0aa16a63$var$Transform.prototype._transform = function(chunk, encoding, cb) {
+    cb(new $52b2214a0aa16a63$var$ERR_METHOD_NOT_IMPLEMENTED('_transform()'));
+};
+$52b2214a0aa16a63$var$Transform.prototype._write = function(chunk, encoding, cb) {
+    var ts = this._transformState;
+    ts.writecb = cb;
+    ts.writechunk = chunk;
+    ts.writeencoding = encoding;
+    if (!ts.transforming) {
+        var rs = this._readableState;
+        if (ts.needTransform || rs.needReadable || rs.length < rs.highWaterMark) this._read(rs.highWaterMark);
+    }
+}; // Doesn't matter what the args are here.
+// _transform does all the work.
+// That we got here means that the readable side wants more data.
+$52b2214a0aa16a63$var$Transform.prototype._read = function(n) {
+    var ts = this._transformState;
+    if (ts.writechunk !== null && !ts.transforming) {
+        ts.transforming = true;
+        this._transform(ts.writechunk, ts.writeencoding, ts.afterTransform);
+    } else // mark that we need a transform, so that any data that comes in
+    // will get processed, now that we've asked for it.
+    ts.needTransform = true;
+};
+$52b2214a0aa16a63$var$Transform.prototype._destroy = function(err, cb) {
+    $9IgbJ.prototype._destroy.call(this, err, function(err2) {
+        cb(err2);
+    });
+};
+function $52b2214a0aa16a63$var$done(stream, er, data) {
+    if (er) return stream.emit('error', er);
+    if (data != null) stream.push(data); // TODO(BridgeAR): Write a test for these two error cases
+    // if there's nothing in the write buffer, then that means
+    // that nothing more will ever be provided
+    if (stream._writableState.length) throw new $52b2214a0aa16a63$var$ERR_TRANSFORM_WITH_LENGTH_0();
+    if (stream._transformState.transforming) throw new $52b2214a0aa16a63$var$ERR_TRANSFORM_ALREADY_TRANSFORMING();
+    return stream.push(null);
+}
+
+});
+
+parcelRequire.register("kENgH", function(module, exports) {
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+// a passthrough stream.
+// basically just the most minimal sort of Transform stream.
+// Every written chunk gets output as-is.
+'use strict';
+module.exports = $f09dc2c093c32031$var$PassThrough;
+
+var $76bEk = parcelRequire("76bEk");
+
+(parcelRequire("4xKNh"))($f09dc2c093c32031$var$PassThrough, $76bEk);
+function $f09dc2c093c32031$var$PassThrough(options) {
+    if (!(this instanceof $f09dc2c093c32031$var$PassThrough)) return new $f09dc2c093c32031$var$PassThrough(options);
+    $76bEk.call(this, options);
+}
+$f09dc2c093c32031$var$PassThrough.prototype._transform = function(chunk, encoding, cb) {
+    cb(null, chunk);
+};
+
+});
+
+parcelRequire.register("4MRiP", function(module, exports) {
+// Ported from https://github.com/mafintosh/pump with
+// permission from the author, Mathias Buus (@mafintosh).
+'use strict';
+var $37c4fdebf7990aeb$var$eos;
+function $37c4fdebf7990aeb$var$once(callback) {
+    var called = false;
+    return function() {
+        if (called) return;
+        called = true;
+        callback.apply(void 0, arguments);
+    };
+}
+
+var $61Usz = parcelRequire("61Usz");
+var $37c4fdebf7990aeb$require$_require$codes = $61Usz.codes;
+var $37c4fdebf7990aeb$var$ERR_MISSING_ARGS = $37c4fdebf7990aeb$require$_require$codes.ERR_MISSING_ARGS, $37c4fdebf7990aeb$var$ERR_STREAM_DESTROYED = $37c4fdebf7990aeb$require$_require$codes.ERR_STREAM_DESTROYED;
+function $37c4fdebf7990aeb$var$noop(err) {
+    // Rethrow the error if it exists to avoid swallowing it
+    if (err) throw err;
+}
+function $37c4fdebf7990aeb$var$isRequest(stream) {
+    return stream.setHeader && typeof stream.abort === 'function';
+}
+
+function $37c4fdebf7990aeb$var$destroyer(stream, reading, writing, callback) {
+    callback = $37c4fdebf7990aeb$var$once(callback);
+    var closed = false;
+    stream.on('close', function() {
+        closed = true;
+    });
+    if ($37c4fdebf7990aeb$var$eos === undefined) $37c4fdebf7990aeb$var$eos = (parcelRequire("cnd3U"));
+    $37c4fdebf7990aeb$var$eos(stream, {
+        readable: reading,
+        writable: writing
+    }, function(err) {
+        if (err) return callback(err);
+        closed = true;
+        callback();
+    });
+    var destroyed = false;
+    return function(err) {
+        if (closed) return;
+        if (destroyed) return;
+        destroyed = true; // request.destroy just do .end - .abort is what we want
+        if ($37c4fdebf7990aeb$var$isRequest(stream)) return stream.abort();
+        if (typeof stream.destroy === 'function') return stream.destroy();
+        callback(err || new $37c4fdebf7990aeb$var$ERR_STREAM_DESTROYED('pipe'));
+    };
+}
+function $37c4fdebf7990aeb$var$call(fn) {
+    fn();
+}
+function $37c4fdebf7990aeb$var$pipe(from, to) {
+    return from.pipe(to);
+}
+function $37c4fdebf7990aeb$var$popCallback(streams) {
+    if (!streams.length) return $37c4fdebf7990aeb$var$noop;
+    if (typeof streams[streams.length - 1] !== 'function') return $37c4fdebf7990aeb$var$noop;
+    return streams.pop();
+}
+function $37c4fdebf7990aeb$var$pipeline() {
+    for(var _len = arguments.length, streams = new Array(_len), _key = 0; _key < _len; _key++)streams[_key] = arguments[_key];
+    var callback = $37c4fdebf7990aeb$var$popCallback(streams);
+    if (Array.isArray(streams[0])) streams = streams[0];
+    if (streams.length < 2) throw new $37c4fdebf7990aeb$var$ERR_MISSING_ARGS('streams');
+    var error;
+    var destroys = streams.map(function(stream, i) {
+        var reading = i < streams.length - 1;
+        var writing = i > 0;
+        return $37c4fdebf7990aeb$var$destroyer(stream, reading, writing, function(err) {
+            if (!error) error = err;
+            if (err) destroys.forEach($37c4fdebf7990aeb$var$call);
+            if (reading) return;
+            destroys.forEach($37c4fdebf7990aeb$var$call);
+            callback(error);
+        });
+    });
+    return streams.reduce($37c4fdebf7990aeb$var$pipe);
+}
+module.exports = $37c4fdebf7990aeb$var$pipeline;
+
+});
+
 
 
 
@@ -13200,7 +15755,7 @@ var $cca538c3badaa4e7$require$Buffer = $g1NWN.Buffer;
 
 var $5jmGX = parcelRequire("5jmGX");
 
-var $7OWFn = parcelRequire("7OWFn");
+var $ldyoD = parcelRequire("ldyoD");
 
 var $4xKNh = parcelRequire("4xKNh");
 
@@ -13214,7 +15769,7 @@ Object.keys($95bOP).forEach(function(key) {
     $95bOP[key.toLowerCase()] = $95bOP[key];
 });
 function $cca538c3badaa4e7$var$Sign(algorithm) {
-    $7OWFn.Writable.call(this);
+    $ldyoD.Writable.call(this);
     var data = $95bOP[algorithm];
     if (!data) throw new Error('Unknown message digest');
     this._hashType = data.hash;
@@ -13222,7 +15777,7 @@ function $cca538c3badaa4e7$var$Sign(algorithm) {
     this._tag = data.id;
     this._signType = data.sign;
 }
-$4xKNh($cca538c3badaa4e7$var$Sign, $7OWFn.Writable);
+$4xKNh($cca538c3badaa4e7$var$Sign, $ldyoD.Writable);
 $cca538c3badaa4e7$var$Sign.prototype._write = function _write(data, _, done) {
     this._hash.update(data);
     done();
@@ -13239,14 +15794,14 @@ $cca538c3badaa4e7$var$Sign.prototype.sign = function signMethod(key, enc) {
     return enc ? sig.toString(enc) : sig;
 };
 function $cca538c3badaa4e7$var$Verify(algorithm) {
-    $7OWFn.Writable.call(this);
+    $ldyoD.Writable.call(this);
     var data = $95bOP[algorithm];
     if (!data) throw new Error('Unknown message digest');
     this._hash = $5jmGX(data.hash);
     this._tag = data.id;
     this._signType = data.sign;
 }
-$4xKNh($cca538c3badaa4e7$var$Verify, $7OWFn.Writable);
+$4xKNh($cca538c3badaa4e7$var$Verify, $ldyoD.Writable);
 $cca538c3badaa4e7$var$Verify.prototype._write = function _write(data, _, done) {
     this._hash.update(data);
     done();
@@ -13276,6 +15831,2581 @@ module.exports = {
 };
 
 });
+parcelRequire.register("ldyoD", function(module, exports) {
+
+exports = module.exports = (parcelRequire("9lIYQ"));
+exports.Stream = exports;
+exports.Readable = exports;
+
+exports.Writable = (parcelRequire("hNqtU"));
+
+exports.Duplex = (parcelRequire("aVECx"));
+
+exports.Transform = (parcelRequire("awvi6"));
+
+exports.PassThrough = (parcelRequire("7FPX7"));
+
+exports.finished = (parcelRequire("1WAlG"));
+
+exports.pipeline = (parcelRequire("ejpCZ"));
+
+});
+parcelRequire.register("9lIYQ", function(module, exports) {
+
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+'use strict';
+module.exports = $6ce8f763d62adc72$var$Readable;
+/*<replacement>*/ var $6ce8f763d62adc72$var$Duplex;
+/*</replacement>*/ $6ce8f763d62adc72$var$Readable.ReadableState = $6ce8f763d62adc72$var$ReadableState;
+
+var $97MzU = parcelRequire("97MzU");
+var $6ce8f763d62adc72$require$EE = $97MzU.EventEmitter;
+var $6ce8f763d62adc72$var$EElistenerCount = function EElistenerCount(emitter, type) {
+    return emitter.listeners(type).length;
+};
+
+var $kiR6z = parcelRequire("kiR6z");
+
+var $6ce8f763d62adc72$require$Buffer = $464bcea887784ce5$export$a143d493d941bafc;
+var $6ce8f763d62adc72$var$OurUint8Array = $parcel$global.Uint8Array || function() {
+};
+function $6ce8f763d62adc72$var$_uint8ArrayToBuffer(chunk) {
+    return $6ce8f763d62adc72$require$Buffer.from(chunk);
+}
+function $6ce8f763d62adc72$var$_isUint8Array(obj) {
+    return $6ce8f763d62adc72$require$Buffer.isBuffer(obj) || obj instanceof $6ce8f763d62adc72$var$OurUint8Array;
+}
+
+var $lA1sm = parcelRequire("lA1sm");
+var $6ce8f763d62adc72$var$debug;
+if ($lA1sm && $lA1sm.debuglog) $6ce8f763d62adc72$var$debug = $lA1sm.debuglog('stream');
+else $6ce8f763d62adc72$var$debug = function debug() {
+};
+
+var $7WmlX = parcelRequire("7WmlX");
+
+var $5cCjs = parcelRequire("5cCjs");
+
+var $26fv6 = parcelRequire("26fv6");
+var $6ce8f763d62adc72$var$getHighWaterMark = $26fv6.getHighWaterMark;
+
+var $dg5OQ = parcelRequire("dg5OQ");
+var $6ce8f763d62adc72$require$_require$codes = $dg5OQ.codes;
+var $6ce8f763d62adc72$var$ERR_INVALID_ARG_TYPE = $6ce8f763d62adc72$require$_require$codes.ERR_INVALID_ARG_TYPE, $6ce8f763d62adc72$var$ERR_STREAM_PUSH_AFTER_EOF = $6ce8f763d62adc72$require$_require$codes.ERR_STREAM_PUSH_AFTER_EOF, $6ce8f763d62adc72$var$ERR_METHOD_NOT_IMPLEMENTED = $6ce8f763d62adc72$require$_require$codes.ERR_METHOD_NOT_IMPLEMENTED, $6ce8f763d62adc72$var$ERR_STREAM_UNSHIFT_AFTER_END_EVENT = $6ce8f763d62adc72$require$_require$codes.ERR_STREAM_UNSHIFT_AFTER_END_EVENT; // Lazy loaded to improve the startup performance.
+var $6ce8f763d62adc72$var$StringDecoder;
+var $6ce8f763d62adc72$var$createReadableStreamAsyncIterator;
+var $6ce8f763d62adc72$var$from;
+
+(parcelRequire("4xKNh"))($6ce8f763d62adc72$var$Readable, $kiR6z);
+var $6ce8f763d62adc72$var$errorOrDestroy = $5cCjs.errorOrDestroy;
+var $6ce8f763d62adc72$var$kProxyEvents = [
+    'error',
+    'close',
+    'destroy',
+    'pause',
+    'resume'
+];
+function $6ce8f763d62adc72$var$prependListener(emitter, event, fn) {
+    // Sadly this is not cacheable as some libraries bundle their own
+    // event emitter implementation with them.
+    if (typeof emitter.prependListener === 'function') return emitter.prependListener(event, fn); // This is a hack to make sure that our error handler is attached before any
+    // userland ones.  NEVER DO THIS. This is here only because this code needs
+    // to continue to work with older versions of Node.js that do not include
+    // the prependListener() method. The goal is to eventually remove this hack.
+    if (!emitter._events || !emitter._events[event]) emitter.on(event, fn);
+    else if (Array.isArray(emitter._events[event])) emitter._events[event].unshift(fn);
+    else emitter._events[event] = [
+        fn,
+        emitter._events[event]
+    ];
+}
+
+
+function $6ce8f763d62adc72$var$ReadableState(options, stream, isDuplex) {
+    $6ce8f763d62adc72$var$Duplex = $6ce8f763d62adc72$var$Duplex || (parcelRequire("aVECx"));
+    options = options || {
+    }; // Duplex streams are both readable and writable, but share
+    // the same options object.
+    // However, some cases require setting options to different
+    // values for the readable and the writable sides of the duplex stream.
+    // These options can be provided separately as readableXXX and writableXXX.
+    if (typeof isDuplex !== 'boolean') isDuplex = stream instanceof $6ce8f763d62adc72$var$Duplex; // object stream flag. Used to make read(n) ignore n and to
+    // make all the buffer merging and length checks go away
+    this.objectMode = !!options.objectMode;
+    if (isDuplex) this.objectMode = this.objectMode || !!options.readableObjectMode; // the point at which it stops calling _read() to fill the buffer
+    // Note: 0 is a valid value, means "don't call _read preemptively ever"
+    this.highWaterMark = $6ce8f763d62adc72$var$getHighWaterMark(this, options, 'readableHighWaterMark', isDuplex); // A linked list is used to store data chunks instead of an array because the
+    // linked list can remove elements from the beginning faster than
+    // array.shift()
+    this.buffer = new $7WmlX();
+    this.length = 0;
+    this.pipes = null;
+    this.pipesCount = 0;
+    this.flowing = null;
+    this.ended = false;
+    this.endEmitted = false;
+    this.reading = false; // a flag to be able to tell if the event 'readable'/'data' is emitted
+    // immediately, or on a later tick.  We set this to true at first, because
+    // any actions that shouldn't happen until "later" should generally also
+    // not happen before the first read call.
+    this.sync = true; // whenever we return null, then we set a flag to say
+    // that we're awaiting a 'readable' event emission.
+    this.needReadable = false;
+    this.emittedReadable = false;
+    this.readableListening = false;
+    this.resumeScheduled = false;
+    this.paused = true; // Should close be emitted on destroy. Defaults to true.
+    this.emitClose = options.emitClose !== false; // Should .destroy() be called after 'end' (and potentially 'finish')
+    this.autoDestroy = !!options.autoDestroy; // has it been destroyed
+    this.destroyed = false; // Crypto is kind of old and crusty.  Historically, its default string
+    // encoding is 'binary' so we have to make this configurable.
+    // Everything else in the universe uses 'utf8', though.
+    this.defaultEncoding = options.defaultEncoding || 'utf8'; // the number of writers that are awaiting a drain event in .pipe()s
+    this.awaitDrain = 0; // if true, a maybeReadMore has been scheduled
+    this.readingMore = false;
+    this.decoder = null;
+    this.encoding = null;
+    if (options.encoding) {
+        if (!$6ce8f763d62adc72$var$StringDecoder) $6ce8f763d62adc72$var$StringDecoder = (parcelRequire("j6xXU")).StringDecoder;
+        this.decoder = new $6ce8f763d62adc72$var$StringDecoder(options.encoding);
+        this.encoding = options.encoding;
+    }
+}
+
+function $6ce8f763d62adc72$var$Readable(options) {
+    $6ce8f763d62adc72$var$Duplex = $6ce8f763d62adc72$var$Duplex || (parcelRequire("aVECx"));
+    if (!(this instanceof $6ce8f763d62adc72$var$Readable)) return new $6ce8f763d62adc72$var$Readable(options); // Checking for a Stream.Duplex instance is faster here instead of inside
+    // the ReadableState constructor, at least with V8 6.5
+    var isDuplex = this instanceof $6ce8f763d62adc72$var$Duplex;
+    this._readableState = new $6ce8f763d62adc72$var$ReadableState(options, this, isDuplex); // legacy
+    this.readable = true;
+    if (options) {
+        if (typeof options.read === 'function') this._read = options.read;
+        if (typeof options.destroy === 'function') this._destroy = options.destroy;
+    }
+    $kiR6z.call(this);
+}
+Object.defineProperty($6ce8f763d62adc72$var$Readable.prototype, 'destroyed', {
+    // making it explicit this property is not enumerable
+    // because otherwise some prototype manipulation in
+    // userland will fail
+    enumerable: false,
+    get: function get() {
+        if (this._readableState === undefined) return false;
+        return this._readableState.destroyed;
+    },
+    set: function set(value) {
+        // we ignore the value if the stream
+        // has not been initialized yet
+        if (!this._readableState) return;
+         // backward compatibility, the user is explicitly
+        // managing destroyed
+        this._readableState.destroyed = value;
+    }
+});
+$6ce8f763d62adc72$var$Readable.prototype.destroy = $5cCjs.destroy;
+$6ce8f763d62adc72$var$Readable.prototype._undestroy = $5cCjs.undestroy;
+$6ce8f763d62adc72$var$Readable.prototype._destroy = function(err, cb) {
+    cb(err);
+}; // Manually shove something into the read() buffer.
+// This returns true if the highWaterMark has not been hit yet,
+// similar to how Writable.write() returns true if you should
+// write() some more.
+$6ce8f763d62adc72$var$Readable.prototype.push = function(chunk, encoding) {
+    var state = this._readableState;
+    var skipChunkCheck;
+    if (!state.objectMode) {
+        if (typeof chunk === 'string') {
+            encoding = encoding || state.defaultEncoding;
+            if (encoding !== state.encoding) {
+                chunk = $6ce8f763d62adc72$require$Buffer.from(chunk, encoding);
+                encoding = '';
+            }
+            skipChunkCheck = true;
+        }
+    } else skipChunkCheck = true;
+    return $6ce8f763d62adc72$var$readableAddChunk(this, chunk, encoding, false, skipChunkCheck);
+}; // Unshift should *always* be something directly out of read()
+$6ce8f763d62adc72$var$Readable.prototype.unshift = function(chunk) {
+    return $6ce8f763d62adc72$var$readableAddChunk(this, chunk, null, true, false);
+};
+function $6ce8f763d62adc72$var$readableAddChunk(stream, chunk, encoding, addToFront, skipChunkCheck) {
+    $6ce8f763d62adc72$var$debug('readableAddChunk', chunk);
+    var state = stream._readableState;
+    if (chunk === null) {
+        state.reading = false;
+        $6ce8f763d62adc72$var$onEofChunk(stream, state);
+    } else {
+        var er;
+        if (!skipChunkCheck) er = $6ce8f763d62adc72$var$chunkInvalid(state, chunk);
+        if (er) $6ce8f763d62adc72$var$errorOrDestroy(stream, er);
+        else if (state.objectMode || chunk && chunk.length > 0) {
+            if (typeof chunk !== 'string' && !state.objectMode && Object.getPrototypeOf(chunk) !== $6ce8f763d62adc72$require$Buffer.prototype) chunk = $6ce8f763d62adc72$var$_uint8ArrayToBuffer(chunk);
+            if (addToFront) {
+                if (state.endEmitted) $6ce8f763d62adc72$var$errorOrDestroy(stream, new $6ce8f763d62adc72$var$ERR_STREAM_UNSHIFT_AFTER_END_EVENT());
+                else $6ce8f763d62adc72$var$addChunk(stream, state, chunk, true);
+            } else if (state.ended) $6ce8f763d62adc72$var$errorOrDestroy(stream, new $6ce8f763d62adc72$var$ERR_STREAM_PUSH_AFTER_EOF());
+            else if (state.destroyed) return false;
+            else {
+                state.reading = false;
+                if (state.decoder && !encoding) {
+                    chunk = state.decoder.write(chunk);
+                    if (state.objectMode || chunk.length !== 0) $6ce8f763d62adc72$var$addChunk(stream, state, chunk, false);
+                    else $6ce8f763d62adc72$var$maybeReadMore(stream, state);
+                } else $6ce8f763d62adc72$var$addChunk(stream, state, chunk, false);
+            }
+        } else if (!addToFront) {
+            state.reading = false;
+            $6ce8f763d62adc72$var$maybeReadMore(stream, state);
+        }
+    } // We can push more data if we are below the highWaterMark.
+    // Also, if we have no data yet, we can stand some more bytes.
+    // This is to work around cases where hwm=0, such as the repl.
+    return !state.ended && (state.length < state.highWaterMark || state.length === 0);
+}
+function $6ce8f763d62adc72$var$addChunk(stream, state, chunk, addToFront) {
+    if (state.flowing && state.length === 0 && !state.sync) {
+        state.awaitDrain = 0;
+        stream.emit('data', chunk);
+    } else {
+        // update the buffer info.
+        state.length += state.objectMode ? 1 : chunk.length;
+        if (addToFront) state.buffer.unshift(chunk);
+        else state.buffer.push(chunk);
+        if (state.needReadable) $6ce8f763d62adc72$var$emitReadable(stream);
+    }
+    $6ce8f763d62adc72$var$maybeReadMore(stream, state);
+}
+function $6ce8f763d62adc72$var$chunkInvalid(state, chunk) {
+    var er;
+    if (!$6ce8f763d62adc72$var$_isUint8Array(chunk) && typeof chunk !== 'string' && chunk !== undefined && !state.objectMode) er = new $6ce8f763d62adc72$var$ERR_INVALID_ARG_TYPE('chunk', [
+        'string',
+        'Buffer',
+        'Uint8Array'
+    ], chunk);
+    return er;
+}
+$6ce8f763d62adc72$var$Readable.prototype.isPaused = function() {
+    return this._readableState.flowing === false;
+}; // backwards compatibility.
+
+$6ce8f763d62adc72$var$Readable.prototype.setEncoding = function(enc) {
+    if (!$6ce8f763d62adc72$var$StringDecoder) $6ce8f763d62adc72$var$StringDecoder = (parcelRequire("j6xXU")).StringDecoder;
+    var decoder = new $6ce8f763d62adc72$var$StringDecoder(enc);
+    this._readableState.decoder = decoder; // If setEncoding(null), decoder.encoding equals utf8
+    this._readableState.encoding = this._readableState.decoder.encoding; // Iterate over current buffer to convert already stored Buffers:
+    var p = this._readableState.buffer.head;
+    var content = '';
+    while(p !== null){
+        content += decoder.write(p.data);
+        p = p.next;
+    }
+    this._readableState.buffer.clear();
+    if (content !== '') this._readableState.buffer.push(content);
+    this._readableState.length = content.length;
+    return this;
+}; // Don't raise the hwm > 1GB
+var $6ce8f763d62adc72$var$MAX_HWM = 1073741824;
+function $6ce8f763d62adc72$var$computeNewHighWaterMark(n) {
+    if (n >= $6ce8f763d62adc72$var$MAX_HWM) // TODO(ronag): Throw ERR_VALUE_OUT_OF_RANGE.
+    n = $6ce8f763d62adc72$var$MAX_HWM;
+    else {
+        // Get the next highest power of 2 to prevent increasing hwm excessively in
+        // tiny amounts
+        n--;
+        n |= n >>> 1;
+        n |= n >>> 2;
+        n |= n >>> 4;
+        n |= n >>> 8;
+        n |= n >>> 16;
+        n++;
+    }
+    return n;
+} // This function is designed to be inlinable, so please take care when making
+// changes to the function body.
+function $6ce8f763d62adc72$var$howMuchToRead(n, state) {
+    if (n <= 0 || state.length === 0 && state.ended) return 0;
+    if (state.objectMode) return 1;
+    if (n !== n) {
+        // Only flow one buffer at a time
+        if (state.flowing && state.length) return state.buffer.head.data.length;
+        else return state.length;
+    } // If we're asking for more than the current hwm, then raise the hwm.
+    if (n > state.highWaterMark) state.highWaterMark = $6ce8f763d62adc72$var$computeNewHighWaterMark(n);
+    if (n <= state.length) return n; // Don't have enough
+    if (!state.ended) {
+        state.needReadable = true;
+        return 0;
+    }
+    return state.length;
+} // you can override either this method, or the async _read(n) below.
+$6ce8f763d62adc72$var$Readable.prototype.read = function(n) {
+    $6ce8f763d62adc72$var$debug('read', n);
+    n = parseInt(n, 10);
+    var state = this._readableState;
+    var nOrig = n;
+    if (n !== 0) state.emittedReadable = false; // if we're doing read(0) to trigger a readable event, but we
+    // already have a bunch of data in the buffer, then just trigger
+    // the 'readable' event and move on.
+    if (n === 0 && state.needReadable && ((state.highWaterMark !== 0 ? state.length >= state.highWaterMark : state.length > 0) || state.ended)) {
+        $6ce8f763d62adc72$var$debug('read: emitReadable', state.length, state.ended);
+        if (state.length === 0 && state.ended) $6ce8f763d62adc72$var$endReadable(this);
+        else $6ce8f763d62adc72$var$emitReadable(this);
+        return null;
+    }
+    n = $6ce8f763d62adc72$var$howMuchToRead(n, state); // if we've ended, and we're now clear, then finish it up.
+    if (n === 0 && state.ended) {
+        if (state.length === 0) $6ce8f763d62adc72$var$endReadable(this);
+        return null;
+    } // All the actual chunk generation logic needs to be
+    // *below* the call to _read.  The reason is that in certain
+    // synthetic stream cases, such as passthrough streams, _read
+    // may be a completely synchronous operation which may change
+    // the state of the read buffer, providing enough data when
+    // before there was *not* enough.
+    //
+    // So, the steps are:
+    // 1. Figure out what the state of things will be after we do
+    // a read from the buffer.
+    //
+    // 2. If that resulting state will trigger a _read, then call _read.
+    // Note that this may be asynchronous, or synchronous.  Yes, it is
+    // deeply ugly to write APIs this way, but that still doesn't mean
+    // that the Readable class should behave improperly, as streams are
+    // designed to be sync/async agnostic.
+    // Take note if the _read call is sync or async (ie, if the read call
+    // has returned yet), so that we know whether or not it's safe to emit
+    // 'readable' etc.
+    //
+    // 3. Actually pull the requested chunks out of the buffer and return.
+    // if we need a readable event, then we need to do some reading.
+    var doRead = state.needReadable;
+    $6ce8f763d62adc72$var$debug('need readable', doRead); // if we currently have less than the highWaterMark, then also read some
+    if (state.length === 0 || state.length - n < state.highWaterMark) {
+        doRead = true;
+        $6ce8f763d62adc72$var$debug('length less than watermark', doRead);
+    } // however, if we've ended, then there's no point, and if we're already
+    // reading, then it's unnecessary.
+    if (state.ended || state.reading) {
+        doRead = false;
+        $6ce8f763d62adc72$var$debug('reading or ended', doRead);
+    } else if (doRead) {
+        $6ce8f763d62adc72$var$debug('do read');
+        state.reading = true;
+        state.sync = true; // if the length is currently zero, then we *need* a readable event.
+        if (state.length === 0) state.needReadable = true; // call internal read method
+        this._read(state.highWaterMark);
+        state.sync = false; // If _read pushed data synchronously, then `reading` will be false,
+        // and we need to re-evaluate how much data we can return to the user.
+        if (!state.reading) n = $6ce8f763d62adc72$var$howMuchToRead(nOrig, state);
+    }
+    var ret;
+    if (n > 0) ret = $6ce8f763d62adc72$var$fromList(n, state);
+    else ret = null;
+    if (ret === null) {
+        state.needReadable = state.length <= state.highWaterMark;
+        n = 0;
+    } else {
+        state.length -= n;
+        state.awaitDrain = 0;
+    }
+    if (state.length === 0) {
+        // If we have nothing in the buffer, then we want to know
+        // as soon as we *do* get something into the buffer.
+        if (!state.ended) state.needReadable = true; // If we tried to read() past the EOF, then emit end on the next tick.
+        if (nOrig !== n && state.ended) $6ce8f763d62adc72$var$endReadable(this);
+    }
+    if (ret !== null) this.emit('data', ret);
+    return ret;
+};
+function $6ce8f763d62adc72$var$onEofChunk(stream, state) {
+    $6ce8f763d62adc72$var$debug('onEofChunk');
+    if (state.ended) return;
+    if (state.decoder) {
+        var chunk = state.decoder.end();
+        if (chunk && chunk.length) {
+            state.buffer.push(chunk);
+            state.length += state.objectMode ? 1 : chunk.length;
+        }
+    }
+    state.ended = true;
+    if (state.sync) // if we are sync, wait until next tick to emit the data.
+    // Otherwise we risk emitting data in the flow()
+    // the readable code triggers during a read() call
+    $6ce8f763d62adc72$var$emitReadable(stream);
+    else {
+        // emit 'readable' now to make sure it gets picked up.
+        state.needReadable = false;
+        if (!state.emittedReadable) {
+            state.emittedReadable = true;
+            $6ce8f763d62adc72$var$emitReadable_(stream);
+        }
+    }
+} // Don't emit readable right away in sync mode, because this can trigger
+// another read() call => stack overflow.  This way, it might trigger
+// a nextTick recursion warning, but that's not so bad.
+function $6ce8f763d62adc72$var$emitReadable(stream) {
+    var state = stream._readableState;
+    $6ce8f763d62adc72$var$debug('emitReadable', state.needReadable, state.emittedReadable);
+    state.needReadable = false;
+    if (!state.emittedReadable) {
+        $6ce8f763d62adc72$var$debug('emitReadable', state.flowing);
+        state.emittedReadable = true;
+        $a506278517dc5c33$exports.nextTick($6ce8f763d62adc72$var$emitReadable_, stream);
+    }
+}
+function $6ce8f763d62adc72$var$emitReadable_(stream) {
+    var state = stream._readableState;
+    $6ce8f763d62adc72$var$debug('emitReadable_', state.destroyed, state.length, state.ended);
+    if (!state.destroyed && (state.length || state.ended)) {
+        stream.emit('readable');
+        state.emittedReadable = false;
+    } // The stream needs another readable event if
+    // 1. It is not flowing, as the flow mechanism will take
+    //    care of it.
+    // 2. It is not ended.
+    // 3. It is below the highWaterMark, so we can schedule
+    //    another readable later.
+    state.needReadable = !state.flowing && !state.ended && state.length <= state.highWaterMark;
+    $6ce8f763d62adc72$var$flow(stream);
+} // at this point, the user has presumably seen the 'readable' event,
+// and called read() to consume some data.  that may have triggered
+// in turn another _read(n) call, in which case reading = true if
+// it's in progress.
+// However, if we're not ended, or reading, and the length < hwm,
+// then go ahead and try to read some more preemptively.
+function $6ce8f763d62adc72$var$maybeReadMore(stream, state) {
+    if (!state.readingMore) {
+        state.readingMore = true;
+        $a506278517dc5c33$exports.nextTick($6ce8f763d62adc72$var$maybeReadMore_, stream, state);
+    }
+}
+function $6ce8f763d62adc72$var$maybeReadMore_(stream, state) {
+    // Attempt to read more data if we should.
+    //
+    // The conditions for reading more data are (one of):
+    // - Not enough data buffered (state.length < state.highWaterMark). The loop
+    //   is responsible for filling the buffer with enough data if such data
+    //   is available. If highWaterMark is 0 and we are not in the flowing mode
+    //   we should _not_ attempt to buffer any extra data. We'll get more data
+    //   when the stream consumer calls read() instead.
+    // - No data in the buffer, and the stream is in flowing mode. In this mode
+    //   the loop below is responsible for ensuring read() is called. Failing to
+    //   call read here would abort the flow and there's no other mechanism for
+    //   continuing the flow if the stream consumer has just subscribed to the
+    //   'data' event.
+    //
+    // In addition to the above conditions to keep reading data, the following
+    // conditions prevent the data from being read:
+    // - The stream has ended (state.ended).
+    // - There is already a pending 'read' operation (state.reading). This is a
+    //   case where the the stream has called the implementation defined _read()
+    //   method, but they are processing the call asynchronously and have _not_
+    //   called push() with new data. In this case we skip performing more
+    //   read()s. The execution ends in this method again after the _read() ends
+    //   up calling push() with more data.
+    while(!state.reading && !state.ended && (state.length < state.highWaterMark || state.flowing && state.length === 0)){
+        var len = state.length;
+        $6ce8f763d62adc72$var$debug('maybeReadMore read 0');
+        stream.read(0);
+        if (len === state.length) break;
+    }
+    state.readingMore = false;
+} // abstract method.  to be overridden in specific implementation classes.
+// call cb(er, data) where data is <= n in length.
+// for virtual (non-string, non-buffer) streams, "length" is somewhat
+// arbitrary, and perhaps not very meaningful.
+$6ce8f763d62adc72$var$Readable.prototype._read = function(n) {
+    $6ce8f763d62adc72$var$errorOrDestroy(this, new $6ce8f763d62adc72$var$ERR_METHOD_NOT_IMPLEMENTED('_read()'));
+};
+$6ce8f763d62adc72$var$Readable.prototype.pipe = function(dest, pipeOpts) {
+    var src = this;
+    var state = this._readableState;
+    switch(state.pipesCount){
+        case 0:
+            state.pipes = dest;
+            break;
+        case 1:
+            state.pipes = [
+                state.pipes,
+                dest
+            ];
+            break;
+        default:
+            state.pipes.push(dest);
+            break;
+    }
+    state.pipesCount += 1;
+    $6ce8f763d62adc72$var$debug('pipe count=%d opts=%j', state.pipesCount, pipeOpts);
+    var doEnd = (!pipeOpts || pipeOpts.end !== false) && dest !== $a506278517dc5c33$exports.stdout && dest !== $a506278517dc5c33$exports.stderr;
+    var endFn = doEnd ? onend : unpipe;
+    if (state.endEmitted) $a506278517dc5c33$exports.nextTick(endFn);
+    else src.once('end', endFn);
+    dest.on('unpipe', onunpipe);
+    function onunpipe(readable, unpipeInfo) {
+        $6ce8f763d62adc72$var$debug('onunpipe');
+        if (readable === src) {
+            if (unpipeInfo && unpipeInfo.hasUnpiped === false) {
+                unpipeInfo.hasUnpiped = true;
+                cleanup();
+            }
+        }
+    }
+    function onend() {
+        $6ce8f763d62adc72$var$debug('onend');
+        dest.end();
+    } // when the dest drains, it reduces the awaitDrain counter
+    // on the source.  This would be more elegant with a .once()
+    // handler in flow(), but adding and removing repeatedly is
+    // too slow.
+    var ondrain = $6ce8f763d62adc72$var$pipeOnDrain(src);
+    dest.on('drain', ondrain);
+    var cleanedUp = false;
+    function cleanup() {
+        $6ce8f763d62adc72$var$debug('cleanup'); // cleanup event handlers once the pipe is broken
+        dest.removeListener('close', onclose);
+        dest.removeListener('finish', onfinish);
+        dest.removeListener('drain', ondrain);
+        dest.removeListener('error', onerror);
+        dest.removeListener('unpipe', onunpipe);
+        src.removeListener('end', onend);
+        src.removeListener('end', unpipe);
+        src.removeListener('data', ondata);
+        cleanedUp = true; // if the reader is waiting for a drain event from this
+        // specific writer, then it would cause it to never start
+        // flowing again.
+        // So, if this is awaiting a drain, then we just call it now.
+        // If we don't know, then assume that we are waiting for one.
+        if (state.awaitDrain && (!dest._writableState || dest._writableState.needDrain)) ondrain();
+    }
+    src.on('data', ondata);
+    function ondata(chunk) {
+        $6ce8f763d62adc72$var$debug('ondata');
+        var ret = dest.write(chunk);
+        $6ce8f763d62adc72$var$debug('dest.write', ret);
+        if (ret === false) {
+            // If the user unpiped during `dest.write()`, it is possible
+            // to get stuck in a permanently paused state if that write
+            // also returned false.
+            // => Check whether `dest` is still a piping destination.
+            if ((state.pipesCount === 1 && state.pipes === dest || state.pipesCount > 1 && $6ce8f763d62adc72$var$indexOf(state.pipes, dest) !== -1) && !cleanedUp) {
+                $6ce8f763d62adc72$var$debug('false write response, pause', state.awaitDrain);
+                state.awaitDrain++;
+            }
+            src.pause();
+        }
+    } // if the dest has an error, then stop piping into it.
+    // however, don't suppress the throwing behavior for this.
+    function onerror(er) {
+        $6ce8f763d62adc72$var$debug('onerror', er);
+        unpipe();
+        dest.removeListener('error', onerror);
+        if ($6ce8f763d62adc72$var$EElistenerCount(dest, 'error') === 0) $6ce8f763d62adc72$var$errorOrDestroy(dest, er);
+    } // Make sure our error handler is attached before userland ones.
+    $6ce8f763d62adc72$var$prependListener(dest, 'error', onerror); // Both close and finish should trigger unpipe, but only once.
+    function onclose() {
+        dest.removeListener('finish', onfinish);
+        unpipe();
+    }
+    dest.once('close', onclose);
+    function onfinish() {
+        $6ce8f763d62adc72$var$debug('onfinish');
+        dest.removeListener('close', onclose);
+        unpipe();
+    }
+    dest.once('finish', onfinish);
+    function unpipe() {
+        $6ce8f763d62adc72$var$debug('unpipe');
+        src.unpipe(dest);
+    } // tell the dest that it's being piped to
+    dest.emit('pipe', src); // start the flow if it hasn't been started already.
+    if (!state.flowing) {
+        $6ce8f763d62adc72$var$debug('pipe resume');
+        src.resume();
+    }
+    return dest;
+};
+function $6ce8f763d62adc72$var$pipeOnDrain(src) {
+    return function pipeOnDrainFunctionResult() {
+        var state = src._readableState;
+        $6ce8f763d62adc72$var$debug('pipeOnDrain', state.awaitDrain);
+        if (state.awaitDrain) state.awaitDrain--;
+        if (state.awaitDrain === 0 && $6ce8f763d62adc72$var$EElistenerCount(src, 'data')) {
+            state.flowing = true;
+            $6ce8f763d62adc72$var$flow(src);
+        }
+    };
+}
+$6ce8f763d62adc72$var$Readable.prototype.unpipe = function(dest) {
+    var state = this._readableState;
+    var unpipeInfo = {
+        hasUnpiped: false
+    }; // if we're not piping anywhere, then do nothing.
+    if (state.pipesCount === 0) return this; // just one destination.  most common case.
+    if (state.pipesCount === 1) {
+        // passed in one, but it's not the right one.
+        if (dest && dest !== state.pipes) return this;
+        if (!dest) dest = state.pipes; // got a match.
+        state.pipes = null;
+        state.pipesCount = 0;
+        state.flowing = false;
+        if (dest) dest.emit('unpipe', this, unpipeInfo);
+        return this;
+    } // slow case. multiple pipe destinations.
+    if (!dest) {
+        // remove all.
+        var dests = state.pipes;
+        var len = state.pipesCount;
+        state.pipes = null;
+        state.pipesCount = 0;
+        state.flowing = false;
+        for(var i = 0; i < len; i++)dests[i].emit('unpipe', this, {
+            hasUnpiped: false
+        });
+        return this;
+    } // try to find the right one.
+    var index = $6ce8f763d62adc72$var$indexOf(state.pipes, dest);
+    if (index === -1) return this;
+    state.pipes.splice(index, 1);
+    state.pipesCount -= 1;
+    if (state.pipesCount === 1) state.pipes = state.pipes[0];
+    dest.emit('unpipe', this, unpipeInfo);
+    return this;
+}; // set up data events if they are asked for
+// Ensure readable listeners eventually get something
+$6ce8f763d62adc72$var$Readable.prototype.on = function(ev, fn) {
+    var res = $kiR6z.prototype.on.call(this, ev, fn);
+    var state = this._readableState;
+    if (ev === 'data') {
+        // update readableListening so that resume() may be a no-op
+        // a few lines down. This is needed to support once('readable').
+        state.readableListening = this.listenerCount('readable') > 0; // Try start flowing on next tick if stream isn't explicitly paused
+        if (state.flowing !== false) this.resume();
+    } else if (ev === 'readable') {
+        if (!state.endEmitted && !state.readableListening) {
+            state.readableListening = state.needReadable = true;
+            state.flowing = false;
+            state.emittedReadable = false;
+            $6ce8f763d62adc72$var$debug('on readable', state.length, state.reading);
+            if (state.length) $6ce8f763d62adc72$var$emitReadable(this);
+            else if (!state.reading) $a506278517dc5c33$exports.nextTick($6ce8f763d62adc72$var$nReadingNextTick, this);
+        }
+    }
+    return res;
+};
+$6ce8f763d62adc72$var$Readable.prototype.addListener = $6ce8f763d62adc72$var$Readable.prototype.on;
+$6ce8f763d62adc72$var$Readable.prototype.removeListener = function(ev, fn) {
+    var res = $kiR6z.prototype.removeListener.call(this, ev, fn);
+    if (ev === 'readable') // We need to check if there is someone still listening to
+    // readable and reset the state. However this needs to happen
+    // after readable has been emitted but before I/O (nextTick) to
+    // support once('readable', fn) cycles. This means that calling
+    // resume within the same tick will have no
+    // effect.
+    $a506278517dc5c33$exports.nextTick($6ce8f763d62adc72$var$updateReadableListening, this);
+    return res;
+};
+$6ce8f763d62adc72$var$Readable.prototype.removeAllListeners = function(ev) {
+    var res = $kiR6z.prototype.removeAllListeners.apply(this, arguments);
+    if (ev === 'readable' || ev === undefined) // We need to check if there is someone still listening to
+    // readable and reset the state. However this needs to happen
+    // after readable has been emitted but before I/O (nextTick) to
+    // support once('readable', fn) cycles. This means that calling
+    // resume within the same tick will have no
+    // effect.
+    $a506278517dc5c33$exports.nextTick($6ce8f763d62adc72$var$updateReadableListening, this);
+    return res;
+};
+function $6ce8f763d62adc72$var$updateReadableListening(self) {
+    var state = self._readableState;
+    state.readableListening = self.listenerCount('readable') > 0;
+    if (state.resumeScheduled && !state.paused) // flowing needs to be set to true now, otherwise
+    // the upcoming resume will not flow.
+    state.flowing = true; // crude way to check if we should resume
+    else if (self.listenerCount('data') > 0) self.resume();
+}
+function $6ce8f763d62adc72$var$nReadingNextTick(self) {
+    $6ce8f763d62adc72$var$debug('readable nexttick read 0');
+    self.read(0);
+} // pause() and resume() are remnants of the legacy readable stream API
+// If the user uses them, then switch into old mode.
+$6ce8f763d62adc72$var$Readable.prototype.resume = function() {
+    var state = this._readableState;
+    if (!state.flowing) {
+        $6ce8f763d62adc72$var$debug('resume'); // we flow only if there is no one listening
+        // for readable, but we still have to call
+        // resume()
+        state.flowing = !state.readableListening;
+        $6ce8f763d62adc72$var$resume(this, state);
+    }
+    state.paused = false;
+    return this;
+};
+function $6ce8f763d62adc72$var$resume(stream, state) {
+    if (!state.resumeScheduled) {
+        state.resumeScheduled = true;
+        $a506278517dc5c33$exports.nextTick($6ce8f763d62adc72$var$resume_, stream, state);
+    }
+}
+function $6ce8f763d62adc72$var$resume_(stream, state) {
+    $6ce8f763d62adc72$var$debug('resume', state.reading);
+    if (!state.reading) stream.read(0);
+    state.resumeScheduled = false;
+    stream.emit('resume');
+    $6ce8f763d62adc72$var$flow(stream);
+    if (state.flowing && !state.reading) stream.read(0);
+}
+$6ce8f763d62adc72$var$Readable.prototype.pause = function() {
+    $6ce8f763d62adc72$var$debug('call pause flowing=%j', this._readableState.flowing);
+    if (this._readableState.flowing !== false) {
+        $6ce8f763d62adc72$var$debug('pause');
+        this._readableState.flowing = false;
+        this.emit('pause');
+    }
+    this._readableState.paused = true;
+    return this;
+};
+function $6ce8f763d62adc72$var$flow(stream) {
+    var state = stream._readableState;
+    $6ce8f763d62adc72$var$debug('flow', state.flowing);
+    while(state.flowing && stream.read() !== null);
+} // wrap an old-style stream as the async data source.
+// This is *not* part of the readable stream interface.
+// It is an ugly unfortunate mess of history.
+$6ce8f763d62adc72$var$Readable.prototype.wrap = function(stream) {
+    var _this = this;
+    var state = this._readableState;
+    var paused = false;
+    stream.on('end', function() {
+        $6ce8f763d62adc72$var$debug('wrapped end');
+        if (state.decoder && !state.ended) {
+            var chunk = state.decoder.end();
+            if (chunk && chunk.length) _this.push(chunk);
+        }
+        _this.push(null);
+    });
+    stream.on('data', function(chunk) {
+        $6ce8f763d62adc72$var$debug('wrapped data');
+        if (state.decoder) chunk = state.decoder.write(chunk); // don't skip over falsy values in objectMode
+        if (state.objectMode && (chunk === null || chunk === undefined)) return;
+        else if (!state.objectMode && (!chunk || !chunk.length)) return;
+        var ret = _this.push(chunk);
+        if (!ret) {
+            paused = true;
+            stream.pause();
+        }
+    }); // proxy all the other methods.
+    // important when wrapping filters and duplexes.
+    for(var i in stream)if (this[i] === undefined && typeof stream[i] === 'function') this[i] = (function methodWrap(method) {
+        return function methodWrapReturnFunction() {
+            return stream[method].apply(stream, arguments);
+        };
+    })(i);
+     // proxy certain important events.
+    for(var n1 = 0; n1 < $6ce8f763d62adc72$var$kProxyEvents.length; n1++)stream.on($6ce8f763d62adc72$var$kProxyEvents[n1], this.emit.bind(this, $6ce8f763d62adc72$var$kProxyEvents[n1]));
+     // when we try to consume some more bytes, simply unpause the
+    // underlying stream.
+    this._read = function(n) {
+        $6ce8f763d62adc72$var$debug('wrapped _read', n);
+        if (paused) {
+            paused = false;
+            stream.resume();
+        }
+    };
+    return this;
+};
+
+if (typeof Symbol === 'function') $6ce8f763d62adc72$var$Readable.prototype[Symbol.asyncIterator] = function() {
+    if ($6ce8f763d62adc72$var$createReadableStreamAsyncIterator === undefined) $6ce8f763d62adc72$var$createReadableStreamAsyncIterator = (parcelRequire("bBMtR"));
+    return $6ce8f763d62adc72$var$createReadableStreamAsyncIterator(this);
+};
+Object.defineProperty($6ce8f763d62adc72$var$Readable.prototype, 'readableHighWaterMark', {
+    // making it explicit this property is not enumerable
+    // because otherwise some prototype manipulation in
+    // userland will fail
+    enumerable: false,
+    get: function get() {
+        return this._readableState.highWaterMark;
+    }
+});
+Object.defineProperty($6ce8f763d62adc72$var$Readable.prototype, 'readableBuffer', {
+    // making it explicit this property is not enumerable
+    // because otherwise some prototype manipulation in
+    // userland will fail
+    enumerable: false,
+    get: function get() {
+        return this._readableState && this._readableState.buffer;
+    }
+});
+Object.defineProperty($6ce8f763d62adc72$var$Readable.prototype, 'readableFlowing', {
+    // making it explicit this property is not enumerable
+    // because otherwise some prototype manipulation in
+    // userland will fail
+    enumerable: false,
+    get: function get() {
+        return this._readableState.flowing;
+    },
+    set: function set(state) {
+        if (this._readableState) this._readableState.flowing = state;
+    }
+}); // exposed for testing purposes only.
+$6ce8f763d62adc72$var$Readable._fromList = $6ce8f763d62adc72$var$fromList;
+Object.defineProperty($6ce8f763d62adc72$var$Readable.prototype, 'readableLength', {
+    // making it explicit this property is not enumerable
+    // because otherwise some prototype manipulation in
+    // userland will fail
+    enumerable: false,
+    get: function get() {
+        return this._readableState.length;
+    }
+}); // Pluck off n bytes from an array of buffers.
+// Length is the combined lengths of all the buffers in the list.
+// This function is designed to be inlinable, so please take care when making
+// changes to the function body.
+function $6ce8f763d62adc72$var$fromList(n, state) {
+    // nothing buffered
+    if (state.length === 0) return null;
+    var ret;
+    if (state.objectMode) ret = state.buffer.shift();
+    else if (!n || n >= state.length) {
+        // read it all, truncate the list
+        if (state.decoder) ret = state.buffer.join('');
+        else if (state.buffer.length === 1) ret = state.buffer.first();
+        else ret = state.buffer.concat(state.length);
+        state.buffer.clear();
+    } else // read part of list
+    ret = state.buffer.consume(n, state.decoder);
+    return ret;
+}
+function $6ce8f763d62adc72$var$endReadable(stream) {
+    var state = stream._readableState;
+    $6ce8f763d62adc72$var$debug('endReadable', state.endEmitted);
+    if (!state.endEmitted) {
+        state.ended = true;
+        $a506278517dc5c33$exports.nextTick($6ce8f763d62adc72$var$endReadableNT, state, stream);
+    }
+}
+function $6ce8f763d62adc72$var$endReadableNT(state, stream) {
+    $6ce8f763d62adc72$var$debug('endReadableNT', state.endEmitted, state.length); // Check that we didn't get one last unshift.
+    if (!state.endEmitted && state.length === 0) {
+        state.endEmitted = true;
+        stream.readable = false;
+        stream.emit('end');
+        if (state.autoDestroy) {
+            // In case of duplex streams we need a way to detect
+            // if the writable side is ready for autoDestroy as well
+            var wState = stream._writableState;
+            if (!wState || wState.autoDestroy && wState.finished) stream.destroy();
+        }
+    }
+}
+
+if (typeof Symbol === 'function') $6ce8f763d62adc72$var$Readable.from = function(iterable, opts) {
+    if ($6ce8f763d62adc72$var$from === undefined) $6ce8f763d62adc72$var$from = (parcelRequire("hbpMJ"));
+    return $6ce8f763d62adc72$var$from($6ce8f763d62adc72$var$Readable, iterable, opts);
+};
+function $6ce8f763d62adc72$var$indexOf(xs, x) {
+    for(var i = 0, l = xs.length; i < l; i++){
+        if (xs[i] === x) return i;
+    }
+    return -1;
+}
+
+});
+parcelRequire.register("kiR6z", function(module, exports) {
+
+module.exports = (parcelRequire("97MzU")).EventEmitter;
+
+});
+
+parcelRequire.register("7WmlX", function(module, exports) {
+'use strict';
+function $5c7f4a11c861b62d$var$ownKeys(object, enumerableOnly) {
+    var keys = Object.keys(object);
+    if (Object.getOwnPropertySymbols) {
+        var symbols = Object.getOwnPropertySymbols(object);
+        if (enumerableOnly) symbols = symbols.filter(function(sym) {
+            return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+        });
+        keys.push.apply(keys, symbols);
+    }
+    return keys;
+}
+function $5c7f4a11c861b62d$var$_objectSpread(target) {
+    for(var i = 1; i < arguments.length; i++){
+        var source = arguments[i] != null ? arguments[i] : {
+        };
+        if (i % 2) $5c7f4a11c861b62d$var$ownKeys(Object(source), true).forEach(function(key) {
+            $5c7f4a11c861b62d$var$_defineProperty(target, key, source[key]);
+        });
+        else if (Object.getOwnPropertyDescriptors) Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+        else $5c7f4a11c861b62d$var$ownKeys(Object(source)).forEach(function(key) {
+            Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+        });
+    }
+    return target;
+}
+function $5c7f4a11c861b62d$var$_defineProperty(obj, key, value) {
+    if (key in obj) Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+    });
+    else obj[key] = value;
+    return obj;
+}
+function $5c7f4a11c861b62d$var$_classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
+}
+function $5c7f4a11c861b62d$var$_defineProperties(target, props) {
+    for(var i = 0; i < props.length; i++){
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+    }
+}
+function $5c7f4a11c861b62d$var$_createClass(Constructor, protoProps, staticProps) {
+    if (protoProps) $5c7f4a11c861b62d$var$_defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) $5c7f4a11c861b62d$var$_defineProperties(Constructor, staticProps);
+    return Constructor;
+}
+
+var $5c7f4a11c861b62d$var$Buffer = $464bcea887784ce5$export$a143d493d941bafc;
+
+var $lA1sm = parcelRequire("lA1sm");
+var $5c7f4a11c861b62d$var$inspect = $lA1sm.inspect;
+var $5c7f4a11c861b62d$var$custom = $5c7f4a11c861b62d$var$inspect && $5c7f4a11c861b62d$var$inspect.custom || 'inspect';
+function $5c7f4a11c861b62d$var$copyBuffer(src, target, offset) {
+    $5c7f4a11c861b62d$var$Buffer.prototype.copy.call(src, target, offset);
+}
+module.exports = /*#__PURE__*/ (function() {
+    function BufferList() {
+        $5c7f4a11c861b62d$var$_classCallCheck(this, BufferList);
+        this.head = null;
+        this.tail = null;
+        this.length = 0;
+    }
+    $5c7f4a11c861b62d$var$_createClass(BufferList, [
+        {
+            key: "push",
+            value: function push(v) {
+                var entry = {
+                    data: v,
+                    next: null
+                };
+                if (this.length > 0) this.tail.next = entry;
+                else this.head = entry;
+                this.tail = entry;
+                ++this.length;
+            }
+        },
+        {
+            key: "unshift",
+            value: function unshift(v) {
+                var entry = {
+                    data: v,
+                    next: this.head
+                };
+                if (this.length === 0) this.tail = entry;
+                this.head = entry;
+                ++this.length;
+            }
+        },
+        {
+            key: "shift",
+            value: function shift() {
+                if (this.length === 0) return;
+                var ret = this.head.data;
+                if (this.length === 1) this.head = this.tail = null;
+                else this.head = this.head.next;
+                --this.length;
+                return ret;
+            }
+        },
+        {
+            key: "clear",
+            value: function clear() {
+                this.head = this.tail = null;
+                this.length = 0;
+            }
+        },
+        {
+            key: "join",
+            value: function join(s) {
+                if (this.length === 0) return '';
+                var p = this.head;
+                var ret = '' + p.data;
+                while(p = p.next)ret += s + p.data;
+                return ret;
+            }
+        },
+        {
+            key: "concat",
+            value: function concat(n) {
+                if (this.length === 0) return $5c7f4a11c861b62d$var$Buffer.alloc(0);
+                var ret = $5c7f4a11c861b62d$var$Buffer.allocUnsafe(n >>> 0);
+                var p = this.head;
+                var i = 0;
+                while(p){
+                    $5c7f4a11c861b62d$var$copyBuffer(p.data, ret, i);
+                    i += p.data.length;
+                    p = p.next;
+                }
+                return ret;
+            } // Consumes a specified amount of bytes or characters from the buffered data.
+        },
+        {
+            key: "consume",
+            value: function consume(n, hasStrings) {
+                var ret;
+                if (n < this.head.data.length) {
+                    // `slice` is the same for buffers and strings.
+                    ret = this.head.data.slice(0, n);
+                    this.head.data = this.head.data.slice(n);
+                } else if (n === this.head.data.length) // First chunk is a perfect match.
+                ret = this.shift();
+                else // Result spans more than one buffer.
+                ret = hasStrings ? this._getString(n) : this._getBuffer(n);
+                return ret;
+            }
+        },
+        {
+            key: "first",
+            value: function first() {
+                return this.head.data;
+            } // Consumes a specified amount of characters from the buffered data.
+        },
+        {
+            key: "_getString",
+            value: function _getString(n) {
+                var p = this.head;
+                var c = 1;
+                var ret = p.data;
+                n -= ret.length;
+                while(p = p.next){
+                    var str = p.data;
+                    var nb = n > str.length ? str.length : n;
+                    if (nb === str.length) ret += str;
+                    else ret += str.slice(0, n);
+                    n -= nb;
+                    if (n === 0) {
+                        if (nb === str.length) {
+                            ++c;
+                            if (p.next) this.head = p.next;
+                            else this.head = this.tail = null;
+                        } else {
+                            this.head = p;
+                            p.data = str.slice(nb);
+                        }
+                        break;
+                    }
+                    ++c;
+                }
+                this.length -= c;
+                return ret;
+            } // Consumes a specified amount of bytes from the buffered data.
+        },
+        {
+            key: "_getBuffer",
+            value: function _getBuffer(n) {
+                var ret = $5c7f4a11c861b62d$var$Buffer.allocUnsafe(n);
+                var p = this.head;
+                var c = 1;
+                p.data.copy(ret);
+                n -= p.data.length;
+                while(p = p.next){
+                    var buf = p.data;
+                    var nb = n > buf.length ? buf.length : n;
+                    buf.copy(ret, ret.length - n, 0, nb);
+                    n -= nb;
+                    if (n === 0) {
+                        if (nb === buf.length) {
+                            ++c;
+                            if (p.next) this.head = p.next;
+                            else this.head = this.tail = null;
+                        } else {
+                            this.head = p;
+                            p.data = buf.slice(nb);
+                        }
+                        break;
+                    }
+                    ++c;
+                }
+                this.length -= c;
+                return ret;
+            } // Make sure the linked list only shows the minimal necessary information.
+        },
+        {
+            key: $5c7f4a11c861b62d$var$custom,
+            value: function value(_, options) {
+                return $5c7f4a11c861b62d$var$inspect(this, $5c7f4a11c861b62d$var$_objectSpread({
+                }, options, {
+                    // Only inspect one level.
+                    depth: 0,
+                    // It should not recurse.
+                    customInspect: false
+                }));
+            }
+        }
+    ]);
+    return BufferList;
+})();
+
+});
+
+parcelRequire.register("5cCjs", function(module, exports) {
+
+'use strict'; // undocumented cb() API, needed for core, not for public API
+function $3c9bcae4fa08661e$var$destroy(err1, cb) {
+    var _this = this;
+    var readableDestroyed = this._readableState && this._readableState.destroyed;
+    var writableDestroyed = this._writableState && this._writableState.destroyed;
+    if (readableDestroyed || writableDestroyed) {
+        if (cb) cb(err1);
+        else if (err1) {
+            if (!this._writableState) $a506278517dc5c33$exports.nextTick($3c9bcae4fa08661e$var$emitErrorNT, this, err1);
+            else if (!this._writableState.errorEmitted) {
+                this._writableState.errorEmitted = true;
+                $a506278517dc5c33$exports.nextTick($3c9bcae4fa08661e$var$emitErrorNT, this, err1);
+            }
+        }
+        return this;
+    } // we set destroyed to true before firing error callbacks in order
+    // to make it re-entrance safe in case destroy() is called within callbacks
+    if (this._readableState) this._readableState.destroyed = true;
+     // if this is a duplex stream mark the writable part as destroyed as well
+    if (this._writableState) this._writableState.destroyed = true;
+    this._destroy(err1 || null, function(err) {
+        if (!cb && err) {
+            if (!_this._writableState) $a506278517dc5c33$exports.nextTick($3c9bcae4fa08661e$var$emitErrorAndCloseNT, _this, err);
+            else if (!_this._writableState.errorEmitted) {
+                _this._writableState.errorEmitted = true;
+                $a506278517dc5c33$exports.nextTick($3c9bcae4fa08661e$var$emitErrorAndCloseNT, _this, err);
+            } else $a506278517dc5c33$exports.nextTick($3c9bcae4fa08661e$var$emitCloseNT, _this);
+        } else if (cb) {
+            $a506278517dc5c33$exports.nextTick($3c9bcae4fa08661e$var$emitCloseNT, _this);
+            cb(err);
+        } else $a506278517dc5c33$exports.nextTick($3c9bcae4fa08661e$var$emitCloseNT, _this);
+    });
+    return this;
+}
+function $3c9bcae4fa08661e$var$emitErrorAndCloseNT(self, err) {
+    $3c9bcae4fa08661e$var$emitErrorNT(self, err);
+    $3c9bcae4fa08661e$var$emitCloseNT(self);
+}
+function $3c9bcae4fa08661e$var$emitCloseNT(self) {
+    if (self._writableState && !self._writableState.emitClose) return;
+    if (self._readableState && !self._readableState.emitClose) return;
+    self.emit('close');
+}
+function $3c9bcae4fa08661e$var$undestroy() {
+    if (this._readableState) {
+        this._readableState.destroyed = false;
+        this._readableState.reading = false;
+        this._readableState.ended = false;
+        this._readableState.endEmitted = false;
+    }
+    if (this._writableState) {
+        this._writableState.destroyed = false;
+        this._writableState.ended = false;
+        this._writableState.ending = false;
+        this._writableState.finalCalled = false;
+        this._writableState.prefinished = false;
+        this._writableState.finished = false;
+        this._writableState.errorEmitted = false;
+    }
+}
+function $3c9bcae4fa08661e$var$emitErrorNT(self, err) {
+    self.emit('error', err);
+}
+function $3c9bcae4fa08661e$var$errorOrDestroy(stream, err) {
+    // We have tests that rely on errors being emitted
+    // in the same tick, so changing this is semver major.
+    // For now when you opt-in to autoDestroy we allow
+    // the error to be emitted nextTick. In a future
+    // semver major update we should change the default to this.
+    var rState = stream._readableState;
+    var wState = stream._writableState;
+    if (rState && rState.autoDestroy || wState && wState.autoDestroy) stream.destroy(err);
+    else stream.emit('error', err);
+}
+module.exports = {
+    destroy: $3c9bcae4fa08661e$var$destroy,
+    undestroy: $3c9bcae4fa08661e$var$undestroy,
+    errorOrDestroy: $3c9bcae4fa08661e$var$errorOrDestroy
+};
+
+});
+
+parcelRequire.register("26fv6", function(module, exports) {
+'use strict';
+
+var $dg5OQ = parcelRequire("dg5OQ");
+var $18782a6be2ca72ff$var$ERR_INVALID_OPT_VALUE = $dg5OQ.codes.ERR_INVALID_OPT_VALUE;
+function $18782a6be2ca72ff$var$highWaterMarkFrom(options, isDuplex, duplexKey) {
+    return options.highWaterMark != null ? options.highWaterMark : isDuplex ? options[duplexKey] : null;
+}
+function $18782a6be2ca72ff$var$getHighWaterMark(state, options, duplexKey, isDuplex) {
+    var hwm = $18782a6be2ca72ff$var$highWaterMarkFrom(options, isDuplex, duplexKey);
+    if (hwm != null) {
+        if (!(isFinite(hwm) && Math.floor(hwm) === hwm) || hwm < 0) {
+            var name = isDuplex ? duplexKey : 'highWaterMark';
+            throw new $18782a6be2ca72ff$var$ERR_INVALID_OPT_VALUE(name, hwm);
+        }
+        return Math.floor(hwm);
+    } // Default value
+    return state.objectMode ? 16 : 16384;
+}
+module.exports = {
+    getHighWaterMark: $18782a6be2ca72ff$var$getHighWaterMark
+};
+
+});
+parcelRequire.register("dg5OQ", function(module, exports) {
+
+$parcel$export(module.exports, "codes", () => $9a71488a9bc738be$export$e45cb6485273080e, (v) => $9a71488a9bc738be$export$e45cb6485273080e = v);
+var $9a71488a9bc738be$export$e45cb6485273080e;
+'use strict';
+function $9a71488a9bc738be$var$_inheritsLoose(subClass, superClass) {
+    subClass.prototype = Object.create(superClass.prototype);
+    subClass.prototype.constructor = subClass;
+    subClass.__proto__ = superClass;
+}
+var $9a71488a9bc738be$var$codes = {
+};
+function $9a71488a9bc738be$var$createErrorType(code, message, Base) {
+    if (!Base) Base = Error;
+    function getMessage(arg1, arg2, arg3) {
+        if (typeof message === 'string') return message;
+        else return message(arg1, arg2, arg3);
+    }
+    var NodeError1 = /*#__PURE__*/ function(_Base) {
+        $9a71488a9bc738be$var$_inheritsLoose(NodeError, _Base);
+        function NodeError(arg1, arg2, arg3) {
+            return _Base.call(this, getMessage(arg1, arg2, arg3)) || this;
+        }
+        return NodeError;
+    }(Base);
+    NodeError1.prototype.name = Base.name;
+    NodeError1.prototype.code = code;
+    $9a71488a9bc738be$var$codes[code] = NodeError1;
+} // https://github.com/nodejs/node/blob/v10.8.0/lib/internal/errors.js
+function $9a71488a9bc738be$var$oneOf(expected, thing) {
+    if (Array.isArray(expected)) {
+        var len = expected.length;
+        expected = expected.map(function(i) {
+            return String(i);
+        });
+        if (len > 2) return "one of ".concat(thing, " ").concat(expected.slice(0, len - 1).join(', '), ", or ") + expected[len - 1];
+        else if (len === 2) return "one of ".concat(thing, " ").concat(expected[0], " or ").concat(expected[1]);
+        else return "of ".concat(thing, " ").concat(expected[0]);
+    } else return "of ".concat(thing, " ").concat(String(expected));
+} // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith
+function $9a71488a9bc738be$var$startsWith(str, search, pos) {
+    return str.substr(!pos || pos < 0 ? 0 : +pos, search.length) === search;
+} // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/endsWith
+function $9a71488a9bc738be$var$endsWith(str, search, this_len) {
+    if (this_len === undefined || this_len > str.length) this_len = str.length;
+    return str.substring(this_len - search.length, this_len) === search;
+} // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/includes
+function $9a71488a9bc738be$var$includes(str, search, start) {
+    if (typeof start !== 'number') start = 0;
+    if (start + search.length > str.length) return false;
+    else return str.indexOf(search, start) !== -1;
+}
+$9a71488a9bc738be$var$createErrorType('ERR_INVALID_OPT_VALUE', function(name, value) {
+    return 'The value "' + value + '" is invalid for option "' + name + '"';
+}, TypeError);
+$9a71488a9bc738be$var$createErrorType('ERR_INVALID_ARG_TYPE', function(name, expected, actual) {
+    // determiner: 'must be' or 'must not be'
+    var determiner;
+    if (typeof expected === 'string' && $9a71488a9bc738be$var$startsWith(expected, 'not ')) {
+        determiner = 'must not be';
+        expected = expected.replace(/^not /, '');
+    } else determiner = 'must be';
+    var msg;
+    if ($9a71488a9bc738be$var$endsWith(name, ' argument')) // For cases like 'first argument'
+    msg = "The ".concat(name, " ").concat(determiner, " ").concat($9a71488a9bc738be$var$oneOf(expected, 'type'));
+    else {
+        var type = $9a71488a9bc738be$var$includes(name, '.') ? 'property' : 'argument';
+        msg = "The \"".concat(name, "\" ").concat(type, " ").concat(determiner, " ").concat($9a71488a9bc738be$var$oneOf(expected, 'type'));
+    }
+    msg += ". Received type ".concat(typeof actual);
+    return msg;
+}, TypeError);
+$9a71488a9bc738be$var$createErrorType('ERR_STREAM_PUSH_AFTER_EOF', 'stream.push() after EOF');
+$9a71488a9bc738be$var$createErrorType('ERR_METHOD_NOT_IMPLEMENTED', function(name) {
+    return 'The ' + name + ' method is not implemented';
+});
+$9a71488a9bc738be$var$createErrorType('ERR_STREAM_PREMATURE_CLOSE', 'Premature close');
+$9a71488a9bc738be$var$createErrorType('ERR_STREAM_DESTROYED', function(name) {
+    return 'Cannot call ' + name + ' after a stream was destroyed';
+});
+$9a71488a9bc738be$var$createErrorType('ERR_MULTIPLE_CALLBACK', 'Callback called multiple times');
+$9a71488a9bc738be$var$createErrorType('ERR_STREAM_CANNOT_PIPE', 'Cannot pipe, not readable');
+$9a71488a9bc738be$var$createErrorType('ERR_STREAM_WRITE_AFTER_END', 'write after end');
+$9a71488a9bc738be$var$createErrorType('ERR_STREAM_NULL_VALUES', 'May not write null values to stream', TypeError);
+$9a71488a9bc738be$var$createErrorType('ERR_UNKNOWN_ENCODING', function(arg) {
+    return 'Unknown encoding: ' + arg;
+}, TypeError);
+$9a71488a9bc738be$var$createErrorType('ERR_STREAM_UNSHIFT_AFTER_END_EVENT', 'stream.unshift() after end event');
+$9a71488a9bc738be$export$e45cb6485273080e = $9a71488a9bc738be$var$codes;
+
+});
+
+
+parcelRequire.register("aVECx", function(module, exports) {
+
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+// a duplex stream is just a stream that is both readable and writable.
+// Since JS doesn't have multiple prototypal inheritance, this class
+// prototypally inherits from Readable, and then parasitically from
+// Writable.
+'use strict';
+/*<replacement>*/ var $7f4ebcaaaf1dcf94$var$objectKeys = Object.keys || function(obj) {
+    var keys = [];
+    for(var key in obj)keys.push(key);
+    return keys;
+};
+/*</replacement>*/ module.exports = $7f4ebcaaaf1dcf94$var$Duplex;
+
+var $9lIYQ = parcelRequire("9lIYQ");
+
+var $hNqtU = parcelRequire("hNqtU");
+
+(parcelRequire("4xKNh"))($7f4ebcaaaf1dcf94$var$Duplex, $9lIYQ);
+// Allow the keys array to be GC'ed.
+var $7f4ebcaaaf1dcf94$var$keys = $7f4ebcaaaf1dcf94$var$objectKeys($hNqtU.prototype);
+for(var $7f4ebcaaaf1dcf94$var$v = 0; $7f4ebcaaaf1dcf94$var$v < $7f4ebcaaaf1dcf94$var$keys.length; $7f4ebcaaaf1dcf94$var$v++){
+    var $7f4ebcaaaf1dcf94$var$method = $7f4ebcaaaf1dcf94$var$keys[$7f4ebcaaaf1dcf94$var$v];
+    if (!$7f4ebcaaaf1dcf94$var$Duplex.prototype[$7f4ebcaaaf1dcf94$var$method]) $7f4ebcaaaf1dcf94$var$Duplex.prototype[$7f4ebcaaaf1dcf94$var$method] = $hNqtU.prototype[$7f4ebcaaaf1dcf94$var$method];
+}
+function $7f4ebcaaaf1dcf94$var$Duplex(options) {
+    if (!(this instanceof $7f4ebcaaaf1dcf94$var$Duplex)) return new $7f4ebcaaaf1dcf94$var$Duplex(options);
+    $9lIYQ.call(this, options);
+    $hNqtU.call(this, options);
+    this.allowHalfOpen = true;
+    if (options) {
+        if (options.readable === false) this.readable = false;
+        if (options.writable === false) this.writable = false;
+        if (options.allowHalfOpen === false) {
+            this.allowHalfOpen = false;
+            this.once('end', $7f4ebcaaaf1dcf94$var$onend);
+        }
+    }
+}
+Object.defineProperty($7f4ebcaaaf1dcf94$var$Duplex.prototype, 'writableHighWaterMark', {
+    // making it explicit this property is not enumerable
+    // because otherwise some prototype manipulation in
+    // userland will fail
+    enumerable: false,
+    get: function get() {
+        return this._writableState.highWaterMark;
+    }
+});
+Object.defineProperty($7f4ebcaaaf1dcf94$var$Duplex.prototype, 'writableBuffer', {
+    // making it explicit this property is not enumerable
+    // because otherwise some prototype manipulation in
+    // userland will fail
+    enumerable: false,
+    get: function get() {
+        return this._writableState && this._writableState.getBuffer();
+    }
+});
+Object.defineProperty($7f4ebcaaaf1dcf94$var$Duplex.prototype, 'writableLength', {
+    // making it explicit this property is not enumerable
+    // because otherwise some prototype manipulation in
+    // userland will fail
+    enumerable: false,
+    get: function get() {
+        return this._writableState.length;
+    }
+}); // the no-half-open enforcer
+function $7f4ebcaaaf1dcf94$var$onend() {
+    // If the writable side ended, then we're ok.
+    if (this._writableState.ended) return; // no more data can be written.
+    // But allow more writes to happen in this tick.
+    $a506278517dc5c33$exports.nextTick($7f4ebcaaaf1dcf94$var$onEndNT, this);
+}
+function $7f4ebcaaaf1dcf94$var$onEndNT(self) {
+    self.end();
+}
+Object.defineProperty($7f4ebcaaaf1dcf94$var$Duplex.prototype, 'destroyed', {
+    // making it explicit this property is not enumerable
+    // because otherwise some prototype manipulation in
+    // userland will fail
+    enumerable: false,
+    get: function get() {
+        if (this._readableState === undefined || this._writableState === undefined) return false;
+        return this._readableState.destroyed && this._writableState.destroyed;
+    },
+    set: function set(value) {
+        // we ignore the value if the stream
+        // has not been initialized yet
+        if (this._readableState === undefined || this._writableState === undefined) return;
+         // backward compatibility, the user is explicitly
+        // managing destroyed
+        this._readableState.destroyed = value;
+        this._writableState.destroyed = value;
+    }
+});
+
+});
+parcelRequire.register("hNqtU", function(module, exports) {
+
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+// A bit simpler than readable streams.
+// Implement an async ._write(chunk, encoding, cb), and it'll handle all
+// the drain event emission and buffering.
+'use strict';
+module.exports = $cf4b8de7ab7388a3$var$Writable;
+/* <replacement> */ function $cf4b8de7ab7388a3$var$WriteReq(chunk, encoding, cb) {
+    this.chunk = chunk;
+    this.encoding = encoding;
+    this.callback = cb;
+    this.next = null;
+} // It seems a linked list but it is not
+// there will be only 2 of these for each stream
+function $cf4b8de7ab7388a3$var$CorkedRequest(state) {
+    var _this = this;
+    this.next = null;
+    this.entry = null;
+    this.finish = function() {
+        $cf4b8de7ab7388a3$var$onCorkedFinish(_this, state);
+    };
+}
+/* </replacement> */ /*<replacement>*/ var $cf4b8de7ab7388a3$var$Duplex;
+/*</replacement>*/ $cf4b8de7ab7388a3$var$Writable.WritableState = $cf4b8de7ab7388a3$var$WritableState;
+
+/*<replacement>*/ var $cf4b8de7ab7388a3$var$internalUtil = {
+    deprecate: (parcelRequire("iSzh0"))
+};
+
+var $kiR6z = parcelRequire("kiR6z");
+
+var $cf4b8de7ab7388a3$require$Buffer = $464bcea887784ce5$export$a143d493d941bafc;
+var $cf4b8de7ab7388a3$var$OurUint8Array = $parcel$global.Uint8Array || function() {
+};
+function $cf4b8de7ab7388a3$var$_uint8ArrayToBuffer(chunk) {
+    return $cf4b8de7ab7388a3$require$Buffer.from(chunk);
+}
+function $cf4b8de7ab7388a3$var$_isUint8Array(obj) {
+    return $cf4b8de7ab7388a3$require$Buffer.isBuffer(obj) || obj instanceof $cf4b8de7ab7388a3$var$OurUint8Array;
+}
+
+var $5cCjs = parcelRequire("5cCjs");
+
+var $26fv6 = parcelRequire("26fv6");
+var $cf4b8de7ab7388a3$var$getHighWaterMark = $26fv6.getHighWaterMark;
+
+var $dg5OQ = parcelRequire("dg5OQ");
+var $cf4b8de7ab7388a3$require$_require$codes = $dg5OQ.codes;
+var $cf4b8de7ab7388a3$var$ERR_INVALID_ARG_TYPE = $cf4b8de7ab7388a3$require$_require$codes.ERR_INVALID_ARG_TYPE, $cf4b8de7ab7388a3$var$ERR_METHOD_NOT_IMPLEMENTED = $cf4b8de7ab7388a3$require$_require$codes.ERR_METHOD_NOT_IMPLEMENTED, $cf4b8de7ab7388a3$var$ERR_MULTIPLE_CALLBACK = $cf4b8de7ab7388a3$require$_require$codes.ERR_MULTIPLE_CALLBACK, $cf4b8de7ab7388a3$var$ERR_STREAM_CANNOT_PIPE = $cf4b8de7ab7388a3$require$_require$codes.ERR_STREAM_CANNOT_PIPE, $cf4b8de7ab7388a3$var$ERR_STREAM_DESTROYED = $cf4b8de7ab7388a3$require$_require$codes.ERR_STREAM_DESTROYED, $cf4b8de7ab7388a3$var$ERR_STREAM_NULL_VALUES = $cf4b8de7ab7388a3$require$_require$codes.ERR_STREAM_NULL_VALUES, $cf4b8de7ab7388a3$var$ERR_STREAM_WRITE_AFTER_END = $cf4b8de7ab7388a3$require$_require$codes.ERR_STREAM_WRITE_AFTER_END, $cf4b8de7ab7388a3$var$ERR_UNKNOWN_ENCODING = $cf4b8de7ab7388a3$require$_require$codes.ERR_UNKNOWN_ENCODING;
+var $cf4b8de7ab7388a3$var$errorOrDestroy = $5cCjs.errorOrDestroy;
+
+(parcelRequire("4xKNh"))($cf4b8de7ab7388a3$var$Writable, $kiR6z);
+function $cf4b8de7ab7388a3$var$nop() {
+}
+
+function $cf4b8de7ab7388a3$var$WritableState(options, stream, isDuplex) {
+    $cf4b8de7ab7388a3$var$Duplex = $cf4b8de7ab7388a3$var$Duplex || (parcelRequire("aVECx"));
+    options = options || {
+    }; // Duplex streams are both readable and writable, but share
+    // the same options object.
+    // However, some cases require setting options to different
+    // values for the readable and the writable sides of the duplex stream,
+    // e.g. options.readableObjectMode vs. options.writableObjectMode, etc.
+    if (typeof isDuplex !== 'boolean') isDuplex = stream instanceof $cf4b8de7ab7388a3$var$Duplex; // object stream flag to indicate whether or not this stream
+    // contains buffers or objects.
+    this.objectMode = !!options.objectMode;
+    if (isDuplex) this.objectMode = this.objectMode || !!options.writableObjectMode; // the point at which write() starts returning false
+    // Note: 0 is a valid value, means that we always return false if
+    // the entire buffer is not flushed immediately on write()
+    this.highWaterMark = $cf4b8de7ab7388a3$var$getHighWaterMark(this, options, 'writableHighWaterMark', isDuplex); // if _final has been called
+    this.finalCalled = false; // drain event flag.
+    this.needDrain = false; // at the start of calling end()
+    this.ending = false; // when end() has been called, and returned
+    this.ended = false; // when 'finish' is emitted
+    this.finished = false; // has it been destroyed
+    this.destroyed = false; // should we decode strings into buffers before passing to _write?
+    // this is here so that some node-core streams can optimize string
+    // handling at a lower level.
+    var noDecode = options.decodeStrings === false;
+    this.decodeStrings = !noDecode; // Crypto is kind of old and crusty.  Historically, its default string
+    // encoding is 'binary' so we have to make this configurable.
+    // Everything else in the universe uses 'utf8', though.
+    this.defaultEncoding = options.defaultEncoding || 'utf8'; // not an actual buffer we keep track of, but a measurement
+    // of how much we're waiting to get pushed to some underlying
+    // socket or file.
+    this.length = 0; // a flag to see when we're in the middle of a write.
+    this.writing = false; // when true all writes will be buffered until .uncork() call
+    this.corked = 0; // a flag to be able to tell if the onwrite cb is called immediately,
+    // or on a later tick.  We set this to true at first, because any
+    // actions that shouldn't happen until "later" should generally also
+    // not happen before the first write call.
+    this.sync = true; // a flag to know if we're processing previously buffered items, which
+    // may call the _write() callback in the same tick, so that we don't
+    // end up in an overlapped onwrite situation.
+    this.bufferProcessing = false; // the callback that's passed to _write(chunk,cb)
+    this.onwrite = function(er) {
+        $cf4b8de7ab7388a3$var$onwrite(stream, er);
+    }; // the callback that the user supplies to write(chunk,encoding,cb)
+    this.writecb = null; // the amount that is being written when _write is called.
+    this.writelen = 0;
+    this.bufferedRequest = null;
+    this.lastBufferedRequest = null; // number of pending user-supplied write callbacks
+    // this must be 0 before 'finish' can be emitted
+    this.pendingcb = 0; // emit prefinish if the only thing we're waiting for is _write cbs
+    // This is relevant for synchronous Transform streams
+    this.prefinished = false; // True if the error was already emitted and should not be thrown again
+    this.errorEmitted = false; // Should close be emitted on destroy. Defaults to true.
+    this.emitClose = options.emitClose !== false; // Should .destroy() be called after 'finish' (and potentially 'end')
+    this.autoDestroy = !!options.autoDestroy; // count buffered requests
+    this.bufferedRequestCount = 0; // allocate the first CorkedRequest, there is always
+    // one allocated and free to use, and we maintain at most two
+    this.corkedRequestsFree = new $cf4b8de7ab7388a3$var$CorkedRequest(this);
+}
+$cf4b8de7ab7388a3$var$WritableState.prototype.getBuffer = function getBuffer() {
+    var current = this.bufferedRequest;
+    var out = [];
+    while(current){
+        out.push(current);
+        current = current.next;
+    }
+    return out;
+};
+(function() {
+    try {
+        Object.defineProperty($cf4b8de7ab7388a3$var$WritableState.prototype, 'buffer', {
+            get: $cf4b8de7ab7388a3$var$internalUtil.deprecate(function writableStateBufferGetter() {
+                return this.getBuffer();
+            }, "_writableState.buffer is deprecated. Use _writableState.getBuffer instead.", 'DEP0003')
+        });
+    } catch (_) {
+    }
+})(); // Test _writableState for inheritance to account for Duplex streams,
+// whose prototype chain only points to Readable.
+var $cf4b8de7ab7388a3$var$realHasInstance;
+if (typeof Symbol === 'function' && Symbol.hasInstance && typeof Function.prototype[Symbol.hasInstance] === 'function') {
+    $cf4b8de7ab7388a3$var$realHasInstance = Function.prototype[Symbol.hasInstance];
+    Object.defineProperty($cf4b8de7ab7388a3$var$Writable, Symbol.hasInstance, {
+        value: function value(object) {
+            if ($cf4b8de7ab7388a3$var$realHasInstance.call(this, object)) return true;
+            if (this !== $cf4b8de7ab7388a3$var$Writable) return false;
+            return object && object._writableState instanceof $cf4b8de7ab7388a3$var$WritableState;
+        }
+    });
+} else $cf4b8de7ab7388a3$var$realHasInstance = function realHasInstance(object) {
+    return object instanceof this;
+};
+
+function $cf4b8de7ab7388a3$var$Writable(options) {
+    $cf4b8de7ab7388a3$var$Duplex = $cf4b8de7ab7388a3$var$Duplex || (parcelRequire("aVECx")); // Writable ctor is applied to Duplexes, too.
+    // `realHasInstance` is necessary because using plain `instanceof`
+    // would return false, as no `_writableState` property is attached.
+    // Trying to use the custom `instanceof` for Writable here will also break the
+    // Node.js LazyTransform implementation, which has a non-trivial getter for
+    // `_writableState` that would lead to infinite recursion.
+    // Checking for a Stream.Duplex instance is faster here instead of inside
+    // the WritableState constructor, at least with V8 6.5
+    var isDuplex = this instanceof $cf4b8de7ab7388a3$var$Duplex;
+    if (!isDuplex && !$cf4b8de7ab7388a3$var$realHasInstance.call($cf4b8de7ab7388a3$var$Writable, this)) return new $cf4b8de7ab7388a3$var$Writable(options);
+    this._writableState = new $cf4b8de7ab7388a3$var$WritableState(options, this, isDuplex); // legacy.
+    this.writable = true;
+    if (options) {
+        if (typeof options.write === 'function') this._write = options.write;
+        if (typeof options.writev === 'function') this._writev = options.writev;
+        if (typeof options.destroy === 'function') this._destroy = options.destroy;
+        if (typeof options.final === 'function') this._final = options.final;
+    }
+    $kiR6z.call(this);
+} // Otherwise people can pipe Writable streams, which is just wrong.
+$cf4b8de7ab7388a3$var$Writable.prototype.pipe = function() {
+    $cf4b8de7ab7388a3$var$errorOrDestroy(this, new $cf4b8de7ab7388a3$var$ERR_STREAM_CANNOT_PIPE());
+};
+function $cf4b8de7ab7388a3$var$writeAfterEnd(stream, cb) {
+    var er = new $cf4b8de7ab7388a3$var$ERR_STREAM_WRITE_AFTER_END(); // TODO: defer error events consistently everywhere, not just the cb
+    $cf4b8de7ab7388a3$var$errorOrDestroy(stream, er);
+    $a506278517dc5c33$exports.nextTick(cb, er);
+} // Checks that a user-supplied chunk is valid, especially for the particular
+// mode the stream is in. Currently this means that `null` is never accepted
+// and undefined/non-string values are only allowed in object mode.
+function $cf4b8de7ab7388a3$var$validChunk(stream, state, chunk, cb) {
+    var er;
+    if (chunk === null) er = new $cf4b8de7ab7388a3$var$ERR_STREAM_NULL_VALUES();
+    else if (typeof chunk !== 'string' && !state.objectMode) er = new $cf4b8de7ab7388a3$var$ERR_INVALID_ARG_TYPE('chunk', [
+        'string',
+        'Buffer'
+    ], chunk);
+    if (er) {
+        $cf4b8de7ab7388a3$var$errorOrDestroy(stream, er);
+        $a506278517dc5c33$exports.nextTick(cb, er);
+        return false;
+    }
+    return true;
+}
+$cf4b8de7ab7388a3$var$Writable.prototype.write = function(chunk, encoding, cb) {
+    var state = this._writableState;
+    var ret = false;
+    var isBuf = !state.objectMode && $cf4b8de7ab7388a3$var$_isUint8Array(chunk);
+    if (isBuf && !$cf4b8de7ab7388a3$require$Buffer.isBuffer(chunk)) chunk = $cf4b8de7ab7388a3$var$_uint8ArrayToBuffer(chunk);
+    if (typeof encoding === 'function') {
+        cb = encoding;
+        encoding = null;
+    }
+    if (isBuf) encoding = 'buffer';
+    else if (!encoding) encoding = state.defaultEncoding;
+    if (typeof cb !== 'function') cb = $cf4b8de7ab7388a3$var$nop;
+    if (state.ending) $cf4b8de7ab7388a3$var$writeAfterEnd(this, cb);
+    else if (isBuf || $cf4b8de7ab7388a3$var$validChunk(this, state, chunk, cb)) {
+        state.pendingcb++;
+        ret = $cf4b8de7ab7388a3$var$writeOrBuffer(this, state, isBuf, chunk, encoding, cb);
+    }
+    return ret;
+};
+$cf4b8de7ab7388a3$var$Writable.prototype.cork = function() {
+    this._writableState.corked++;
+};
+$cf4b8de7ab7388a3$var$Writable.prototype.uncork = function() {
+    var state = this._writableState;
+    if (state.corked) {
+        state.corked--;
+        if (!state.writing && !state.corked && !state.bufferProcessing && state.bufferedRequest) $cf4b8de7ab7388a3$var$clearBuffer(this, state);
+    }
+};
+$cf4b8de7ab7388a3$var$Writable.prototype.setDefaultEncoding = function setDefaultEncoding(encoding) {
+    // node::ParseEncoding() requires lower case.
+    if (typeof encoding === 'string') encoding = encoding.toLowerCase();
+    if (!([
+        'hex',
+        'utf8',
+        'utf-8',
+        'ascii',
+        'binary',
+        'base64',
+        'ucs2',
+        'ucs-2',
+        'utf16le',
+        'utf-16le',
+        'raw'
+    ].indexOf((encoding + '').toLowerCase()) > -1)) throw new $cf4b8de7ab7388a3$var$ERR_UNKNOWN_ENCODING(encoding);
+    this._writableState.defaultEncoding = encoding;
+    return this;
+};
+Object.defineProperty($cf4b8de7ab7388a3$var$Writable.prototype, 'writableBuffer', {
+    // making it explicit this property is not enumerable
+    // because otherwise some prototype manipulation in
+    // userland will fail
+    enumerable: false,
+    get: function get() {
+        return this._writableState && this._writableState.getBuffer();
+    }
+});
+function $cf4b8de7ab7388a3$var$decodeChunk(state, chunk, encoding) {
+    if (!state.objectMode && state.decodeStrings !== false && typeof chunk === 'string') chunk = $cf4b8de7ab7388a3$require$Buffer.from(chunk, encoding);
+    return chunk;
+}
+Object.defineProperty($cf4b8de7ab7388a3$var$Writable.prototype, 'writableHighWaterMark', {
+    // making it explicit this property is not enumerable
+    // because otherwise some prototype manipulation in
+    // userland will fail
+    enumerable: false,
+    get: function get() {
+        return this._writableState.highWaterMark;
+    }
+}); // if we're already writing something, then just put this
+// in the queue, and wait our turn.  Otherwise, call _write
+// If we return false, then we need a drain event, so set that flag.
+function $cf4b8de7ab7388a3$var$writeOrBuffer(stream, state, isBuf, chunk, encoding, cb) {
+    if (!isBuf) {
+        var newChunk = $cf4b8de7ab7388a3$var$decodeChunk(state, chunk, encoding);
+        if (chunk !== newChunk) {
+            isBuf = true;
+            encoding = 'buffer';
+            chunk = newChunk;
+        }
+    }
+    var len = state.objectMode ? 1 : chunk.length;
+    state.length += len;
+    var ret = state.length < state.highWaterMark; // we must ensure that previous needDrain will not be reset to false.
+    if (!ret) state.needDrain = true;
+    if (state.writing || state.corked) {
+        var last = state.lastBufferedRequest;
+        state.lastBufferedRequest = {
+            chunk: chunk,
+            encoding: encoding,
+            isBuf: isBuf,
+            callback: cb,
+            next: null
+        };
+        if (last) last.next = state.lastBufferedRequest;
+        else state.bufferedRequest = state.lastBufferedRequest;
+        state.bufferedRequestCount += 1;
+    } else $cf4b8de7ab7388a3$var$doWrite(stream, state, false, len, chunk, encoding, cb);
+    return ret;
+}
+function $cf4b8de7ab7388a3$var$doWrite(stream, state, writev, len, chunk, encoding, cb) {
+    state.writelen = len;
+    state.writecb = cb;
+    state.writing = true;
+    state.sync = true;
+    if (state.destroyed) state.onwrite(new $cf4b8de7ab7388a3$var$ERR_STREAM_DESTROYED('write'));
+    else if (writev) stream._writev(chunk, state.onwrite);
+    else stream._write(chunk, encoding, state.onwrite);
+    state.sync = false;
+}
+function $cf4b8de7ab7388a3$var$onwriteError(stream, state, sync, er, cb) {
+    --state.pendingcb;
+    if (sync) {
+        // defer the callback if we are being called synchronously
+        // to avoid piling up things on the stack
+        $a506278517dc5c33$exports.nextTick(cb, er); // this can emit finish, and it will always happen
+        // after error
+        $a506278517dc5c33$exports.nextTick($cf4b8de7ab7388a3$var$finishMaybe, stream, state);
+        stream._writableState.errorEmitted = true;
+        $cf4b8de7ab7388a3$var$errorOrDestroy(stream, er);
+    } else {
+        // the caller expect this to happen before if
+        // it is async
+        cb(er);
+        stream._writableState.errorEmitted = true;
+        $cf4b8de7ab7388a3$var$errorOrDestroy(stream, er); // this can emit finish, but finish must
+        // always follow error
+        $cf4b8de7ab7388a3$var$finishMaybe(stream, state);
+    }
+}
+function $cf4b8de7ab7388a3$var$onwriteStateUpdate(state) {
+    state.writing = false;
+    state.writecb = null;
+    state.length -= state.writelen;
+    state.writelen = 0;
+}
+function $cf4b8de7ab7388a3$var$onwrite(stream, er) {
+    var state = stream._writableState;
+    var sync = state.sync;
+    var cb = state.writecb;
+    if (typeof cb !== 'function') throw new $cf4b8de7ab7388a3$var$ERR_MULTIPLE_CALLBACK();
+    $cf4b8de7ab7388a3$var$onwriteStateUpdate(state);
+    if (er) $cf4b8de7ab7388a3$var$onwriteError(stream, state, sync, er, cb);
+    else {
+        // Check if we're actually ready to finish, but don't emit yet
+        var finished = $cf4b8de7ab7388a3$var$needFinish(state) || stream.destroyed;
+        if (!finished && !state.corked && !state.bufferProcessing && state.bufferedRequest) $cf4b8de7ab7388a3$var$clearBuffer(stream, state);
+        if (sync) $a506278517dc5c33$exports.nextTick($cf4b8de7ab7388a3$var$afterWrite, stream, state, finished, cb);
+        else $cf4b8de7ab7388a3$var$afterWrite(stream, state, finished, cb);
+    }
+}
+function $cf4b8de7ab7388a3$var$afterWrite(stream, state, finished, cb) {
+    if (!finished) $cf4b8de7ab7388a3$var$onwriteDrain(stream, state);
+    state.pendingcb--;
+    cb();
+    $cf4b8de7ab7388a3$var$finishMaybe(stream, state);
+} // Must force callback to be called on nextTick, so that we don't
+// emit 'drain' before the write() consumer gets the 'false' return
+// value, and has a chance to attach a 'drain' listener.
+function $cf4b8de7ab7388a3$var$onwriteDrain(stream, state) {
+    if (state.length === 0 && state.needDrain) {
+        state.needDrain = false;
+        stream.emit('drain');
+    }
+} // if there's something in the buffer waiting, then process it
+function $cf4b8de7ab7388a3$var$clearBuffer(stream, state) {
+    state.bufferProcessing = true;
+    var entry = state.bufferedRequest;
+    if (stream._writev && entry && entry.next) {
+        // Fast case, write everything using _writev()
+        var l = state.bufferedRequestCount;
+        var buffer = new Array(l);
+        var holder = state.corkedRequestsFree;
+        holder.entry = entry;
+        var count = 0;
+        var allBuffers = true;
+        while(entry){
+            buffer[count] = entry;
+            if (!entry.isBuf) allBuffers = false;
+            entry = entry.next;
+            count += 1;
+        }
+        buffer.allBuffers = allBuffers;
+        $cf4b8de7ab7388a3$var$doWrite(stream, state, true, state.length, buffer, '', holder.finish); // doWrite is almost always async, defer these to save a bit of time
+        // as the hot path ends with doWrite
+        state.pendingcb++;
+        state.lastBufferedRequest = null;
+        if (holder.next) {
+            state.corkedRequestsFree = holder.next;
+            holder.next = null;
+        } else state.corkedRequestsFree = new $cf4b8de7ab7388a3$var$CorkedRequest(state);
+        state.bufferedRequestCount = 0;
+    } else {
+        // Slow case, write chunks one-by-one
+        while(entry){
+            var chunk = entry.chunk;
+            var encoding = entry.encoding;
+            var cb = entry.callback;
+            var len = state.objectMode ? 1 : chunk.length;
+            $cf4b8de7ab7388a3$var$doWrite(stream, state, false, len, chunk, encoding, cb);
+            entry = entry.next;
+            state.bufferedRequestCount--; // if we didn't call the onwrite immediately, then
+            // it means that we need to wait until it does.
+            // also, that means that the chunk and cb are currently
+            // being processed, so move the buffer counter past them.
+            if (state.writing) break;
+        }
+        if (entry === null) state.lastBufferedRequest = null;
+    }
+    state.bufferedRequest = entry;
+    state.bufferProcessing = false;
+}
+$cf4b8de7ab7388a3$var$Writable.prototype._write = function(chunk, encoding, cb) {
+    cb(new $cf4b8de7ab7388a3$var$ERR_METHOD_NOT_IMPLEMENTED('_write()'));
+};
+$cf4b8de7ab7388a3$var$Writable.prototype._writev = null;
+$cf4b8de7ab7388a3$var$Writable.prototype.end = function(chunk, encoding, cb) {
+    var state = this._writableState;
+    if (typeof chunk === 'function') {
+        cb = chunk;
+        chunk = null;
+        encoding = null;
+    } else if (typeof encoding === 'function') {
+        cb = encoding;
+        encoding = null;
+    }
+    if (chunk !== null && chunk !== undefined) this.write(chunk, encoding); // .end() fully uncorks
+    if (state.corked) {
+        state.corked = 1;
+        this.uncork();
+    } // ignore unnecessary end() calls.
+    if (!state.ending) $cf4b8de7ab7388a3$var$endWritable(this, state, cb);
+    return this;
+};
+Object.defineProperty($cf4b8de7ab7388a3$var$Writable.prototype, 'writableLength', {
+    // making it explicit this property is not enumerable
+    // because otherwise some prototype manipulation in
+    // userland will fail
+    enumerable: false,
+    get: function get() {
+        return this._writableState.length;
+    }
+});
+function $cf4b8de7ab7388a3$var$needFinish(state) {
+    return state.ending && state.length === 0 && state.bufferedRequest === null && !state.finished && !state.writing;
+}
+function $cf4b8de7ab7388a3$var$callFinal(stream, state) {
+    stream._final(function(err) {
+        state.pendingcb--;
+        if (err) $cf4b8de7ab7388a3$var$errorOrDestroy(stream, err);
+        state.prefinished = true;
+        stream.emit('prefinish');
+        $cf4b8de7ab7388a3$var$finishMaybe(stream, state);
+    });
+}
+function $cf4b8de7ab7388a3$var$prefinish(stream, state) {
+    if (!state.prefinished && !state.finalCalled) {
+        if (typeof stream._final === 'function' && !state.destroyed) {
+            state.pendingcb++;
+            state.finalCalled = true;
+            $a506278517dc5c33$exports.nextTick($cf4b8de7ab7388a3$var$callFinal, stream, state);
+        } else {
+            state.prefinished = true;
+            stream.emit('prefinish');
+        }
+    }
+}
+function $cf4b8de7ab7388a3$var$finishMaybe(stream, state) {
+    var need = $cf4b8de7ab7388a3$var$needFinish(state);
+    if (need) {
+        $cf4b8de7ab7388a3$var$prefinish(stream, state);
+        if (state.pendingcb === 0) {
+            state.finished = true;
+            stream.emit('finish');
+            if (state.autoDestroy) {
+                // In case of duplex streams we need a way to detect
+                // if the readable side is ready for autoDestroy as well
+                var rState = stream._readableState;
+                if (!rState || rState.autoDestroy && rState.endEmitted) stream.destroy();
+            }
+        }
+    }
+    return need;
+}
+function $cf4b8de7ab7388a3$var$endWritable(stream, state, cb) {
+    state.ending = true;
+    $cf4b8de7ab7388a3$var$finishMaybe(stream, state);
+    if (cb) {
+        if (state.finished) $a506278517dc5c33$exports.nextTick(cb);
+        else stream.once('finish', cb);
+    }
+    state.ended = true;
+    stream.writable = false;
+}
+function $cf4b8de7ab7388a3$var$onCorkedFinish(corkReq, state, err) {
+    var entry = corkReq.entry;
+    corkReq.entry = null;
+    while(entry){
+        var cb = entry.callback;
+        state.pendingcb--;
+        cb(err);
+        entry = entry.next;
+    } // reuse the free corkReq.
+    state.corkedRequestsFree.next = corkReq;
+}
+Object.defineProperty($cf4b8de7ab7388a3$var$Writable.prototype, 'destroyed', {
+    // making it explicit this property is not enumerable
+    // because otherwise some prototype manipulation in
+    // userland will fail
+    enumerable: false,
+    get: function get() {
+        if (this._writableState === undefined) return false;
+        return this._writableState.destroyed;
+    },
+    set: function set(value) {
+        // we ignore the value if the stream
+        // has not been initialized yet
+        if (!this._writableState) return;
+         // backward compatibility, the user is explicitly
+        // managing destroyed
+        this._writableState.destroyed = value;
+    }
+});
+$cf4b8de7ab7388a3$var$Writable.prototype.destroy = $5cCjs.destroy;
+$cf4b8de7ab7388a3$var$Writable.prototype._undestroy = $5cCjs.undestroy;
+$cf4b8de7ab7388a3$var$Writable.prototype._destroy = function(err, cb) {
+    cb(err);
+};
+
+});
+
+
+parcelRequire.register("bBMtR", function(module, exports) {
+
+'use strict';
+var $8738c1ac83667e09$var$_Object$setPrototypeO;
+function $8738c1ac83667e09$var$_defineProperty(obj, key, value) {
+    if (key in obj) Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+    });
+    else obj[key] = value;
+    return obj;
+}
+
+var $1WAlG = parcelRequire("1WAlG");
+var $8738c1ac83667e09$var$kLastResolve = Symbol('lastResolve');
+var $8738c1ac83667e09$var$kLastReject = Symbol('lastReject');
+var $8738c1ac83667e09$var$kError = Symbol('error');
+var $8738c1ac83667e09$var$kEnded = Symbol('ended');
+var $8738c1ac83667e09$var$kLastPromise = Symbol('lastPromise');
+var $8738c1ac83667e09$var$kHandlePromise = Symbol('handlePromise');
+var $8738c1ac83667e09$var$kStream = Symbol('stream');
+function $8738c1ac83667e09$var$createIterResult(value, done) {
+    return {
+        value: value,
+        done: done
+    };
+}
+function $8738c1ac83667e09$var$readAndResolve(iter) {
+    var resolve = iter[$8738c1ac83667e09$var$kLastResolve];
+    if (resolve !== null) {
+        var data = iter[$8738c1ac83667e09$var$kStream].read(); // we defer if data is null
+        // we can be expecting either 'end' or
+        // 'error'
+        if (data !== null) {
+            iter[$8738c1ac83667e09$var$kLastPromise] = null;
+            iter[$8738c1ac83667e09$var$kLastResolve] = null;
+            iter[$8738c1ac83667e09$var$kLastReject] = null;
+            resolve($8738c1ac83667e09$var$createIterResult(data, false));
+        }
+    }
+}
+function $8738c1ac83667e09$var$onReadable(iter) {
+    // we wait for the next tick, because it might
+    // emit an error with process.nextTick
+    $a506278517dc5c33$exports.nextTick($8738c1ac83667e09$var$readAndResolve, iter);
+}
+function $8738c1ac83667e09$var$wrapForNext(lastPromise, iter) {
+    return function(resolve, reject) {
+        lastPromise.then(function() {
+            if (iter[$8738c1ac83667e09$var$kEnded]) {
+                resolve($8738c1ac83667e09$var$createIterResult(undefined, true));
+                return;
+            }
+            iter[$8738c1ac83667e09$var$kHandlePromise](resolve, reject);
+        }, reject);
+    };
+}
+var $8738c1ac83667e09$var$AsyncIteratorPrototype = Object.getPrototypeOf(function() {
+});
+var $8738c1ac83667e09$var$ReadableStreamAsyncIteratorPrototype = Object.setPrototypeOf(($8738c1ac83667e09$var$_Object$setPrototypeO = {
+    get stream () {
+        return this[$8738c1ac83667e09$var$kStream];
+    },
+    next: function next() {
+        var _this = this;
+        // if we have detected an error in the meanwhile
+        // reject straight away
+        var error = this[$8738c1ac83667e09$var$kError];
+        if (error !== null) return Promise.reject(error);
+        if (this[$8738c1ac83667e09$var$kEnded]) return Promise.resolve($8738c1ac83667e09$var$createIterResult(undefined, true));
+        if (this[$8738c1ac83667e09$var$kStream].destroyed) // We need to defer via nextTick because if .destroy(err) is
+        // called, the error will be emitted via nextTick, and
+        // we cannot guarantee that there is no error lingering around
+        // waiting to be emitted.
+        return new Promise(function(resolve, reject) {
+            $a506278517dc5c33$exports.nextTick(function() {
+                if (_this[$8738c1ac83667e09$var$kError]) reject(_this[$8738c1ac83667e09$var$kError]);
+                else resolve($8738c1ac83667e09$var$createIterResult(undefined, true));
+            });
+        });
+         // if we have multiple next() calls
+        // we will wait for the previous Promise to finish
+        // this logic is optimized to support for await loops,
+        // where next() is only called once at a time
+        var lastPromise = this[$8738c1ac83667e09$var$kLastPromise];
+        var promise;
+        if (lastPromise) promise = new Promise($8738c1ac83667e09$var$wrapForNext(lastPromise, this));
+        else {
+            // fast path needed to support multiple this.push()
+            // without triggering the next() queue
+            var data = this[$8738c1ac83667e09$var$kStream].read();
+            if (data !== null) return Promise.resolve($8738c1ac83667e09$var$createIterResult(data, false));
+            promise = new Promise(this[$8738c1ac83667e09$var$kHandlePromise]);
+        }
+        this[$8738c1ac83667e09$var$kLastPromise] = promise;
+        return promise;
+    }
+}, $8738c1ac83667e09$var$_defineProperty($8738c1ac83667e09$var$_Object$setPrototypeO, Symbol.asyncIterator, function() {
+    return this;
+}), $8738c1ac83667e09$var$_defineProperty($8738c1ac83667e09$var$_Object$setPrototypeO, "return", function _return() {
+    var _this2 = this;
+    // destroy(err, cb) is a private API
+    // we can guarantee we have that here, because we control the
+    // Readable class this is attached to
+    return new Promise(function(resolve, reject) {
+        _this2[$8738c1ac83667e09$var$kStream].destroy(null, function(err) {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve($8738c1ac83667e09$var$createIterResult(undefined, true));
+        });
+    });
+}), $8738c1ac83667e09$var$_Object$setPrototypeO), $8738c1ac83667e09$var$AsyncIteratorPrototype);
+var $8738c1ac83667e09$var$createReadableStreamAsyncIterator = function createReadableStreamAsyncIterator(stream) {
+    var _Object$create;
+    var iterator = Object.create($8738c1ac83667e09$var$ReadableStreamAsyncIteratorPrototype, (_Object$create = {
+    }, $8738c1ac83667e09$var$_defineProperty(_Object$create, $8738c1ac83667e09$var$kStream, {
+        value: stream,
+        writable: true
+    }), $8738c1ac83667e09$var$_defineProperty(_Object$create, $8738c1ac83667e09$var$kLastResolve, {
+        value: null,
+        writable: true
+    }), $8738c1ac83667e09$var$_defineProperty(_Object$create, $8738c1ac83667e09$var$kLastReject, {
+        value: null,
+        writable: true
+    }), $8738c1ac83667e09$var$_defineProperty(_Object$create, $8738c1ac83667e09$var$kError, {
+        value: null,
+        writable: true
+    }), $8738c1ac83667e09$var$_defineProperty(_Object$create, $8738c1ac83667e09$var$kEnded, {
+        value: stream._readableState.endEmitted,
+        writable: true
+    }), $8738c1ac83667e09$var$_defineProperty(_Object$create, $8738c1ac83667e09$var$kHandlePromise, {
+        value: function value(resolve, reject) {
+            var data = iterator[$8738c1ac83667e09$var$kStream].read();
+            if (data) {
+                iterator[$8738c1ac83667e09$var$kLastPromise] = null;
+                iterator[$8738c1ac83667e09$var$kLastResolve] = null;
+                iterator[$8738c1ac83667e09$var$kLastReject] = null;
+                resolve($8738c1ac83667e09$var$createIterResult(data, false));
+            } else {
+                iterator[$8738c1ac83667e09$var$kLastResolve] = resolve;
+                iterator[$8738c1ac83667e09$var$kLastReject] = reject;
+            }
+        },
+        writable: true
+    }), _Object$create));
+    iterator[$8738c1ac83667e09$var$kLastPromise] = null;
+    $1WAlG(stream, function(err) {
+        if (err && err.code !== 'ERR_STREAM_PREMATURE_CLOSE') {
+            var reject = iterator[$8738c1ac83667e09$var$kLastReject]; // reject if we are waiting for data in the Promise
+            // returned by next() and store the error
+            if (reject !== null) {
+                iterator[$8738c1ac83667e09$var$kLastPromise] = null;
+                iterator[$8738c1ac83667e09$var$kLastResolve] = null;
+                iterator[$8738c1ac83667e09$var$kLastReject] = null;
+                reject(err);
+            }
+            iterator[$8738c1ac83667e09$var$kError] = err;
+            return;
+        }
+        var resolve = iterator[$8738c1ac83667e09$var$kLastResolve];
+        if (resolve !== null) {
+            iterator[$8738c1ac83667e09$var$kLastPromise] = null;
+            iterator[$8738c1ac83667e09$var$kLastResolve] = null;
+            iterator[$8738c1ac83667e09$var$kLastReject] = null;
+            resolve($8738c1ac83667e09$var$createIterResult(undefined, true));
+        }
+        iterator[$8738c1ac83667e09$var$kEnded] = true;
+    });
+    stream.on('readable', $8738c1ac83667e09$var$onReadable.bind(null, iterator));
+    return iterator;
+};
+module.exports = $8738c1ac83667e09$var$createReadableStreamAsyncIterator;
+
+});
+parcelRequire.register("1WAlG", function(module, exports) {
+// Ported from https://github.com/mafintosh/end-of-stream with
+// permission from the author, Mathias Buus (@mafintosh).
+'use strict';
+
+var $dg5OQ = parcelRequire("dg5OQ");
+var $16a7674cbd724943$var$ERR_STREAM_PREMATURE_CLOSE = $dg5OQ.codes.ERR_STREAM_PREMATURE_CLOSE;
+function $16a7674cbd724943$var$once(callback) {
+    var called = false;
+    return function() {
+        if (called) return;
+        called = true;
+        for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+        callback.apply(this, args);
+    };
+}
+function $16a7674cbd724943$var$noop() {
+}
+function $16a7674cbd724943$var$isRequest(stream) {
+    return stream.setHeader && typeof stream.abort === 'function';
+}
+function $16a7674cbd724943$var$eos(stream, opts, callback) {
+    if (typeof opts === 'function') return $16a7674cbd724943$var$eos(stream, null, opts);
+    if (!opts) opts = {
+    };
+    callback = $16a7674cbd724943$var$once(callback || $16a7674cbd724943$var$noop);
+    var readable = opts.readable || opts.readable !== false && stream.readable;
+    var writable = opts.writable || opts.writable !== false && stream.writable;
+    var onlegacyfinish = function onlegacyfinish() {
+        if (!stream.writable) onfinish();
+    };
+    var writableEnded = stream._writableState && stream._writableState.finished;
+    var onfinish = function onfinish() {
+        writable = false;
+        writableEnded = true;
+        if (!readable) callback.call(stream);
+    };
+    var readableEnded = stream._readableState && stream._readableState.endEmitted;
+    var onend = function onend() {
+        readable = false;
+        readableEnded = true;
+        if (!writable) callback.call(stream);
+    };
+    var onerror = function onerror(err) {
+        callback.call(stream, err);
+    };
+    var onclose = function onclose() {
+        var err;
+        if (readable && !readableEnded) {
+            if (!stream._readableState || !stream._readableState.ended) err = new $16a7674cbd724943$var$ERR_STREAM_PREMATURE_CLOSE();
+            return callback.call(stream, err);
+        }
+        if (writable && !writableEnded) {
+            if (!stream._writableState || !stream._writableState.ended) err = new $16a7674cbd724943$var$ERR_STREAM_PREMATURE_CLOSE();
+            return callback.call(stream, err);
+        }
+    };
+    var onrequest = function onrequest() {
+        stream.req.on('finish', onfinish);
+    };
+    if ($16a7674cbd724943$var$isRequest(stream)) {
+        stream.on('complete', onfinish);
+        stream.on('abort', onclose);
+        if (stream.req) onrequest();
+        else stream.on('request', onrequest);
+    } else if (writable && !stream._writableState) {
+        // legacy streams
+        stream.on('end', onlegacyfinish);
+        stream.on('close', onlegacyfinish);
+    }
+    stream.on('end', onend);
+    stream.on('finish', onfinish);
+    if (opts.error !== false) stream.on('error', onerror);
+    stream.on('close', onclose);
+    return function() {
+        stream.removeListener('complete', onfinish);
+        stream.removeListener('abort', onclose);
+        stream.removeListener('request', onrequest);
+        if (stream.req) stream.req.removeListener('finish', onfinish);
+        stream.removeListener('end', onlegacyfinish);
+        stream.removeListener('close', onlegacyfinish);
+        stream.removeListener('finish', onfinish);
+        stream.removeListener('end', onend);
+        stream.removeListener('error', onerror);
+        stream.removeListener('close', onclose);
+    };
+}
+module.exports = $16a7674cbd724943$var$eos;
+
+});
+
+
+parcelRequire.register("hbpMJ", function(module, exports) {
+module.exports = function() {
+    throw new Error('Readable.from is not available in the browser');
+};
+
+});
+
+
+parcelRequire.register("awvi6", function(module, exports) {
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+// a transform stream is a readable/writable stream where you do
+// something with the data.  Sometimes it's called a "filter",
+// but that's not a great name for it, since that implies a thing where
+// some bits pass through, and others are simply ignored.  (That would
+// be a valid example of a transform, of course.)
+//
+// While the output is causally related to the input, it's not a
+// necessarily symmetric or synchronous transformation.  For example,
+// a zlib stream might take multiple plain-text writes(), and then
+// emit a single compressed chunk some time in the future.
+//
+// Here's how this works:
+//
+// The Transform stream has all the aspects of the readable and writable
+// stream classes.  When you write(chunk), that calls _write(chunk,cb)
+// internally, and returns false if there's a lot of pending writes
+// buffered up.  When you call read(), that calls _read(n) until
+// there's enough pending readable data buffered up.
+//
+// In a transform stream, the written data is placed in a buffer.  When
+// _read(n) is called, it transforms the queued up data, calling the
+// buffered _write cb's as it consumes chunks.  If consuming a single
+// written chunk would result in multiple output chunks, then the first
+// outputted bit calls the readcb, and subsequent chunks just go into
+// the read buffer, and will cause it to emit 'readable' if necessary.
+//
+// This way, back-pressure is actually determined by the reading side,
+// since _read has to be called to start processing a new chunk.  However,
+// a pathological inflate type of transform can cause excessive buffering
+// here.  For example, imagine a stream where every byte of input is
+// interpreted as an integer from 0-255, and then results in that many
+// bytes of output.  Writing the 4 bytes {ff,ff,ff,ff} would result in
+// 1kb of data being output.  In this case, you could write a very small
+// amount of input, and end up with a very large amount of output.  In
+// such a pathological inflating mechanism, there'd be no way to tell
+// the system to stop doing the transform.  A single 4MB write could
+// cause the system to run out of memory.
+//
+// However, even in such a pathological case, only a single written chunk
+// would be consumed, and then the rest would wait (un-transformed) until
+// the results of the previous transformed chunk were consumed.
+'use strict';
+module.exports = $7a952a48652e35d6$var$Transform;
+
+var $dg5OQ = parcelRequire("dg5OQ");
+var $7a952a48652e35d6$require$_require$codes = $dg5OQ.codes;
+var $7a952a48652e35d6$var$ERR_METHOD_NOT_IMPLEMENTED = $7a952a48652e35d6$require$_require$codes.ERR_METHOD_NOT_IMPLEMENTED, $7a952a48652e35d6$var$ERR_MULTIPLE_CALLBACK = $7a952a48652e35d6$require$_require$codes.ERR_MULTIPLE_CALLBACK, $7a952a48652e35d6$var$ERR_TRANSFORM_ALREADY_TRANSFORMING = $7a952a48652e35d6$require$_require$codes.ERR_TRANSFORM_ALREADY_TRANSFORMING, $7a952a48652e35d6$var$ERR_TRANSFORM_WITH_LENGTH_0 = $7a952a48652e35d6$require$_require$codes.ERR_TRANSFORM_WITH_LENGTH_0;
+
+var $aVECx = parcelRequire("aVECx");
+
+(parcelRequire("4xKNh"))($7a952a48652e35d6$var$Transform, $aVECx);
+function $7a952a48652e35d6$var$afterTransform(er, data) {
+    var ts = this._transformState;
+    ts.transforming = false;
+    var cb = ts.writecb;
+    if (cb === null) return this.emit('error', new $7a952a48652e35d6$var$ERR_MULTIPLE_CALLBACK());
+    ts.writechunk = null;
+    ts.writecb = null;
+    if (data != null) this.push(data);
+    cb(er);
+    var rs = this._readableState;
+    rs.reading = false;
+    if (rs.needReadable || rs.length < rs.highWaterMark) this._read(rs.highWaterMark);
+}
+function $7a952a48652e35d6$var$Transform(options) {
+    if (!(this instanceof $7a952a48652e35d6$var$Transform)) return new $7a952a48652e35d6$var$Transform(options);
+    $aVECx.call(this, options);
+    this._transformState = {
+        afterTransform: $7a952a48652e35d6$var$afterTransform.bind(this),
+        needTransform: false,
+        transforming: false,
+        writecb: null,
+        writechunk: null,
+        writeencoding: null
+    }; // start out asking for a readable event once data is transformed.
+    this._readableState.needReadable = true; // we have implemented the _read method, and done the other things
+    // that Readable wants before the first _read call, so unset the
+    // sync guard flag.
+    this._readableState.sync = false;
+    if (options) {
+        if (typeof options.transform === 'function') this._transform = options.transform;
+        if (typeof options.flush === 'function') this._flush = options.flush;
+    } // When the writable side finishes, then flush out anything remaining.
+    this.on('prefinish', $7a952a48652e35d6$var$prefinish);
+}
+function $7a952a48652e35d6$var$prefinish() {
+    var _this = this;
+    if (typeof this._flush === 'function' && !this._readableState.destroyed) this._flush(function(er, data) {
+        $7a952a48652e35d6$var$done(_this, er, data);
+    });
+    else $7a952a48652e35d6$var$done(this, null, null);
+}
+$7a952a48652e35d6$var$Transform.prototype.push = function(chunk, encoding) {
+    this._transformState.needTransform = false;
+    return $aVECx.prototype.push.call(this, chunk, encoding);
+}; // This is the part where you do stuff!
+// override this function in implementation classes.
+// 'chunk' is an input chunk.
+//
+// Call `push(newChunk)` to pass along transformed output
+// to the readable side.  You may call 'push' zero or more times.
+//
+// Call `cb(err)` when you are done with this chunk.  If you pass
+// an error, then that'll put the hurt on the whole operation.  If you
+// never call cb(), then you'll never get another chunk.
+$7a952a48652e35d6$var$Transform.prototype._transform = function(chunk, encoding, cb) {
+    cb(new $7a952a48652e35d6$var$ERR_METHOD_NOT_IMPLEMENTED('_transform()'));
+};
+$7a952a48652e35d6$var$Transform.prototype._write = function(chunk, encoding, cb) {
+    var ts = this._transformState;
+    ts.writecb = cb;
+    ts.writechunk = chunk;
+    ts.writeencoding = encoding;
+    if (!ts.transforming) {
+        var rs = this._readableState;
+        if (ts.needTransform || rs.needReadable || rs.length < rs.highWaterMark) this._read(rs.highWaterMark);
+    }
+}; // Doesn't matter what the args are here.
+// _transform does all the work.
+// That we got here means that the readable side wants more data.
+$7a952a48652e35d6$var$Transform.prototype._read = function(n) {
+    var ts = this._transformState;
+    if (ts.writechunk !== null && !ts.transforming) {
+        ts.transforming = true;
+        this._transform(ts.writechunk, ts.writeencoding, ts.afterTransform);
+    } else // mark that we need a transform, so that any data that comes in
+    // will get processed, now that we've asked for it.
+    ts.needTransform = true;
+};
+$7a952a48652e35d6$var$Transform.prototype._destroy = function(err, cb) {
+    $aVECx.prototype._destroy.call(this, err, function(err2) {
+        cb(err2);
+    });
+};
+function $7a952a48652e35d6$var$done(stream, er, data) {
+    if (er) return stream.emit('error', er);
+    if (data != null) stream.push(data); // TODO(BridgeAR): Write a test for these two error cases
+    // if there's nothing in the write buffer, then that means
+    // that nothing more will ever be provided
+    if (stream._writableState.length) throw new $7a952a48652e35d6$var$ERR_TRANSFORM_WITH_LENGTH_0();
+    if (stream._transformState.transforming) throw new $7a952a48652e35d6$var$ERR_TRANSFORM_ALREADY_TRANSFORMING();
+    return stream.push(null);
+}
+
+});
+
+parcelRequire.register("7FPX7", function(module, exports) {
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+// a passthrough stream.
+// basically just the most minimal sort of Transform stream.
+// Every written chunk gets output as-is.
+'use strict';
+module.exports = $5964a97063ffbfb0$var$PassThrough;
+
+var $awvi6 = parcelRequire("awvi6");
+
+(parcelRequire("4xKNh"))($5964a97063ffbfb0$var$PassThrough, $awvi6);
+function $5964a97063ffbfb0$var$PassThrough(options) {
+    if (!(this instanceof $5964a97063ffbfb0$var$PassThrough)) return new $5964a97063ffbfb0$var$PassThrough(options);
+    $awvi6.call(this, options);
+}
+$5964a97063ffbfb0$var$PassThrough.prototype._transform = function(chunk, encoding, cb) {
+    cb(null, chunk);
+};
+
+});
+
+parcelRequire.register("ejpCZ", function(module, exports) {
+// Ported from https://github.com/mafintosh/pump with
+// permission from the author, Mathias Buus (@mafintosh).
+'use strict';
+var $a6b6b83240f6f49b$var$eos;
+function $a6b6b83240f6f49b$var$once(callback) {
+    var called = false;
+    return function() {
+        if (called) return;
+        called = true;
+        callback.apply(void 0, arguments);
+    };
+}
+
+var $dg5OQ = parcelRequire("dg5OQ");
+var $a6b6b83240f6f49b$require$_require$codes = $dg5OQ.codes;
+var $a6b6b83240f6f49b$var$ERR_MISSING_ARGS = $a6b6b83240f6f49b$require$_require$codes.ERR_MISSING_ARGS, $a6b6b83240f6f49b$var$ERR_STREAM_DESTROYED = $a6b6b83240f6f49b$require$_require$codes.ERR_STREAM_DESTROYED;
+function $a6b6b83240f6f49b$var$noop(err) {
+    // Rethrow the error if it exists to avoid swallowing it
+    if (err) throw err;
+}
+function $a6b6b83240f6f49b$var$isRequest(stream) {
+    return stream.setHeader && typeof stream.abort === 'function';
+}
+
+function $a6b6b83240f6f49b$var$destroyer(stream, reading, writing, callback) {
+    callback = $a6b6b83240f6f49b$var$once(callback);
+    var closed = false;
+    stream.on('close', function() {
+        closed = true;
+    });
+    if ($a6b6b83240f6f49b$var$eos === undefined) $a6b6b83240f6f49b$var$eos = (parcelRequire("1WAlG"));
+    $a6b6b83240f6f49b$var$eos(stream, {
+        readable: reading,
+        writable: writing
+    }, function(err) {
+        if (err) return callback(err);
+        closed = true;
+        callback();
+    });
+    var destroyed = false;
+    return function(err) {
+        if (closed) return;
+        if (destroyed) return;
+        destroyed = true; // request.destroy just do .end - .abort is what we want
+        if ($a6b6b83240f6f49b$var$isRequest(stream)) return stream.abort();
+        if (typeof stream.destroy === 'function') return stream.destroy();
+        callback(err || new $a6b6b83240f6f49b$var$ERR_STREAM_DESTROYED('pipe'));
+    };
+}
+function $a6b6b83240f6f49b$var$call(fn) {
+    fn();
+}
+function $a6b6b83240f6f49b$var$pipe(from, to) {
+    return from.pipe(to);
+}
+function $a6b6b83240f6f49b$var$popCallback(streams) {
+    if (!streams.length) return $a6b6b83240f6f49b$var$noop;
+    if (typeof streams[streams.length - 1] !== 'function') return $a6b6b83240f6f49b$var$noop;
+    return streams.pop();
+}
+function $a6b6b83240f6f49b$var$pipeline() {
+    for(var _len = arguments.length, streams = new Array(_len), _key = 0; _key < _len; _key++)streams[_key] = arguments[_key];
+    var callback = $a6b6b83240f6f49b$var$popCallback(streams);
+    if (Array.isArray(streams[0])) streams = streams[0];
+    if (streams.length < 2) throw new $a6b6b83240f6f49b$var$ERR_MISSING_ARGS('streams');
+    var error;
+    var destroys = streams.map(function(stream, i) {
+        var reading = i < streams.length - 1;
+        var writing = i > 0;
+        return $a6b6b83240f6f49b$var$destroyer(stream, reading, writing, function(err) {
+            if (!error) error = err;
+            if (err) destroys.forEach($a6b6b83240f6f49b$var$call);
+            if (reading) return;
+            destroys.forEach($a6b6b83240f6f49b$var$call);
+            callback(error);
+        });
+    });
+    return streams.reduce($a6b6b83240f6f49b$var$pipe);
+}
+module.exports = $a6b6b83240f6f49b$var$pipeline;
+
+});
+
+
 parcelRequire.register("k71ni", function(module, exports) {
 
 var $g1NWN = parcelRequire("g1NWN");
@@ -26615,11 +31745,11 @@ var $5e4ac42ec3a646b4$var$Module = function() {
         var nodePath;
         if (ENVIRONMENT_IS_NODE) {
             if (!(typeof $a506278517dc5c33$exports === "object" && "function" === "function")) throw new Error("not compiled for this environment (did you build to HTML and try to run it not on the web, or set ENVIRONMENT to something - like node - and run it someplace else - like on the web?)");
-            if (ENVIRONMENT_IS_WORKER) scriptDirectory = (parcelRequire("9fScv")).dirname(scriptDirectory) + "/";
+            if (ENVIRONMENT_IS_WORKER) scriptDirectory = (parcelRequire("fjzMn")).dirname(scriptDirectory) + "/";
             else scriptDirectory = $5e4ac42ec3a646b4$var$__dirname + "/";
             read_ = function shell_read(filename, binary) {
                 if (!nodeFS) nodeFS = (parcelRequire("lA1sm"));
-                if (!nodePath) nodePath = (parcelRequire("9fScv"));
+                if (!nodePath) nodePath = (parcelRequire("fjzMn"));
                 filename = nodePath["normalize"](filename);
                 return nodeFS["readFileSync"](filename, binary ? null : "utf8");
             };
@@ -26631,7 +31761,7 @@ var $5e4ac42ec3a646b4$var$Module = function() {
             };
             readAsync = function readAsync(filename, onload, onerror) {
                 if (!nodeFS) nodeFS = (parcelRequire("lA1sm"));
-                if (!nodePath) nodePath = (parcelRequire("9fScv"));
+                if (!nodePath) nodePath = (parcelRequire("fjzMn"));
                 filename = nodePath["normalize"](filename);
                 nodeFS["readFile"](filename, function(err, data) {
                     if (err) onerror(err);
@@ -58784,7 +63914,7 @@ var $28f325bf4f713dfb$export$2e2bcd8739ae039 = $28f325bf4f713dfb$var$isEmpty;
 
 
 var $2e21124abfc0a203$exports = {};
-$2e21124abfc0a203$exports = JSON.parse("{\"name\":\"@newkind/service\",\"version\":\"0.1.0\",\"description\":\"peer to peer connect\",\"module\":\"./dist/index.mjs\",\"main\":\"./dist/index.mjs\",\"author\":\"Zababurin Sergey\",\"license\":\"GPL-3.0-only\",\"targets\":{\"main\":false,\"dev\":{\"includeNodeModules\":true,\"optimize\":true,\"sourceMap\":false,\"publicUrl\":\"/newkind-service\",\"scopeHoist\":true,\"distDir\":\"./service\",\"context\":\"browser\",\"source\":\"./frontend/src/index.html\"},\"module\":{\"includeNodeModules\":true,\"optimize\":true,\"sourceMap\":false,\"source\":\"./frontend/src/index.mjs\"},\"service\":{\"includeNodeModules\":true,\"optimize\":false,\"distDir\":\"service/newkind-service\",\"sourceMap\":false,\"publicUrl\":\"/newkind-service\",\"source\":\"./frontend/src/index.html\"}},\"staticFiles\":{\"staticPath\":\"frontend/src/public\",\"distDir\":\"./service/newkind-service\",\"staticOutPath\":\"public\"},\"config\":{\"html\":\"./frontend/src/index.html\",\"service\":\"/newkind-service\",\"port_dev\":4517,\"port_back\":4518,\"highWaterMark\":300,\"list\":{\"white\":[\"http://localhost:4517\",\"https://zababurinsv.github.io/newkind-service/\"],\"black\":[]}},\"scripts\":{\"dev\":\"rimraf ./service/* && parcel --cache-dir ./.parcel-cache --no-hmr --port $npm_package_config_port_dev --dist-dir service/newkind-service --target dev\",\"server\":\"nodemon ./backend/index.mjs\",\"build\":\"rimraf ./dist/* && parcel build --target module\",\"sevice\":\"rimraf ./service/* && rimraf .parcel-cache && parcel build --target service\",\"docs\":\"rimraf ./docs/* && jsdoc -c jsdoc.json\",\"jsdoc2md\":\"jsdoc2md --configure jsdoc.json --source frontend/index.mjs > md_api.md && cat ./md_info.md ./md_api.md > ./README.md\",\"deploy\":\"gh-pages -d service/newkind-service\",\"clean\":\"rimraf ./service/* && rimraf ./dist/* && find . -name \\\".parcel-cache\\\" -exec rm -rf '{}' +;\",\"clean:all\":\"rimraf ./service/* && rimraf ./dist/* && rimraf ./docs/* && rimraf ./md_api.md && find . -name \\\".parcel-cache\\\" -exec rm -rf '{}' +;\",\"kill:dev\":\"kill $(lsof -t -i:$npm_package_config_port_dev)\",\"kill:back\":\"kill $(lsof -t -i:$npm_package_config_port_back)\"},\"dependencies\":{\"comlink\":\"^4.3.1\",\"compression\":\"^1.7.4\",\"cors\":\"^2.8.5\",\"express\":\"^4.17.1\",\"express-enqueue\":\"^1.0.0\",\"global\":\"^4.4.0\",\"libsodium-wrappers\":\"^0.7.9\",\"nodemon\":\"^2.0.15\",\"web-streams-polyfill\":\"^3.2.0\"},\"devDependencies\":{\"@newkind/tests\":\"^0.2.1\",\"@parcel/packager-raw-url\":\"^2.0.1\",\"@parcel/transformer-sass\":\"^2.0.1\",\"@parcel/transformer-webmanifest\":\"^2.0.1\",\"@types/libsodium-wrappers\":\"^0.7.9\",\"docdash\":\"^1.2.0\",\"gh-pages\":\"^3.2.3\",\"jsdoc\":\"^3.6.7\",\"jsdoc-to-markdown\":\"^7.1.0\",\"parcel\":\"2.0.1\",\"parcel-reporter-static-files-copy\":\"^1.3.1\",\"redrun\":\"^9.0.1\",\"redux\":\"^4.1.2\"},\"eslintConfig\":{\"extends\":[\"react-app\",\"react-app/jest\"]}}");
+$2e21124abfc0a203$exports = JSON.parse("{\"name\":\"@newkind/service\",\"version\":\"0.1.0\",\"description\":\"peer to peer connect\",\"module\":\"./dist/index.mjs\",\"main\":\"./dist/index.mjs\",\"author\":\"Zababurin Sergey\",\"license\":\"GPL-3.0-only\",\"targets\":{\"main\":false,\"dev\":{\"includeNodeModules\":true,\"optimize\":true,\"sourceMap\":false,\"publicUrl\":\"/newkind-service\",\"scopeHoist\":true,\"isLibrary\":false,\"distDir\":\"./service\",\"context\":\"browser\",\"source\":\"./frontend/src/index.html\"},\"module\":{\"includeNodeModules\":true,\"optimize\":true,\"isLibrary\":true,\"sourceMap\":false,\"source\":\"./frontend/src/index.mjs\"},\"service\":{\"includeNodeModules\":true,\"optimize\":false,\"isLibrary\":false,\"distDir\":\"service/newkind-service\",\"sourceMap\":false,\"publicUrl\":\"/newkind-service\",\"source\":\"./frontend/src/index.html\"}},\"staticFiles\":{\"staticPath\":\"frontend/src/public\",\"distDir\":\"./service/newkind-service\",\"staticOutPath\":\"public\"},\"config\":{\"html\":\"./frontend/src/index.html\",\"service\":\"/newkind-service\",\"port_dev\":4517,\"port_back\":4518,\"highWaterMark\":300,\"list\":{\"white\":[\"http://localhost:4517\",\"https://zababurinsv.github.io/newkind-service/\"],\"black\":[]}},\"scripts\":{\"dev\":\"rimraf ./service/* && parcel --cache-dir ./.parcel-cache --no-hmr --port $npm_package_config_port_dev --dist-dir service/newkind-service --public-url /newkind-service --target dev\",\"build\":\"rimraf ./dist/* && parcel build --target module\",\"sevice\":\"rimraf ./service/* && rimraf .parcel-cache && parcel build --target service\",\"server\":\"nodemon ./backend/index.mjs\",\"docs\":\"rimraf ./docs/* && jsdoc -c jsdoc.json\",\"jsdoc2md\":\"jsdoc2md --configure jsdoc.json --source frontend/index.mjs > md_api.md && cat ./md_info.md ./md_api.md > ./README.md\",\"deploy\":\"gh-pages -d service/newkind-service\",\"clean\":\"rimraf ./service/* && rimraf ./dist/* && find . -name \\\".parcel-cache\\\" -exec rm -rf '{}' +;\",\"clean:all\":\"rimraf ./service/* && rimraf ./dist/* && rimraf ./docs/* && rimraf ./md_api.md && find . -name \\\".parcel-cache\\\" -exec rm -rf '{}' +;\",\"kill:dev\":\"kill $(lsof -t -i:$npm_package_config_port_dev)\",\"kill:back\":\"kill $(lsof -t -i:$npm_package_config_port_back)\"},\"dependencies\":{\"comlink\":\"^4.3.1\",\"compression\":\"^1.7.4\",\"cors\":\"^2.8.5\",\"express\":\"^4.17.1\",\"express-enqueue\":\"^1.0.0\",\"global\":\"^4.4.0\",\"libsodium-wrappers\":\"^0.7.9\",\"nodemon\":\"^2.0.15\",\"parcel-plugin-typed-css-modules\":\"^1.1.0\",\"web-streams-polyfill\":\"^3.2.0\"},\"devDependencies\":{\"@newkind/tests\":\"^0.2.2\",\"@parcel/packager-raw-url\":\"^2.0.1\",\"@parcel/transformer-sass\":\"^2.0.1\",\"@parcel/transformer-webmanifest\":\"^2.0.1\",\"@types/libsodium-wrappers\":\"^0.7.9\",\"docdash\":\"^1.2.0\",\"gh-pages\":\"^3.2.3\",\"jsdoc\":\"^3.6.7\",\"jsdoc-to-markdown\":\"^7.1.0\",\"parcel\":\"2.0.1\",\"parcel-reporter-static-files-copy\":\"^1.3.1\",\"postcss\":\"^8.3.11\",\"redrun\":\"^9.0.1\",\"redux\":\"^4.1.2\"},\"eslintConfig\":{\"extends\":[\"react-app\",\"react-app/jest\"]}}");
 
 
 const $1ac29f8a35cb9825$var$CONFIG_DEFAULTS = {
