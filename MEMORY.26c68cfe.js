@@ -43,7 +43,6 @@ if (parcelRequire == null) {
   $parcel$global["parcelRequirec3cc"] = parcelRequire;
 }
 var $e5511fd9265a52a2$exports = {};
-var $5e4ac42ec3a646b4$var$__dirname = "frontend/src/modules/fs";
 var $5e4ac42ec3a646b4$var$__filename = "frontend/src/modules/fs/main.mjs";
 var $a506278517dc5c33$exports = {};
 // shim for using process in browser
@@ -195,6 +194,7 @@ $a506278517dc5c33$var$process.umask = function() {
 };
 
 
+var $5e4ac42ec3a646b4$var$__dirname = "frontend/src/modules/fs";
 var $464bcea887784ce5$exports = {};
 
 $parcel$export($464bcea887784ce5$exports, "Buffer", () => $464bcea887784ce5$export$a143d493d941bafc, (v) => $464bcea887784ce5$export$a143d493d941bafc = v);

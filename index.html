@@ -219,7 +219,7 @@
   padding: 1vw;
   box-sizing: border-box;
 }
-.newKind-speech__control-text_voice_pitchValue {
+.newKind-speech__control-text_voice_rate-value {
   box-sizing: border-box;
   padding: 1vw;
   margin-left: 2vw;
@@ -252,7 +252,7 @@
   padding: 1vw;
   box-sizing: border-box;
 }
-.newKind-speech__control-text_pitch_rateValue {
+.newKind-speech__control-text_pitch_pitch-value {
   box-sizing: border-box;
   padding: 1vw;
   margin-left: 2vw;
@@ -288,17 +288,17 @@
         <h1 class="newKind-speech__title">Speech synthesiser</h1>
         <p class="newKind-speech__paragraph">Enter some text in the input below and press return  or the "play" button to hear it. change voices using the dropdown menu.</p>
         <form class="newKind-speech__control">
-            <input type="text" class="newKind-speech__control-text">
+            <input type="text" class="newKind-speech__control-text txt">
             <div class="newKind-speech__control-text_voice">
                 <label for="rate" class="newKind-speech__control-text_voice_label">Rate</label>
                 <input type="range" min="0.5" max="2" value="1" step="0.1" id="rate" class="newKind-speech__control-text_voice_input">
-                <div class="newKind-speech__control-text_voice_rateValue">1</div>
+                <div class="newKind-speech__control-text_voice_rate-value rate-value">1</div>
                 <div class="newKind-speech__control-text_voice_clearfix"></div>
             </div>
             <div class="newKind-speech__control-text_pitch">
                 <label for="pitch" class="newKind-speech__control-text_pitch_label">Pitch</label>
                 <input type="range" min="0" max="2" value="1" step="0.1" id="pitch" class="newKind-speech__control-text_pitch_input">
-                <div class="newKind-speech__control-text_pitch_pitchValue">1</div>
+                <div class="newKind-speech__control-text_pitch_pitch-value pitch-value">1</div>
                 <div class="newKind-speech__control-text_voice_clearfix"></div>
             </div>
             <select class="newKind-speech__control-voice"></select>
@@ -893,7 +893,7 @@ $8f37a8da90a113dc$export$5a759dc7a1cfb72a = $8f37a8da90a113dc$var$getOrigin;
 });
 
 
-$6f2cd1d5e7eeca81$exports = (parcelRequire("cilgm")).getBundleURL('2JT5o') + "MEMORY.b592f886.js";
+$6f2cd1d5e7eeca81$exports = (parcelRequire("cilgm")).getBundleURL('2JT5o') + "MEMORY.26c68cfe.js";
 
 
 let $c75e65c372cef2ea$var$memory = (config)=>{
@@ -7352,16 +7352,16 @@ var $5b3daafd5479425a$export$2e2bcd8739ae039 = $5b3daafd5479425a$var$index;
 // import change from "/static/html/components/component_modules/speech/change.mjs"
 let $73a3e58733bc91d3$var$object = {
 };
-var $73a3e58733bc91d3$export$2e2bcd8739ae039 = async (obj)=>{
+var $73a3e58733bc91d3$export$2e2bcd8739ae039 = async (self)=>{
     return new Promise((resolve, reject)=>{
         $73a3e58733bc91d3$var$object['synth'] = window.speechSynthesis;
-        $73a3e58733bc91d3$var$object['inputForm'] = obj['this']['shadowRoot'].querySelector('form');
-        $73a3e58733bc91d3$var$object['inputTxt'] = obj['this']['shadowRoot'].querySelector('.txt');
-        $73a3e58733bc91d3$var$object['voiceSelect'] = obj['this']['shadowRoot'].querySelector('select');
-        $73a3e58733bc91d3$var$object['pitch'] = obj['this']['shadowRoot'].querySelector('#pitch');
-        $73a3e58733bc91d3$var$object['pitchValue'] = obj['this']['shadowRoot'].querySelector('.pitch-value');
-        $73a3e58733bc91d3$var$object['rate'] = obj['this']['shadowRoot'].querySelector('#rate');
-        $73a3e58733bc91d3$var$object['rateValue'] = obj['this']['shadowRoot'].querySelector('.rate-value');
+        $73a3e58733bc91d3$var$object['inputForm'] = self['shadowRoot'].querySelector('form');
+        $73a3e58733bc91d3$var$object['inputTxt'] = self['shadowRoot'].querySelector('.txt');
+        $73a3e58733bc91d3$var$object['voiceSelect'] = self['shadowRoot'].querySelector('select');
+        $73a3e58733bc91d3$var$object['pitch'] = self['shadowRoot'].querySelector('#pitch');
+        $73a3e58733bc91d3$var$object['pitchValue'] = self['shadowRoot'].querySelector('.pitch-value');
+        $73a3e58733bc91d3$var$object['rate'] = self['shadowRoot'].querySelector('#rate');
+        $73a3e58733bc91d3$var$object['rateValue'] = self['shadowRoot'].querySelector('.rate-value');
         $73a3e58733bc91d3$var$object['selectedOption'] = {
         };
         $73a3e58733bc91d3$var$object['option'] = {
@@ -7460,7 +7460,7 @@ const $cfe47b3b202e10e2$var$index = class extends HTMLElement {
     constructor(){
         super();
         $cfe47b3b202e10e2$var$template(this).then(async (component)=>{
-        // await synth()
+            await $73a3e58733bc91d3$export$2e2bcd8739ae039(component);
         }).catch((error)=>{
             console.warn('error', error);
         });
