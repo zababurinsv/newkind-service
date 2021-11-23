@@ -1,16 +1,16 @@
 // import dictionary from '/static/html/components/component_modules/speech/dictionary.mjs'
 // import change from "/static/html/components/component_modules/speech/change.mjs"
 let object = {}
-export default async (obj)=>{
+export default async (self)=>{
     return new Promise((resolve, reject) => {
         object['synth'] = window.speechSynthesis;
-        object['inputForm'] =obj['this']['shadowRoot'].querySelector('form');
-        object['inputTxt'] =  obj['this']['shadowRoot'].querySelector('.txt');
-        object['voiceSelect'] = obj['this']['shadowRoot'].querySelector('select');
-        object['pitch'] = obj['this']['shadowRoot'].querySelector('#pitch');
-        object['pitchValue']= obj['this']['shadowRoot'].querySelector('.pitch-value');
-        object['rate']= obj['this']['shadowRoot'].querySelector('#rate');
-        object['rateValue']= obj['this']['shadowRoot'].querySelector('.rate-value');
+        object['inputForm'] =self['shadowRoot'].querySelector('form');
+        object['inputTxt'] =  self['shadowRoot'].querySelector('.txt');
+        object['voiceSelect'] = self['shadowRoot'].querySelector('select');
+        object['pitch'] = self['shadowRoot'].querySelector('#pitch');
+        object['pitchValue']= self['shadowRoot'].querySelector('.pitch-value');
+        object['rate']= self['shadowRoot'].querySelector('#rate');
+        object['rateValue']= self['shadowRoot'].querySelector('.rate-value');
         object['selectedOption'] = {}
         object['option'] = {}
         object['utterThis'] = {}
@@ -20,7 +20,7 @@ export default async (obj)=>{
         object['selectedIndex'] = {}
 
         function populateVoiceList() {
-            console.log('~~~~speechSynthesis~~~~', object['synth'].getVoices())
+            console.log('~~~~speechSynthesis~~~~',  object['synth'].getVoices())
             object['voices'] =  object['synth'].getVoices().sort(function (a, b) {
                 object['aname'] = a.name.toUpperCase(), object['bname'] = b.name.toUpperCase();
                 if ( object['aname'] < object['bname'] ) return -1;

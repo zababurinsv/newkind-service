@@ -14,7 +14,7 @@ const index =  class extends HTMLElement {
     super()
     template(this)
       .then(async component => {
-        // await synth()
+        await synth(component)
 
       })
       .catch(error => {
