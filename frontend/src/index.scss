@@ -1,78 +1,10 @@
-.newkind-alarm {
-  box-sizing: border-box;
-  padding: 1vw;
-}
-.fs {
-  display: flex;
-  flex-direction: row;
-}
-
-.fs__main {
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  box-sizing: border-box;
-  padding: 1vw;
-}
-
-.main__form {
-  box-sizing: border-box;
-  padding: 1vw;
-}
-
-.main__data {
-  font-size: 1.5vw;
-}
-
-.main__list {
-  font-size: 1.5vw;
-  padding: 1vw;
-  margin: 1vw;
-}
-
-.main__data_submit {
-  font-size: 1.5vw;
-  margin-left: 2vw;
-}
-
-.main__upload_label {
-  box-sizing: border-box;
-  padding: 1vw;
-}
-
-.main__upload_label_multiple {
-  font-size: 1.5vw;
-}
-
-.main__img_container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
-  box-sizing: border-box;
-  padding: 1vw;
-  overflow: hidden;
-  min-height: 32vw;
-  min-width: 32vw;
-  background: #81d54c38;
-  border-radius: 0.8vw;
-}
-
-.main__img_container_img {
-  border-radius: 0.8vw;
-}
-
-.main__img_container_progress {
-  left: 10%;
-  position: absolute;
-  top: 50%;
-  width: 80%;
+body {
+  overflow-x: hidden;
 }
 
 .hidden {
   display: none;
 }
-
 .skeleton-box {
   width: 100%;
   position: relative;
@@ -95,115 +27,59 @@
     animation: shimmer 2s infinite;
     content: '';
   }
-
   @keyframes shimmer {
     100% {
       transform: translateX(100%);
     }
   }
 
+  h1,h2,h3,h4,h5,h6,p,div,select,label,button,input,canvas {
+    color: transparent;
+    background:  rgba(225, 221, 221, 0.56);
+    background-color: rgba(225, 221, 221, 0.56);
+  }
 
-  .audio-newkind__radio + label:hover {
+  h1,h2,h3,h4,h5,h6,p {
+    width: max-content;
+  }
+  input[type="radio"]:checked + label span {
+    background-color: unset;
+  }
+
+  span {
+    background: unset;
+  }
+
+  div {
+    width: fit-content;
+  }
+
+  button, input, select {
+    border: none;
+  }
+
+  input[type=range] {
+    -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+    width: 100%; /* Specific width is required for Firefox. */
+    background: transparent; /* Otherwise white in Chrome */
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+  }
+
+  input[type=range]:focus {
+    outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
+  }
+
+  input[type=range]::-ms-track {
+    width: 100%;
     cursor: pointer;
-  }
 
-  .audio-newkind__radio {
-    display: none;
-  }
-
-  .audio-newkind__radio + label span {
-    border: 2px solid transparent;
-    border-radius: 80%;
-    font-size: 1rem;
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    margin: 4px 8px 8px 8px;
-    padding: 2px;
-    text-align: center;
-    vertical-align: middle;
-  }
-
-  .audio-newkind__radio:checked + label span {
+    /* Hides the slider so custom styles can be added */
     background: transparent;
-  }
-
-  .audio-newkind {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
-  }
-
-
-  .audio-newkind__btn {
-    appearance: none;
-    border: none;
-    border-radius: 4px;
-    box-shadow: inset 0px 1px 0px 0px rgba(255, 255, 255, .4), 2px 6px 10px 0px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width: 200px;
-    margin: auto;
-    display: flex;
-    justify-content: center;
-    outline: none;
-    margin-top: 0.75rem;
-    padding: 1em;
-    position: relative;
-    z-index: 1;
-    font-family: 'Roboto', sans-serif;
-    font-size: 0.875rem;
-    background-color: rgba(225, 221, 221, 0.56);
-    color: black;
-  }
-
-  .audio-newkind__btn:hover {
-    cursor: pointer;
-  }
-
-  .audio-newkind__title {
-    background-color: rgba(225, 221, 221, 0.56);
-    align-self: center;
-    width: 20vw;
-    height: 4vw;
-  }
-
-  #oscilloscope {
-    border-top: 0.3vw solid #e6ebf1;
-    border-bottom: 0.3vw solid #e6ebf1;
-    height: 200px;
-    width: 100%;
-    background-color: rgba(225, 221, 221, 0.56);
-    margin: 0;
-  }
-
-  .audio-newkind__form {
-    max-width: 100%;
-    background-color: rgba(225, 221, 221, 0.56);
-    font-family: 'Roboto', sans-serif;
-    color: transparent;
-    margin: 1rem auto 1rem 0;
-  }
-
-
-  h1 {
-    color: transparent;
-    background:  rgba(225, 221, 221, 0.56);
-    width: max-content;
-  }
-
-  button {
-    color: transparent;
-    border: none;
-  }
-
-  ul {
-    color: transparent;
-    background:  rgba(225, 221, 221, 0.56);
-    width: max-content;
-  }
-
-  .app-alarmList {
+    border-color: transparent;
     color: transparent;
   }
+
 }

@@ -44,4 +44,4 @@ try {
    */
 }
 
-export { newkindAlarm }
+export default newkindAlarm

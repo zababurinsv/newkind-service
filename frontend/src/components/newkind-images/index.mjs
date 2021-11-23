@@ -43,4 +43,4 @@ try {
 }
 
 
-export { NewkindImages }
+export default NewkindImages

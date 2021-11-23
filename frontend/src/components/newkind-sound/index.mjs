@@ -43,4 +43,4 @@ try {
 }
 
 
-export { index }
+export default index

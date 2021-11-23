@@ -10,7 +10,7 @@ import corsOptions from '../../corsOptions.mjs'
 const pkg = require("../../../package.json");
 
 app.use((req, res, next) => {
-    console.log('~~~~~',req.path);
+    console.log('localhost://port/router',req.path);
     next();
 });
 

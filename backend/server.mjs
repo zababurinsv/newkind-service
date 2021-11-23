@@ -31,7 +31,7 @@ app.get(`/`, async (req, res) => {
 })
 
 app.use((req, res, next) => {
-    console.log('__',req.path);
+    console.log('localhost://port',req.path);
     next();
 });
 

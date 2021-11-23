@@ -82,9 +82,9 @@ const ctx = (CONFIG) => {
 }
 
 const init = (self) => {
-    CONFIG.html.scope.canvas = self['this']['shadowRoot'].querySelector('#oscilloscope')
-    CONFIG.html.button.start = self['this']['shadowRoot'].querySelector('#start')
-    CONFIG.html.button.radios.this = self['this']['shadowRoot'].querySelectorAll('input[name="radio-selection"]')
+    CONFIG.html.scope.canvas = self['shadowRoot'].querySelector('.oscilloscope')
+    CONFIG.html.button.start = self['shadowRoot'].querySelector('#start')
+    CONFIG.html.button.radios.this = self['shadowRoot'].querySelectorAll('input[name="radio-selection"]')
     CONFIG.html.button.radios.length = CONFIG.html.button.radios.this.length;
 }
 
@@ -114,6 +114,7 @@ export default async () => {
                     })
                 }
                 CONFIG.html.button.start.addEventListener('click', async (e) => {
+                    console.log(CONFIG, 'ddddddddddd')
                     if (CONFIG.player.isPlaying) {
                         CONFIG.stream.song.pause()
                         CONFIG.html.button.start.textContent = 'Start Audio'

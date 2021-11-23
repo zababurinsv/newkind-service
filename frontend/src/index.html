@@ -4,7 +4,7 @@
         <title>Service</title>
 <!--        <meta http-equiv="Permissions-Policy" content="interest-cohort=()"/>-->
         <link rel="manifest" crossorigin="use-credentials" href="./manifest.json"/>
-<!--        <script async src="https://unpkg.com/pwacompat" crossorigin="anonymous"></script>-->
+        <script async src="./pwacompat.min.js" crossorigin="anonymous"></script>
         <link rel="icon" type="image/png" href="./manifest/newkind-icon-128-any.png" sizes="128x128" />
 <!--        <meta name="theme-color" media="(prefers-color-scheme: light)" content="white">-->
 <!--        <meta name="theme-color" media="(prefers-color-scheme: dark)"  content="black">-->
@@ -33,7 +33,7 @@
 <body>
 <div class="fs">
     <div class="service">
-        <button class="service__fs">Get Dir</button>
+<!--        <button class="service__fs">Get Dir</button>-->
 <!--        <button class="service__fs_data"></button>-->
     </div>
     <div class="fs__main">
@@ -52,9 +52,12 @@
             <progress value="0" max="100" class="hidden main__img_container_progress"></progress>
         </div>
     </div>
-    <lacerta-radio class="skeleton-box">
-        <div class="audio-newkind">
-            <h1 class="audio-newkind__title"></h1>
+    <lacerta-radio>
+        <div class="skeleton-box audio-newkind">
+            <style>
+                    @import "components/lacerta-radio/template/default/index.scss";
+            </style>
+            <h1 class="audio-newkind__title">NewKind Radio</h1>
             <form class="audio-newkind__form">
                 <input type="radio" class="audio-newkind__radio" id="raxxla" name="radio-selection" value="https://hermitage.hostingradio.ru/hermitage128.mp3" crossorigin="anonymous" checked>
                 <label for="raxxla"><span></span>Raxxla Radio</label>
@@ -63,13 +66,13 @@
                 <input type="radio" class="audio-newkind__radio" id="cats-radio" name="radio-selection" value="https://ice1.somafm.com/deepspaceone-128-aac" crossorigin="anonymous">
                 <label for="cats-radio"><span></span>Cats Radio</label>
             </form>
-            <canvas id="oscilloscope"></canvas>
-            <button disabled="true" class="audio-newkind__btn" id="start"></button>
+            <canvas class="oscilloscope"></canvas>
+            <button class="audio-newkind__btn" id="start">Start Audio</button>
         </div>
     </lacerta-radio>
 </div>
-<newkind-alarm class="skeleton-box">
-    <div class="newkind-alarm">
+<newkind-alarm>
+    <div class="skeleton-box newkind-alarm">
         <button> Index component </button>
         <div class="app-alarmList">
             <div class="title">
@@ -86,15 +89,114 @@
     </div>
 </newkind-alarm>
 <newkind-sound>
-    <div class="newkind-sound">
+    <div class="skeleton-box newkind-sound">
         <div class="container was-page-wrap"></div>
     </div>
 </newkind-sound>
+<newkind-speech>
+    <div class="newKind-speech skeleton-box">
+        <style>
+            @import "./components/newkind-speech/template/default/index.scss";
+        </style>
+        <h1 class="newKind-speech__title">Speech synthesiser</h1>
+        <p class="newKind-speech__paragraph">Enter some text in the input below and press return  or the "play" button to hear it. change voices using the dropdown menu.</p>
+        <form class="newKind-speech__control">
+            <input type="text" class="newKind-speech__control-text">
+            <div class="newKind-speech__control-text_voice">
+                <label for="rate" class="newKind-speech__control-text_voice_label">Rate</label>
+                <input type="range" min="0.5" max="2" value="1" step="0.1" id="rate" class="newKind-speech__control-text_voice_input">
+                <div class="newKind-speech__control-text_voice_rateValue">1</div>
+                <div class="newKind-speech__control-text_voice_clearfix"></div>
+            </div>
+            <div class="newKind-speech__control-text_pitch">
+                <label for="pitch" class="newKind-speech__control-text_pitch_label">Pitch</label>
+                <input type="range" min="0" max="2" value="1" step="0.1" id="pitch" class="newKind-speech__control-text_pitch_input">
+                <div class="newKind-speech__control-text_pitch_pitchValue">1</div>
+                <div class="newKind-speech__control-text_voice_clearfix"></div>
+            </div>
+            <select class="newKind-speech__control-voice"></select>
+            <div class="newKind-speech__control-buttons">
+                <button class="newKind-speech__control-buttons_play" id="play" type="submit">Play</button>
+            </div>
+        </form>
+    </div>
+</newkind-speech>
 <button class="logs__measureMemory">Measure Memory</button>
 <style>
     @import "index.scss";
     link[rel="manifest"] {
         --pwacompat-splash-font: 24px Verdana;
+    }
+    .newkind-alarm {
+        box-sizing: border-box;
+        padding: 1vw;
+    }
+    .fs {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .fs__main {
+        display: flex;
+        width: 60vw;
+        flex-direction: column;
+        justify-content: start;
+        box-sizing: border-box;
+        padding: 1vw;
+    }
+
+    .main__form {
+        box-sizing: border-box;
+        padding: 1vw;
+    }
+
+    .main__data {
+        font-size: 1.5vw;
+    }
+
+    .main__list {
+        font-size: 1.5vw;
+        padding: 1vw;
+        margin: 1vw;
+    }
+
+    .main__data_submit {
+        font-size: 1.5vw;
+        margin-left: 2vw;
+    }
+
+    .main__upload_label {
+        box-sizing: border-box;
+        padding: 1vw;
+    }
+
+    .main__upload_label_multiple {
+        font-size: 1.5vw;
+    }
+
+    .main__img_container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        box-sizing: border-box;
+        padding: 1vw;
+        overflow: hidden;
+        min-height: 32vw;
+        min-width: 32vw;
+        background: #81d54c38;
+        border-radius: 0.8vw;
+    }
+
+    .main__img_container_img {
+        border-radius: 0.8vw;
+    }
+
+    .main__img_container_progress {
+        left: 10%;
+        position: absolute;
+        top: 50%;
+        width: 80%;
     }
 </style>
 </body>
@@ -104,9 +206,10 @@
 <script type="module">
     import service from './index.mjs'
 
-    import { lacertaRadio } from './components/lacerta-radio/index.mjs'
-    import { newkindAlarm } from './components/newkind-alarm/index.mjs'
-    import { newkindSound } from './components/newkind-sound/index.mjs'
+    import lacertaRadio   from './components/lacerta-radio/index.mjs'
+    import newkindAlarm   from './components/newkind-alarm/index.mjs'
+    import newkindSound   from './components/newkind-sound/index.mjs'
+    import newkindSpeech  from './components/newkind-speech/index.mjs'
 
     import { devTool, tests } from '@newkind/tests'
     import * as Comlink from "comlink";
@@ -215,7 +318,7 @@
         service({
             isProxy: ('serviceWorker' in navigator),
             scope:'/newkind-service/'
-        }, (status) => {
+        }, (proxy) => {
             console.log('🌞 init proxy')
             serviceListener().then(() => {})
             navigator.serviceWorker.getRegistrations()

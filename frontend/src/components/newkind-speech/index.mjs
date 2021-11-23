@@ -1,5 +1,5 @@
-import modules from './modules/radio/index.mjs'
-
+// import * as classes from './template/default/index.scss';
+import synth from './modules/synthesiser/index.mjs'
 const template = (self) => {
   return new Promise(async (resolve, reject) => {
     self.style.width = '100%'
@@ -14,7 +14,8 @@ const index =  class extends HTMLElement {
     super()
     template(this)
       .then(async component => {
-        new (await modules())(component)
+        // await synth()
+
       })
       .catch(error => {
         console.warn('error', error)
@@ -22,8 +23,10 @@ const index =  class extends HTMLElement {
   }
 }
 
-try { customElements.define('lacerta-radio', index ) }
-catch (e) { console.error('error',e) }
-
+try {
+  customElements.define('newkind-speech', index );
+} catch (e) {
+  console.error('error',e)
+}
 
 export default index
