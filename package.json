@@ -9,8 +9,12 @@
   "targets": {
     "main": false,
     "dev": {
-      "optimize": true,
+      "includeNodeModules": true,
+      "optimize": false,
+      "isLibrary": false,
+      "distDir": "service/newkind-service",
       "sourceMap": true,
+      "publicUrl": "/newkind-service",
       "source": "./frontend/src/index.html"
     },
     "module": {
@@ -22,7 +26,7 @@
     },
     "service": {
       "includeNodeModules": true,
-      "optimize": false,
+      "optimize": true,
       "isLibrary": false,
       "distDir": "service/newkind-service",
       "sourceMap": false,
@@ -51,7 +55,7 @@
   },
   "scripts": {
     "dev": "rimraf ./service/* && parcel --cache-dir ./.parcel-cache --no-hmr --port $npm_package_config_port_dev --dist-dir service/newkind-service --public-url /newkind-service --target dev",
-    "module": "rimraf ./dist/* && parcel build --target module",
+    "build": "rimraf ./dist/* && parcel build --target module",
     "sevice": "rimraf ./service/* && rimraf .parcel-cache && parcel build --target service",
     "server": "nodemon ./backend/index.mjs",
     "docs": "rimraf ./docs/* && jsdoc -c jsdoc.json",
