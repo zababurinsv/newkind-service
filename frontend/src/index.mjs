@@ -3,20 +3,19 @@ import isEmpty from './modules/isEmpty/isEmpty.mjs'
 
 let memory = (config) => {
     return new Promise(async resolve  => {
-        let api = {}
         const url = new URL('./MEMORY.mjs', import.meta.url)
-        let memory
-        memory = new Worker(url, { type: "module" });
+        let memory = {};
+        memory.worker = new Worker(url, { type: "module" });
 
-        memory.onmessageerror = async event => {
+        memory.worker.onmessageerror = async event => {
             console.log('🌷 web worker onmessageerror', event.data)
         }
 
-        memory.oncontrollerchange = async event => {
+        memory.worker.oncontrollerchange = async event => {
             console.log('🌷 web worker controllerchange', event.data)
         }
 
-        memory.onmessage = async event => {
+        memory.worker.onmessage = async event => {
             console.log('🌷 web worker onmessage', event.data.state)
             if(event.data.state.install) {
                 console.log('🌷 🎫')
@@ -28,11 +27,11 @@ let memory = (config) => {
                         from: {"0": mainMemoryChannel.port1}
                     }
                 };
-                memory.postMessage(mainWorker, [mainMemoryChannel.port1]);
-                api = Comlink.wrap(mainMemoryChannel.port2)
+                memory.worker.postMessage(mainWorker, [mainMemoryChannel.port1]);
+                memory.port = Comlink.wrap(mainMemoryChannel.port2)
             } else if(event.data.state['main-memory']) {
                 console.log('🌷 🎫', event.data.state['main-memory'])
-                resolve(api)
+                resolve(memory)
             }
         }
     })
@@ -129,8 +128,12 @@ let proxy = (config) => {
 
 export default (config, PROXY = () => {}, MEMORY = () => {}, PORT = () => {}) => {
     return new Promise(async resolve => {
-        memory(config).then(memory => {
-            MEMORY(memory)
+        memory(config).then(worker => {
+            window.onunload = () => {
+                worker.port = null
+                worker.worker.terminate()
+            };
+            MEMORY(worker.port)
             memory = null
         })
         // proxy(config).then(proxy => {

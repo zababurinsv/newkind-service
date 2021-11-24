@@ -5,7 +5,9 @@
 [code for pages](https://github.com/googlearchive/web-testing-examples/blob/master/test/in-page/register.js)  
 [service-workers](https://github.com/zackargyle/service-workers)  
 [opensource google](https://opensource.google)  
-[testing-service-worker workbox](https://medium.com/ynap-tech/testing-service-worker-2f9ede60bae)  
+
+[testing-service-worker workbox 1 part](https://medium.com/ynap-tech/how-we-built-a-service-worker-for-our-micro-frontends-881eabfbf267)  
+[testing-service-worker workbox 2 part](https://medium.com/ynap-tech/testing-service-worker-2f9ede60bae)  
 [audio-worklet](https://googlechromelabs.github.io/web-audio-samples/audio-worklet/)  
 [web-speech](https://github.com/mdn/web-speech-api)
 ## maskable-icon

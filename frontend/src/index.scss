@@ -2,9 +2,6 @@ body {
   overflow-x: hidden;
 }
 
-.hidden {
-  display: none;
-}
 .skeleton-box {
   width: 100%;
   position: relative;
@@ -42,6 +39,7 @@ body {
   h1,h2,h3,h4,h5,h6,p {
     width: max-content;
   }
+
   input[type="radio"]:checked + label span {
     background-color: unset;
   }
@@ -82,4 +80,11 @@ body {
     color: transparent;
   }
 
+  input[type=file] {
+    opacity: 0;
+  }
+
+  img {
+    opacity: 0;
+  }
 }
