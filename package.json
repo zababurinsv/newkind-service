@@ -17,21 +17,21 @@
       "publicUrl": "/newkind-service",
       "source": "./frontend/src/index.html"
     },
+    "service": {
+      "includeNodeModules": true,
+      "optimize": true,
+      "isLibrary": false,
+      "distDir": "service/newkind-service",
+      "sourceMap": false,
+      "publicUrl": "/newkind-service",
+      "source": "./frontend/src/index.html"
+    },
     "module": {
       "includeNodeModules": true,
       "optimize": true,
       "isLibrary": true,
       "sourceMap": false,
       "source": "./frontend/src/index.mjs"
-    },
-    "service": {
-      "includeNodeModules": true,
-      "optimize": false,
-      "isLibrary": false,
-      "distDir": "service/newkind-service",
-      "sourceMap": false,
-      "publicUrl": "/newkind-service",
-      "source": "./frontend/src/index.html"
     }
   },
   "staticFiles": {
