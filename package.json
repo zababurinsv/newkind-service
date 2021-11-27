@@ -43,7 +43,8 @@
     "html": "./frontend/src/index.html",
     "service": "/newkind-service",
     "port_dev": 4517,
-    "port_back": 4518,
+    "port_service": 4518,
+    "port_palette": 6112,
     "highWaterMark": 300,
     "list": {
       "white": [
@@ -54,17 +55,20 @@
     }
   },
   "scripts": {
-    "dev": "rimraf ./service/* && parcel --cache-dir ./.parcel-cache --no-hmr --port $npm_package_config_port_dev --dist-dir service/newkind-service --public-url /newkind-service --target dev",
-    "build": "rimraf ./dist/* && parcel build --target module",
-    "service": "rimraf ./service/* && rimraf .parcel-cache && parcel build --target service",
-    "server": "nodemon ./backend/index.mjs",
-    "docs": "rimraf ./docs/* && jsdoc -c jsdoc.json",
-    "jsdoc2md": "jsdoc2md --configure jsdoc.json --source frontend/index.mjs > md_api.md && cat ./md_info.md ./md_api.md > ./README.md",
+    "server:parcel": "rimraf ./service/* && parcel --cache-dir ./.parcel-cache --no-hmr --port $npm_package_config_port_dev --dist-dir service/newkind-service --public-url /newkind-service --target dev",
+    "server:service": "nodemon ./backend/index.mjs",
+    "server:palette": "nodemon server.mjs",
+    "build:service": "rimraf ./service/* && rimraf .parcel-cache && parcel build --target service",
+    "build:module": "rimraf ./dist/* && parcel build --target module",
+    "watch:static": "gulp",
+    "build:docs": "rimraf ./docs/* && jsdoc -c jsdoc.json",
+    "build:readme": "jsdoc2md --configure jsdoc.json --source frontend/index.mjs > md_api.md && cat ./md_info.md ./md_api.md > ./README.md",
     "deploy": "gh-pages -d service/newkind-service",
     "clean": "rimraf ./service/* && rimraf ./dist/* && find . -name \".parcel-cache\" -exec rm -rf '{}' +;",
     "clean:all": "rimraf ./service/* && rimraf ./dist/* && rimraf ./docs/* && rimraf ./md_api.md && find . -name \".parcel-cache\" -exec rm -rf '{}' +;",
     "kill:dev": "kill $(lsof -t -i:$npm_package_config_port_dev)",
-    "kill:back": "kill $(lsof -t -i:$npm_package_config_port_back)"
+    "kill:service": "kill $(lsof -t -i:$npm_package_config_port_service)",
+    "kill:palette": "kill $(lsof -t -i:$npm_package_config_port_palette)"
   },
   "dependencies": {
     "comlink": "^4.3.1",

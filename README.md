@@ -1,5 +1,8 @@
 # @newkind/Service
 
+## Mocha
+* [timeout-for-mocha](https://stackoverflow.com/questions/23492043/change-default-timeout-for-mocha)
+
 ## TEST FOR SERVICE WORKERS
 [testing-service-workers](https://medium.com/dev-channel/testing-service-workers-318d7b016b19)
 

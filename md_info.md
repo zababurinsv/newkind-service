@@ -1,5 +1,10 @@
 # @newkind/Service
-
+## Node
+[add root for node (port 80)](https://stackoverflow.com/questions/60372618/nodejs-listen-eacces-permission-denied-0-0-0-080)
+```shell
+> sudo apt-get install libcap2-bin 
+> sudo setcap cap_net_bind_service=+ep `readlink -f \`which node\`` 
+```
 ## TEST FOR SERVICE WORKERS
 [testing-service-workers](https://medium.com/dev-channel/testing-service-workers-318d7b016b19)  
 [code for pages](https://github.com/googlearchive/web-testing-examples/blob/master/test/in-page/register.js)  

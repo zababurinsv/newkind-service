@@ -45,20 +45,20 @@ const __waitForSWState = (registration, desiredState) => {
         let serviceWorker = registration.installing;
 
         if (!serviceWorker) {
-            return reject(new Error('The service worker is not installing. ' +
+            reject(new Error('The service worker is not installing. ' +
                 'Is the test environment clean?'));
         }
 
         const stateListener = (evt) => {
             if (evt.target.state === desiredState) {
                 serviceWorker.removeEventListener('statechange', stateListener);
-                return resolve();
+                resolve();
             }
 
             if (evt.target.state === 'redundant') {
                 serviceWorker.removeEventListener('statechange', stateListener);
 
-                return reject(new Error('Installing service worker became redundant'));
+                reject(new Error('Installing service worker became redundant'));
             }
         };
 

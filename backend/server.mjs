@@ -8,7 +8,7 @@ import cors from "cors";
 import Enqueue from "express-enqueue";
 import compression from "compression";
 import notFound from './notFound.html.mjs'
-import corsOptions from './corsOptions.mjs'
+import corsOptions from '../security/corsOptions.mjs'
 import shouldCompress from './compress.mjs'
 import service from './routes/newkind-service/index.mjs'
 const app = express()
@@ -37,7 +37,7 @@ app.get(`/tests/:source`, async (req, res) => {
 })
 
 app.use((req, res, next) => {
-    console.log('localhost://port',req.path);
+    console.log(`main__${req.path}`);
     next();
 });
 

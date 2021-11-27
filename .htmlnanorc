@@ -5,6 +5,7 @@
   "deduplicateAttributeValues": true,
   "mergeScripts": true,
   "mergeStyles": false,
+  "custom": [],
   "removeUnusedCss": false,
   "minifyJson": true,
   "minifySvg": true,

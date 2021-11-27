@@ -11,7 +11,8 @@
     "typings"
   ],
   "watch": [
-    "backend/"
+    "backend/",
+    "server.mjs"
   ],
   "ext": "mjs json",
   "delay": 2100

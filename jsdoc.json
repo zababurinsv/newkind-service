@@ -43,7 +43,7 @@
   "opts": {
     "template": "./jsdoc/docdash/",
     "encoding": "utf8",
-    "destination": "./docs",
+    "destination": "./documents",
     "recurse": true
   },
   "docdash": {

@@ -4,18 +4,18 @@ import isEmpty from './modules/isEmpty/isEmpty.mjs'
 let memory = (config) => {
     return new Promise(async resolve  => {
         const url = new URL('./MEMORY.mjs', import.meta.url)
-        let memory = {};
-        memory.worker = new Worker(url, { type: "module" });
+        let worker = {};
+        worker.worker = new Worker(url, { type: "module" });
 
-        memory.worker.onmessageerror = async event => {
+        worker.worker.onmessageerror = async event => {
             console.log('🌷 web worker onmessageerror', event.data)
         }
 
-        memory.worker.oncontrollerchange = async event => {
+        worker.worker.oncontrollerchange = async event => {
             console.log('🌷 web worker controllerchange', event.data)
         }
 
-        memory.worker.onmessage = async event => {
+        worker.worker.onmessage = async event => {
             console.log('🌷 web worker onmessage', event.data.state)
             if(event.data.state.install) {
                 console.log('🌷 🎫')
@@ -27,11 +27,11 @@ let memory = (config) => {
                         from: {"0": mainMemoryChannel.port1}
                     }
                 };
-                memory.worker.postMessage(mainWorker, [mainMemoryChannel.port1]);
-                memory.port = Comlink.wrap(mainMemoryChannel.port2)
+                worker.worker.postMessage(mainWorker, [mainMemoryChannel.port1]);
+                worker.port = Comlink.wrap(mainMemoryChannel.port2)
             } else if(event.data.state['main-memory']) {
                 console.log('🌷 🎫', event.data.state['main-memory'])
-                resolve(memory)
+                resolve(worker)
             }
         }
     })
@@ -129,10 +129,19 @@ let proxy = (config) => {
 export default (config, PROXY = () => {}, MEMORY = () => {}, PORT = () => {}) => {
     return new Promise(async resolve => {
         memory(config).then(worker => {
-            window.onunload = () => {
-                worker.port = null
-                worker.worker.terminate()
-            };
+
+            let terminate = () => {
+                if (document.visibilityState === 'hidden') {
+                    worker.port = null
+                    worker.worker.terminate()
+                    document.removeEventListener('visibilitychange', terminate);
+                    terminate = null
+                }
+            }
+            document.addEventListener('visibilitychange', terminate);
+            worker.worker.onmessage = null
+            worker.worker.oncontrollerchange = null
+            worker.worker.onmessageerror = null
             MEMORY(worker.port)
             memory = null
         })
