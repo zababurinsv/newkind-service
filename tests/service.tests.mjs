@@ -1,7 +1,7 @@
 let utils = {}
 describe('First SW Test Suite', () => {
     beforeEach(async function() {
-        utils = (await import('/tests/modules/index.mjs')).default
+        utils = (await import('/newkind-service/tests/modules/index.mjs')).default
         return utils.__testCleanup();
     });
 
