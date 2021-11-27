@@ -1,5 +1,4 @@
 let utils = {}
-import utils from
 describe('First SW Test Suite', () => {
     beforeEach(async function() {
         utils = (await import('/tests/modules/index.mjs')).default
