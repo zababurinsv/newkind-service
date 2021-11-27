@@ -6,7 +6,7 @@ import cors from 'cors'
 import express from 'express'
 let app = express.Router();
 app.use(await cors({ credentials: true }));
-import corsOptions from '../../corsOptions.mjs'
+import corsOptions from '../../../security/corsOptions.mjs'
 const pkg = require("../../../package.json");
 
 app.options(`/`, await cors(corsOptions))
