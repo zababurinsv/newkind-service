@@ -2,6 +2,7 @@
 logs
 *.log
 node/
+.idea/
 palette/static/
 npm-debug.log*
 yarn-debug.log*
