@@ -1,10 +1,13 @@
-import utils from '/tests/modules/index.mjs'
+let utils = {}
+import utils from
 describe('First SW Test Suite', () => {
-    beforeEach(function() {
+    beforeEach(async function() {
+        utils = (await import('/tests/modules/index.mjs')).default
         return utils.__testCleanup();
     });
 
     after(function() {
+        utils = null
         return utils.__testCleanup();
     });
 
