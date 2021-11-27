@@ -4,6 +4,7 @@ logs
 node/
 .idea/
 palette/static/
+server/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
