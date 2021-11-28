@@ -15,8 +15,8 @@
 //# limitations under the License.
 //##
 //###############################################################################
-var log4js = require("log4js");
-var logger = log4js.getLogger('wstun');
+
+
 
 (function() {
   module.exports = {

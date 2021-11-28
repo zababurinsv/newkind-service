@@ -15,8 +15,8 @@
 //# limitations under the License.
 //##
 //###############################################################################
-
-
+var log4js = require("log4js");
+var logger = log4js.getLogger('wstun');
 
 var WebSocketClient = require('websocket').client;
 var net = require("net");
@@ -27,29 +27,23 @@ wst_client_reverse = function() {
   this.wsClientForControll = new WebSocketClient();
 };
 
-wst_client_reverse.prototype.start = function(portTunnel, wsHostUrl, remoteAddr, uuid) {
+wst_client_reverse.prototype.start = function(portTunnel, wsHostUrl, remoteAddr) {
 
   //Getting paramiters
   var url = require("url");
   var urlWsHostObj = url.parse(wsHostUrl);
   var _ref1 = remoteAddr.split(":"), remoteHost = _ref1[0], remotePort = _ref1[1];
 
+
   var proto = wsHostUrl.split(":")[0];
   if(proto == "wss")
     require("../lib/https_override");
 
-  if(uuid != undefined){
-    url = "" + wsHostUrl + "/?dst=" + urlWsHostObj.hostname+":"+portTunnel + "&uuid=" +uuid;
-  }
-  else{
-    url = "" + wsHostUrl + "/?dst=" + urlWsHostObj.hostname+":"+portTunnel;
-  }
-  
-  console.log("[SYSTEM] -------------------- Connecting to", wsHostUrl);
-  console.log("[SYSTEM] --------------------> exposing", remoteAddr, "on port", portTunnel);
-  if(uuid != undefined)
-      console.log("[SYSTEM] --> My UUID is ", uuid);
-
+  // url = "" + wsHostUrl + "/?dst=" + urlWsHostObj.hostname+":"+portTunnel;
+  url = "" + wsHostUrl + "/?dst=" + "localhost"+":"+portTunnel;
+  logger.info("[SYSTEM] - Connecting to", wsHostUrl);
+  logger.info("[SYSTEM] --> exposing", remoteAddr, "on port", portTunnel);
+  console.log('ddddddddddd', url)
   //Connection to Controll WS Server
   this.wsClientForControll.connect(url, 'tunnel-protocol');
 
@@ -57,7 +51,7 @@ wst_client_reverse.prototype.start = function(portTunnel, wsHostUrl, remoteAddr,
 
     return function(wsConnectionForControll) {
 
-      console.log("[SYSTEM] --> TCP connection established!");
+      logger.info("[SYSTEM] --> TCP connection established!");
 
       wsConnectionForControll.on('message', function(message) {
 
@@ -81,8 +75,8 @@ wst_client_reverse.prototype.start = function(portTunnel, wsHostUrl, remoteAddr,
               //Waiting of WS Socket with WS Server
               wsConnectionForData.socket.pause();
 
-              //DEBUG console.log("Connected wsClientData to WS-Server for id "+parsing[1]+" on localport::"+wsConnectionForData.socket.localPort);
-              console.log("[SYSTEM] --> Start TCP connection on client to "+remoteHost+":"+remotePort);
+              //DEBUG logger.info("Connected wsClientData to WS-Server for id "+parsing[1]+" on localport::"+wsConnectionForData.socket.localPort);
+              logger.info("[SYSTEM] --> Start TCP connection on client to "+remoteHost+":"+remotePort);
 
               tcpConnection(wsConnectionForData, remoteHost, remotePort);
 
@@ -99,7 +93,7 @@ wst_client_reverse.prototype.start = function(portTunnel, wsHostUrl, remoteAddr,
 
   //Management of WS Connection failed
   this.wsClientForControll.on('connectFailed', function(error) {
-    console.log("[SYSTEM] --> WS connect error: " + error.toString());
+    logger.info("[SYSTEM] --> WS connect error: " + error.toString());
   });
 
 
@@ -117,7 +111,7 @@ function tcpConnection(wsConn, host, port){
 
   tcpConn.on('error',(function(_this){
     return function(request){
-      console.log("[SYSTEM] --> "+request);
+      logger.info("[SYSTEM] --> "+request);
     }
   })(this));
 

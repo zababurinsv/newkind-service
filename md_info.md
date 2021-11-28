@@ -9,6 +9,10 @@
 * [node/gitlab.com/terafoundation/tera2/SourceJinn/HTML/JS/smart-vm.js](https://gitlab.com/terafoundation/tera2/-/blob/master/Source/HTML/JS/smart-vm.js#L514)
 * [node/gitlab.com/terafoundation/tera2/SourceJinn/HTML/JS/coinlib.js](https://gitlab.com/terafoundation/tera2/-/blob/master/Source/HTML/JS/coinlib.js)
 
+### Константы
+"HTTP_PORT_NUMBER": 8000, - полная нода (требует пароль для входа)
+"HTTP_HOSTING_PORT": 80, - веб доступ и API
+
 ## TEST FOR SERVICE WORKERS
 [testing-service-workers](https://medium.com/dev-channel/testing-service-workers-318d7b016b19)  
 [code for pages](https://github.com/googlearchive/web-testing-examples/blob/master/test/in-page/register.js)  

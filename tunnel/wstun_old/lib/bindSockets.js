@@ -15,8 +15,8 @@
 //# limitations under the License.
 //##
 //###############################################################################
-
-
+var log4js = require("log4js");
+var logger = log4js.getLogger('wstun');
 
 (function() {
   var bindSockets;
@@ -27,7 +27,7 @@
 
     wsconn.on('message', function(message) {
       if (message.type === 'utf8') {
-        return console.log('Error, Not supposed to received message ');
+        return logger.info('Error, Not supposed to received message ');
       } else if (message.type === 'binary') {
         if (false === tcpconn.write(message.binaryData)) {
           wsconn.socket.pause();
@@ -51,11 +51,11 @@
     });
     
     wsconn.on("error", function(err) {
-      return console.log('ws Error ' + err);
+      return logger.info('ws Error ' + err);
     });
     
     wsconn.on('close', function(reasonCode, description) {
-      console.log("[SYSTEM] --> WS Peer " + wsconn.remoteAddress + ' disconnected - Reason: '+description);
+      logger.info("[SYSTEM] --> WS Peer " + wsconn.remoteAddress + ' disconnected - Reason: '+description);
       return tcpconn.destroy();
     });
     
@@ -66,17 +66,17 @@
     });
     
     tcpconn.on("data", function(buffer) {
-      //console.log('[SYSTEM] --> TCP data received:\n\n\n' + buffer + "\n\n"); //console.log(JSON.stringify(buffer));
+      //logger.info('[SYSTEM] --> TCP data received:\n\n\n' + buffer + "\n\n"); //logger.info(JSON.stringify(buffer));
       return wsconn.sendBytes(buffer);
     });
     
     tcpconn.on("error", function(err) {
-      return console.log('tcp Error ' + err);
+      return logger.info('tcp Error ' + err);
     });
 
     
     return tcpconn.on("close", function() {
-      console.log("[SYSTEM] --> TCP connection close.");
+      logger.info("[SYSTEM] --> TCP connection close.");
       return wsconn.close();
     });
     

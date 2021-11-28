@@ -15,8 +15,8 @@
 //# limitations under the License.
 //##
 //###############################################################################
-
-
+var log4js = require("log4js");
+var logger = log4js.getLogger('wstun');
 
 (function() {
   
@@ -37,7 +37,7 @@
 
       if(options != undefined) {
         
-        console.log("[SYSTEM] - WS Tunnel Server starting with these paramters:\n" + JSON.stringify(options, null, "\t"));
+        logger.info("[SYSTEM] - WS Tunnel Server starting with these paramters:\n" + JSON.stringify(options, null, "\t"));
         this.dstHost = options.dstHost;
         this.dstPort = options.dstPort;
 
@@ -45,12 +45,12 @@
 
       }
       else
-        console.log("[SYSTEM] - WS Tunnel Server starting...");
+        logger.info("[SYSTEM] - WS Tunnel Server starting...");
 
       if(https_flag == "true"){
 
         //HTTPS
-        console.log("[SYSTEM] - WS over HTTPS");
+        logger.info("[SYSTEM] - WS over HTTPS");
           
         var https = require('https');
         var fs = require('fs');
@@ -64,7 +64,7 @@
 
         }catch (err) {
           // handle the error safely
-          console.log("[SYSTEM] --> ERROR: " + err);
+          logger.info("[SYSTEM] --> ERROR: " + err);
           process.exit(1);
         }
 
@@ -74,7 +74,7 @@
         };
 
         this.httpServer = https.createServer(credentials, function(request, response) {
-          console.log(request, response);
+          logger.info(request, response);
         });
 
         this.wsServer = new WebSocketServer({
@@ -86,10 +86,10 @@
       }else{
 
         //HTTP
-        console.log("[SYSTEM] - WS over HTTP");
+        logger.info("[SYSTEM] - WS over HTTP");
 
         this.httpServer = http.createServer(function(request, response) {
-          console.log(request, response);
+          logger.info(request, response);
         });
 
         this.wsServer = new WebSocketServer({
@@ -102,16 +102,16 @@
 
 
     }
-
+    let wsport = {}
     wst_server.prototype.start = function(port) {
-
+      wsport = port
       if (https_flag == "true")
-        console.log("[SYSTEM] - WS Tunnel Server starting on: wss://localhost:" + port + " - CERT: \n" + this.s4t_cert);
+        logger.info("[SYSTEM] - WS Tunnel Server starting on: wss://localhost:" + port + " - CERT: \n" + this.s4t_cert);
       else
-        console.log("[SYSTEM] - WS Tunnel Server starting on: ws://localhost:" + port);
+        logger.info("[SYSTEM] - WS Tunnel Server starting on: ws://localhost:" + port);
       
       this.httpServer.listen(port, function() {
-        return console.log("[SYSTEM] - Server is listening on port " + port + "...");
+        return logger.info("[SYSTEM] - Server is listening on port " + port + "...");
       });
       
       return this.wsServer.on('request', (function(_this) {
@@ -143,7 +143,7 @@
 
           tcpconn = net.connect( { port: port, host: host }, function() {
               var wsconn;
-              console.log("[SYSTEM] - Establishing tunnel to " + remoteAddr);
+              logger.info("[SYSTEM] - Establishing tunnel to " + remoteAddr);
               wsconn = request.accept('tunnel-protocol', request.origin);
               return bindSockets(wsconn, tcpconn);
           });
@@ -164,7 +164,7 @@
 
     wst_server.prototype._reject = function(request, msg) {
       request.reject();
-      return console.log("[SYSTEM] - Connection from " + request.remoteAddress + " rejected: " + msg);
+      return logger.info("[SYSTEM] - Connection from " + request.remoteAddress + " rejected: " + msg);
     };
 
     return wst_server;

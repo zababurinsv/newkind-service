@@ -1,6 +1,6 @@
 //###############################################################################
 //##
-//# Copyright (C) 2014-2015 Andrea Rocco Lotronto
+//# Copyright (C) 2014-2015 Andrea Rocco Lotronto, 2017 Nicola Peditto
 //##
 //# Licensed under the Apache License, Version 2.0 (the "License");
 //# you may not use this file except in compliance with the License.
@@ -15,5 +15,16 @@
 //# limitations under the License.
 //##
 //###############################################################################
+var log4js = require("log4js");
+var logger = log4js.getLogger('wstun');
 
-module.exports = require('./lib/wrapper');
+(function() {
+  module.exports = {
+    server: require("./server"),
+    client: require("./client"),
+    server_reverse : require("./server_reverse"),
+    client_reverse : require("./client_reverse")
+  };
+
+}).call(this);
+

@@ -15,8 +15,8 @@
 //# limitations under the License.
 //##
 //###############################################################################
-
-
+var log4js = require("log4js");
+var logger = log4js.getLogger('wstun');
 
 (function() {
   
@@ -29,13 +29,13 @@
   module.exports = wst_client = (function() {
 
     function wst_client() {
-      console.log("[SYSTEM] - WS Tunnel Client starting...");
+      logger.info("[SYSTEM] - WS Tunnel Client starting...");
       this.tcpServer = net.createServer();
     }
 
     wst_client.prototype.start = function(localPort, wsHostUrl, remoteAddr) {
 
-      console.log("[SYSTEM] --> client started.");
+      logger.info("[SYSTEM] --> client started.");
       
       var proto = wsHostUrl.split(":")[0];
       if(proto == "wss")
@@ -43,24 +43,24 @@
 
       this.tcpServer.listen(localPort);
 
-      console.log("[SYSTEM] --> WS tunnel established. Waiting for incoming connections...");
+      logger.info("[SYSTEM] --> WS tunnel established. Waiting for incoming connections...");
 
       return this.tcpServer.on("connection", (function(_this) {
 
         return function(tcpConn) {
 
           var url, wsClient;
-          console.log("[SYSTEM] - New connection...");
+          logger.info("[SYSTEM] - New connection...");
 
           wsClient = new WebSocketClient();
 
           wsClient.on('connectFailed', function(error) {
-            console.log("[SYSTEM] --> WS connect error: " + error.toString());
+            logger.info("[SYSTEM] --> WS connect error: " + error.toString());
             return tcpConn.destroy();
           });
 
           wsClient.on('connect', function(wsConn) {
-            console.log("[SYSTEM] --> WS connected.");
+            logger.info("[SYSTEM] --> WS connected.");
             return bindSockets(wsConn, tcpConn);
           });
 
