@@ -6,6 +6,15 @@
   "main": "./dist/index.mjs",
   "author": "Zababurin Sergey",
   "license": "GPL-3.0-only",
+  "palette": {
+    "zb":{
+      "scope": "\/palette\/src\/github.com\/zababurinsv\/",
+      "self": {
+          "auction": "newkind-auction"
+      },
+      "static": "static"
+    }
+  },
   "targets": {
     "main": false,
     "dev": {
@@ -66,6 +75,7 @@
     "tunnel:server": "node tunnel_server_reverse.js",
     "tunnel:client": "node tunnel_client_reverse.js",
     "deploy": "gh-pages -d service/newkind-service",
+    "download:palette": "./scripts/palette.sh",
     "download:server": "./scripts/server-up.sh",
     "clean": "rimraf ./service/* && rimraf ./dist/* && find . -name \".parcel-cache\" -exec rm -rf '{}' +;",
     "clean:all": "rimraf ./service/* && rimraf ./dist/* && rimraf ./docs/* && rimraf ./md_api.md && find . -name \".parcel-cache\" -exec rm -rf '{}' +;",

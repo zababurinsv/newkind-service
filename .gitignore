@@ -3,7 +3,7 @@ logs
 *.log
 node/
 .idea/
-palette/static/
+palette/
 server/
 npm-debug.log*
 yarn-debug.log*
