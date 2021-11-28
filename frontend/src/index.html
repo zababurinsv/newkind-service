@@ -240,6 +240,7 @@
         } else {
             switch(Data.cmd) {
                 case "onlogin":
+                    console.log('~~~~~~~~~onlogin~~~~~~~~~~~~~~~')
                     web3.tera.SetVisibleBlock("idTeraWallet", 0);
                     if(web3.tera.listener._OnLogin) {
                         web3.tera.listener._OnLogin(Data.result);
@@ -262,7 +263,7 @@
                     break;
                 default:
                     if(Data.id) {
-                        var F = web3.tera._MapId[Data.id];
+                        let F = web3.tera._MapId[Data.id];
                         delete web3.tera._MapId[Data.id];
                         if(F) {
                             F(Data);
@@ -285,14 +286,13 @@
         web3.tera.listener.GetPubKey = (event) => {
             console.log('~~~GetPubKey~~~', event)
         }
-        web3.tera.InjectHTML('http://localhost:8800/web3-wallet.html')
-        .then(wallet => {
-
-            web3.tera.CreateAccount({Currency:0, Description:"Test account"}, (Data) => {
-                console.log("Send CreateAccount result = "+Data.result+" "+Data.text);
-            });
-
-        })
+        web3.tera.Login(523, 'http://127.0.0.1:8800/web3-wallet.html')
+        // web3.tera.InjectHTML('http://localhost:8800/web3-wallet.html')
+        // .then(wallet => {
+        //     web3.tera.CreateAccount({Currency:0, Description:"Test account"}, (Data) => {
+        //         console.log("Send CreateAccount result = "+Data.result+" "+Data.text);
+        //     });
+        // })
     });
 
     let CONFIG = {

@@ -1,0 +1,3 @@
+/home/zb/Desktop/newkind-service/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/zb/Desktop/newkind-service/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/zb/Desktop/newkind-service/cmake-build-debug/CMakeFiles/newkind_service.dir

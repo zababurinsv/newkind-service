@@ -10,81 +10,84 @@
 
 
 let web3 = {
+    Login: function (SmartNum,UrlPath,Forse) {
+        let dapp = document.querySelector('#idTeraWallet')
+        if(!dapp) {
+            return web3.InjectHTML(UrlPath, SmartNum, Forse);
+        } else {
+            return web3.SendMessage({cmd:"login", smart:SmartNum, Forse:Forse});
+        }
+    },
     CreateAccount:function (Item,F) {
         return web3.SendMessage({cmd:"sendcreate", Item:Item}, F);
     },
     listener: {
         OnLogin:function (F) {
-            web3.tera._OnLogin = F;
+            console.log('~~~~~~~~OnLogin~~~~~~~~~~')
+            web3._OnLogin = F;
         },
         OnInfo:function (F) {
-            web3.tera._OnInfo = F;
+            console.log('~~~~~~~~OnInfo~~~~~~~~~~')
+            web3._OnInfo = F;
         },
         OnEvent:function (F) {
-            web3.tera._OnEvent = F;
+            console.log('~~~~~~~~OnEvent~~~~~~~~~~')
+            web3._OnEvent = F;
         },
         GetPubKey:function (F) {
-            return SendMessage({cmd:"GetPubKey"}, F);
+            console.log('~~~~~~~~GetPubKey~~~~~~~~~~')
+            return web3.SendMessage({cmd:"GetPubKey"}, F);
         },
     },
-    tera: {
-        Login:function (SmartNum,UrlPath,Forse) {
-            if(!$("idTeraWallet")) {
-                return web3.InjectHTML(UrlPath, SmartNum, Forse);
-            }
-
-            return SendMessage({cmd:"login", smart:SmartNum, Forse:Forse});
-        },
-        Logout:function () {
-            SetVisibleBlock("idTeraWallet", 0);
-            return SendMessage({cmd:"logout"});
-        },
-        Send:function (Tx) {
-            SetVisibleBlock("idTeraWallet", 1);
-            return SendMessage({cmd:"send", Item:Tx});
-        },
-        SendCall:function (Item,F) {
-            return SendMessage({cmd:"sendcall", Item:Item}, F);
-        },
-        StaticCall:function (Item,F) {
-            return SendMessage({cmd:"staticcall", Item:Item}, F);
-        },
-        GetAccountList:function (Params,F) {
-            var Data = {cmd:"DappAccountList", Params:Params};
-            return SendMessage(Data, F);
-        },
-        GetSmartList:function (Params,F) {
-            var Data = {cmd:"DappSmartList", Params:Params};
-            return SendMessage(Data, F);
-        },
-        GetBlockList:function (Params,F) {
-            var Data = {cmd:"DappBlockList", Params:Params};
-            return SendMessage(Data, F);
-        },
-        GetTransactionList:function (Params,F) {
-            var Data = {cmd:"DappTransactionList", Params:Params};
-            return SendMessage(Data, F);
-        },
-        GetBlockFile:function (Params,F) {
-            var Data = {cmd:"DappBlockFile", Params:Params};
-            return SendMessage(Data, F);
-        },
-        ComputeSecret:function (Params,F) {
-            return SendMessage({cmd:"ComputeSecret", Params:Params}, F);
-        },
-        _CounterId:0,
-        _MapId:{},
+    Logout:function () {
+        web3.SetVisibleBlock("idTeraWallet", 0);
+        return web3.SendMessage({cmd:"logout"});
     },
+    Send:function (Tx) {
+        web3.SetVisibleBlock("idTeraWallet", 1);
+        return web3.SendMessage({cmd:"send", Item:Tx});
+    },
+    SendCall:function (Item,F) {
+        return web3.SendMessage({cmd:"sendcall", Item:Item}, F);
+    },
+    StaticCall:function (Item,F) {
+        return web3.SendMessage({cmd:"staticcall", Item:Item}, F);
+    },
+    GetAccountList:function (Params,F) {
+        var Data = {cmd:"DappAccountList", Params:Params};
+        return web3.SendMessage(Data, F);
+    },
+    GetSmartList:function (Params,F) {
+        var Data = {cmd:"DappSmartList", Params:Params};
+        return web3.SendMessage(Data, F);
+    },
+    GetBlockList:function (Params,F) {
+        var Data = {cmd:"DappBlockList", Params:Params};
+        return web3.SendMessage(Data, F);
+    },
+    GetTransactionList:function (Params,F) {
+        var Data = {cmd:"DappTransactionList", Params:Params};
+        return web3.SendMessage(Data, F);
+    },
+    GetBlockFile:function (Params,F) {
+        var Data = {cmd:"DappBlockFile", Params:Params};
+        return web3.SendMessage(Data, F);
+    },
+    ComputeSecret:function (Params,F) {
+        return web3.SendMessage({cmd:"ComputeSecret", Params:Params}, F);
+    },
+    _CounterId:0,
+    _MapId:{},
     SetVisibleBlock: (name,b) => {
-        let id = $(name);
+        let id = name;
         if(id) {
             id.style.display = b ? 'block' : "none";
         }
     },
     SendMessage: (Data, F) => {
         if(F) {
-            web3.tera._CounterId++;
-            web3.tera._MapId[web3.tera._CounterId] = F;
+            web3._CounterId++;
+            web3._MapId[web3.tera._CounterId] = F;
             Data.id = web3.tera._CounterId;
         }
         let win = window.frames.terawallet;
@@ -121,7 +124,7 @@ let web3 = {
                     body.appendChild(iframe);
                     iframe.onload = function () {
                         if(SmartNum) {
-                            web3.tera.SendMessage({cmd:"login", smart:SmartNum, Forse:Forse});
+                            web3.SendMessage({cmd:"login", smart:SmartNum, Forse:Forse});
                             resolve(iframe)
                         } else {
                             resolve(iframe)

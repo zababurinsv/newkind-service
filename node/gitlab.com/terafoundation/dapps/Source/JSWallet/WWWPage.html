@@ -57,15 +57,15 @@
 
     window.addEventListener('load',function ()
     {
-        //web3.tera.InjectHTML('http://127.0.0.1/web3-wallet.html');
-        web3.tera.InjectHTML();
+        web3.tera.InjectHTML('http://127.0.0.1:8800/web3-wallet.html');
+        // web3.tera.InjectHTML();
     });
 </script>
 
 
 
-
-<button onclick="web3.tera.Login(128)">Connect...</button>
+<button onclick="web3.tera.Login(1813)">Connect localhost...</button>
+<button onclick="web3.tera.Login(128)">Connect web...</button>
 <button onclick="SendTx()">Send money</button>
 <span id="idBlockSend" style="display: none">
     <button onclick="SendMethod()">Method</button>

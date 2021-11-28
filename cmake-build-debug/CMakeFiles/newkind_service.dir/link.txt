@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/newkind_service.dir/main.cpp.o -o newkind_service 
