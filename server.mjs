@@ -7,9 +7,9 @@ import express from 'express'
 import cors from "cors";
 import Enqueue from "express-enqueue";
 import compression from "compression";
-import notFound from './backend/notFound.html.mjs'
+import notFound from './utils/notFound.html.mjs'
 import corsOptions from './security/corsOptions.mjs'
-import shouldCompress from './backend/compress.mjs'
+import shouldCompress from './utils/compress.mjs'
 const app = express()
 app.use(await express.json())
 app.use(await compression({ filter: shouldCompress }))

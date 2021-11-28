@@ -63,6 +63,7 @@
     "watch:static": "gulp",
     "build:docs": "rimraf ./docs/* && jsdoc -c jsdoc.json",
     "build:readme": "jsdoc2md --configure jsdoc.json --source frontend/index.mjs > md_api.md && cat ./md_info.md ./md_api.md > ./README.md",
+    "tunnel": "node tunnel_client_reverse.js",
     "deploy": "gh-pages -d service/newkind-service",
     "download:server": "./scripts/server-up.sh",
     "clean": "rimraf ./service/* && rimraf ./dist/* && find . -name \".parcel-cache\" -exec rm -rf '{}' +;",
@@ -72,6 +73,7 @@
     "kill:palette": "kill $(lsof -t -i:$npm_package_config_port_palette)"
   },
   "dependencies": {
+    "axios": "^0.24.0",
     "comlink": "^4.3.1",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
@@ -81,7 +83,9 @@
     "libsodium-wrappers": "^0.7.9",
     "nodemon": "^2.0.15",
     "parcel-plugin-typed-css-modules": "^1.1.0",
-    "web-streams-polyfill": "^3.2.0"
+    "socket.io": "^4.4.0",
+    "web-streams-polyfill": "^3.2.0",
+    "websocket": "^1.0.34"
   },
   "devDependencies": {
     "@newkind/tests": "^0.2.6",

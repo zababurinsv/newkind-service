@@ -7,9 +7,9 @@ import express from 'express'
 import cors from "cors";
 import Enqueue from "express-enqueue";
 import compression from "compression";
-import notFound from './notFound.html.mjs'
+import notFound from '../utils/notFound.html.mjs'
 import corsOptions from '../security/corsOptions.mjs'
-import shouldCompress from './compress.mjs'
+import shouldCompress from '../utils/compress.mjs'
 import service from './routes/newkind-service/index.mjs'
 const app = express()
 app.use(await express.json())
