@@ -23,26 +23,26 @@ const queue = new Enqueue({
 });
 app.use(queue.getMiddleware());
 
-app.use(`${pkg.config.service}`, service);
+app.use(`${pkg.targets.service.publicUrl}`, service);
 
 app.options(`/`, await cors(corsOptions))
 app.get(`/`, async (req, res) => {
     res.status(404).send(await notFound(pkg.config.service));
 })
 
-app.options(`/tests/:source`, await cors(corsOptions))
-app.get(`/tests/:source`, async (req, res) => {
-    console.log(`${pkg.config.service}/tests/:source`,req.params.source)
-    res.status(200).sendFile(`${req.params.source}`, { root: path.join(__dirname, `../service/${pkg.config.service}/tests`) });
-})
+// app.options(`/tests/:source`, await cors(corsOptions))
+// app.get(`/tests/:source`, async (req, res) => {
+//     console.log(`${pkg.config.service}/tests/:source`,req.params.source)
+//     res.status(200).sendFile(`${req.params.source}`, { root: path.join(__dirname, `../service/${pkg.config.service}/tests`) });
+// })
 
 app.use((req, res, next) => {
     console.log(`main__${req.path}`);
     next();
 });
 
-app.use(express.static(path.join(__dirname,`../service/${pkg.config.service}`)));
-app.use('/tests',express.static(path.join(__dirname,`../service/${pkg.config.service}/tests`)));
+// app.use(express.static(path.join(__dirname,`../service/${pkg.config.service}`)));
+// app.use('/tests',express.static(path.join(__dirname,`../service/${pkg.config.service}/tests`)));
 app.use(queue.getErrorMiddleware())
 
 export default app

@@ -1,5 +1,5 @@
 require('dotenv').config()
-let wstun = require("./tunnel/wstun/index.js");
+let wstun = require("../wstun/index.js");
 let reverse_client = new wstun.client_reverse();
 // let wstunHost = 'ws://localhost:5000'
 let wstunHost = 'wss://tunnel-reverse.herokuapp.com'

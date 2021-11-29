@@ -50,7 +50,6 @@
   },
   "config": {
     "html": "./frontend/src/index.html",
-    "service": "/newkind-service",
     "port_dev": 4517,
     "port_service": 4518,
     "port_palette": 6112,
@@ -72,8 +71,8 @@
     "watch:static": "gulp",
     "build:docs": "rimraf ./docs/* && jsdoc -c jsdoc.json",
     "build:readme": "jsdoc2md --configure jsdoc.json --source frontend/index.mjs > md_api.md && cat ./md_info.md ./md_api.md > ./README.md",
-    "tunnel:server": "node tunnel_server_reverse.js",
-    "tunnel:client": "node tunnel_client_reverse.js",
+    "tunnel:server": "node ./tunnel/reverse/server.js",
+    "tunnel:client": "node ./tunnel/reverse/client.js",
     "deploy": "gh-pages -d service/newkind-service",
     "download:palette": "./scripts/palette.sh",
     "download:server": "./scripts/server-up.sh",

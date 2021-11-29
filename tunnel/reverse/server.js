@@ -1,4 +1,4 @@
-let wstun = require("./tunnel/wstun/index.js");
+let wstun = require("../wstun/index.js");
 let system = {
     port: process.env.PORT || 5000,
     pid:  process.pid
