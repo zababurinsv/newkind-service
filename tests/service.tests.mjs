@@ -1,7 +1,6 @@
 let utils = {}
 describe('First SW Test Suite', async function() {
     this.timeout(10000);
-
     beforeEach(async () => {
         utils = (await import('/newkind-service/tests/modules/index.mjs')).default
         await utils.__testCleanup().catch(e => {console.log('%%%%%%%%%%%%%%%%%%%%% !!!!')})
@@ -36,8 +35,8 @@ describe('First SW Test Suite', async function() {
                     if (responseText !== 'Hello, World!') {
                         throw new Error(`The response text was wrong!: '${responseText}'`);
                     }
-                });
-            })
+                }).catch(e => {reject(e)});
+            }).catch(e => {reject(e)})
         })
     });
 });
