@@ -54,7 +54,7 @@ app.use(queue.getErrorMiddleware())
 
 const port = (process.env.PORT)
     ? process.env.PORT
-    : pkg.config.port_palette
+    : pkg.palette.zb.port
 app.listen(port ,() => {
     console.log('pid: ', process.pid)
     console.log('listening on http://localhost:'+ port);

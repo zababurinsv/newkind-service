@@ -7,12 +7,15 @@
   "author": "Zababurin Sergey",
   "license": "GPL-3.0-only",
   "palette": {
-    "zb":{
+    "zb": {
       "scope": "\/palette\/src\/github.com\/zababurinsv\/",
       "self": {
           "auction": "newkind-auction"
       },
-      "static": "static"
+      "static": "static",
+      "port": 6112,
+      "portTunnel": 5005,
+      "wstunHost": "ws://localhost:5000"
     }
   },
   "targets": {
@@ -52,7 +55,6 @@
     "html": "./frontend/src/index.html",
     "port_dev": 4517,
     "port_service": 4518,
-    "port_palette": 6112,
     "highWaterMark": 300,
     "list": {
       "white": [
@@ -71,8 +73,13 @@
     "watch:static": "gulp",
     "build:docs": "rimraf ./docs/* && jsdoc -c jsdoc.json",
     "build:readme": "jsdoc2md --configure jsdoc.json --source frontend/index.mjs > md_api.md && cat ./md_info.md ./md_api.md > ./README.md",
+    "tunnel:client:run": "pm2 start ./tunnel/reverse/client.js --name node-web",
+    "tunnel:client:stop": "pm2 stop ./tunnel/reverse/client.js --name node-web",
+    "tunnel:client:restart": "pm2 restart ./tunnel/reverse/client.js --name node-web",
+    "tunnel:client:delete": "pm2 delete ./tunnel/reverse/client.js --name node-web",
     "tunnel:server": "node ./tunnel/reverse/server.js",
-    "tunnel:client": "node ./tunnel/reverse/client.js",
+    "tunnel:palette": "node ./tunnel/reverse/client__palette.js",
+    "tunnel:second": "node ./tunnel/reverse/client__palette_second.js",
     "deploy": "gh-pages -d service/newkind-service",
     "download:palette": "./scripts/palette.sh",
     "download:server": "./scripts/server-up.sh",
@@ -80,7 +87,9 @@
     "clean:all": "rimraf ./service/* && rimraf ./dist/* && rimraf ./docs/* && rimraf ./md_api.md && find . -name \".parcel-cache\" -exec rm -rf '{}' +;",
     "kill:dev": "kill $(lsof -t -i:$npm_package_config_port_dev)",
     "kill:service": "kill $(lsof -t -i:$npm_package_config_port_service)",
-    "kill:palette": "kill $(lsof -t -i:$npm_package_config_port_palette)"
+    "kill:palette": "kill $(lsof -t -i:$npm_package_config_port_palette)",
+    "monit": "pm2 monit",
+    "logs": "pm2 logs --out --lines 200"
   },
   "dependencies": {
     "axios": "^0.24.0",

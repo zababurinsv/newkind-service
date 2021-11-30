@@ -170,8 +170,8 @@ wst_server_reverse.prototype.start = function(port) {
   });
 
 
-  this.wsServerForControll.on('request', (function(_this){
-    return function(request){
+  this.wsServerForControll.on('request', (function(_this) {
+    return function(request) {
 
       //Create one TCP server for each client WebSocketRequest
       request.tcpServer = new net.createServer();
@@ -180,8 +180,9 @@ wst_server_reverse.prototype.start = function(port) {
 
       var src_address = request.httpRequest.client._peername.address.split(":")[3];
 
-      if (uri.query.dst != undefined){
-
+        if (uri.query.dst != undefined){
+      // if (uri.query.dst != undefined && !isReversePort){
+          console.log('@@@@@@@@@@@@@@@@@@@@@@@@', isReversePort, uri.query.dst)
         var remoteAddr = uri.query.dst;
         var client_uuid = uri.query.uuid;
         ref1 = remoteAddr.split(":");
@@ -191,7 +192,7 @@ wst_server_reverse.prototype.start = function(port) {
             isReversePort = true
             console.log("[SYSTEM] WebSocket creation towards " + src_address + " on port " + portTcp + " from client " + client_uuid);
         }
-        else{
+        else {
             isReversePort = true
             console.log("[SYSTEM] WebSocket creation towards " + src_address + " on port " + portTcp );
         }
@@ -264,8 +265,7 @@ wst_server_reverse.prototype.start = function(port) {
             request.tcpServer.close();
             });
         }
-      }
-      else{
+      } else {
         //REQUEST FOR WS USED FOR DATA
         console.log("[SYSTEM] --> WebSocket Request for Data");
         newWSTCP_DATA.emit('created', request);
