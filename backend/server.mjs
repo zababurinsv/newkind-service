@@ -27,7 +27,7 @@ app.use(`${pkg.targets.service.publicUrl}`, service);
 
 app.options(`/`, await cors(corsOptions))
 app.get(`/`, async (req, res) => {
-    res.status(404).send(await notFound(pkg.config.service));
+    res.status(404).send(await notFound(pkg.targets.dev.publicUrl));
 })
 
 // app.options(`/tests/:source`, await cors(corsOptions))
@@ -37,7 +37,7 @@ app.get(`/`, async (req, res) => {
 // })
 
 app.use((req, res, next) => {
-    console.log(`main__${req.path}`);
+    console.log(`main__sss${req.path}`);
     next();
 });
 

@@ -1,7 +1,4 @@
 import modules from './modules/index.mjs'
-import {Index} from "../lacerta-radio/index.mjs";
-
-
 
 const template = async (self, props = {}) => {
   return new Promise(async (resolve, reject) => {

@@ -8,7 +8,10 @@
  * Telegram:  https://t.me/terafoundation
 */
 
-
+/**
+ *
+ * @type {{GetBlockList: (function(*, *): number), GetBlockFile: (function(*, *): number), InjectHTML: (function(*, *, *): Promise<unknown>), CreateAccount: (function(*, *): number), listener: {OnInfo: web3.listener.OnInfo, OnLogin: web3.listener.OnLogin, GetPubKey: (function(*): number), OnEvent: web3.listener.OnEvent}, Login: ((function(*, *, *): (Promise<unknown>))|*), SendCall: (function(*, *): number), GetAccountList: (function(*, *): number), Send: (function(*): number), GetTransactionList: (function(*, *): number), ComputeSecret: (function(*, *): number), SetVisibleBlock: web3.SetVisibleBlock, GetSmartList: (function(*, *): number), _CounterId: number, Logout: (function(): number), StaticCall: (function(*, *): number), _MapId: {}, SendMessage: ((function(*, *): (number))|*)}}
+ */
 let web3 = {
     Login: function (SmartNum,UrlPath,Forse) {
         let dapp = document.querySelector('#idTeraWallet')
@@ -81,14 +84,14 @@ let web3 = {
     SetVisibleBlock: (name,b) => {
         let id = name;
         if(id) {
-            id.style.display = b ? 'block' : "none";
+            document.querySelector(`#${name}`).style.display = b ? 'block' : "none";
         }
     },
     SendMessage: (Data, F) => {
         if(F) {
             web3._CounterId++;
-            web3._MapId[web3.tera._CounterId] = F;
-            Data.id = web3.tera._CounterId;
+            web3._MapId[web3._CounterId] = F;
+            Data.id = web3._CounterId;
         }
         let win = window.frames.terawallet;
         if(!win) {

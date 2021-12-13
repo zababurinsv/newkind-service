@@ -1,5 +1,6 @@
 // import * as classes from './template/default/index.scss';
 import synth from './modules/synthesiser/index.mjs'
+
 const template = (self) => {
   return new Promise(async (resolve, reject) => {
     self.style.width = '100%'

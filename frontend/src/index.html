@@ -171,6 +171,7 @@
 </template>
 <script type="module">
     import service from './index.mjs'
+    import tera from './modules/web3/web3-tera.js'
 
     import newkindUpload   from './components/newkind-upload/index.mjs'
     import lacertaRadio   from './components/lacerta-radio/index.mjs'
@@ -183,117 +184,75 @@
     import * as Comlink from "comlink";
     import utils from './modules/utils/index.mjs'
 
-    tests('./tests/service.tests.mjs', true).catch(e => {console.log('error devtool', e)})
+    // tests('./tests/service.tests.mjs', true).catch(e => {console.log('error devtool', e)})
     // tests('./tests/daap.tests.mjs', true).catch(e => {console.log('error devtool', e)})
 
+    let OnMessage = (event) => {
+        let Data = event.data;
+        if(Data.type !== "web3-tera") {
+            return;
+        } else {
+            console.log('~~!!~~~~~ OnMessage ~~~~~!!!~~~~~~', Data.cmd)
+            switch(Data.cmd) {
+                case "onlogin":
+                    console.log('~~~~~~~~~onlogin~~~~~~~~~~~~~~~')
+                    web3.tera.SetVisibleBlock("idTeraWallet", 0);
+                    if(web3.tera.listener._OnLogin) {
+                        web3.tera.listener._OnLogin(Data.result);
+                    }
+                    break;
+                case "onvisible":
+                    web3.tera.SetVisibleBlock("idTeraWallet", 1);
+                    break;
+                case "unvisible":
+                    web3.tera.SetVisibleBlock("idTeraWallet", 0);
+                    break;
+                case "oninfo":
+                    web3.tera.INFO = Data;
+                    if(web3.tera.listener._OnInfo)
+                        web3.tera.listener._OnInfo();
+                    break;
+                case "onevent":
+                    if(web3.tera.listener._OnEvent)
+                        web3.tera.listener._OnEvent(Data);
+                    break;
+                default:
+                    if(Data.id) {
+                        let F = web3.tera._MapId[Data.id];
+                        delete web3.tera._MapId[Data.id];
+                        if(F) {
+                            F(Data);
+                        }
+                    }
+            }
+        }
+    }
 
-    // function StaticCall()
-    // {
-    //     web3.tera.StaticCall({From:0, To:226688, Method:"HellowWorld", Params:{}},function (Data)//223295
-    //     {
-    //         if(Data.result)
-    //             idResult.value="OK, result="+Data.RetValue;
-    //     });
-    // }
-
-
-    // function SendTx()
-    // {
-    //     web3.tera.Send({To:20, Sum:1.5, Description:"Test only"});
-    // }
-
-    // function SendMethod()
-    // {
-    //     web3.tera.SendCall({From:226689, To:226689, Method:"Method1", Params:{Sum:5}},function (Data)
-    //     {
-    //         idResult.value="Send Method result = "+Data.result+" "+Data.text;
-    //     });
-    // }
-
-    // function Create()
-    // {
-    //     web3.tera.CreateAccount({Currency:0, Description:"Test"},function (Data)
-    //     {
-    //         idResult.value="Send Method result = "+Data.result+" "+Data.text;
-    //     });
-    // }
-
-    // web3.tera.OnInfo(function ()
-    // {
-    //     idInfo.value=JSON.stringify(web3.tera.INFO);
-    // });
-
-    // web3.tera.OnEvent(function (Data)
-    // {
-    //     idEvents.value=JSON.stringify(Data);
-    // });
-
-    // web3.tera.OnLogin(function (Result)
-    // {
-    //     idBlockSend.style.display=Result?"inline-block":"none";
-    // });
-    // let OnMessage = (event) => {
-    //     console.log('~~~~~~~ OnMessage ~~~~~~~~~~~', event)
-    //     let Data = event.data;
-    //     if(Data.type !== "web3-tera") {
-    //         return;
-    //     } else {
-    //         switch(Data.cmd) {
-    //             case "onlogin":
-    //                 console.log('~~~~~~~~~onlogin~~~~~~~~~~~~~~~')
-    //                 web3.tera.SetVisibleBlock("idTeraWallet", 0);
-    //                 if(web3.tera.listener._OnLogin) {
-    //                     web3.tera.listener._OnLogin(Data.result);
-    //                 }
-    //                 break;
-    //             case "onvisible":
-    //                 web3.tera.SetVisibleBlock("idTeraWallet", 1);
-    //                 break;
-    //             case "unvisible":
-    //                 web3.tera.SetVisibleBlock("idTeraWallet", 0);
-    //                 break;
-    //             case "oninfo":
-    //                 web3.tera.INFO = Data;
-    //                 if(web3.tera.listener._OnInfo)
-    //                     web3.tera.listener._OnInfo();
-    //                 break;
-    //             case "onevent":
-    //                 if(web3.tera.listener._OnEvent)
-    //                     web3.tera.listener._OnEvent(Data);
-    //                 break;
-    //             default:
-    //                 if(Data.id) {
-    //                     let F = web3.tera._MapId[Data.id];
-    //                     delete web3.tera._MapId[Data.id];
-    //                     if(F) {
-    //                         F(Data);
-    //                     }
-    //                 }
-    //         }
-    //     }
-    // }
-    // window.addEventListener('load',async function ()
-    // {
-    //     web3.tera.listener.OnLogin = (event) => {
-    //      console.log('~~~OnLogin~~~', event)
-    //     }
-    //     web3.tera.listener.OnInfo = (event) => {
-    //         console.log('~~~OnInfo~~~', event)
-    //     }
-    //     web3.tera.listener.OnEvent = (event) => {
-    //         console.log('~~~OnEvent~~~', event)
-    //     }
-    //     web3.tera.listener.GetPubKey = (event) => {
-    //         console.log('~~~GetPubKey~~~', event)
-    //     }
-    //     web3.tera.Login(523, 'http://127.0.0.1:8800/web3-wallet.html')
-        // web3.tera.InjectHTML('http://localhost:8800/web3-wallet.html')
+    window.addEventListener('load',async function () {
+        window.addEventListener("message", OnMessage);
+        web3.tera.listener.OnLogin = (event) => {
+         console.log('~~~OnLogin~~~', event)
+        }
+        web3.tera.listener.OnInfo = (event) => {
+            console.log('~~~OnInfo~~~', event)
+        }
+        web3.tera.listener.OnEvent = (event) => {
+            console.log('~~~OnEvent~~~', event)
+        }
+        web3.tera.listener.GetPubKey = (event) => {
+            console.log('~~~GetPubKey~~~', event)
+        }
+        console.log('SSSSSSSSSSS GetAccountList SSSSSSSSSSSS', await web3.node.GetAccountList(240646,1))
+            // console.log('############################',)
+        // tera().tera.Login(128,'https://newkind-credits.herokuapp.com/web3-wallet.html')
+        web3.tera.Login(128,'https://newkind-credits.herokuapp.com/web3-wallet.html')
+        // web3.tera.InjectHTML('https://newkind-credits.herokuapp.com/web3-wallet.html')
         // .then(wallet => {
-        //     web3.tera.CreateAccount({Currency:0, Description:"Test account"}, (Data) => {
-        //         console.log("Send CreateAccount result = "+Data.result+" "+Data.text);
-        //     });
+            // web3.tera.CreateAccount({Currency:0, Description:"Test account"}, (Data) => {
+            //     console.log("Send CreateAccount result = "+Data.result+" "+Data.text);
+            // });
         // })
-    // });
+    });
 
     let CONFIG = {
         logs: {

@@ -1,4 +1,4 @@
-# @newkind/Service
+# @newkind/Service [Fractal Architecture]
 
 ## Mocha
 * [timeout-for-mocha](https://stackoverflow.com/questions/23492043/change-default-timeout-for-mocha)

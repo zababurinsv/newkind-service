@@ -1,7 +1,18 @@
+import api from './api.mjs'
 let DappStaticCall = () => {}
 let GetCurrentInfo = () => {}
 let GetNodeList = () => {}
-let GetAccountList = () => {}
+
+/**
+ *
+ * @param StartNum
+ * @param CountNum
+ * @returns {Promise<*>}
+ * @constructor
+ */
+let GetAccountList = async (StartNum = 0, CountNum = 1) => {
+   return await api.get(`/api/v1/GetAccountList?StartNum=${StartNum}&CountNum=${CountNum}`)
+}
 let GetBlockList = () => {}
 let GetTransactionList = () => {}
 let GetDappList = () => {}

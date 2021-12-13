@@ -8,9 +8,11 @@
   "license": "GPL-3.0-only",
   "palette": {
     "zb": {
-      "scope": "\/palette\/src\/github.com\/zababurinsv\/",
+      "scope": "/palette/src/github.com/zababurinsv/",
+      "active": "newkind-db/frontend/src",
       "self": {
-          "auction": "newkind-auction"
+        "auction": "newkind-auction",
+        "tera": "newkind-db/frontend/src"
       },
       "static": "static",
       "port": 6112,
@@ -73,23 +75,19 @@
     "watch:static": "gulp",
     "build:docs": "rimraf ./docs/* && jsdoc -c jsdoc.json",
     "build:readme": "jsdoc2md --configure jsdoc.json --source frontend/index.mjs > md_api.md && cat ./md_info.md ./md_api.md > ./README.md",
-    "tunnel:client:run": "pm2 start ./tunnel/reverse/client.js --name node-web",
-    "tunnel:client:stop": "pm2 stop ./tunnel/reverse/client.js --name node-web",
-    "tunnel:client:restart": "pm2 restart ./tunnel/reverse/client.js --name node-web",
-    "tunnel:client:delete": "pm2 delete ./tunnel/reverse/client.js --name node-web",
-    "tunnel:server": "node ./tunnel/reverse/server.js",
-    "tunnel:palette": "node ./tunnel/reverse/client__palette.js",
-    "tunnel:second": "node ./tunnel/reverse/client__palette_second.js",
     "deploy": "gh-pages -d service/newkind-service",
+    "download:packages": "./scripts/packages.sh",
     "download:palette": "./scripts/palette.sh",
-    "download:server": "./scripts/server-up.sh",
+    "download:node": "./scripts/node.sh",
+    "download:server": "./scripts/server.sh",
     "clean": "rimraf ./service/* && rimraf ./dist/* && find . -name \".parcel-cache\" -exec rm -rf '{}' +;",
     "clean:all": "rimraf ./service/* && rimraf ./dist/* && rimraf ./docs/* && rimraf ./md_api.md && find . -name \".parcel-cache\" -exec rm -rf '{}' +;",
     "kill:dev": "kill $(lsof -t -i:$npm_package_config_port_dev)",
     "kill:service": "kill $(lsof -t -i:$npm_package_config_port_service)",
     "kill:palette": "kill $(lsof -t -i:$npm_package_config_port_palette)",
-    "monit": "pm2 monit",
-    "logs": "pm2 logs --out --lines 200"
+    "pm2:monit": "pm2 monit",
+    "pm2:logs": "pm2 logs --out --lines 200",
+    "pm2:list": "pm2 list"
   },
   "dependencies": {
     "axios": "^0.24.0",
@@ -101,27 +99,36 @@
     "global": "^4.4.0",
     "libsodium-wrappers": "^0.7.9",
     "nodemon": "^2.0.15",
-    "parcel-plugin-typed-css-modules": "^1.1.0",
     "socket.io": "^4.4.0",
     "web-streams-polyfill": "^3.2.0",
     "websocket": "^1.0.34"
   },
   "devDependencies": {
     "@newkind/tests": "^0.2.6",
+    "parcel": "2.0.1",
+    "parcel-reporter-static-files-copy": "^1.3.4",
     "@parcel/packager-raw-url": "^2.0.1",
     "@parcel/transformer-sass": "^2.0.1",
     "@parcel/transformer-webmanifest": "^2.0.1",
+    "parcel-plugin-typed-css-modules": "^1.1.0",
     "@types/libsodium-wrappers": "^0.7.9",
+    "chalk": "^5.0.0",
     "docdash": "^1.2.0",
+    "fast-zlib": "^2.0.1",
     "gh-pages": "^3.2.3",
     "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^8.0.0",
     "jsdoc": "^3.6.7",
     "jsdoc-to-markdown": "^7.1.0",
-    "parcel": "2.0.1",
-    "parcel-reporter-static-files-copy": "^1.3.1",
-    "postcss": "^8.4.1",
+    "lodash.clonedeep": "^4.5.0",
+    "node-sass": "^6.0.1",
+    "postcss": "^8.4.4",
     "redrun": "^9.0.1",
-    "redux": "^4.1.2"
+    "redux": "^4.1.2",
+    "replace-ext": "^2.0.0",
+    "strip-ansi": "^7.0.1",
+    "through2": "^4.0.2",
+    "vinyl-sourcemaps-apply": "^0.2.1"
   },
   "eslintConfig": {
     "extends": [

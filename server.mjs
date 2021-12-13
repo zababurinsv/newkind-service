@@ -20,6 +20,7 @@ const queue = new Enqueue({
     maxSize: 200,
     timeout: 30000
 });
+
 app.use(queue.getMiddleware());
 
 app.use((req, res, next) => {
@@ -34,16 +35,17 @@ app.get('/import', async (req, res) => {
 
 app.options('/', cors(corsOptions))
 app.get('/', async (req, res) => {
-    res.sendFile('index.html', { root: `${__dirname}${pkg.palette.zb.scope}${pkg.palette.zb.self.auction}`});
+    res.sendFile('index.html', { root: `${__dirname}${pkg.palette.zb.scope}${pkg.palette.zb.active}`});
 })
 
 app.options('/index.html', cors(corsOptions))
 app.get('/index.html', async (req, res) => {
-    res.sendFile('index.html', { root: `${__dirname}${pkg.palette.zb.scope}${pkg.palette.zb.self.auction}`})
+    res.sendFile('index.html', { root: `${__dirname}${pkg.palette.zb.scope}${pkg.palette.zb.active}`})
 })
 
 app.use(express.static(`${__dirname}${pkg.palette.zb.scope}`));
-app.use(express.static(`${__dirname}${pkg.palette.zb.scope}${pkg.palette.zb.self.auction}`));
+app.use(express.static(`${__dirname}${pkg.palette.zb.scope}${pkg.palette.zb.active}`));
+app.use(express.static(`${__dirname}${pkg.palette.zb.scope}${pkg.palette.zb.active}/static`));
 
 app.options(`/*`, await cors(corsOptions))
 app.get(`/*`, async (req, res) => {

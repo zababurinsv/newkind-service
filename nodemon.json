@@ -12,7 +12,8 @@
   ],
   "watch": [
     "backend/",
-    "server.mjs"
+    "./server.mjs",
+    "frontend/src/modules/blockchain/"
   ],
   "ext": "mjs json",
   "delay": 2100
