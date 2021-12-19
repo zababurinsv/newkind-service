@@ -6,8 +6,16 @@ const pkg = require("./package.json");
 import gulp from 'gulp';
 import autoprefixer from "gulp-autoprefixer";
 import sass from "./gulp/gulp-sass/index.mjs";
+// import exec from 'gulp-exec'
+var exec = require('child_process').exec;
 
-console.log('#######', )
+gulp.task('build', function (cb) {
+    exec('cd ${PWD}/palette/src/github.com/zababurinsv/newkind-db/frontend/src/components/newkind-db && npm run build:module', function (err, stdout, stderr) {
+        console.log(stdout);
+        console.log(stderr);
+        cb(err);
+    });
+})
 
 gulp.task('scss', function () {
     return gulp.src(`${pkg.palette.zb.scope}${pkg.palette.zb.active}/**/*.scss`)
@@ -22,9 +30,14 @@ gulp.task('copy', () => {
     return gulp.src(['./frontend/src/static/**/**']).pipe(gulp.dest(`./service/newkind-service`));
 });
 
+gulp.task('copy', () => {
+    return gulp.src(['./frontend/src/static/**/**']).pipe(gulp.dest(`./service/newkind-service`));
+});
+
 gulp.task('watch', () => {
     gulp.watch(`./frontend/src/static/**/**`, gulp.series('copy'))
     gulp.watch(`${pkg.palette.zb.scope}${pkg.palette.zb.active}/**/**`, gulp.series('scss'))
+    gulp.watch(`/home/zb/Desktop/newkind-service/palette/src/github.com/zababurinsv/newkind-db/frontend/src/components/newkind-db/src/**/**`, gulp.series('build'))
 });
 
-gulp.task('default',gulp.parallel('copy','watch'))
+gulp.task('default',gulp.parallel('copy', 'watch'))
