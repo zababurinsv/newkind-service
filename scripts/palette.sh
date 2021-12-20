@@ -9,4 +9,8 @@ export GOPATH=$(pwd)/palette
 #sleep ${delay}
 #go get github.com/zababurinsv/newkind-db
 #sleep ${delay}
-go get github.com/HackerPoet/MarbleMarcher
+#go get github.com/HackerPoet/MarbleMarcher
+#sleep ${delay}
+#go get github.com/zababurinsv/biowasm
+sleep ${delay}
+go get github.com/zababurinsv/aioli

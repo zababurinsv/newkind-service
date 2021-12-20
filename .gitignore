@@ -1,4 +1,10 @@
 # Logs
+build/
+dist/
+worker/
+.DS_Store
+node_modules/
+trash/
 logs
 *.log
 node/
