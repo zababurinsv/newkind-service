@@ -9,5 +9,9 @@ export GOPATH=$(pwd)/packages
 #go get github.com/zababurinsv/newkind-db
 #sleep ${delay}
 #go get github.com/zababurinsv/wasm
+#sleep ${delay}
+#go get github.com/orbitdb/orbit-db
+#sleep ${delay}
+#go get github.com/zababurinsv/refactored-system
 sleep ${delay}
-go get github.com/orbitdb/orbit-db
+go get github.com/zababurinsv/template

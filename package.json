@@ -88,7 +88,8 @@
     "kill:palette": "kill $(lsof -t -i:$npm_package_config_port_palette)",
     "pm2:monit": "pm2 monit",
     "pm2:logs": "pm2 logs --out --lines 200",
-    "pm2:list": "pm2 list"
+    "pm2:list": "pm2 list",
+    "clean:parcel-cache": "find . -name \".parcel-cache\" -exec rm -rf '{}' +;"
   },
   "dependencies": {
     "axios": "^0.24.0",
