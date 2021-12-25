@@ -12,5 +12,7 @@ export GOPATH=$(pwd)/palette
 #go get github.com/HackerPoet/MarbleMarcher
 #sleep ${delay}
 #go get github.com/zababurinsv/biowasm
+#sleep ${delay}
+#go get github.com/zababurinsv/aioli
 sleep ${delay}
-go get github.com/zababurinsv/aioli
+go get github.com/zababurinsv/docs

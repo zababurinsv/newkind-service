@@ -4,6 +4,7 @@ dist/
 worker/
 .DS_Store
 node_modules/
+cmake-build-debug
 trash/
 logs
 *.log

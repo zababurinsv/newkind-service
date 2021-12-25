@@ -9,7 +9,7 @@ import sass from "./gulp/gulp-sass/index.mjs";
 // import exec from 'gulp-exec'
 var exec = require('child_process').exec;
 
-gulp.task('build', function (cb) {
+gulp.task('build:control', function (cb) {
     exec('cd ${PWD}/palette/src/github.com/zababurinsv/newkind-db/frontend/src/components/newkind-control && npm run build:module',
     function (err, stdout, stderr) {
         console.log(stdout);
@@ -38,6 +38,7 @@ gulp.task('copy', () => {
 });
 
 gulp.task('scss', function () {
+  console.log('sass ->')
     return gulp.src(`${pkg.palette.zb.scope}${pkg.palette.zb.active}/**/*.scss`)
       .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
       .pipe(autoprefixer({
@@ -48,9 +49,10 @@ gulp.task('scss', function () {
 
 gulp.task('watch', () => {
     gulp.watch(`./frontend/src/static/**/**`, gulp.series('copy'))
+  console.log('ddddddddddddddddd', `${pkg.palette.zb.scope}${pkg.palette.zb.active}/**/**`)
     gulp.watch(`${pkg.palette.zb.scope}${pkg.palette.zb.active}/**/**`, gulp.series('scss'))
-    gulp.watch(`/home/zb/Desktop/newkind-service/palette/src/github.com/zababurinsv/newkind-db/frontend/src/components/newkind-db/src/**/**`, gulp.series('build'))
+    gulp.watch(`/home/zb/Desktop/newkind-service/palette/src/github.com/zababurinsv/newkind-db/frontend/src/components/newkind-control/src/**/**`, gulp.series('build:control'))
     gulp.watch(`/home/zb/Desktop/newkind-service/palette/src/github.com/zababurinsv/newkind-db/frontend/src/modules/aioli/src/**/**`, gulp.series('build:aioli','copy:aioli'))
 });
 
-gulp.task('default',gulp.parallel('copy', 'watch'))
+gulp.task('default',gulp.parallel('scss','copy', 'watch'))
