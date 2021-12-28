@@ -14,5 +14,7 @@ export GOPATH=$(pwd)/palette
 #go get github.com/zababurinsv/biowasm
 #sleep ${delay}
 #go get github.com/zababurinsv/aioli
+#sleep ${delay}
+#go get github.com/zababurinsv/docs
 sleep ${delay}
-go get github.com/zababurinsv/docs
+go get gitlab.com/terablockchain/tera
