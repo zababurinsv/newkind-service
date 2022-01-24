@@ -1,4 +1,6 @@
 # @newkind/Service
+### Ссылки
+[gpu](https://habr.com/ru/company/ruvds/blog/485644/)
 
 ## License
 * [biowasm](https://github.com/zababurinsv/biowasm.git)

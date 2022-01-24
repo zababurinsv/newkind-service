@@ -45,19 +45,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /snap/clion/177/bin/cmake/linux/bin/cmake
+CMAKE_COMMAND = /snap/clion/178/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /snap/clion/177/bin/cmake/linux/bin/cmake -E rm -f
+RM = /snap/clion/178/bin/cmake/linux/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/zb/Desktop/newkind-service
+CMAKE_SOURCE_DIR = /home/sergey/Desktop/newkind-service
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/zb/Desktop/newkind-service/cmake-build-debug
+CMAKE_BINARY_DIR = /home/sergey/Desktop/newkind-service/cmake-build-debug
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -81,14 +81,14 @@ clean: CMakeFiles/newkind_service.dir/clean
 CMakeFiles/newkind_service.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/newkind_service.dir/build.make CMakeFiles/newkind_service.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/newkind_service.dir/build.make CMakeFiles/newkind_service.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/zb/Desktop/newkind-service/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target newkind_service"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/sergey/Desktop/newkind-service/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target newkind_service"
 .PHONY : CMakeFiles/newkind_service.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/newkind_service.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/zb/Desktop/newkind-service/cmake-build-debug/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/sergey/Desktop/newkind-service/cmake-build-debug/CMakeFiles 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/newkind_service.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/zb/Desktop/newkind-service/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/sergey/Desktop/newkind-service/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/newkind_service.dir/rule
 
 # Convenience name for target.

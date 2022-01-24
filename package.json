@@ -69,7 +69,7 @@
   "scripts": {
     "dev": "rimraf ./service/* && parcel --cache-dir ./.parcel-cache --no-hmr --port $npm_package_config_port_dev --dist-dir service/newkind-service --public-url /newkind-service --target dev",
     "server:service": "nodemon ./backend/index.mjs",
-    "server:palette": "nodemon server.mjs",
+    "server:palette": "nodemon server.mjs --inspect",
     "build:service": "rimraf ./service/* && rimraf .parcel-cache && parcel build --target service",
     "build:module": "rimraf ./dist/* && parcel build --target module",
     "watch": "gulp",

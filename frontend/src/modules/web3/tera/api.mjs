@@ -3,8 +3,8 @@
  * @type {{TEST: string, MAIN: string}}
  */
 const NODE = {
-    TEST:"https://newkind-credits.herokuapp.com/",
-    MAIN:"https://newkind-credits.herokuapp.com"
+    TEST:"https://newkind-credits.herokuapp.comz/",
+    MAIN:"https://newkind-credits.herokuapp.comz"
 }
 
 /**

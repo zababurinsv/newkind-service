@@ -13,5 +13,7 @@ export GOPATH=$(pwd)/packages
 #go get github.com/orbitdb/orbit-db
 #sleep ${delay}
 #go get github.com/zababurinsv/refactored-system
+#sleep ${delay}
+#go get github.com/zababurinsv/template
 sleep ${delay}
-go get github.com/zababurinsv/template
+go get github.com/sinclairzx81/smoke
