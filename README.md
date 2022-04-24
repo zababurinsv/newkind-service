@@ -132,3 +132,6 @@ a new service worker being installed.</br></p>
 **Kind**: global function  
 **Summary**: Create the initial CRC table needed to calculate the checksums.  
 **Returns**: <code>Array.&lt;number&gt;</code> - <p>An array containing hashes.</p>  
+
+
+test
