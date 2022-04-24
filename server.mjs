@@ -33,11 +33,9 @@ app.get('/import', async (req, res) => {
     res.sendFile('import.html', { root: __dirname });
 })
 
-
 app.use(express.static(`${__dirname}${pkg.palette.zb.scope}/`));
 app.use(express.static(`${__dirname}${pkg.palette.zb.scope}/${pkg.palette.zb.active}`));
 app.use(express.static(`${__dirname}${pkg.palette.zb.scope}/${pkg.palette.zb.active}/static`));
-
 
 app.options('/*', cors(corsOptions))
 app.get('/*', async (req, res) => {
