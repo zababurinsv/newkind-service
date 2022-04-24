@@ -33,8 +33,14 @@ app.get('/import', async (req, res) => {
     res.sendFile('import.html', { root: __dirname });
 })
 
-app.options('/', cors(corsOptions))
-app.get('/', async (req, res) => {
+
+app.use(express.static(`${__dirname}${pkg.palette.zb.scope}/`));
+app.use(express.static(`${__dirname}${pkg.palette.zb.scope}/${pkg.palette.zb.active}`));
+app.use(express.static(`${__dirname}${pkg.palette.zb.scope}/${pkg.palette.zb.active}/static`));
+
+
+app.options('/*', cors(corsOptions))
+app.get('/*', async (req, res) => {
     res.sendFile('index.html', { root: `${__dirname}${pkg.palette.zb.scope}/${pkg.palette.zb.active}`});
 })
 
@@ -42,10 +48,6 @@ app.options('/index.html', cors(corsOptions))
 app.get('/index.html', async (req, res) => {
     res.sendFile('index.html', { root: `${__dirname}${pkg.palette.zb.scope}/${pkg.palette.zb.active}`})
 })
-
-app.use(express.static(`${__dirname}${pkg.palette.zb.scope}/`));
-app.use(express.static(`${__dirname}${pkg.palette.zb.scope}/${pkg.palette.zb.active}`));
-app.use(express.static(`${__dirname}${pkg.palette.zb.scope}/${pkg.palette.zb.active}/static`));
 
 app.options(`/*`, await cors(corsOptions))
 app.get(`/*`, async (req, res) => {

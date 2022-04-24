@@ -82,7 +82,7 @@ export let IDBFS = (object = { }) => {
             await create(object)
             let mount = `${object.dirShared}${object.dirData}`
             await object.fs.api.mount(object.fs.idbfs.filesystems.IDBFS,  mount, {})
-            await object.fs.api.fs.load();
+            await object.fs.api.load();
             object.terminate = () => {
                 // if(window) {
                 //     window.onbeforeunload = function () {

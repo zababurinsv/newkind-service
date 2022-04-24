@@ -6,7 +6,7 @@ import through from "through2";
 import clonedeep from "lodash.clonedeep";
 import path from "path";
 import applySourceMap from "vinyl-sourcemaps-apply";
-import node from 'node-sass';
+import node from 'sass';
 
 const PLUGIN_NAME = 'gulp-sass';
 
